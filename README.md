@@ -42,8 +42,11 @@ $ git checkout your_branch_name
 ### Git
 #### To refresh your local git environment with what is on GitHub after your teammates made commits: 
 $ git fetch
+
 $ git merge remotename/branchname
+
 OR do it in one step:
+
 $ git pull remotename branchname
 
 #### After making edits, to see what files have changed, what files git is tracking, and what files have been staged for commit:
