@@ -21,6 +21,16 @@ Hack4Impact Cal Poly nonprofit project for Paso Robles Youth Arts Center
 ### Clone the Repo
 $ git clone git@github.com:hack4impact-calpoly/pryac.git
 
+`npm i` in both the backend and frontend directories
+
+### Start Backend
+`cd backend`
+`npm run dev'
+
+### Start Frontend
+`cd frontend`
+`npm start'
+
 ### Branching
 #### To make a new branch:
 Please name your branches relevant to the feature you are working on.  
@@ -45,14 +55,18 @@ $ git add .
 #### To add just one file
 $ git add your_file_name
 
-#### To remove a file
+#### To remove a file (if needed)
 $ git rm your_file_name
 
 #### To commit your changes to git and link it to the github issue,
-$ git commit -m '#[issue number] and description of changes'
+$ git commit -m '#[issue number] and short description of changes'
 
 #### To push to GitHub
 $ git push -u origin your_branch_name
 
 #### To create a Pull Request
 On GitHub, navigate to the branches tab and select the ‘New Pull Request’ button
+
+Write a comment of what your change was and write the issue number so that it links together
+
+Add @JillianQuinn as a reviewer
