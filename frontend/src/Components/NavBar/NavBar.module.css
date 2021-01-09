@@ -1,0 +1,11 @@
+
+  .navbar {
+    border: 3px solid tomato;
+    background-color: tomato;
+    color: white;
+    padding: 3px 3px;
+    text-align: left;
+    display: inline-table;
+    width: 95%;
+    margin: 5px;
+  }
