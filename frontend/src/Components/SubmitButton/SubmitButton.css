@@ -1,0 +1,16 @@
+button {
+    background: transparent;
+    border: 3px solid #F7941D;
+    color: #F7941D;
+    border-radius: 14px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    padding: 10px;
+    min-width: 155px;
+}
+
+button:hover {
+    background: #F7941D;
+    color: white;
+}
