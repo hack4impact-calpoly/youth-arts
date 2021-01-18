@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Volunteer = require('./volunteer.js')
 
 const opportunitySchema = new mongoose.Schema({
    title: String,
