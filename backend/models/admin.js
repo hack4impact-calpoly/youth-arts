@@ -12,12 +12,12 @@ const adminSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        match: [/\S+@\S+.\S+/, 'is invalid']
     },
     password: {
         type: String,
-        required: true,
-        match: [/\S+@\S+.\S+/, 'is invalid']
+        required: true
     }
 }, { collection: 'adminDB' })
 
