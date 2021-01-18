@@ -1,0 +1,62 @@
+
+  .navbar{
+    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #00a79d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+  }
+
+  .logo {
+    cursor: pointer;
+    padding: 10px 50px ;
+    margin-right: auto;
+  }
+
+  nav{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+  }
+
+  .navlinks {
+    list-style: none;
+  }
+
+  .navlinks li{ 
+    padding: 0px 20px;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    border-right: 1px solid;
+  }
+  
+  .navlinks li, a{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: 'Avant Garde';
+    transition: all .3s ease 0s;
+  }
+
+  .navlinks li a:hover {
+    color:black;
+  }
+
+  .navlinks li:last-child 
+  { 
+    border-right: none; 
+  }
+
+  @font-face {
+    font-family: 'Avant Garde';
+    src: url(./fonts/ITCAvantGardePro-Bk.otf);
+  }
+
+
+
