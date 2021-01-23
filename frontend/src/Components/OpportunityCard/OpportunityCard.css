@@ -58,3 +58,8 @@
     background: #17629c;
     cursor: pointer;
 }
+
+.cardArrow {
+    height: 0.6875rem;
+    color: white;
+}

@@ -1,4 +1,5 @@
 import styles from "./OpportunityCard.css";
+import arrow from "./../../Images/right-arrow.png";
 
 function OpportunityCard(props) {
     const text = props.desc;
@@ -26,8 +27,8 @@ function OpportunityCard(props) {
                 </tr>
             </table>
             <div>
-            <button className="cardDetails" src={props.details}>VIEW DETAILS</button>
-
+            <button className="cardDetails" src={props.details}>VIEW DETAILS <img className="cardArrow" src={arrow} alt="arrow"/></button>
+            <i class="fas fa-chevron-right"></i>
             </div>
         </div>
     );
