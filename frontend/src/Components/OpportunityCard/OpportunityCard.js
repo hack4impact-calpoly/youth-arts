@@ -1,5 +1,6 @@
 import styles from "./OpportunityCard.css";
 import arrow from "./../../Images/right-arrow.png";
+import defaultimg from "./../../Images/PRYAC_mark.png";
 
 function OpportunityCard(props) {
     const text = props.desc;
@@ -10,8 +11,11 @@ function OpportunityCard(props) {
             <table className="cardContent">
                 <tr>
                     <th className="cardImage">
+                        {props.img != null ? 
+                            <img className="cardImage" src={props.image} alt="img" /> : 
+                            <img className="cardImage" src={defaultimg} alt="img"/>
+                        }
                         <img className="cardIcon" src={props.icon} alt="icon" />
-
                     </th>
                     <th className="cardText">
                         <p className="cardTitle">{props.title}</p>
