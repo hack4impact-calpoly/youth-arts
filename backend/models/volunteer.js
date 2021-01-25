@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const Opportunity = require("./opportunity")
 
 const volunteerSchema = new mongoose.Schema({
 
@@ -24,7 +25,7 @@ const volunteerSchema = new mongoose.Schema({
     workHistory: [String],
     outreach: String,
     signature: Boolean,
-    events: [Events]
+    opportunities: [ {type: [mongoose.Schema.Types.ObjectId], ref: 'Opportunity'} ]
 
 }, {collection : "userDB"})
 

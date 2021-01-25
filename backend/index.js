@@ -2,7 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const app = express()
-const Opportunity = require('./models/opportunity.js')
+const Opportunity = require('./models/opportunity')
+const Volunteer = require('./models/volunteer')
 
 require('dotenv').config()
 
@@ -21,6 +22,17 @@ app.get('/', (req, res) => {
 
 const getAllOpportunities = async () => {
    return await Opportunity.find({})
+}
+
+const updateUserRegistered = async (email, title) => {
+   const volunteer = await Volunteer.findOne({email: email})
+   const opportunity = await Opportunity.findOne({title: title})
+   volunteer.opportunities.push(opportunity)
+   opportunity.volunteers.push(volunteer)
+   await Volunteer.updateOne({email: email}, 
+      {opportunities: volunteer.opportunities})
+   await Opportunity.updateOne({title: title}, 
+      {volunteers: opportunity.volunteers})
 }
 
 app.listen(3001)
