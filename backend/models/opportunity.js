@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Volunteer = require('./volunteer.js')
+const Volunteer = require('./volunteer')
 
 const opportunitySchema = new mongoose.Schema({
    title: String,
@@ -9,7 +9,7 @@ const opportunitySchema = new mongoose.Schema({
    time: Number, 
    skills: [String],
    wishlist: [String],
-   volunteers: [Volunteer]
+   volunteers: [ {type: [mongoose.Schema.Types.ObjectId], ref: 'Opportunity'}]
 }, { collection: 'opportunityDB' })
 
 const Opportunity = mongoose.model('opportunityDB', opportunitySchema)
