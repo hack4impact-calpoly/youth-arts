@@ -24,6 +24,10 @@ const getAllOpportunities = async () => {
    return await Opportunity.find({})
 }
 
+const getVolunteerByName = async (first, last) => {
+   return await Volunteer.findOne({firstName: first, lastName: last})
+}
+
 const updateUserRegistered = async (email, title) => {
    const volunteer = await Volunteer.findOne({email: email})
    const opportunity = await Opportunity.findOne({title: title})
