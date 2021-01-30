@@ -1,5 +1,3 @@
-require("dotenv").config()
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -10,8 +8,10 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy
 const findOrCreate = require("mongoose-findorcreate")
 
 const app = express()
-const Opportunity = require('./models/opportunity.js')
-const Volunteer = require('./models/volunteer.js')
+const Opportunity = require('./models/opportunity')
+const Volunteer = require('./models/volunteer')
+
+require('dotenv').config()
 
 app.use(bodyParser.json())
 
@@ -83,6 +83,21 @@ app.get("/logout", (req, res) => {
 
 const getAllOpportunities = async () => {
    return await Opportunity.find({})
+}
+
+const getVolunteerByName = async (first, last) => {
+   return await Volunteer.findOne({firstName: first, lastName: last})
+}
+
+const updateUserRegistered = async (email, title) => {
+   const volunteer = await Volunteer.findOne({email: email})
+   const opportunity = await Opportunity.findOne({title: title})
+   volunteer.opportunities.push(opportunity)
+   opportunity.volunteers.push(volunteer)
+   await Volunteer.updateOne({email: email}, 
+      {opportunities: volunteer.opportunities})
+   await Opportunity.updateOne({title: title}, 
+      {volunteers: opportunity.volunteers})
 }
 
 app.listen(3001)

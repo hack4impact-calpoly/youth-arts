@@ -1,0 +1,152 @@
+.title{
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: 'Avant Garde';
+    padding-top: 70px;
+    padding-bottom: 0px;
+}
+
+.formWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180vh;
+    padding: 0px 20px;
+    margin-top: 300px;
+}
+
+.formStyle {
+    width: 100%;
+    max-width: 700px;
+    padding: 50px 170px;
+    font-family: 'Avant Garde';
+    background-color:white;
+    border-radius: 20px;
+    border: 7px solid  #eee;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 3px 0px;
+    padding-bottom: 0px;
+}
+
+.inputStyles input{
+    display: block;
+    width: 240px;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 1px 0 30px 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.inputStyles {
+    padding: 0px 50px;
+}
+
+.inputStyles input::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+.textStyle textarea{
+    display: block;
+    width: 100%;
+    background-color:#F5F5F5;
+    min-height: 180px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 10px 30px 20px 0px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.textStyle textarea::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.fieldSet {
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 50px 0px;
+    display: grid;
+    grid-template-columns: auto;
+    font-size: smaller;
+}
+
+.fieldSet label{
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+.fieldSet input{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.buttonStyle {
+    padding: 30px 95px;
+    margin-bottom: 0px;
+}
+
+.legendStyle {
+    margin-bottom: -15px;
+}
+
+.addressBoxes input{
+    display: inline-block;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    width: 98px;
+    height: 0px;
+    padding: 15px 5px;
+    margin-left: 50px;
+    margin-right: -30px;
+    margin-bottom: 30px;
+}
+
+.addressBoxes input::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+.city {
+    margin-top: -15px;
+    margin-bottom: -15px;                                          
+}
+
+.legendStyle {
+    margin-bottom: -40px;
+}
+    
+#headerImage {
+    background-image: url('headerImage.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.iconRef {
+    padding-top: 300px;
+    padding-left: 520px;
+    padding-bottom: 50px;
+    color: lightgray;
+    font-family: 'Avant Garde';
+    font-size: 15px;
+}
+
+.iconRef a{
+    color: lightgray;
+    font-family: 'Avant Garde';
+    font-size: 15px;
+}
+
