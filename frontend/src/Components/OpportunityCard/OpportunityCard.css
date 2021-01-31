@@ -2,11 +2,13 @@
     background: #FFFFFF;
     color: black;
     height: 12rem;
-    width: auto;
+    width: fit-content;
     text-align: left;
     position: relative;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
+    display: inline-block;
+    margin: 1%;
 }
 
 .cardContent {
@@ -19,13 +21,6 @@
     width: 75px;
     vertical-align: middle;
     margin-right: 20px;
-}
-
-.cardIcon{
-    height: 20px;
-    width: 20px;
-    vertical-align: middle;
-    text-align: center;
 }
 
 .cardTitle {
@@ -59,6 +54,11 @@
     border-radius: 0;
     border: none;
     border-radius: 0 0 6px 6px;
+    margin: 4px 0 0 0;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 16px;
+
 }
 
 .cardDetails:hover {

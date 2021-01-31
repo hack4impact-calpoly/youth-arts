@@ -1,0 +1,48 @@
+.volunteer {
+    width: 250px;
+    height: 205px;
+    background: #FDE9D3;
+    border: 16px solid #F7941D;
+    border-radius: 24px;
+    color: #F7941D;
+    font-size: 40px;
+    padding-top: 0;
+    margin: 0 20px;
+}
+
+.volunteer:hover {
+    background-color: #FDE9D3;
+    color: #F7941D;
+}
+
+.visit {
+    width: 250px;
+    height: 205px;
+    background: #CDEDEB;
+    border: 16px solid #00A79D;
+    border-radius: 24px;
+    color: #00A79D;
+    font-size: 40px;
+    margin: 0 20px;
+}
+
+.visit:hover {
+    background-color: #CDEDEB;
+    color: #00A79D;
+}
+
+.donate {
+    width: 250px;
+    height: 205px;
+    background: #D8F0DB;
+    border: 16px solid #39B54A;
+    border-radius: 24px;
+    color: #39B54A;
+    font-size: 40px;
+    margin: 0 20px;
+}
+
+.donate:hover {
+    background-color: #D8F0DB;
+    color: #39B54A;
+}

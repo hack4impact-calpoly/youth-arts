@@ -1,4 +1,4 @@
-import styles from "./OpportunityCard.css";
+import "./OpportunityCard.css";
 import arrow from "./../../Images/right-arrow.png";
 import defaultimg from "./../../Images/PRYAC_mark.png";
 
@@ -10,14 +10,13 @@ function OpportunityCard(props) {
         <div className="opportunityCard">
             <table className="cardContent">
                 <tr>
-                    <th className="cardImage">
-                        {props.img != null ? 
+                    <td className="cardImage">
+                        {props.image != null ? 
                             <img className="cardImage" src={props.image} alt="img" /> : 
                             <img className="cardImage" src={defaultimg} alt="img"/>
                         }
-                        <img className="cardIcon" src={props.icon} alt="icon" />
-                    </th>
-                    <th className="cardText">
+                    </td>
+                    <td className="cardText">
                         <p className="cardTitle">{props.title}</p>
                         <p className="cardLocation">{props.location}</p>
                         {text.length > MAX_LENGTH ? (
@@ -27,13 +26,11 @@ function OpportunityCard(props) {
                             ) :
                             <p className="cardDesc">{text}</p>
                         }
-                    </th>
+                    </td>
                 </tr>
             </table>
-            <div>
             <button className="cardDetails" src={props.details}>VIEW DETAILS <img className="cardArrow" src={arrow} alt="arrow"/></button>
             <i class="fas fa-chevron-right"></i>
-            </div>
         </div>
     );
 }

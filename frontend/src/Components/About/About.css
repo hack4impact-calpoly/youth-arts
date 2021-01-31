@@ -1,0 +1,28 @@
+.aboutSection {
+    padding: 5% 12%;
+}
+
+.about {
+    margin: auto;
+}
+
+.aboutPic {
+    height: 300px;
+}
+
+.aboutTitle {
+    color: #1F4C82;
+    text-align: left;
+    text-emphasis: bold;
+    font-size: 24px;
+}
+
+.aboutDesc {
+    margin-left: 60px;
+    text-align: left;
+}
+
+.actionTitle {
+    color: black;
+    font-size: 40px;
+}

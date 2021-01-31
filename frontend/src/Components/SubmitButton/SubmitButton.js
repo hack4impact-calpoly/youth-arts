@@ -1,8 +1,8 @@
-import styles from "./SubmitButton.css";
+import "./SubmitButton.css";
 
 function SubmitButton(props) {
     return (
-        <button id="signUp" onClick={props.onClick}>{props.buttonText}</button>
+        <button id="signUp" className="submitButton" onClick={props.onClick}>{props.buttonText}</button>
     );
 }
 
