@@ -19,6 +19,8 @@ const volunteerSchema = new mongoose.Schema({
     phoneNum: String,
     address: String,
     picture: String,
+    googleId: String,
+    secret: String,
     AOI: [String],
     communityRole: String,
     experience: [String],
@@ -29,6 +31,8 @@ const volunteerSchema = new mongoose.Schema({
 
 }, {collection : "userDB"})
 
+volunteerSchema.plugin(passportLocalMongoose)
+volunteerSchema.plugin(findOrCreate)
 
 const Volunteer = mongoose.model("userDB", volunteerSchema)
 
