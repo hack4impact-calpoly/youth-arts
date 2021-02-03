@@ -86,7 +86,7 @@ const handleDeleteInputWish = index  => {
                   return(
                     <div key={i}>
                         <div className="inputButtons" >
-                            <input id="taskInput" type="text" name="task" placeholder="Enter Wish List Item"
+                            <input id="taskInput" type="text" name="task" placeholder="Enter Custom Volunteer Task"
                             value = {item.task}
                             onChange={e => handleChangeTask(e, i)}/>
                             {taskList.length !== 1 &&
@@ -95,7 +95,7 @@ const handleDeleteInputWish = index  => {
                             }
                         </div>
                         {taskList.length -1 === i && 
-                           <input id="addItem" type="button" value="Add Item" onClick={handleAddInputTask}/>
+                           <input id="addItem" type="button" value="Add Task" onClick={handleAddInputTask}/>
                         }
                     </div>
                   )
