@@ -9,7 +9,7 @@ const opportunitySchema = new mongoose.Schema({
    time: Number, 
    skills: [String],
    wishlist: [String],
-   volunteers: [ {type: [mongoose.Schema.Types.ObjectId], ref: 'Opportunity'}]
+   volunteers: [{type: Map, of: {start: Date, end: Date, tasks: [String], donated: [String]}}]
 }, { collection: 'opportunityDB' })
 
 const Opportunity = mongoose.model('opportunityDB', opportunitySchema)

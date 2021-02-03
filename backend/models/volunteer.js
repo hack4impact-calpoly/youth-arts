@@ -1,5 +1,7 @@
 const mongoose = require("mongoose")
 const Opportunity = require("./opportunity")
+const passportLocalMongoose = require("passport-local-mongoose")
+const findOrCreate = require("mongoose-findorcreate")
 
 const volunteerSchema = new mongoose.Schema({
 
@@ -27,7 +29,8 @@ const volunteerSchema = new mongoose.Schema({
     workHistory: [String],
     outreach: String,
     signature: Boolean,
-    opportunities: [ {type: [mongoose.Schema.Types.ObjectId], ref: 'Opportunity'} ]
+    tasks: [String],
+    opportunities: [{type: Map, of: {start: Date, end: Date, tasks: [String], donated: [String]}}]
 
 }, {collection : "userDB"})
 
