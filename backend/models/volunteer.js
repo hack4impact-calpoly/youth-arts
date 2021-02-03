@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const Opportunity = require("./opportunity")
 
 const volunteerSchema = new mongoose.Schema({
 
@@ -18,16 +19,20 @@ const volunteerSchema = new mongoose.Schema({
     phoneNum: String,
     address: String,
     picture: String,
+    googleId: String,
+    secret: String,
     AOI: [String],
     communityRole: String,
     experience: [String],
     workHistory: [String],
     outreach: String,
     signature: Boolean,
-    events: [Events]
+    opportunities: [ {type: [mongoose.Schema.Types.ObjectId], ref: 'Opportunity'} ]
 
 }, {collection : "userDB"})
 
+volunteerSchema.plugin(passportLocalMongoose)
+volunteerSchema.plugin(findOrCreate)
 
 const Volunteer = mongoose.model("userDB", volunteerSchema)
 
