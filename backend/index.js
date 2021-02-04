@@ -89,15 +89,52 @@ const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }
 
-const updateUserRegistered = async (email, title) => {
-   const volunteer = await Volunteer.findOne({email: email})
-   const opportunity = await Opportunity.findOne({title: title})
-   volunteer.opportunities.push(opportunity)
-   opportunity.volunteers.push(volunteer)
-   await Volunteer.updateOne({email: email}, 
-      {opportunities: volunteer.opportunities})
-   await Opportunity.updateOne({title: title}, 
-      {volunteers: opportunity.volunteers})
+const volunteerSignUp = async (vol_id, opp_id, tasks) => {
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   opportunity.volunteers.push({vol_id: {start: Date.now(), end: Date.now(), tasks: tasks, donated: []}})
+   volunteer.opportunities.push({opp_id: {start: Date.now(), end: Date.now(), tasks: tasks, donated: []}})
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+}
+
+const updateStartTime = async (vol_id, opp_id, start) => {
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   vol = opportunity.volunteers.get(vol_id)
+   opp = volunteer.opportunities.get(opp_id)
+   vol.start = start
+   opp.start = start
+   opportunity.volunteers.set(vol_id, vol)
+   volunteer.opportunities.set(opp_id, opp)
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+}
+
+const updateEndTime = async (vol_id, opp_id, end) => {
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   vol = opportunity.volunteers.get(vol_id)
+   opp = volunteer.opportunities.get(opp_id)
+   vol.end = end
+   opp.end = end
+   opportunity.volunteers.set(vol_id, vol)
+   volunteer.opportunities.set(opp_id, opp)
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+}
+
+const updateItemsDonated = async (vol_id, opp_id, items) => {
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   vol = opportunity.volunteers.get(vol_id)
+   opp = volunteer.opportunities.get(opp_id)
+   vol.donated = items
+   opp.donated = items
+   opportunity.volunteers.set(vol_id, vol)
+   volunteer.opportunities.set(opp_id, opp)
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
 }
 
 app.listen(3001)
