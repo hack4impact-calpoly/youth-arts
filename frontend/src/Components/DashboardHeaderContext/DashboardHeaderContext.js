@@ -5,11 +5,13 @@ import logo from "./../../Images/PRYAC_mark.png";
 function DashboardHeaderContext () {
     return (
         <div className="context">
-            <img className="logo" src={logo} alt="logo"/>
-            <h1>MAKE A DIFFERENCE TODAY!</h1>
-            <h3>PASO ROBLES YOUTH ARTS CENTER</h3>
-            <SubmitButton buttonText="REGISTER"/>
-            <SubmitButton buttonText="LOG IN"/>
+            <img className="logoDashboard" src={logo} alt="logo"/>
+            <h1 className="orgSlogan">MAKE A DIFFERENCE TODAY!</h1>
+            <h3 className="orgTitle">PASO ROBLES YOUTH ARTS CENTER</h3>
+            <section className="buttons">
+                <SubmitButton buttonText="REGISTER"/>
+                <SubmitButton buttonText="LOG IN"/>
+            </section>
         </div>
     )
 }

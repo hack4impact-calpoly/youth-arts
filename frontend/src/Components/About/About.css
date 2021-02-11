@@ -4,10 +4,11 @@
 
 .about {
     margin: auto;
+    display: inline;
 }
 
 .aboutPic {
-    height: 300px;
+    height: 200px;
 }
 
 .aboutTitle {
@@ -15,6 +16,7 @@
     text-align: left;
     text-emphasis: bold;
     font-size: 24px;
+    padding: 2%;
 }
 
 .aboutDesc {
@@ -25,4 +27,5 @@
 .actionTitle {
     color: black;
     font-size: 40px;
+    padding: 2% 0 3% 0;
 }

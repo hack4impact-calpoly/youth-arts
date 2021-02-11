@@ -7,7 +7,7 @@
     font-size: 16px;
     line-height: 19px;
     padding: 8px;
-    min-width: 155px;
+    min-width: 10vw;
     margin: 10px 50px;
 }
 
@@ -15,4 +15,14 @@
     background: #F7941D;
     color: white;
     cursor: pointer;
+}
+
+@media only screen and (max-width: 464) {
+    .submitButton {
+        min-width: 70px;
+        margin: 5px 25px;
+        font-size: 10px;
+        padding: 2px;
+        border-radius: 10px;
+    }
 }
