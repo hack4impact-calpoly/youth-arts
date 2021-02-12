@@ -1,4 +1,4 @@
-button {
+.submitButton {
     background: transparent;
     border: 3px solid #F7941D;
     color: #F7941D;
@@ -6,11 +6,23 @@ button {
     font-weight: bold;
     font-size: 16px;
     line-height: 19px;
-    padding: 10px;
-    min-width: 155px;
+    padding: 8px;
+    min-width: 10vw;
+    margin: 10px 50px;
 }
 
-button:hover {
+.submitButton:hover {
     background: #F7941D;
     color: white;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 464) {
+    .submitButton {
+        min-width: 70px;
+        margin: 5px 25px;
+        font-size: 10px;
+        padding: 2px;
+        border-radius: 10px;
+    }
 }

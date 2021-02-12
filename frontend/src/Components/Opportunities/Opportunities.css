@@ -1,0 +1,22 @@
+.oppDisplay {
+    padding: 1% 5%;
+    background: #F3F3F3;
+    box-shadow: inset 0px 0px 8px -2px rgba(0, 0, 0, 0.25);
+}
+
+.arrow {
+    height: 40px;
+}
+
+.viewMore {
+    background: #1B75BC;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+    color: white;
+    padding: 20px;
+    font-weight: normal;
+    line-height: 14px;
+    vertical-align: top;
+    border: none;
+    margin-top: 30px;
+}

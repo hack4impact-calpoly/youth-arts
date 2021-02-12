@@ -1,0 +1,31 @@
+.aboutSection {
+    padding: 5% 12%;
+}
+
+.about {
+    margin: auto;
+    display: inline;
+}
+
+.aboutPic {
+    height: 200px;
+}
+
+.aboutTitle {
+    color: #1F4C82;
+    text-align: left;
+    text-emphasis: bold;
+    font-size: 24px;
+    padding: 2%;
+}
+
+.aboutDesc {
+    margin-left: 60px;
+    text-align: left;
+}
+
+.actionTitle {
+    color: black;
+    font-size: 40px;
+    padding: 2% 0 3% 0;
+}

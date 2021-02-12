@@ -1,0 +1,29 @@
+.context {
+    position: absolute;
+    z-index: 1;
+    top: 15%;
+    max-height: 500px;
+    width: 100%;
+    color: white;
+}
+
+.logoDashboard {
+    width: 11vw;
+}
+
+h1 {
+    padding: 10px;
+    color: #1F4C82;
+    background: rgba(255, 255, 255, 0.74);
+    font-size: 3.5vw;
+    margin: 20px 0;
+}
+
+h3 {
+    margin: 10px;
+    font-size: 2vw;
+}
+
+.logInButton, .registerButton {
+    padding: 2%;
+}
