@@ -89,6 +89,44 @@ const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }
 
+const getVolunteerPersonalInfo = async (opp_id) => {
+   volunteer_info = []
+   volunteer_ids = await Opportunity.findById(opp_id).volunteers.keys()
+   for (id in volunteer_ids) {
+      volunteer = await Volunteer.findById(id)
+      info = []
+      info.push(volunteer.firstName)
+      info.push(volunteer.lastName)
+      info.push(volunteer.phoneNumber)
+      volunteer_info.push(info)
+   }
+   return volunteer_info
+}
+
+const getVolunteerInfo = async (opp_id) => {
+   volunteer_info = []
+   hours = 0
+   volunteers = await Opportunity.findById(opp_id).volunteers
+   for (id in volunteers.keys()) {
+      volunteer = await Volunteer.findById(id)
+      volunteer_opp_info = volunteers.get(id)
+      info = []
+      info.push(volunteer.firstName + " " + volunteer.lastName)
+      info.push(volunteer.phoneNumber)
+      for (i = 0; i < volunteer.start.length; i++) {
+         if (volunteer.end[i].getTime() <= Date.now().getTime()) {
+            hours += (volunteer.end[i].getTime() - volunteer.start[i].getTime)
+         } 
+      }
+      info.push(hours)
+      info.push(volunteer_opp_info.donated)
+      info.push(volunteer.email)
+      info.push(volunteer_opp_info.tasks)
+      volunteer_info.push(info)
+   }
+   return volunteer_info
+}
+
 const volunteerSignUp = async (vol_id, opp_id, tasks) => {
    volunteer = await Volunteer.findById(vol_id)
    opportunity = await Opportunity.findById(opp_id)
