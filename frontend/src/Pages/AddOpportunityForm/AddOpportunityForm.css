@@ -1,0 +1,230 @@
+.title{
+    text-align: center;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: 'Avant Garde';
+    padding-top: 70px;
+    padding-bottom: 0px;
+}
+
+.formWrapper{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: end;
+    height: auto;
+    padding: 0px 20px;
+    margin-top: 30px;
+    margin-bottom: 540px;
+}
+
+
+.formStyle {
+    
+    width: 100%;
+    max-width: 700px;
+    padding: 50px 170px;
+    font-family: 'Avant Garde';
+    background-color:white;
+    border-radius: 20px;
+    border: 7px solid  #eee;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 3px 0px;
+    padding-bottom: 0px;
+}
+
+.inputStyles input{
+    display: block;
+    width: 240px;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 5px 0 40px 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.inputStyles {
+    padding: 0px 50px;
+}
+
+.inputStyles label{
+    font-size: 18px;
+}
+
+.inputStyles input::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+.textStyle textarea{
+    display: block;
+    width: 100%;
+    background-color:#F5F5F5;
+    min-height: 180px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 10px 30px 20px 0px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.textStyle label{
+    font-size: 18px;
+    margin-top: 50px;
+}
+
+.textStyle textarea::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 17px;
+    padding-top: 10px;
+}
+
+.fieldSet {
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 50px 0px;
+    display: grid;
+    grid-template-columns: auto;
+    font-size: smaller;
+}
+
+.fieldSet label{
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+.fieldSet input{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.buttonStyle {
+    padding: 30px 95px;
+    margin-bottom: 0px;
+}
+
+.legendStyle {
+    margin-bottom: -15px;
+}
+
+.addressBoxes input{
+    display: inline-block;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    width: 98px;
+    height: 0px;
+    padding: 15px 5px;
+    margin-left: 50px;
+    margin-right: -30px;
+    margin-bottom: 30px;
+}
+
+.addressBoxes input::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+.city {
+    margin-top: -15px;
+    margin-bottom: -15px;                                          
+}
+
+.legendStyle {
+    margin-bottom: -40px;
+}
+    
+
+.iconRef {
+    padding-top: 300px;
+    padding-left: 520px;
+    padding-bottom: 50px;
+    color: lightgray;
+    font-family: 'Avant Garde';
+    font-size: 15px;
+}
+
+.iconRef a{
+    color: lightgray;
+    font-family: 'Avant Garde';
+    font-size: 15px;
+}
+
+.inputButtons {
+    display: inline-block;
+    height: 8px;
+    border-radius: 5px;
+    padding: 10px 5px;
+    margin-left: 45px;
+    margin-right: -30px;
+    margin-bottom: 0px;
+}
+
+.inputButtons input{
+    margin-bottom: 10px;
+    margin-right: 20px;
+    margin-top: -10px;
+}
+
+.inputButtons input::placeholder{
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+#addItem{
+    display: block;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 13px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    padding: 5px;
+    min-width: 100px;
+}
+
+#taskInput{
+    width: 240px;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 0px 0 40px 0;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-top: -5px;
+}
+
+#deleteItem{
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    min-width: 10px;
+}
+
+.footer{
+    padding-top:350px;
+}
+
+.addImages{
+    font-size: 18px;
+}
