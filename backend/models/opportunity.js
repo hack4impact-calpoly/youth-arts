@@ -6,7 +6,6 @@ const opportunitySchema = new mongoose.Schema({
    description: String,
    pictures: [String],
    date: [Date],
-   time: Number, 
    skills: [String],
    wishlist: [String],
    volunteers: [{type: Map, of: {start: [Date], end: [Date], tasks: [String], donated: [String]}}]
