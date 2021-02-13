@@ -1,0 +1,55 @@
+.thanks{
+    font-family: 'Avant Garde';
+    text-align: center;
+    font-weight: 590;
+    font-size: 50px;
+    font-family: 'Avant Garde';
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.confirmation{
+    font-family: 'Avant Garde';
+    text-align: center;
+    font-weight: 17px;
+    font-size: 18px;
+    font-family: 'Avant Garde';
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.backButton{
+    color: white;
+    background-color: #1b75bc;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 40px;
+    min-width: 50px;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 30px;  
+}
+
+#backButton{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+#heartIcon{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+
