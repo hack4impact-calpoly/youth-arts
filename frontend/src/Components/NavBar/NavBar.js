@@ -10,6 +10,7 @@ function NavBar() {
         </a>
         <nav>
             <ul className="navlinks">
+              <li><a href="#">Reports</a></li>
               <li><a href="#">Opportunities</a></li>
               <li><a href="#">Dashboard</a></li>
               <li><a href="#">Help</a></li>
