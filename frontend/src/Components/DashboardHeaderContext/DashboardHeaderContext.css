@@ -11,7 +11,7 @@
     width: 11vw;
 }
 
-h1 {
+.context h1 {
     padding: 10px;
     color: #1F4C82;
     background: rgba(255, 255, 255, 0.74);
@@ -19,7 +19,7 @@ h1 {
     margin: 20px 0;
 }
 
-h3 {
+.context h3 {
     margin: 10px;
     font-size: 2vw;
 }

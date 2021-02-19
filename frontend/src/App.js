@@ -1,17 +1,43 @@
 import './App.css';
+import React, {useState} from "react";
 import NavBar from "./Components/NavBar/NavBar.js"
 import Footer from "./Components/Footer/Footer.js"
+import LoginPage from './Pages/LoginPage/LoginPage'
 import AnonymousDashboard from "./Pages/AnonymousDashboard/AnonymousDashboard";
-import SubmitButton from "./Components/SubmitButton/SubmitButton"
-import OpportunityCard from "./Components/OpportunityCard/OpportunityCard"
-import React, {useState} from "react";
+import RegistrationPage from './Pages/RegistrationPage/RegistrationForm'
 import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
+import { Nav } from 'react-bootstrap';
 
 function App() {
   return (
-    <div>
-      <AddOpportunityForm/>
-    </div>
+    <BrowserRouter>
+    <Switch>
+
+      <Route exact path='/'>
+        <LoginPage/>
+      </Route>
+
+      <Route path='/AnonDashboard'>
+        <NavBar/>
+        <AnonymousDashboard/>
+      </Route>
+
+      <Route path='/registration'>
+        <RegistrationPage/>
+      </Route>
+
+      <Route path='/addOpportunity'>
+        <AddOpportunityForm/>
+      </Route>
+
+      <Route path='/registrationConfirmation'>
+        <RegistrationConfirmation/>
+      </Route>
+
+    </Switch>
+  </BrowserRouter>
   );
 }
 
