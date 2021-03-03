@@ -10,6 +10,7 @@ const findOrCreate = require("mongoose-findorcreate")
 const app = express()
 const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
+const { replaceOne } = require('./models/volunteer')
 
 require('dotenv').config()
 
@@ -51,12 +52,12 @@ passport.use(new GoogleStrategy({
 
 ))
 
-mongoose.connect(process.env.userDB_URL, {
+mongoose.connect(process.env.opportunityDB_URL, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
    useFindAndModify: false,
    useCreateIndex: true
-}).then(() => console.log("Connected to userDB"))
+}).then(() => console.log("Connected to opportunityDB"))
 
 mongoose.set("useCreateIndex", true)
 
@@ -84,6 +85,18 @@ app.get("/logout", (req, res) => {
 const getAllOpportunities = async () => {
    return await Opportunity.find({})
 }
+
+//Checking Postman
+app.post("/api/opportunity", async(req, res) => {
+   const title = req.body.title
+   const desc = req.body.desc
+   const pic = req.body.pic
+   const date = req.body.date
+   const skills = req.body.skills
+   const wishlist = req.body.wishlist
+   const newOpportunity = await postNewOpportunity(title, desc, pic, date, skills, wishlist)
+   res.json(newOpportunity)
+})
 
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
@@ -173,6 +186,17 @@ const updateItemsDonated = async (vol_id, opp_id, items) => {
    volunteer.opportunities.set(opp_id, opp)
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
+}
+
+const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist) => {
+   return new Opportunity({
+      title,
+      desc,
+      pictures,
+      date,
+      skills,
+      wishlist,
+   }).save()
 }
 
 app.listen(3001)

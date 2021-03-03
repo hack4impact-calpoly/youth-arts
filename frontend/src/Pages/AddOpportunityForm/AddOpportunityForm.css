@@ -5,6 +5,7 @@
     font-family: 'Avant Garde';
     padding-top: 70px;
     padding-bottom: 0px;
+    color: black;
 }
 
 .formWrapper{
@@ -16,7 +17,7 @@
     height: auto;
     padding: 0px 20px;
     margin-top: 30px;
-    margin-bottom: 540px;
+    margin-bottom: 0px;
 }
 
 
