@@ -12,8 +12,6 @@ const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 
-require('dotenv').config()
-
 app.use(bodyParser.json())
 
 app.use(session({
@@ -52,12 +50,12 @@ passport.use(new GoogleStrategy({
 
 ))
 
-mongoose.connect(process.env.opportunityDB_URL, {
-   useNewUrlParser: true,
-   useUnifiedTopology: true,
-   useFindAndModify: false,
-   useCreateIndex: true
-}).then(() => console.log("Connected to opportunityDB"))
+// mongoose.connect(process.env.opportunityDB_URL, {
+//    useNewUrlParser: true,
+//    useUnifiedTopology: true,
+//    useFindAndModify: false,
+//    useCreateIndex: true
+// }).then(() => console.log("Connected to opportunityDB"))
 
 mongoose.set("useCreateIndex", true)
 
