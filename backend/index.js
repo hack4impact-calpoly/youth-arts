@@ -50,13 +50,6 @@ passport.use(new GoogleStrategy({
 
 ))
 
-// mongoose.connect(process.env.opportunityDB_URL, {
-//    useNewUrlParser: true,
-//    useUnifiedTopology: true,
-//    useFindAndModify: false,
-//    useCreateIndex: true
-// }).then(() => console.log("Connected to opportunityDB"))
-
 mongoose.set("useCreateIndex", true)
 
 app.get('/', (req, res) => {
