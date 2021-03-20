@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Opportunity = require("./opportunity")
+const {volunteerDB, opportunityDB} = require('../connections')
 const passportLocalMongoose = require("passport-local-mongoose")
 const findOrCreate = require("mongoose-findorcreate")
 
@@ -40,6 +40,5 @@ const volunteerSchema = new mongoose.Schema({
 volunteerSchema.plugin(passportLocalMongoose)
 volunteerSchema.plugin(findOrCreate)
 
-const Volunteer = mongoose.model("userDB", volunteerSchema)
-
+const Volunteer  = volunteerDB.model('userDB', volunteerSchema)
 module.exports = Volunteer
