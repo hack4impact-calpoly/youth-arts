@@ -69,3 +69,14 @@
     height: 0.6875rem;
     color: white;
 }
+
+/* mobile */
+@media screen and (max-width: 480px) {
+    .cardTitle {
+        font-size: 0.9rem;
+    }
+
+    .cardLocation {
+        font-size: 0.85rem;
+    }
+}

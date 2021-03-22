@@ -21,7 +21,8 @@ function About() {
                 </Col>
             </Row>
                         
-            <h2 className="actionTitle">WHAT YOU CAN DO</h2>
+            <h2 id="actionTitle">WHAT YOU CAN DO</h2>
+            
             <Row className="justify-content-md-center">
                 <Col md={4}>
                     <ActionButton 

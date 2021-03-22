@@ -46,3 +46,19 @@
     background-color: #D8F0DB;
     color: #39B54A;
 }
+
+@media screen and (max-width: 480px) {
+    .donate, .visit, .volunteer {
+        height: 160px;
+        width: 90%;
+        font-size: 32px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1034px) {
+    .donate, .visit, .volunteer {
+        height: 160px;
+        width: 105%;
+        font-size: 32px;
+    }
+}

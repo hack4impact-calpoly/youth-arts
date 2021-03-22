@@ -9,6 +9,7 @@ import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
 import { Nav } from 'react-bootstrap';
+import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
 
       <Route path='/registrationConfirmation'>
         <RegistrationConfirmation/>
+      </Route>
+
+      <Route path='/AuthDashboard'>
+        <AuthenticatedUserDashboard />
       </Route>
 
     </Switch>
