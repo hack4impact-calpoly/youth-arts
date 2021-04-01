@@ -10,8 +10,7 @@ const findOrCreate = require("mongoose-findorcreate")
 const app = express()
 const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
-
-require('dotenv').config()
+const { replaceOne } = require('./models/volunteer')
 
 app.use(bodyParser.json())
 
@@ -105,6 +104,22 @@ const getAllOpportunities = async () => {
    return await Opportunity.find({})
 }
 
+//Checking Postman
+app.post("/api/opportunity", async(req, res) => {
+   const title = req.body.title
+   const desc = req.body.desc
+   const pic = req.body.pic
+   const date = req.body.date
+   const skills = req.body.skills
+   const wishlist = req.body.wishlist
+   const newOpportunity = await postNewOpportunity(title, desc, pic, date, skills, wishlist)
+   res.json(newOpportunity)
+})
+
+const getOpportunityById = async (opp_id) => {
+   return await Opportunity.findById(id)
+}
+
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }
@@ -133,9 +148,9 @@ const getVolunteerInfo = async (opp_id) => {
       info = []
       info.push(volunteer.firstName + " " + volunteer.lastName)
       info.push(volunteer.phoneNumber)
-      for (i = 0; i < volunteer.start.length; i++) {
-         if (volunteer.end[i].getTime() <= Date.now().getTime()) {
-            hours += (volunteer.end[i].getTime() - volunteer.start[i].getTime)
+      for (i = 0; i < volunteer_opp_info.start.length; i++) {
+         if (volunteer_opp_info.end[i].getTime() <= Date.now().getTime()) {
+            hours += (volunteer_opp_info.end[i].getTime() - volunteer_opp_info.start[i].getTime())
          } 
       }
       info.push(hours)
@@ -147,11 +162,11 @@ const getVolunteerInfo = async (opp_id) => {
    return volunteer_info
 }
 
-const volunteerSignUp = async (vol_id, opp_id, tasks) => {
+const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    volunteer = await Volunteer.findById(vol_id)
    opportunity = await Opportunity.findById(opp_id)
-   opportunity.volunteers.push({vol_id: {start: Date.now(), end: Date.now(), tasks: tasks, donated: []}})
-   volunteer.opportunities.push({opp_id: {start: Date.now(), end: Date.now(), tasks: tasks, donated: []}})
+   opportunity.volunteers.push({vol_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
+   volunteer.opportunities.push({opp_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
 }
@@ -193,6 +208,17 @@ const updateItemsDonated = async (vol_id, opp_id, items) => {
    volunteer.opportunities.set(opp_id, opp)
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
+}
+
+const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist) => {
+   return new Opportunity({
+      title,
+      desc,
+      pictures,
+      date,
+      skills,
+      wishlist,
+   }).save()
 }
 
 app.listen(3001)

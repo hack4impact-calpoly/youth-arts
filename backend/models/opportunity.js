@@ -1,16 +1,20 @@
 const mongoose = require('mongoose')
-const Volunteer = require('./volunteer')
+const {volunteerDB, opportunityDB} = require('../connections')
 
 const opportunitySchema = new mongoose.Schema({
    title: String,
    description: String,
    pictures: [String],
-   date: [Date],
-   time: Number, 
+   start_event: [Date],
+   end_event: [Date], 
    skills: [String],
    wishlist: [String],
-   volunteers: [{type: Map, of: {start: [Date], end: [Date], tasks: [String], donated: [String]}}]
+   location: String,
+   requirements: [String],
+   additionalInfo: [String],
+   tasks: {type: Map, of: [{roleName: String, description: String, start: [Date], end: [Date], additionalRequirements: [String]}]},
+   volunteers: {type: Map, of: {tasks: [String], start: [Date], end: [Date], donated: [String]}}
 }, { collection: 'opportunityDB' })
 
-const Opportunity = mongoose.model('opportunityDB', opportunitySchema)
+const Opportunity = opportunityDB.model('opportunityDB', opportunitySchema)
 module.exports = Opportunity

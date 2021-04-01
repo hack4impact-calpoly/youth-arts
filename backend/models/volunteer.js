@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Opportunity = require("./opportunity")
+const {volunteerDB, opportunityDB} = require('../connections')
 const passportLocalMongoose = require("passport-local-mongoose")
 const findOrCreate = require("mongoose-findorcreate")
 
@@ -30,13 +30,15 @@ const volunteerSchema = new mongoose.Schema({
     outreach: String,
     signature: Boolean,
     tasks: [String],
-    opportunities: [{type: Map, of: {start: [Date], end: [Date], tasks: [String], donated: [String]}}]
+    availability: String,
+    notes: String,
+    boardMember: Boolean,
+    opportunities: {type: Map, of: {roleName: String, description: String, start: [Date], end: [Date], donated: [String]}}
 
 }, {collection : "userDB"})
 
 volunteerSchema.plugin(passportLocalMongoose)
 volunteerSchema.plugin(findOrCreate)
 
-const Volunteer = mongoose.model("userDB", volunteerSchema)
-
+const Volunteer  = volunteerDB.model('userDB', volunteerSchema)
 module.exports = Volunteer
