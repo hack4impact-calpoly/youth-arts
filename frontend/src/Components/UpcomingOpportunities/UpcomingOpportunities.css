@@ -1,0 +1,53 @@
+#upOpps {
+    max-height: fit-content;
+    width: 700px;
+    background-color: #f3f3f3;
+    color: #1B75BC;
+    padding-bottom: 4%;
+    font-weight: bold;
+}
+
+.upOpp {
+    margin: 0 8%;
+    display: inline;
+}
+
+#upType {
+    background-color: #1F4C82;
+    color: #FFFFFF;
+    padding: 3%;
+    text-align: center;
+    margin-bottom: 3%;
+    font-weight: bold;
+} 
+
+.upButton {
+    
+}
+
+/* mobile */
+@media screen and (max-width: 480px) {
+    .middleSection {
+        padding: 10%;
+    }
+
+    #upOpps {
+        width: 300px;
+        margin-bottom: 5%;
+    }
+
+    #upType {
+        font-size: 18px;
+    }
+
+    .upOpp {
+        font-size: 12px;
+    }
+}
+
+/*laptop and tablet*/
+@media screen and (min-width: 1024px) and (max-width: 1600px) {
+    #upOpps {
+        width: 400px;
+    }
+}
