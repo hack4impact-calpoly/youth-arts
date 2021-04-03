@@ -9,6 +9,7 @@
 
 .upOpp {
     margin: 0 8%;
+    display: inline;
 }
 
 #upType {
@@ -19,6 +20,10 @@
     margin-bottom: 3%;
     font-weight: bold;
 } 
+
+.upButton {
+    
+}
 
 /* mobile */
 @media screen and (max-width: 480px) {
