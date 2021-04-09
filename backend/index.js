@@ -30,7 +30,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-   Volunteer.findByID(id, (err, user) => {
+   Volunteer.findById(id, (err, user) => {
       done(err, user)
    })
 })
@@ -42,7 +42,7 @@ passport.use(new GoogleStrategy({
    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
    },
    (accessToken, refreshToken, profile, cb) => {
-      Volunteer.findOrCreate({googleId: profile.id, username: profile.id},
+      Volunteer.findOrCreate({googleId: profile.id, username: profile.id, email: profile.emails[0].value},
          (err, user) => {
             return cb(err, user)
          })
@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
 })
 
 app.get("/auth/google",
-   passport.authenticate("google", { scope: ["profile"] })
+   passport.authenticate("google", { scope: ["profile", "email"] })
 )
 
 app.get("/auth/google/callback",
@@ -194,4 +194,4 @@ const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist)
    }).save()
 }
 
-app.listen(3001)
+app.listen(4000)
