@@ -194,4 +194,48 @@ const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist)
    }).save()
 }
 
+const getAllOpportunitiesByDates = async (start, end) => {
+   opportunities = await Opportunity.find({})
+   within_range = []
+   for (opp in opportunities) {
+      i = 0
+      included = false
+      while (i < opp.start_event.length && !included) {
+         if (start <= opp.start_event[i] && end >= opp.end_event[i]) {
+            opp_info = []
+            opp_info.push(opp.title)
+            opp_info.push(opp.start_event[i])
+            opp_info.push(opp.end_event[i])
+            opp_info.push(opp.skills)
+            opp_tasks = []
+            opp_tasks.push(...opp.tasks)
+            opp_info.push(opp_tasks)
+            count = 0
+            donated = []
+            for (volunteer in opp.volunteers.values()) {
+               count += 1
+               donated.push(...volunteer.donated)
+            }
+            opp_info.push(count)
+            opp_info.push(donated)
+            within_range.push(opp_info)
+            included = true
+         }
+         i++;
+      }
+   }
+   return within_range
+}
+
+const getAllOpportunitiesWithSkill = async (start, end, skill) => {
+   including_skill = []
+   for (i in getAllOpportunitiesByDates(start, end)) {
+      if (i[3].includes(skill)) {
+         including_skill.push(i)
+      }
+   }
+   return including_skill
+}
+
+console.log(Opportunity.find({title: "Barn Bash & Dance Benefit"}).title)
 app.listen(3001)
