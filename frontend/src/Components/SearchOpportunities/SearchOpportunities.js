@@ -121,37 +121,37 @@ function SearchOpportunities() {
 
     //filter logic
     if (filterBy === "classroom") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("classroom")
         });
     }
     else if (filterBy === "comittee") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("comittee")
         });
     }
     else if (filterBy === "event") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("event")
         });
     }
     else if (filterBy === "fundraiser") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("fundraiser")
         });
     }
     else if (filterBy === "maintenance") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("maintenance")
         });
     }
     else if (filterBy === "office-admin") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("office-admin")
         });
     }
     else if (filterBy === "performance") {
-        filteredOpps = opportunities.filter(opportunity => {
+        filteredOpps = filteredOpps.filter(opportunity => {
             return opportunity.type.toLowerCase().includes("performance")
         });
     }
