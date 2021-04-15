@@ -4,11 +4,11 @@
 
 .about {
     margin: auto;
-    display: inline;
 }
 
 .aboutPic {
-    height: 200px;
+    height: 300px;
+    margin-left: 150px;
 }
 
 .aboutTitle {
@@ -24,8 +24,37 @@
     text-align: left;
 }
 
-.actionTitle {
+#actionTitle {
     color: black;
     font-size: 40px;
     padding: 2% 0 3% 0;
+    margin: 20px 0 0 0;
+    text-align: center;
+}
+
+@media screen and (max-width: 480px) {
+    .aboutPic {
+        height: 175px;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .aboutDesc {
+        margin-left: 0;
+    }
+
+    #actionTitle {
+        font-size: 25px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1034px) {
+    .aboutPic {
+        height: 200px;
+        margin-left: 0;
+    }
+
+    #actionTitle {
+        font-size: 30px;
+    }
 }

@@ -1,0 +1,41 @@
+#authHeader{
+    background-image: url("https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2017/11/04133712/waterfall.jpg");
+    text-align: center;
+    padding: 2% 0;
+    font-weight: bold;
+}
+
+#authLogo {
+    width: 150px;
+}
+
+#welcomeBack {
+    padding: 0.25%;
+    color: #1F4C82;
+    background: rgba(255, 255, 255, 0.74);
+    font-size: 40px;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+#slogan {
+    margin: 10px;
+    font-size: 30px;
+    color: white;
+}
+
+/* mobile */
+@media (max-width: 480px) {
+    #authLogo {
+        width: 70px;
+    }
+
+    #welcomeBack{
+        font-size: 28px;
+        margin: 10px 0;
+    }
+
+    #slogan {
+        font-size: 15px;
+    }
+}

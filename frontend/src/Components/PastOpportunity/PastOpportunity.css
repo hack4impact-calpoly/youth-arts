@@ -1,0 +1,21 @@
+#pastOpp {
+    max-height: fit-content;
+    max-width: 300px;
+    background-color: #f3f3f3;
+    color: #1B75BC;
+    padding-bottom: 1%;
+    font-weight: bold;
+}
+
+.opp {
+    margin: 1px 8%;
+}
+
+#oppType {
+    background-color: #1F4C82;
+    color: #FFFFFF;
+    padding: 3%;
+    text-align: center;
+    margin-bottom: 7%;
+    font-weight: bold;
+}

@@ -9,14 +9,10 @@ const volunteerSchema = new mongoose.Schema({
     lastName: String,
     email: {
         type: String,
-        required: true,
-        unique: true,
         match: [/\S+@\S+.\S+/, 'is invalid']
     },
     password: {
         type: String,
-        required: true,
-        unique: true,
     },
     phoneNum: String,
     address: String,
