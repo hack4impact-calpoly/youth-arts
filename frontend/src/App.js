@@ -8,6 +8,7 @@ import RegistrationPage from './Pages/RegistrationPage/RegistrationForm'
 import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
+import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import { Nav } from 'react-bootstrap';
 
 function App() {
@@ -36,6 +37,9 @@ function App() {
         <RegistrationConfirmation/>
       </Route>
 
+      <Route path='/opportunities'>
+        <OpportunitiesPage />
+      </Route>
     </Switch>
   </BrowserRouter>
   );
