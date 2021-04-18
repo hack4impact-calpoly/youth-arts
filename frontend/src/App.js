@@ -9,6 +9,7 @@ import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
 import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
+import AddOpportunity from './Pages/AddOpportunityForm/AddOpportunityForm';
 import { Nav } from 'react-bootstrap';
 
 
@@ -69,18 +70,15 @@ class App extends React.Component {
         <Route path='/registrationConfirmation'>
           <RegistrationConfirmation/>
         </Route>
+
+        <Route path='/addOpportunity'>
+          <AddOpportunity/>
+        </Route>
   
         <Route path='/opportunityDetail'>
         <NavBar/>
           <OpportunityDetail 
-          updateCart = {this.updateCart}
-          description = {description}
-           reqList={reqList}
-           title = {title}
-           location = {location}
-           start_event = {start_event}
-           tasks = {tasks}
-           additionalInfo = {additionalInfo}/>
+          updateCart = {this.updateCart}/>
         </Route>
   
       </Switch>

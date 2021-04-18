@@ -94,9 +94,9 @@
     box-sizing: border-box;
     resize: none;
     color: black;
-    width: 800px;
+    width: 550px;
     background-color:none;
-    min-height: 100px;
+    min-height: 30px;
     border-radius: 5px;
     margin-bottom: 0px;
     padding-bottom: 30px;
@@ -108,7 +108,7 @@
     font-weight: 600px;
     color: #1b75bc;
     font-weight: bolder;
-    margin-left: 40px;
+    margin-left: 110px;
     margin-right: 150px;
     margin-top: -35px;
 }
@@ -127,7 +127,7 @@
     box-sizing: border-box;
     resize: none;
     margin-bottom: 0px;
-    min-width: 100px;
+    min-width: 200px;
 }
 
 .row2OuterContainer{
@@ -187,6 +187,21 @@
     color: black;
     width: 550px;
     background-color:#F5F5F5;
+    min-height: 50px;
+    box-sizing: border-box;
+    resize: none;
+    margin-right: 10px;
+    margin-top: -310px;
+}
+
+#darkTaskBody{
+    border-radius: 5px;
+    box-shadow:0px 0px 3px 0px;
+    display: flex;
+    font-family: 'Avant Garde';
+    color: black;
+    width: 550px;
+    background-color:lightgray;
     min-height: 50px;
     box-sizing: border-box;
     resize: none;
@@ -269,8 +284,8 @@
 #buttonContainer{
     display: flex;
     justify-content: center;
-    margin-top: 90px;
-    margin-bottom: 100px;
+    margin-top: 100px;
+    margin-bottom: 0px;
 }
 
 #buttonStyles{
@@ -302,12 +317,22 @@
     padding-left: 20px;
     font-weight: 900;
     padding-top: 30px;
+    padding-right:6px;
+}
+
+#times{
+    color: black;
+    font-size: 17px;
+    padding-left: 0px;
+    padding-top: 30px;
+    padding-right: 20px;
 }
 
 #roleName{
     color: black;
     font-size: 17px;
     padding-left: 20px;
+    padding-left: 5px;
     padding-top: 30px;
 }
 
@@ -331,6 +356,7 @@
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 30px;
+    padding-right: 5px;
 }
 
 #additionalReq{
@@ -383,3 +409,153 @@
     margin-right: 20px;
     padding-top: -50px;
 }
+
+#darkTaskCard{
+    box-sizing: border-box;
+    border-color: lightgray;
+    border-radius: 1px;
+    background-color: lightgray;
+    border-color: black;
+    box-shadow:0px 0px 3px 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: -50px;
+}
+
+.popUpBackground{
+    display: flex;
+    justify-content: center;
+    margin-top: -500px;
+}
+
+.ModalWrapper{
+    width: 800px;
+    height: 500px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    color: #000;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+.ModalContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.8;
+    color: #141414;
+}
+
+.closeModal{
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    z-index: 10; 
+}
+
+#exitIcon{
+    font-size: 30px;
+    font-weight: 30px;
+    color: #1b75bc;
+}
+
+#signIn{
+    margin-left: 300px;
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+#or{
+    margin-top: 50px;
+    margin-left: 70px;
+    color: #1b75bc;
+    font-size: 20px;
+    font-weight: 30px;
+}
+
+#guestCheckout{
+    background: transparent;
+    border: 3px solid #F7941D;
+    color: #F7941D;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 19px;
+    padding: 15px;
+    min-width: 15vw;
+    margin: 10px -30px;
+    box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.1);
+}
+
+#guestCheckout:hover{
+    background: #F7941D;
+    color: white;
+    cursor: pointer;
+}
+
+.darkBackground{
+    background-color: lightgray;
+}
+
+#signInMessage{
+    margin-top: -100px;
+    margin-bottom: 60px;
+    font-size: 20px;
+    color: #1b75bc;
+    margin-right: -30px;
+    margin-left: -15px;
+}
+
+.adminEdit{
+    color: #1b75bc;
+    text-align: right;
+    padding-right: 100px;
+    font-weight: 500;
+    font-size: 40px;
+    padding-top: 30px;
+    text-decoration: underline;
+}
+
+.adminEdit a{ 
+    color: #1b75bc;
+    font-size: 25px;
+}
+
+#volunteerHeader{
+    padding-top: 40px;
+    margin-bottom: 20px;
+    color: #1b75bc;
+    font-size: 20px;
+    font-weight: 600px;
+    font-weight: bolder;
+}
+
+  td {
+    width: 150px;
+    text-align: left;
+    padding-left:10px;
+    border: 3px solid #1b75bc;
+    padding-right: 5px;
+  }
+
+  #TimeList{
+    color:black;
+  }
+
+  #TimeList li::before{
+      color: #1b75bc;
+  }
+
+  #donateButton{
+      margin-right: 300;
+  }
