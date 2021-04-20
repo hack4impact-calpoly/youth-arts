@@ -14,6 +14,12 @@ const { replaceOne } = require('./models/volunteer')
 
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+   res.header("Access-Control-Allow-Origin", "*");
+   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   next();
+ });
+
 app.use(session({
    secret : "Our little secret.",
    resave: false,
@@ -50,11 +56,32 @@ passport.use(new GoogleStrategy({
 
 ))
 
+mongoose.connect("mongodb+srv://pryacDev:hack4impact@cluster0.nyeny.mongodb.net/opportunityDB?retryWrites=true&w=majority", {
+   useNewUrlParser: true,
+   useUnifiedTopology: true,
+   useFindAndModify: false,
+   useCreateIndex: true
+}).then(() => console.log("Connected to userDB"))
+
+
 mongoose.set("useCreateIndex", true)
 
 app.get('/', (req, res) => {
   res.send('Hello world!')
 })
+
+app.get('/api/opportunityDetail/:name', async (req, res) => {
+   res.status(200);
+   const name = req.params.name;
+   let opp;
+   opp = await getOpportunityById(name);
+   res.json(opp);
+})
+
+const getOpportunityById = async (name) => {
+   return await Opportunity.findOne({'_id': name})
+}
+
 
 app.get("/auth/google",
    passport.authenticate("google", { scope: ["profile", "email"] })
@@ -89,10 +116,13 @@ app.post("/api/opportunity", async(req, res) => {
    res.json(newOpportunity)
 })
 
+<<<<<<< HEAD
+=======
 const getOpportunityById = async (opp_id) => {
    return await Opportunity.findById(opp_id)
 }
 
+>>>>>>> 2a7b1751bc62cfaf9d57dcd4909bdeea5603cf70
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }

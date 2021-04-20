@@ -90,7 +90,6 @@ const handleDeleteInputWish = index  => {
                             onChange={e => handleChangeTask(e, i)}/>
                             {taskList.length !== 1 &&
                                 <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(i)}/>
-
                             }
                         </div>
                         {taskList.length -1 === i && 

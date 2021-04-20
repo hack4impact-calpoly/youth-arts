@@ -1,0 +1,561 @@
+.opportunityTitle{
+    font-weight: 580;
+    font-size: 45px;
+    font-family: 'Avant Garde';
+    padding-top: 80px;
+    padding-bottom: 0px;
+    color: black;
+}
+
+.TitleImageContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageCarousel{
+    padding-top: 70px;
+    font-size: 40px;
+    font-weight: 40px;
+    margin-bottom: 30px;
+}
+
+.slider{
+    position: relative;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+.right-arrow{
+    position: absolute;
+    top: 50%;
+    right: -50px; 
+    z-index: 10;
+    font-size: 5;
+    cursor: pointer;
+    user-select: none;
+    color: #1b75bc;
+}
+
+.left-arrow{
+    position: absolute;
+    top: 50%;
+    left: -50px;
+    z-index: 10;
+    cursor: pointer;
+    user-select: none;  
+    color: #1b75bc;
+}
+
+#opportunityDate{
+    margin-top: 15px;
+    font-style: italic;
+    text-align: left;
+    font-size: 20px;
+}
+
+.outerContainer{
+    display:grid;
+    justify-content: center;
+    align-content: center;
+    gap: 4px;
+    padding-left: 400px;
+}
+
+#descriptionHeader{
+    padding-top: 50px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+}
+
+.DescriptionAndDateContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+#location{
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+    margin-left: -100px;
+    margin-right: 400px;
+    margin-top: -35px;
+}
+
+.descriptionText{
+    display: block;
+    font-family: 'Avant Garde';
+    box-sizing: border-box;
+    resize: none;
+    color: black;
+    width: 550px;
+    background-color:none;
+    min-height: 30px;
+    border-radius: 5px;
+    margin-bottom: 0px;
+    padding-bottom: 30px;
+}
+
+#dateAndTime{
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+    margin-left: 110px;
+    margin-right: 150px;
+    margin-top: -35px;
+}
+
+.dateText{
+    display: block;
+    font-family: 'Avant Garde';
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    background-color:none;
+    min-height: 100px;
+    padding-bottom: 30px;
+    margin-top: 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-bottom: 0px;
+    min-width: 200px;
+}
+
+.row2OuterContainer{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+#row2InnerContainer{
+    display:flex;
+    justify-content: space-between;
+}
+
+#taskHeader{
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+}
+
+.bodyContainer{
+    display: flex; 
+}
+
+#itemsHeader{
+    padding-top: 0px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+    border-bottom: 2px solid;
+    border-color: #C8C8C8;
+    margin-bottom: 340px;
+    margin-right: -200px;
+    margin-left: 80px;
+    padding-right: 120px;
+}
+
+#requirementsHeader{
+    font-size: 20px;
+    font-weight: 600px;
+    font-weight: bolder;
+    color: #1b75bc;
+    border-bottom: 2px solid;
+    border-color: #C8C8C8;
+    padding-right: 30px;
+    margin-bottom: 340px;
+    margin-right: 0px;
+    margin-left: 520px;
+}
+
+#taskBody{
+    border-radius: 5px;
+    box-shadow:0px 0px 3px 0px;
+    display: flex;
+    font-family: 'Avant Garde';
+    color: black;
+    width: 550px;
+    background-color:#F5F5F5;
+    min-height: 50px;
+    box-sizing: border-box;
+    resize: none;
+    margin-right: 10px;
+    margin-top: -310px;
+}
+
+#darkTaskBody{
+    border-radius: 5px;
+    box-shadow:0px 0px 3px 0px;
+    display: flex;
+    font-family: 'Avant Garde';
+    color: black;
+    width: 550px;
+    background-color:lightgray;
+    min-height: 50px;
+    box-sizing: border-box;
+    resize: none;
+    margin-right: 10px;
+    margin-top: -310px;
+}
+
+
+#reqBody{
+    border-radius: 5px;
+    display: flex;
+    font-family: 'Avant Garde';
+    color: black;
+    width: 300px;
+    background-color:none;
+    min-height: 50px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-top: -330px;
+    margin-left: 50px;
+}
+
+#itemsBody{
+    border-radius: 5px;
+    width: 300px;
+    display: flex;
+    font-family: 'Avant Garde';
+    color: black;
+    background-color:none;
+    min-height: 50px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-top: -330px;
+    margin-right: 100px;
+    margin-left: 0px;
+}
+
+#addInfoHeader{
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-bottom: 200px;
+    margin-left: -670px;
+    font-size: 20px;
+    font-weight: 600px;
+    color: #1b75bc;
+    font-weight: bolder;
+}
+
+.addInfoText{
+    font-family: 'Avant Garde';
+    color: black;
+    width: 500px;
+    background-color:none;
+    min-height: 100px;
+    padding-bottom: -100px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: none;
+    margin-left: -690px;
+    margin-top: -180px;
+}
+
+.fullContainer2{
+    display: grid;
+    grid-template-columns: auto auto ;
+}
+
+.row2Container2{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.row3Container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+#buttonContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 0px;
+}
+
+#buttonStyles{
+    background: transparent;
+    border: 3px solid #F7941D;
+    color: #F7941D;
+    border-radius: 14px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    padding: 8px;
+    min-width: 10vw;
+    margin: 10px 50px;
+}
+
+#buttonStyles:hover {
+    background: #F7941D;
+    color: white;
+    cursor: pointer;
+}
+
+.listStyle{
+    margin-top: 20px;
+}
+
+#roleHeader{
+    color: #1b75bc;
+    font-size: 19px;
+    padding-left: 20px;
+    font-weight: 900;
+    padding-top: 30px;
+    padding-right:6px;
+}
+
+#times{
+    color: black;
+    font-size: 17px;
+    padding-left: 0px;
+    padding-top: 30px;
+    padding-right: 20px;
+}
+
+#roleName{
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    padding-left: 5px;
+    padding-top: 30px;
+}
+
+#roleDesc{
+    color: #1b75bc;
+    font-size: 19px;
+    padding-left: 20px;
+    font-weight: 900;
+    padding-top: 20px;
+    margin-top: -30px;
+    margin-bottom: -20px;
+}
+
+.roleNameAndTime{
+    display: flex;
+}
+
+#roleDescText{
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-right: 5px;
+}
+
+#additionalReq{
+    color: #1b75bc;
+    font-size: 19px;
+    padding-left: 20px;
+    font-weight: 900;
+    padding-top: 20px;
+    margin-top: -40px;
+    margin-bottom: -20px;
+}
+
+#additionalReqText{
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addInfoContainer{
+    position: relative;
+}
+
+#cartButtonStyle{
+    background-color: #1b75bc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 40px;
+}
+
+.reqAndItems{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#taskCard{
+    box-sizing: border-box;
+    border-color: white;
+    border-radius: 1px;
+    background-color: white;
+    border-color: black;
+    box-shadow:0px 0px 3px 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: -50px;
+}
+
+#darkTaskCard{
+    box-sizing: border-box;
+    border-color: lightgray;
+    border-radius: 1px;
+    background-color: lightgray;
+    border-color: black;
+    box-shadow:0px 0px 3px 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: -50px;
+}
+
+.popUpBackground{
+    display: flex;
+    justify-content: center;
+    margin-top: -500px;
+}
+
+.ModalWrapper{
+    width: 800px;
+    height: 500px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    color: #000;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+.ModalContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.8;
+    color: #141414;
+}
+
+.closeModal{
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    z-index: 10; 
+}
+
+#exitIcon{
+    font-size: 30px;
+    font-weight: 30px;
+    color: #1b75bc;
+}
+
+#signIn{
+    margin-left: 300px;
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+#or{
+    margin-top: 50px;
+    margin-left: 70px;
+    color: #1b75bc;
+    font-size: 20px;
+    font-weight: 30px;
+}
+
+#guestCheckout{
+    background: transparent;
+    border: 3px solid #F7941D;
+    color: #F7941D;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 19px;
+    padding: 15px;
+    min-width: 15vw;
+    margin: 10px -30px;
+    box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.1);
+}
+
+#guestCheckout:hover{
+    background: #F7941D;
+    color: white;
+    cursor: pointer;
+}
+
+.darkBackground{
+    background-color: lightgray;
+}
+
+#signInMessage{
+    margin-top: -100px;
+    margin-bottom: 60px;
+    font-size: 20px;
+    color: #1b75bc;
+    margin-right: -30px;
+    margin-left: -15px;
+}
+
+.adminEdit{
+    color: #1b75bc;
+    text-align: right;
+    padding-right: 100px;
+    font-weight: 500;
+    font-size: 40px;
+    padding-top: 30px;
+    text-decoration: underline;
+}
+
+.adminEdit a{ 
+    color: #1b75bc;
+    font-size: 25px;
+}
+
+#volunteerHeader{
+    padding-top: 40px;
+    margin-bottom: 20px;
+    color: #1b75bc;
+    font-size: 20px;
+    font-weight: 600px;
+    font-weight: bolder;
+}
+
+  td {
+    width: 150px;
+    text-align: left;
+    padding-left:10px;
+    border: 3px solid #1b75bc;
+    padding-right: 5px;
+  }
+
+  #TimeList{
+    color:black;
+  }
+
+  #TimeList li::before{
+      color: #1b75bc;
+  }
+
+  #donateButton{
+      margin-right: 300;
+  }
