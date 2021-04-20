@@ -1,0 +1,52 @@
+#calendarEmbed {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: end;
+    height: 500px;
+    padding: 0px 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 80%;
+}
+#calendarEmbedWrapper {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: end;
+    height: auto;
+    padding: 0px 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.formStyle {
+    
+    width: 100%;
+    max-width: 700px;
+    padding: 50px 170px;
+    font-family: 'Avant Garde';
+    background-color:white;
+    border-radius: 20px;
+    border: 7px solid  #eee;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 3px 0px;
+    padding-bottom: 0px;
+}
+
+/* mobile */
+@media screen and (max-width: 480px) {
+
+    #line {
+        justify-content: center;
+    }
+}
+
+/*laptop and tablet*/
+@media screen and (min-width: 1024px) and (max-width: 1600px) {
+    #line {
+        width: 400px;
+    }
+}
