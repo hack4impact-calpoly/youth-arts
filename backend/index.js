@@ -36,7 +36,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-   Volunteer.findByID(id, (err, user) => {
+   Volunteer.findById(id, (err, user) => {
       done(err, user)
    })
 })
@@ -48,7 +48,7 @@ passport.use(new GoogleStrategy({
    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
    },
    (accessToken, refreshToken, profile, cb) => {
-      Volunteer.findOrCreate({googleId: profile.id, username: profile.id},
+      Volunteer.findOrCreate({googleId: profile.id, username: profile.id, email: profile.emails[0].value},
          (err, user) => {
             return cb(err, user)
          })
@@ -84,7 +84,7 @@ const getOpportunityById = async (name) => {
 
 
 app.get("/auth/google",
-   passport.authenticate("google", { scope: ["profile"] })
+   passport.authenticate("google", { scope: ["profile", "email"] })
 )
 
 app.get("/auth/google/callback",
@@ -116,6 +116,13 @@ app.post("/api/opportunity", async(req, res) => {
    res.json(newOpportunity)
 })
 
+<<<<<<< HEAD
+=======
+const getOpportunityById = async (opp_id) => {
+   return await Opportunity.findById(opp_id)
+}
+
+>>>>>>> 2a7b1751bc62cfaf9d57dcd4909bdeea5603cf70
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }
@@ -217,4 +224,48 @@ const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist)
    }).save()
 }
 
-app.listen(3001)
+const getAllOpportunitiesByDates = async (start, end) => {
+   opportunities = await Opportunity.find({})
+   within_range = []
+   for (index = 0; index < opportunities.length; index++) {
+      i = 0
+      included = false
+      while (i < opportunities[index].start_event.length && !included) {
+         if (start <= opportunities[index].start_event[i] && end >= opportunities[index].end_event[i]) {
+            opp_info = []
+            opp_info.push(opportunities[index].title)
+            opp_info.push(opportunities[index].start_event[i])
+            opp_info.push(opportunities[index].end_event[i])
+            opp_info.push(opportunities[index].skills)
+            opp_tasks = []
+            opp_tasks.push(...opportunities[index].tasks)
+            opp_info.push(opportunities[index])
+            count = 0
+            donated = []
+            for (volunteer in opportunities[index].volunteers.values()) {
+               count += 1
+               donated.push(...volunteer.donated)
+            }
+            opp_info.push(count)
+            opp_info.push(donated)
+            within_range.push(opp_info)
+            included = true
+         }
+         i++;
+      }
+   }
+   return within_range
+}
+
+const getAllOpportunitiesWithSkill = async (start, end, skill) => {
+   including_skill = []
+   opportunities = await getAllOpportunitiesByDates(start, end)
+   for (i = 0; i < opportunities.length; i++) {
+      if (opportunities[i][3].includes(skill)) {
+         including_skill.push(opportunities[i])
+      }
+   }
+   return including_skill
+}
+
+app.listen(4000)
