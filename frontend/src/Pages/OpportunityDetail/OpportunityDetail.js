@@ -7,7 +7,9 @@ import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
 import {MdClose} from 'react-icons/md'
 import SignInWithGoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton'
-
+//import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+//import {DatePicker, TimePicker, KeyboardDateTimePicker} from '@material-ui/pickers';
+//import DateMomentUtils from '@date-io/moment'; 
 
 class OpportunityDetail extends React.Component{
 
@@ -117,7 +119,7 @@ class OpportunityDetail extends React.Component{
                         <div className="bodyContainer">
                                 <div id={this.state.showDonateModal | this.state.showSignInModal ? "darkTaskBody" : "taskBody"}>
                                         <div>
-                                           { this.state.tasks.map(task =>
+                                           {this.state.tasks.map(task =>
                                             {
                                               return(
                                                   <div id={this.state.showDonateModal | this.state.showSignInModal ? "darkTaskCard" : "taskCard"}>
@@ -156,8 +158,7 @@ class OpportunityDetail extends React.Component{
                                                                                 <li>{dateFormat(end, " mmmm dS, yyyy ")} @
                                                                                     {dateFormat(end, " hh:mm")}</li>
                                                                             </ul>
-                                                                        );
-                                                                    })}
+                                                                        );})}
                                                             </div>
                                                     </div>
                                                     <br/>
@@ -224,14 +225,15 @@ class OpportunityDetail extends React.Component{
                                                 </div>
                                             )})}
                                     </ul>
-                                    <div>
+                        {this.state.admin 
+                        && <div>
                             <div id="volunteerHeader">
                                 VOLUNTEERS
                             </div>
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Tasks</th>
+                                        <th>Task</th>
                                         <th>Start Times</th>
                                         <th>End Times</th>
                                         <th>Donated Items</th>
@@ -255,6 +257,7 @@ class OpportunityDetail extends React.Component{
                                                                         <div>
                                                                             {dateFormat(key_value, " mmmm dS, yyyy ")} @
                                                                             {dateFormat(key_value, " hh:mm")}
+                                                                            
                                                                         </div>
                                                                         }
                                                                     </td>
@@ -270,8 +273,7 @@ class OpportunityDetail extends React.Component{
                                                                             {dateFormat(key_value, " hh:mm")}
                                                                         </div>
                                                                         }
-                                                                    </td>
-                                                                )
+                                                                    </td>)
                                                             }
                                                             else if(key_set.length-1 == i)
                                                             {
@@ -286,7 +288,7 @@ class OpportunityDetail extends React.Component{
                                                     )})}
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>}
                                     </p>
                              </div>
 
