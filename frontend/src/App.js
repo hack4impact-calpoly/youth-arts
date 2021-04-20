@@ -9,6 +9,7 @@ import RegistrationPage from './Pages/RegistrationPage/RegistrationForm'
 import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
+import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import { Nav } from 'react-bootstrap';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
@@ -71,8 +72,13 @@ class App extends Component {
           <CalendarPage />
         </Route>
 
-      </Switch>
-    </BrowserRouter>
+      <Route path='/opportunities'>
+        <OpportunitiesPage />
+      </Route>
+      
+    </Switch>
+  </BrowserRouter>
+
   );
   }
 }
