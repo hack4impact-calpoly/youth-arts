@@ -2,6 +2,7 @@
 import styles from './GoogleButton.css';
 
 function GoogleButton() {
+  
   return (
     <form action="http://localhost:4000/auth/google">
     <button type="submit" className="google-button">

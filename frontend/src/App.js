@@ -18,20 +18,10 @@ class App extends Component {
     constructor(props)
     {
       super(props);
-      this.state = {user: {},
-                    jwt: "" };
+      this.state = {user: {} };
     }
 
     componentDidMount() {
-      var query = queryString.parse(this.props.location.search);
-      if (query.token) {
-        window.localStorage.setItem("jwt", query.token);
-        this.props.history.push("/");
-        this.setState({jwt: query.token});
-        console.log(query.token);
-    }
-    console.log(this.state.user);
-    console.log(this.state.jwt);
   }
   render(){
     return (
