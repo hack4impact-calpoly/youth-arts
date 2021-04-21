@@ -2,24 +2,199 @@
 import './RegistrationForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
 import React, {useState} from 'react';
-import Office from './icons/001-work-space.png';
-import Fundraiser from './icons/002-fundraiser.png';
-import Theater from './icons/005-theater.png';
-import Committee from './icons/004-committee.png';
-import Class from './icons/006-paint-class.png';
-import Facility from './icons/003-facility.png';
-import Lobby from './icons/reception.png';
-import User from './icons/user.png';
+import axios from 'axios';
 import headerImage from './headerImage.png';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
+import classroom from '../../Images/classroom.png'
+import event from '../../Images/event.png'
+import fundraiser from '../../Images/fundraiser.png'
+import maintenance from '../../Images/maintenance.png'
+import officeAdmin from '../../Images/office-admin.png'
+import performance from '../../Images/performance.png'
+import { Redirect } from 'react-router-dom'
 
-function RegistrationPage() {
 
+class RegistrationPage extends React.Component {
 
-  function onClick() {
-    //Add transition 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        _id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNum: "",
+        address: "",
+        communityRole: [],
+        AOI: [],
+        experience: "",
+        workHistory: "",
+        outreach: "",
+        boardMember: false,
+        signature: false,
+
+        icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
+        roleOptions: ["Parent", "Community Member", "Student"],
+        AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
+
+        redirect: false
+    };
+    
+    this.handleFirst = this.handleFirst.bind(this);
+    this.handleLast = this.handleLast.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePhone = this.handlePhone.bind(this);
+    this.handleAddress = this.handleAddress.bind(this);
+    this.handleExperience = this.handleExperience.bind(this);
+    this.handleEmployment = this.handleEmployment.bind(this);
+    this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
+
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleClearForm = this.handleClearForm.bind(this);
+    this.handleRoleCheckBox = this.handleRoleCheckBox.bind(this);
+    this.handleAOICheckBox = this.handleAOICheckBox.bind(this);
+    this.handleWaiverCheckBox = this.handleWaiverCheckBox.bind(this);
+    this.handleBoardCheckBox = this.handleBoardCheckBox.bind(this);
+    
   }
+  componentDidMount()
+  {
+    let userId = window.location.pathname;
+    userId = userId.replace("/registration/", "");
+    fetch('http://localhost:4000/api/volunteer/' + userId)
+      .then(res => res.json())
+      .then(data => this.setState({... data}));
+  }
+
+  /* This lifecycle hook gets executed when the component mounts */
+
+  handleFirst(e) {
+    let value = e.target.value;
+    this.setState( {firstName: value} );
+  }
+  handleLast(e) {
+    let value = e.target.value;
+    this.setState( {lastName: value} );
+  }
+  handleEmail(e) {
+    let value = e.target.value;
+    this.setState( {email: value} );
+  }
+  handlePhone(e) {
+    let value = e.target.value;
+    this.setState( {phoneNum: value} );
+  }
+  handleAddress(e) {
+    let value = e.target.value;
+    this.setState( {address: value} );
+  }
+  handleExperience(e) {
+    let value = e.target.value;
+    this.setState( {experience: value} );
+  }
+  handleEmployment(e) {
+    let value = e.target.value;
+    this.setState( {workHistory: value} );
+  }
+  handleHearAboutUs(e) {
+    let value = e.target.value;
+    this.setState( {outreach: value} );
+  }
+
+  handleRoleCheckBox(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.communityRole.indexOf(newSelection) != -1) {
+      newSelectionArray = this.state.communityRole.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.communityRole, newSelection];
+    }
+    this.setState( {communityRole: newSelectionArray });
+  }
+  handleAOICheckBox(e) {
+    const newSelection = e.target.value;
+    let newSelectionArray;
+
+    if (this.state.AOI.indexOf(newSelection) != -1) {
+      newSelectionArray = this.state.AOI.filter(
+        s => s !== newSelection
+      );
+    } else {
+      newSelectionArray = [...this.state.AOI, newSelection];
+    }
+    this.setState( {AOI: newSelectionArray });
+  }
+  handleWaiverCheckBox(e) {
+    const newSelection = e.target.value;
+    // let newSelectionArray;
+    if (this.state.signature != true) {
+      this.setState( {signature: true });
+    } else {
+      this.setState( {signature: false });
+    }
+  }
+  handleBoardCheckBox(e) {
+    const newSelection = e.target.value;
+    // let newSelectionArray;
+    if (this.state.boardMember != true) {
+      this.setState( {boardMember: true });
+    } else {
+      this.setState( {boardMember: false });
+    }
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    const userdata = {_id: this.state._id, 
+      firstName: this.state.firstName, 
+      lastName: this.state.lastName, 
+      email: this.state.email, 
+      phoneNum: this.state.phoneNum, 
+      address: this.state.address, 
+      communityRole: this.state.communityRole, 
+      AOI: this.state.AOI, 
+      experience: this.state.experience, 
+      workHistory: this.state.workHistory, 
+      outreach: this.state.outreach, 
+      signature: this.state.signature,
+      boardMember: this.state.boardMember}
+    console.log(JSON.stringify(userdata));
+    fetch('http://localhost:4000/api/postVolunteer/', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+    },
+      body: JSON.stringify(userdata)
+    }).then(response => {
+      response.json().then(data => {
+        console.log("Successful" + data);
+        this.setState({ redirect: true })
+      });
+    });
+  }
+
+  handleClearForm(e) {
+    e.preventDefault();
+    this.setState({
+      newUser: {
+        name: "",
+        age: "",
+        gender: "",
+        skills: [],
+        about: ""
+      }
+    });
+  }
+
+  render() {
+    if (this.state.redirect) {
+      return <Redirect to='/authDashboard'/>;
+    }
   return (
       <div >
         <NavBar/>
@@ -35,111 +210,85 @@ function RegistrationPage() {
           <form className="formStyle">
           <div className="inputStyles">
                 <label htmlFor="First Name">First Name</label>
-                <input type="text" name="First Name" placeholder="Enter First Name Here"/>
+                <input type="text" name="First Name" placeholder="Enter First Name Here" value={this.state.firstName} onChange={this.handleFirst}/>
                 <label htmlFor="Last Name">Last Name</label>
-                <input type="text" name="First Name" placeholder="Enter Last Name Here"/>
+                <input type="text" name="Last Name" placeholder="Enter Last Name Here" value={this.state.lastName} onChange={this.handleLast}/>
                 <label htmlFor="Email">Email</label>
-                <input type="email" name="Email" placeholder="Example@mail.com"/>
+                <input type="email" name="Email" placeholder="Example@mail.com" value={this.state.email} onChange={this.handleEmail}/>
                 <label htmlFor="Phone">Phone</label>
-                <input type="text" name="Phone" placeholder="(XXX) XXX-XXX"/>
+                <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
                 <label htmlFor="Address">Address</label>
-                <input type="text" name="Address" placeholder="Street Addess"/>
-                <div className="city">
-                    <input type="text" name="City" placeholder="City"/>
-                </div>
+                <input type="text" name="Address" placeholder="Address" value={this.state.address} onChange={this.handleAddress}/>
           </div> 
-          <div className="addressBoxes">
-                <input type="text" name="State" placeholder="State"/>
-                <input type="text" name="Zip" placeholder="Zip"/>
-          </div>
             <br/>
             <br/>
+            <div>
             <legend className="legendStyle">I Am A:</legend> 
-                <div className="fieldSet">     
-                      <label>
-                        <input type="checkbox" value="Parent"/>
-                        Parent
-                      </label>
-                      <label>
-                        <input type="checkbox" value="CommunityMember"/>
-                        Community Member 
-                      </label>
-                      <label>
-                        <input type="checkbox" value="Student"/>
-                        Student
-                      </label>
-                </div> 
+              <div className="fieldSet">
+                {this.state.roleOptions.map(option => {
+                  return (
+                    <label key={option}>
+                      <input
+                        className="form-checkbox"
+                        onChange={this.handleRoleCheckBox}
+                        value={option}
+                        checked= { this.state.communityRole.indexOf(option) != -1 }
+                        type="checkbox" /> {option}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
               <br/>
-             <legend className="legendStyle">Areas Of Interest: </legend> 
-              <div className="fieldSet">     
-                      <label>
-                        <img src={Office} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Office/Admin"/>
-                        Office / Admin
+            <div>
+            <legend className="legendStyle">Areas Of Interest: </legend> 
+                <div className="fieldSet">
+                  {this.state.AOIOptions.map(option => {
+                    return (
+                      <label key={option}>
+                        <img src={(this.state.icons)[this.state.AOIOptions.indexOf(option)]} width= "auto" height="30" alt=""></img>
+                        <input
+                          className="form-checkbox"
+                          onChange={this.handleAOICheckBox}
+                          value={option}
+                          checked= { this.state.AOI.indexOf(option) != -1 }
+                          type="checkbox" /> {option}
                       </label>
-                      <label>
-                        <img src={Lobby} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="LobbyHelp"/>
-                        Lobby Help (Docents / COVID Check-in)
-                      </label>
-                      <label>
-                        <img src={Facility} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Facility/Maintenance"/>
-                        Facility / Maintenance
-                      </label>
-                      <label>
-                        <img src={Fundraiser} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Fundraiser"/>
-                        Fundraiser
-                      </label>
-                      <label>
-                        <img src={Theater} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Performances"/>
-                        Performances
-                      </label>
-                      <label>
-                        <img src={Committee} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Committees"/>
-                        Committees
-                      </label>
-                      <label>
-                        <img src={Class} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="Classroom"/>
-                        Classroom
-                      </label>
-                      <label>
-                      <img src={User} width= "auto" height="20" alt=""></img>
-                        <input type="checkbox" value="21+"/>
-                        21+
-                      </label>
-              </div>               
+                    );
+                  })}
+                </div>
+              </div>
                 <br/>
-                <div className="textStyle">
+                <div className="textStyle"> 
                   <label htmlFor="VolunteerExperience">Volunteer Experience</label>
-                  <textarea placeholder="Tell us about your volunteer experience"/>
+                  <textarea placeholder="Tell us about your volunteer experience" value={this.state.experience} onChange={this.handleExperience}/>
                   <br/>
                   <label htmlFor="EmploymentHistory">Employment History</label>
-                  <textarea placeholder="Give us an oveview of your employment"/>
+                  <textarea placeholder="Give us an oveview of your employment" value={this.state.workHistory} onChange={this.handleEmployment}/>
                   <br/>
                   <label htmlFor="HowDidYouHearAboutUS">How Did You Hear About Us?</label>
-                  <textarea placeholder="Let us know how you found us"/>
+                  <textarea placeholder="Let us know how you found us" value={this.state.outreach} onChange={this.handleHearAboutUs}/>
                 </div>
                 <br/>
                 <label>
-                    <input type="checkbox"/>
-                      I agree to the digital volunteer waiver
+                    <input type="checkbox" value={ this.state.boardMember } checked= { this.state.boardMember } onChange={this.handleBoardCheckBox}/>
+                      I am a Board Member
                 </label>
                 <br/>                
                 <br/>
+                <label>
+                    <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
+                       I agree to the digital volunteer waiver
+                </label>
+                <br/> 
                 <div className="buttonStyle">
-                  <SubmitButton onClick={onClick} buttonText="Register Now"/>
+                  <SubmitButton onClick={this.handleFormSubmit} buttonText="Register Now"/>
                 </div>
           </form>
         </div>
-        <div className="iconRef">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik </a> 
-                from  <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
       </div>
   );
+}
 }
 
 export default RegistrationPage;

@@ -1,4 +1,3 @@
-
 import NavBar from '../../Components/NavBar/NavBar'
 import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
@@ -6,13 +5,13 @@ import GoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton';
 import "./LoginPage.css";
 import headerImage from './headerImage.png';
 
-function LoginPage() {
-
-
-  function onClick() {
-    //Add transition 
+class LoginPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {list: []}
   }
 
+  render() {
 
   return (
       <body >
@@ -27,6 +26,7 @@ function LoginPage() {
         </div>
       </body>
   );
+}
 }
 
 export default LoginPage;

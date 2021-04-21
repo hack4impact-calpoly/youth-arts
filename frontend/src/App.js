@@ -23,26 +23,17 @@ class App extends Component {
     {
       super(props);
       this.state = {user: {},
-                    jwt: "" };
-      this.state = { cart: [] };
+                    cart: [] };
     }
 
     updateCart = (task) => {
       const cart = this.state.cart;
       cart.push(task);
       this.setState({cart: cart});
+      this.state = {user: {} };
     }
 
     componentDidMount() {
-      var query = queryString.parse(this.props.location.search);
-      if (query.token) {
-        window.localStorage.setItem("jwt", query.token);
-        this.props.history.push("/");
-        this.setState({jwt: query.token});
-        console.log(query.token);
-    }
-    console.log(this.state.user);
-    console.log(this.state.jwt);
   }
   render(){
     return (
