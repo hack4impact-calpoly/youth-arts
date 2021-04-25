@@ -116,13 +116,7 @@ app.post("/api/opportunity", async(req, res) => {
    res.json(newOpportunity)
 })
 
-<<<<<<< HEAD
-=======
-const getOpportunityById = async (opp_id) => {
-   return await Opportunity.findById(opp_id)
-}
 
->>>>>>> 2a7b1751bc62cfaf9d57dcd4909bdeea5603cf70
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }

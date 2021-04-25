@@ -33,7 +33,7 @@ class App extends Component {
       this.setState({cart: cart});
     }
 
-    componentDidMount() {
+    /*componentDidMount() {
       var query = queryString.parse(this.props.location.search);
       if (query.token) {
         window.localStorage.setItem("jwt", query.token);
@@ -43,7 +43,7 @@ class App extends Component {
     }
     console.log(this.state.user);
     console.log(this.state.jwt);
-  }
+  }*/
   render(){
     return (
       <BrowserRouter>

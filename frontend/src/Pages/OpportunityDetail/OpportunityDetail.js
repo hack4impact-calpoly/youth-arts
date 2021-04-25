@@ -7,8 +7,10 @@ import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
 import {MdClose} from 'react-icons/md'
 import SignInWithGoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton'
-//import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-//import {DatePicker, TimePicker, KeyboardDateTimePicker} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateMomentUtils from '@date-io/moment'
+import DateFnsUtils from '@date-io/date-fns'
+import {KeyboardDateTimePicker} from '@material-ui/pickers';
 //import DateMomentUtils from '@date-io/moment'; 
 
 class OpportunityDetail extends React.Component{
@@ -27,14 +29,16 @@ class OpportunityDetail extends React.Component{
             showDonateModal: false,
             showSignInModal: false,
             signedIn: false,
-            admin: true
+            admin: true,
+            selectedStartDate: new Date(),
+            selectedEndDate: new Date()
         };
     }
 
     componentDidMount() {
         const id = window.location.hash;
         console.log(id);
-        fetch('http://localhost:3001/api/opportunityDetail/604c7b80a52b3a681039b3d5')
+        fetch('http://localhost:4000/api/opportunityDetail/60764b69811b98df6f7f58fc')
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
@@ -48,6 +52,14 @@ class OpportunityDetail extends React.Component{
     changeSignInModal = () => {
         this.setState({showSignInModal: !this.state.showSignInModal});
     };
+
+    handleStartDateChange = (date) => {
+        this.setState({selectedStartDate: date});
+    }
+
+    handleEndDateChange = (date) => {
+        this.setState({selectedEndDate: date});
+    }
 
   render() {
     return (
@@ -255,9 +267,24 @@ class OpportunityDetail extends React.Component{
                                                                 return (
                                                                     <td>{(i < (key_set.length - 1)) && 
                                                                         <div>
-                                                                            {dateFormat(key_value, " mmmm dS, yyyy ")} @
-                                                                            {dateFormat(key_value, " hh:mm")}
+                                                                            {key_value.map( (time) => 
+                                                                            {
+                                                                                return(
+                                                                                    <div>
+                                                                                        {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                        {dateFormat(time, " hh:mm")}
+                                                                                    </div>
+                                                                                )})}
+                                                        
                                                                             
+                                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                                 <br/>
+                                                                                 <label id="checkIn">Check In: </label>
+                                                                                 <KeyboardDateTimePicker utils={DateMomentUtils}
+                                                                                    value={this.state.selectedStartDate}
+                                                                                    selected={this.state.selectedStartDate}
+                                                                                    onChange={date => this.handleStartDateChange(date)}/>
+                                                                            </MuiPickersUtilsProvider>
                                                                         </div>
                                                                         }
                                                                     </td>
@@ -269,20 +296,40 @@ class OpportunityDetail extends React.Component{
                                                                 return (
                                                                     <td>{(i < (key_set.length - 1)) && 
                                                                         <div>
-                                                                            {dateFormat(key_value, " mmmm dS, yyyy ")} @
-                                                                            {dateFormat(key_value, " hh:mm")}
+                                                                            {key_value.map( (time) => 
+                                                                            {
+                                                                                return(
+                                                                                    <div>
+                                                                                        {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                        {dateFormat(time, " hh:mm")}
+                                                                                    </div>
+                                                                                )})}
+
+                                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                                 <br/>
+                                                                                 <label id="checkIn">Check Out:</label>
+                                                                                 <KeyboardDateTimePicker utils={DateMomentUtils}
+                                                                                 value={this.state.selectedEndDate}
+                                                                                 onChange={this.handleEndDateChange}/>
+                                                                            </MuiPickersUtilsProvider>
                                                                         </div>
                                                                         }
                                                                     </td>)
                                                             }
                                                             else if(key_set.length-1 == i)
                                                             {
-
+                                                                //any extra volunteer info
                                                             }
+                                                        
                                                             else{
                                                                 return(
-                                                                
-                                                                    <td>{(i < (key_set.length - 1)) && key_value}</td>
+                                                                    
+                                                                    <td>{(i < (key_set.length - 1)) && key_value.map(item =>
+                                                                        {
+                                                                            return(
+                                                                                <li>{item}</li>
+                                                                            )
+                                                                        })}</td>
                                                              )}})}
                                                         </tr>
                                                     )})}
