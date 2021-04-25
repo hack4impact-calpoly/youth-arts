@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const session = require("express-session")
+var cors = require('cors')
 const passport = require("passport")
 const passportLocalMongoose = require("passport-local-mongoose")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
@@ -11,8 +12,32 @@ const app = express()
 const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
+const cookieSession = require('cookie-session');
 
 app.use(bodyParser.json())
+app.use(
+   cors({
+        origin: "http://localhost:3000", // allow to server to accept request from different origin
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true, // allow session cookie from browser to pass through
+  })
+);
+app.use((req, res, next) => {
+   res.header("Access-Control-Allow-Origin", "*");
+   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   next();
+});
+
+app.use(cookieSession({
+   name: 'session-name',
+   keys: ['key1', 'key2']
+ }))
+
+// Middleware - Check user is Logged in
+const checkUserLoggedIn = (req, res, next) => {
+   req.user ? next(): res.sendStatus(401);
+ }
+
 
 app.use((req, res, next) => {
    res.header("Access-Control-Allow-Origin", "*");
@@ -41,20 +66,80 @@ passport.deserializeUser((id, done) => {
    })
 })
 
+const accessProtectionMiddleware = (req, res, next) => {
+   if (req.isAuthenticated()) {
+      next();
+   } else {
+      res.status(403).json({
+         message: 'must be logged in to continue',
+      });
+   }
+};
+
+
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
    clientSecret: process.env.CLIENT_SECRET,
    callbackURL: "http://localhost:4000/auth/google/callback",
    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
    },
-   (accessToken, refreshToken, profile, cb) => {
-      Volunteer.findOrCreate({googleId: profile.id, username: profile.id, email: profile.emails[0].value},
-         (err, user) => {
-            return cb(err, user)
-         })
-   }
+function(accessToken, refreshToken, profile, cb) {
+   //check user table 
+   Volunteer.findOne({
+      googleId: profile.id 
+   }, function(err, user) {
+       if (err) {
+           return cb(err);
+       }
+       //No user was found... so create a new user 
+       if (!user) {
+           user = new Volunteer({
+            googleId: profile.id, username: profile.id, email: profile.emails[0].value
+           });
+           user.save(function(err) {
+               if (err) console.log(err);
+               return cb(err, user, true)
+           });
+           res.cookie('token', req.user, { httpOnly: false });
+       } else {
+           //found user. Return
+           return cb(err, user, false)
+       }
+   });
+}
+));
+// Server endpoint that returns user info
 
-))
+   app.get('/api/volunteer/:id', async (req, res) => {
+      var userid = mongoose.Types.ObjectId(req.params.id)
+      try 
+      {
+          var user;
+          if (typeof userid === undefined || userid.length === 0)
+          {
+            res.redirect("http://localhost:3000/")
+          }
+          user = await Volunteer.findById(userid)
+          res.status(200).json(user);
+      }
+      catch (error)
+      {
+         console.log(error);
+          res.status(400).send(error);
+      }
+  })  
+
+  const getVolunteer = async (userid) => {
+	return await Volunteer.findById(userid)
+}
+
+app.get('/user', accessProtectionMiddleware, (req, res) => {
+   res.json({
+      message: 'you have accessed the protected endpoint!',
+      yourUserInfo: req.user,
+   });
+});
+
 
 mongoose.connect("mongodb+srv://pryacDev:hack4impact@cluster0.nyeny.mongodb.net/opportunityDB?retryWrites=true&w=majority", {
    useNewUrlParser: true,
@@ -87,18 +172,72 @@ app.get("/auth/google",
    passport.authenticate("google", { scope: ["profile", "email"] })
 )
 
+
+//Protected Route.
+app.get('/protected', checkUserLoggedIn, (req, res) => {
+   // console.log(req.user)
+  res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
+});
+
+
+ app.get('/profile',
+  passport.authorize('google', { failureRedirect: "http://localhost:3000/registration" }),
+  function(req, res) {
+    var user = req.user;
+    var account = req.account;
+   res.send("hi", "history", "hi");
+  }
+);
+
 app.get("/auth/google/callback",
    passport.authenticate("google", { failureRedirect:
-   "http://localhost:3000" }),
-   (req, res) => {
+   "http://localhost:3000/" }),
+   (req, res, newUser) => {
       //Succesful authentication, redirect secrets.
-      res.redirect("http://localhost:3000")
+      if (newUser == true || !res.firstName) {
+         // console.log(req.user)
+         req.logIn(req.user, (err) => {
+            if (err) {
+              return next(err);
+            }
+            const returnTo = req.session.returnTo;
+            delete req.session.returnTo;
+            res.redirect("http://localhost:3000/registration/" + req.user.id)
+          });
+         
+      }
+      else {
+         req.logIn(req.user, (err) => {
+            if (err) {
+              return next(err);
+            }
+            const returnTo = req.session.returnTo;
+            delete req.session.returnTo;
+            res.redirect("http://localhost:3000/authDashboard/" + req.user.id)
+          });      
+      }
+
    }
 )
+
+ app.get('/current-user', passport.authenticate("google", { scope: [['https://www.googleapis.com/auth/plus.login']] }), 
+function(req, res, newuser) {
+   res.status(302).json(req.user);
+ });
 
 app.get("/logout", (req, res) => {
    res.redirect("http://localhost:3000/")
 })
+
+app.get('/',
+  function(req, res) {
+    res.render('home', { user: req.user });
+  });
+
+
+app.get('/login',
+  passport.authenticate('google', { scope: ["profile", "email"] }));
+
 
 const getAllOpportunities = async () => {
    return await Opportunity.find({})
@@ -114,6 +253,12 @@ app.post("/api/opportunity", async(req, res) => {
    const wishlist = req.body.wishlist
    const newOpportunity = await postNewOpportunity(title, desc, pic, date, skills, wishlist)
    res.json(newOpportunity)
+})
+
+app.post("/api/postVolunteer", async(req, res) => {
+   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+   console.log(newVolunteer)
+   res.json(newVolunteer)
 })
 
 
@@ -216,6 +361,23 @@ const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist)
       skills,
       wishlist,
    }).save()
+}
+const postNewVolunteer = async (first, last, email, phone, address, role, AOI, experience, employment, hearAboutUs, boardMember, digitalWaiver) => {
+   return new Volunteer({
+      id,
+      first, 
+      last, 
+      email, 
+      phone, 
+      address, 
+      role, 
+      AOI, 
+      experience, 
+      employment, 
+      hearAboutUs, 
+      boardMember,
+      digitalWaiver
+   }).update()
 }
 
 const getAllOpportunitiesByDates = async (start, end) => {

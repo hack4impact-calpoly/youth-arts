@@ -3,7 +3,7 @@
     flex-direction: row;
     vertical-align: middle;
     justify-content: center;
-    align-items: end;
+    align-items: flex-end;
     height: 500px;
     padding: 0px 20px;
     margin-top: 30px;
@@ -15,7 +15,7 @@
     flex-direction: row;
     vertical-align: middle;
     justify-content: center;
-    align-items: end;
+    align-items: flex-end;
     height: auto;
     padding: 0px 20px;
     margin-top: 30px;

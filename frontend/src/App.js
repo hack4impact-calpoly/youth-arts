@@ -23,14 +23,14 @@ class App extends Component {
     {
       super(props);
       this.state = {user: {},
-                    jwt: "" };
-      this.state = { cart: [] };
+                    cart: [] };
     }
 
     updateCart = (task) => {
       const cart = this.state.cart;
       cart.push(task);
       this.setState({cart: cart});
+      this.state = {user: {} };
     }
 
     /*componentDidMount() {
@@ -44,6 +44,7 @@ class App extends Component {
     console.log(this.state.user);
     console.log(this.state.jwt);
   }*/
+
   render(){
     return (
       <BrowserRouter>

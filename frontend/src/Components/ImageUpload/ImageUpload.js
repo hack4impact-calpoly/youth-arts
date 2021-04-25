@@ -55,7 +55,7 @@ class ImageUpload extends Component {
                 if (progressPercentage < 100) {
                   fileUpload.progressStatus = progressPercentage;
                   progressBar.style.color = "Red";
-                } else if (progressPercentage == 100) {
+                } else if (progressPercentage === 100) {
                   fileUpload.progressStatus = progressPercentage;
                   progressBar.style.color = "Green";
                   fileUpload.status = "Success!";
