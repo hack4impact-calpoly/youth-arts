@@ -29,7 +29,7 @@ const volunteerSchema = new mongoose.Schema({
     availability: String,
     notes: String,
     boardMember: Boolean,
-    opportunities: {type: Map, of: {roleName: String, description: String, start: [Date], end: [Date], donated: [String]}}
+    opportunities: {type: Map, of: [{task: String, description: String, start: [Date], end: [Date], donated: [String]}]}
 
 }, {collection : "userDB"})
 
