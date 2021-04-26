@@ -34,6 +34,7 @@ class RegistrationPage extends React.Component {
         outreach: "",
         boardMember: false,
         signature: false,
+        userID: "",
 
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
@@ -63,6 +64,7 @@ class RegistrationPage extends React.Component {
   {
     let userId = window.location.pathname;
     userId = userId.replace("/registration/", "");
+    this.setState({userID: userId});
     fetch('http://localhost:4000/api/volunteer/' + userId)
       .then(res => res.json())
       .then(data => this.setState({... data}));
@@ -193,7 +195,7 @@ class RegistrationPage extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/authDashboard'/>;
+      return <Redirect to='/registrationConfirmation'/>;
     }
   return (
       <div >

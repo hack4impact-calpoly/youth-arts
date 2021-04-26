@@ -31,14 +31,17 @@ class OpportunityDetail extends React.Component{
         };
     }
 
-    componentDidMount() {
-        const id = window.location.hash;
+    async componentDidMount() {
+        let id = window.location.pathname;
+        id = id.replace("/opportunityDetail/", "");
         console.log(id);
-        fetch('http://localhost:3001/api/opportunityDetail/604c7b80a52b3a681039b3d5')
+        const url = 'http://localhost:4000/api/opportunityDetail/' + id;
+        await fetch(url)
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
-        });
+            
+        });  
     }
 
     changeDonateModal = () => {
@@ -54,7 +57,7 @@ class OpportunityDetail extends React.Component{
         <div className={ this.state.showDonateModal | this.state.showSignInModal ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
-                        <a href="/addOpportunity">Edit Opportunity--></a>
+                        <a href="/addOpportunity">Edit Opportunity--{'>'}</a>
                    </nav>}
           <div className="TitleImageContainer">
                 <div className="opportunityTitle">

@@ -15,6 +15,7 @@ import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import { Nav } from 'react-bootstrap';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
+// import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 
 
@@ -23,6 +24,7 @@ class App extends Component {
     {
       super(props);
       this.state = {user: {},
+                    userID: "",
                     cart: [] };
     }
 
@@ -30,61 +32,74 @@ class App extends Component {
       const cart = this.state.cart;
       cart.push(task);
       this.setState({cart: cart});
-      this.state = {user: {} };
+      this.setState({user: {},
+                    userID: "" });
     }
 
-    componentDidMount() {
-  }
+    async componentDidMount() {
+      if (this.state.userID != "" && !this.state.userID.contains("undefined") && !this.state.userID.contains("Dashboard"))
+      {
+          await fetch('http://localhost:4000/api/volunteer/' + this.state.userID)
+          .then(res => res.json())
+          .then(data => this.setState({user: data}));
+      }
+    }
+
   render(){
     return (
       <BrowserRouter>
       <Switch>
-
         <Route exact path='/'>
-          <LoginPage/>
+          <LoginPage user={this.state.user}/>
         </Route>
 
         <Route path='/AnonDashboard'>
           <NavBar/>
-          <AnonymousDashboard/>
+          <AnonymousDashboard user={this.state.user}/>
         </Route>
 
         <Route path='/registration'>
-          <RegistrationPage/>
+          <RegistrationPage user={this.state.user}/>
         </Route>
 
         <Route path='/addOpportunity'>
-          <AddOpportunityForm/>
+          <AddOpportunityForm user={this.state.user}/>
         </Route>
 
         <Route path='/registrationConfirmation'>
-          <RegistrationConfirmation/>
+          <RegistrationConfirmation user={this.state.user}/>
         </Route>
 
         <Route path='/AuthDashboard'>
-          <AuthenticatedUserDashboard />
+          <AuthenticatedUserDashboard user={this.state.user}/>
         </Route>
         
         {/* <Route path='/Reports'>
-          <ReportsPage />
+          <ReportsPage user={this.state.user}/>
+        </Route> */}
+
+        {/* <Route path='/FAQ'>
+          <FAQPage user={this.state.user}/>
         </Route> */}
 
         <Route path='/Calendar'>
-          <CalendarPage />
+          <CalendarPage user={this.state.user}/>
         </Route>
 
-      <Route path='/opportunities'>
-        <OpportunitiesPage />
+      <Route path='/opportunities' >
+        <OpportunitiesPage user={this.state.user}/>
       </Route>
 
       <Route path='/addOpportunity'>
-          <AddOpportunity/>
+          <AddOpportunity user={this.state.user}/>
         </Route>
 
       <Route path='/opportunityDetail'>
         <NavBar/>
           <OpportunityDetail 
-          updateCart = {this.updateCart}/>
+          updateCart = {this.updateCart}
+          user={this.state.user}
+          />
         </Route>
       
     </Switch>

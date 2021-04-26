@@ -36,5 +36,5 @@ const volunteerSchema = new mongoose.Schema({
 volunteerSchema.plugin(passportLocalMongoose)
 volunteerSchema.plugin(findOrCreate)
 
-const Volunteer  = volunteerDB.model('userDB', volunteerSchema)
+const Volunteer  = volunteerDB.model('volunteerDB', volunteerSchema)
 module.exports = Volunteer
