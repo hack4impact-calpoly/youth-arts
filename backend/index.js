@@ -267,9 +267,6 @@ app.post("/api/postVolunteer", async(req, res) => {
    res.json(newVolunteer)
 })
 
-const getOpportunityById = async (opp_id) => {
-   return await Opportunity.findById(opp_id)
-}
 
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
