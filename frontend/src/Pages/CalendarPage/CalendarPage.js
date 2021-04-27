@@ -2,10 +2,18 @@ import "./CalendarPage.css";
 import NavBar from "../../Components/NavBar/NavBar";
 import logo from "./../../Images/PRYAC_mark.png";
 import Footer from "../../Components/Footer/Footer";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 
-function CalendarPage() {
+function CalendarPage(props) {
+    const [user, setUser] = useState();
+    console.log(props);
+    
+    // if (mainUser !== null && mainUser !== undefined && mainUser !== {})
+    // {
+    //     console.log(mainUser)
+    //     setUser(user);
+    // }
     return (
         <div>
             <NavBar />

@@ -10,11 +10,9 @@ Hack4Impact Cal Poly nonprofit project for Paso Robles Youth Arts Center
 | Skylar Kurth         | Designer            | 
 | Amelia Bruscia       | Frontend Developer  | 
 | Jon Banh             | Developer           | 
-| Liam Shaw            | Developer           | 
 | Nestor Martinez      | Backend Developer   | 
 | Nicholas Tan         | Backend Developer   | 
-| Tessa Tapmongkol     | Developer           | 
-| Yohan Sofian         | Developer           | 
+| Tessa Tapmongkol     | Frontend Developer  | 
 
 ## Starting development/GitHub help
 

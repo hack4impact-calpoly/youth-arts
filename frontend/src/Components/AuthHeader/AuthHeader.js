@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom'
 
 function AuthHeader(props) {
     const [user, setUser] = useState(props.user);
-    const [userID, setUserID] = useState();
+    // const [userID, setUserID] = useState(props.userID);
     console.log(props);
 
     if (props.user === {}) {

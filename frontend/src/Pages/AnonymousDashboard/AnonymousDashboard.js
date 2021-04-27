@@ -5,14 +5,15 @@ import Opportuntites from "./../../Components/Opportunities/Opportunities";
 import { Redirect } from 'react-router-dom'
 import {useEffect, useState} from 'react';
 
-function AnonymousDashboard() {
-    const [user, setUser] = useState({});
+function AnonymousDashboard(props) {
+    const [user, setUser] = useState(props.user);
     const [userID, setUserID] = useState();
 
     useEffect(() => {
         async function fetchMyAPI() {
             let userId = window.location.pathname;
             userId = userId.replace("/anonDashboard/", "");
+            userId = userId.replace("/anonDashboard", "");
             setUserID(userId);
             if (userID != "")
             {

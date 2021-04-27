@@ -245,7 +245,7 @@ class OpportunityDetail extends React.Component{
                             <div id="volunteerHeader">
                                 VOLUNTEERS
                             </div>
-                            <table>
+                            <table className="detailTable">
                                 <thead>
                                     <tr>
                                         <th>Task</th>
@@ -268,7 +268,7 @@ class OpportunityDetail extends React.Component{
                                                             if(volunteer === start)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -297,7 +297,7 @@ class OpportunityDetail extends React.Component{
                                                             else if(volunteer === end)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -327,7 +327,7 @@ class OpportunityDetail extends React.Component{
                                                             else{
                                                                 return(
                                                                     
-                                                                    <td>{(i < (key_set.length - 1)) && key_value.map(item =>
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && key_value.map(item =>
                                                                         {
                                                                             return(
                                                                                 <li>{item}</li>

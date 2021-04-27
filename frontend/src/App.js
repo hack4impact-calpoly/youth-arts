@@ -17,15 +17,20 @@ import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/Authe
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
+import axios from "axios";
 
 
 class App extends Component {
     constructor(props)
     {
       super(props);
+      this.mainUser = {};
       this.state = {user: {},
                     userID: "",
                     cart: [] };
+    }
+    updateUser = (user) => {
+      this.mainUser = user;
     }
 
     updateCart = (task) => {
@@ -37,41 +42,59 @@ class App extends Component {
     }
 
     async componentDidMount() {
+      const loggedInUser = localStorage.getItem("user");
+      if (loggedInUser) {
+        const foundUser = JSON.parse(loggedInUser);
+        this.setState({user: foundUser});
+        console.log(foundUser);
+      }
+
       if (this.state.userID != "" && !this.state.userID.contains("undefined") && !this.state.userID.contains("Dashboard"))
       {
+          console.log(this.state.userID);
+          console.log(this.state.user);
           await fetch('http://localhost:4000/api/volunteer/' + this.state.userID)
           .then(res => res.json())
-          .then(data => this.setState({user: data}));
+          .then(data => this.setState({user: data}))
+          .then(data => localStorage.setItem("user", JSON.stringify(data)));
       }
     }
 
   render(){
+    if (this.state.userID != "" && !this.state.userID.contains("undefined") && !this.state.userID.contains("Dashboard"))
+      {
+          console.log(this.state.userID);
+          console.log(this.state.user);
+          fetch('http://localhost:4000/api/volunteer/' + this.state.userID)
+          .then(res => res.json())
+          .then(data => this.setState({user: data}));
+      }
     return (
       <BrowserRouter>
       <Switch>
         <Route exact path='/'>
-          <LoginPage user={this.state.user}/>
+          <LoginPage user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
         <Route path='/AnonDashboard'>
-          <NavBar/>
-          <AnonymousDashboard user={this.state.user}/>
+          <NavBar user={this.state.user}/>
+          <AnonymousDashboard user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
         <Route path='/registration'>
-          <RegistrationPage user={this.state.user}/>
+          <RegistrationPage user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
         <Route path='/addOpportunity'>
-          <AddOpportunityForm user={this.state.user}/>
+          <AddOpportunityForm user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
         <Route path='/registrationConfirmation'>
-          <RegistrationConfirmation user={this.state.user}/>
+          <RegistrationConfirmation user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
         <Route path='/AuthDashboard'>
-          <AuthenticatedUserDashboard user={this.state.user}/>
+          <AuthenticatedUserDashboard user={this.mainUser} updateUser={this.updateUser}/>
         </Route>
         
         {/* <Route path='/Reports'>
@@ -83,15 +106,17 @@ class App extends Component {
         </Route> */}
 
         <Route path='/Calendar'>
-          <CalendarPage user={this.state.user}/>
+          <CalendarPage user={this.mainUser} updateUser={this.updateUser}/>
         </Route>
 
-      <Route path='/opportunities' >
-        <OpportunitiesPage user={this.state.user}/>
-      </Route>
+        <Route path='/opportunities'>
+          <OpportunitiesPage 
+            user={this.state.user}
+            updateUser={this.updateUser}/>
+       </Route>
 
       <Route path='/addOpportunity'>
-          <AddOpportunity user={this.state.user}/>
+          <AddOpportunity user={this.state.user} updateUser={this.updateUser}/>
         </Route>
 
       <Route path='/opportunityDetail'>
@@ -99,6 +124,7 @@ class App extends Component {
           <OpportunityDetail 
           updateCart = {this.updateCart}
           user={this.state.user}
+          updateUser={this.updateUser}
           />
         </Route>
       

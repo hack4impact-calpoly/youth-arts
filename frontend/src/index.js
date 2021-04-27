@@ -10,11 +10,7 @@ require('dotenv').config();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-		<Switch>
-			<Route path="/" component={App} />
-		</Switch>
-	</BrowserRouter>
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );

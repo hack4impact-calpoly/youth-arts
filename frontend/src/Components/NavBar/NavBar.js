@@ -1,8 +1,10 @@
 //import styles from './NavBar.module.css';
 import './NavBar.css';
 import logo from '../../Images/PRYAC_logo-reversed.png';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
-function NavBar() {
+function NavBar(props) {
+  console.log(props.user);
   return (
       <header className="navbar">
         <a className="logo" href="/anonDashboard">> 
@@ -10,11 +12,14 @@ function NavBar() {
         </a>
         <nav>
             <ul className="navlinks">
-              <li><a href="/Reports">Reports</a></li>
-              <li><a href="/opportunities">Opportunities</a></li>
-              <li> <a href="/authDashboard">Dashboard</a></li>
-              <li><a href="/Calendar">Calendar</a></li>
-              <li><a href="/FAQ">FAQ</a></li>
+              <li><Link to="/Reports">Reports</Link></li>
+              <li><Link to={{pathname:"/opportunities",
+                              state:{user:props.user}}} >Opportunities</Link></li>
+              <li> <Link to={{pathname:"/authDashboard",
+                              state:{user:props.user}}}>Dashboard</Link></li>
+              <li><Link to={{pathname:"/Calendar",
+                              mu:props.user}}>Calendar</Link></li>
+              <li><Link to="/FAQ">FAQ</Link></li>
             </ul>
         </nav>
       </header>
