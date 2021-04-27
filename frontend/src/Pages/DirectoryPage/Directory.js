@@ -68,7 +68,7 @@ function Directory(props) {
                     <Col>Address</Col>
                 </Row>
                 {currentContacts.map((person, index) => (
-                    <Link id="directoryLink" to={"/directory/#" + person._id}><DirectoryRow key={index} {...person} /></Link>
+                    <Link id="directoryLink" to={"/volunteer/#" + person._id}><DirectoryRow key={index} {...person} /></Link>
                 ))}
             </Container>
 

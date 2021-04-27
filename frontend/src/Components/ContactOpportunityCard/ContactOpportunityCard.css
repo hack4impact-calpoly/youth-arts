@@ -1,0 +1,7 @@
+#contactCardDate {
+    font-weight: bold;
+}
+
+#contactCardRoleName, #contactCardDonated, #contactCardDesc {
+    margin-left: 2%
+}
