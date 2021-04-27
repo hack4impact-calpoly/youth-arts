@@ -4,11 +4,11 @@ import {Row, Col} from "react-bootstrap";
 function DirectoryRow(props) {
     return (
         <Row id="directoryRow">
-            <Col>{props.firstName}</Col>
-            <Col>{props.lastName}</Col>
-            <Col>{props.phoneNum}</Col>
-            <Col>{props.email}</Col>
-            <Col>{props.address}</Col>
+            <Col id="directoryCol">{props.firstName}</Col>
+            <Col id="directoryCol">{props.lastName}</Col>
+            <Col id="directoryCol">{props.phoneNum}</Col>
+            <Col id="directoryCol">{props.email}</Col>
+            <Col id="directoryCol">{props.address}</Col>
         </Row>
     );
 }

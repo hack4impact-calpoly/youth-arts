@@ -13,7 +13,7 @@ function Directory(props) {
     const [directory, setDirectory] = useState("");
     async function fetchAll() {
         try {
-            const response = await axios.get("http://localhost:4000/api/volunteers");
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteers`);
             return response.data;
         }
         catch (error) {

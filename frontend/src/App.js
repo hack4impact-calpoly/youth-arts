@@ -28,7 +28,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:4000/auth/account",
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`,
       { credentials: 'include' }
     ).then((res) => res.json())
       .then((account) => {

@@ -65,7 +65,7 @@ class RegistrationPage extends React.Component {
     let userId = window.location.pathname;
     userId = userId.replace("/registration/", "");
     this.setState({userID: userId});
-    fetch('http://localhost:4000/api/volunteer/' + userId)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId)
       .then(res => res.json())
       .then(data => this.setState({... data}));
   }
@@ -166,7 +166,7 @@ class RegistrationPage extends React.Component {
       signature: this.state.signature,
       boardMember: this.state.boardMember}
     console.log(JSON.stringify(userdata));
-    fetch('http://localhost:4000/api/postVolunteer/', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
