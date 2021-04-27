@@ -4,6 +4,7 @@ import Pagination from "./../../Components/SearchOpportunities/Pagination";
 import DirectoryRow from "./../../Components/DirectoryRow/DirectoryRow";
 import { useEffect, useState } from "react";
 import {Container, Row, Col} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 function Directory(props) {
     const { user } = props;
@@ -67,7 +68,7 @@ function Directory(props) {
                     <Col>Address</Col>
                 </Row>
                 {currentContacts.map((person, index) => (
-                    <DirectoryRow key={index} {...person} />
+                    <Link id="directoryLink" to={"/directory/#" + person._id}><DirectoryRow key={index} {...person} /></Link>
                 ))}
             </Container>
 
@@ -76,7 +77,6 @@ function Directory(props) {
                 totalPosts={filteredSearch.length}
                 paginate={paginate}
             />
-            
         </body>
     );
 }

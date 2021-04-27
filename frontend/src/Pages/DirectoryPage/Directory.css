@@ -18,3 +18,12 @@
 #directoryTable {
     padding: 2% 0;
 }
+
+#directoryLink {
+    color: black;
+}
+
+#directoryLink:hover {
+    color: rgb(173, 173, 173);
+    text-decoration: none;
+}
