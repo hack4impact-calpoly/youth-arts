@@ -3,7 +3,8 @@ import arrow from "./../../Images/right-arrow.png";
 import OpportunityCard from "./../OpportunityCard/OpportunityCard";
 import {Row, Col} from "react-bootstrap";
 
-function Opportunities(){
+const Opportunities = (props) => {
+    const { user } = props;
     return (
         <div>
             <h3 className="oppTitle">OPPORTUNITIES</h3>

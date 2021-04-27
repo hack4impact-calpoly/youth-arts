@@ -11,12 +11,12 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
-//import DateMomentUtils from '@date-io/moment'; 
 
 class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
+        const { user } = props;
         this.state = {
             updateCart: props.updateCart,
             start_event: [],
@@ -245,7 +245,7 @@ class OpportunityDetail extends React.Component{
                             <div id="volunteerHeader">
                                 VOLUNTEERS
                             </div>
-                            <table>
+                            <table className="detailTable">
                                 <thead>
                                     <tr>
                                         <th>Task</th>
@@ -268,7 +268,7 @@ class OpportunityDetail extends React.Component{
                                                             if(volunteer === start)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -297,7 +297,7 @@ class OpportunityDetail extends React.Component{
                                                             else if(volunteer === end)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -327,7 +327,7 @@ class OpportunityDetail extends React.Component{
                                                             else{
                                                                 return(
                                                                     
-                                                                    <td>{(i < (key_set.length - 1)) && key_value.map(item =>
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && key_value.map(item =>
                                                                         {
                                                                             return(
                                                                                 <li>{item}</li>

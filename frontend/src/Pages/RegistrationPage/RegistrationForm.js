@@ -199,7 +199,7 @@ class RegistrationPage extends React.Component {
     }
   return (
       <div >
-        <NavBar/>
+        <NavBar user={this.state.user}/>
         <body>
             <div id="headerImage">
               <img src={headerImage} width= "auto" height="100" alt=""></img>

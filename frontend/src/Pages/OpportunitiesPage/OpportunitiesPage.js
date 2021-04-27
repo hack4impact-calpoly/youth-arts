@@ -3,11 +3,11 @@ import NavBar from "../../Components/NavBar/NavBar";
 import SearchOpportunities from "../../Components/SearchOpportunities/SearchOpportunities"
 import React, {useEffect, useState} from 'react';
 
-function OpportunitiesPage() {
-    const [user, setUser] = useState({});
+const OpportunitiesPage = (props) => {
+    const { user } = props;
     return (
         <body>
-            <NavBar />
+            <NavBar user={user}/>
             <div id="oppsHeader">
                 <h1 id="oppsTitle">OPPORTUNITIES</h1>
             </div>

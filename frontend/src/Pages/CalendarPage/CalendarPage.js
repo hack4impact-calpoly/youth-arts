@@ -2,13 +2,13 @@ import "./CalendarPage.css";
 import NavBar from "../../Components/NavBar/NavBar";
 import logo from "./../../Images/PRYAC_mark.png";
 import Footer from "../../Components/Footer/Footer";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 
-function CalendarPage() {
+function CalendarPage(props) {
     return (
         <div>
-            <NavBar />
+            <NavBar user={props.user}/>
                 <div id="authHeader">
                 <img id="authLogo" src={logo} alt="logo"/>
                 <h1 id="welcomeBack"> Calendar </h1>

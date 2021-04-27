@@ -4,10 +4,8 @@ import React, {useEffect, useState} from 'react';
 import { Redirect } from 'react-router-dom'
 
 
-function AuthHeader(props) {
-    const [user, setUser] = useState(props.user);
-    const [userID, setUserID] = useState();
-    console.log(props);
+const AuthHeader = (props) => {
+    const { user } = props;
 
     if (props.user === {}) {
         console.log(user);
