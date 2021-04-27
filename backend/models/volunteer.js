@@ -11,9 +11,6 @@ const volunteerSchema = new mongoose.Schema({
         type: String,
         match: [/\S+@\S+.\S+/, 'is invalid']
     },
-    password: {
-        type: String,
-    },
     phoneNum: String,
     address: String,
     picture: String,
