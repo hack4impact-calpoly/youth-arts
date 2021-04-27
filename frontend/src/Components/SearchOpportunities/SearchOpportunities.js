@@ -2,99 +2,35 @@ import "./SearchOpportunities.css"
 import Footer from "./../Footer/Footer"
 import Pagination from "./Pagination"
 import OpportunityCard from "./../OpportunityCard/OpportunityCard"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import classroom from "./../../../src/Images/PRYAC_Icons/classroom.png"
 import comittee from "./../../../src/Images/PRYAC_Icons/comittee.png"
 import event from "./../../../src/Images/PRYAC_Icons/event.png"
 import SubmitButton from "./../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
+import axios from "axios";
 
 
 function SearchOpportunities() {
     //need to connect backend here and set to opportunities
-    const opportunities = [
-        {
-            image: classroom,
-            title: "Classroom 1",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "classroom",
-            date: 10
-        },
-        {
-            image: classroom,
-            title: "Classroom 2",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "classroom",
-            date: 1
-        },
-        {
-            image: event,
-            title: "Event 3",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "event",
-            date: 5
-        },
-        {
-            image: comittee,
-            title: "Comittee 4",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "comittee",
-            date: 7
-        },
-        {
-            image: comittee,
-            title: "Comittee 5",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "comittee",
-            date: 0
-        },
-        {
-            image: comittee,
-            title: "Comittee 6",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "comittee",
-            date: 6
-        },
-        {
-            image: event,
-            title: "Event 7",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "event",
-            date: 9
-        },
-        
-        {
-            image: event,
-            title: "Event 8",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "event",
-            date: 3
-        },
-        {
-            image: classroom,
-            title: "Classroom 9",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "classroom",
-            date: 11
-        },
-        {
-            image: event,
-            title: "Event 10",
-            location: "Location",
-            desc: "Description aljsdkfhlajsdfhljasdlfjkahsldjfhalsjkdfhlajksdfhlajksdfhajksdfkjasdf",
-            type: "event",
-            date: 8
+    const [opportunities, setOpportunities] = useState("");
+    async function fetchAll() {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
+            return response.data;
         }
-    ]
+        catch(error) {
+            console.log(error);
+            return false;
+        }
+    }
+    useEffect(() => {
+        fetchAll().then(result => {
+            if(result)
+                setOpportunities(result);
+        })
+    }, [])
+
 
     //stores whats being filtered/sorted/searched
     const [search, setSearch] = useState("");
@@ -106,7 +42,7 @@ function SearchOpportunities() {
     const [postsPerPage] = useState(9);
 
     //search logic
-    var filteredOpps = opportunities.filter(opportunity => {
+    var filteredOpps = Object.values(opportunities).filter(opportunity => {
         return opportunity.title.toLowerCase().includes(search.toLowerCase())
     })
 

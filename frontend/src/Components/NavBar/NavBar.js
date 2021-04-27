@@ -16,9 +16,10 @@ const NavBar = (props) => {
               <li><Link to="/opportunities" >Opportunities</Link></li>
               <li> <Link to="/authDashboard">Dashboard</Link></li>
               <li><Link to="/Calendar">Calendar</Link></li>
+              {user && user.admin !== null && user.admin === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}/directory`}>Directory</a></li> : null}
               <li><Link to="/FAQ">FAQ</Link></li>
               { user ? (
-                <li><a href="http://localhost:4000/auth/logout">Log Out</a></li>
+                <li><a href={`${process.env.REACT_APP_SERVER_URL}/auth/logout`}>Log Out</a></li>
               ) : 
                 <li><Link to="/Login">Login</Link></li>
               }

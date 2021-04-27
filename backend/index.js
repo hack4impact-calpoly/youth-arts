@@ -16,7 +16,7 @@ const cookieSession = require('cookie-session');
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
-   res.header('Access-Control-Allow-Origin', "http://localhost:3000");
+   res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
    res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
    res.header('Access-Control-Allow-Credentials', true);
    res.header('Access-Control-Allow-Headers',
@@ -117,7 +117,7 @@ app.get('/auth/account', (req, res) => {
           var user;
           if (typeof userid === undefined || userid.length === 0)
           {
-            res.redirect("http://localhost:3000/")
+            res.redirect(`${process.env.CLIENT_URL}`)
           }
           user = await Volunteer.findById(userid)
           res.status(200).json(user);
@@ -128,6 +128,17 @@ app.get('/auth/account', (req, res) => {
           res.status(400).send(error);
       }
   })  
+
+  app.get('/api/volunteers', async(req, res) => {
+     try {
+        var users = await Volunteer.find({});
+        res.status(200).json(users);
+     }
+     catch (error) {
+        console.log(errors);
+        res.status(400).send(error);
+     }
+  })
 
   const getVolunteer = async (userid) => {
 	return await Volunteer.findById(userid)
@@ -185,7 +196,7 @@ app.get('/protected', checkUserLoggedIn, (req, res) => {
 
 
  app.get('/profile',
-  passport.authorize('google', { failureRedirect: "http://localhost:3000/registration" }),
+  passport.authorize('google', { failureRedirect: `${process.env.CLIENT_URL}/registration` }),
   function(req, res) {
     var user = req.user;
     var account = req.account;
@@ -195,7 +206,7 @@ app.get('/protected', checkUserLoggedIn, (req, res) => {
 
 app.get("/auth/google/callback",
    passport.authenticate("google", { failureRedirect:
-   "http://localhost:3000/" }),
+      `${process.env.CLIENT_URL}` }),
    (req, res, newUser) => {
       //Succesful authentication, redirect secrets.
       if (req.user.firstName !== null) {
@@ -205,7 +216,7 @@ app.get("/auth/google/callback",
             }
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;
-            res.redirect("http://localhost:3000/authDashboard/" + req.user.id)
+            res.redirect(`${process.env.CLIENT_URL}/authDashboard/` + req.user.id)
           });  
       
       }
@@ -216,7 +227,7 @@ app.get("/auth/google/callback",
             }
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;
-            res.redirect("http://localhost:3000/registration/" + req.user.id)
+            res.redirect(`${process.env.CLIENT_URL}/registration/` + req.user.id)
           });
     
       }

@@ -39,7 +39,7 @@ class OpportunityDetail extends React.Component{
         let id = window.location.pathname;
         id = id.replace("/opportunityDetail/", "");
         console.log(id);
-        const url = 'http://localhost:4000/api/opportunityDetail/' + id;
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
         await fetch(url)
         .then(res => res.json())
         .then(opportunity => {
