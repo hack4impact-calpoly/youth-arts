@@ -30,8 +30,7 @@ const volunteerSchema = new mongoose.Schema({
     notes: String,
     boardMember: Boolean,
     admin: Boolean,
-    opportunities: {type: Map, of: {roleName: String, description: String, start: [Date], end: [Date], donated: [String]}}
-
+    opportunities: {type: Map, of: [{task: String, description: String, start: [Date], end: [Date], donated: [String]}]}
 }, {collection : "userDB"})
 
 volunteerSchema.plugin(passportLocalMongoose)
