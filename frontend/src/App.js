@@ -11,6 +11,7 @@ import RegistrationConfirmation from './Pages/RegistrationConfirmation/Registrat
 import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
 import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
+import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
@@ -22,96 +23,104 @@ const App = () => {
 
   const updateCart = (task) => {
     cart.push(task);
-    this.setState({cart: cart});
+    this.setState({ cart: cart });
     this.setCart(cart);
   }
 
   useEffect(() => {
     fetch("http://localhost:4000/auth/account",
       { credentials: 'include' }
-      ).then((res) => res.json())
+    ).then((res) => res.json())
       .then((account) => {
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
 
 
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/'>
-            { profile ? (
-                <AuthenticatedUserDashboard user={profile}/>
-              ) : 
-                <div> 
-                  <NavBar user={profile}/>
-                    <AnonymousDashboard user={profile}/>
-                  <Footer/>
-                </div>
-            }
-          </Route>
-          { profile ? (
-            <Route path='/AuthDashboard'>
-              <AuthenticatedUserDashboard user={profile}/>
-            </Route>
-            ) : 
-            <Route path='/AnonDashboard'>
-              <NavBar user={profile}/>
-                <AnonymousDashboard user={profile}/>
-              <Footer/>
-            </Route>
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path='/directory'>
+          <NavBar user={profile} />
+          <DirectoryPage />
+          <Footer />
+        </Route>
+        
+        <Route exact path='/'>
+          {profile ? (
+            <AuthenticatedUserDashboard user={profile} />
+          ) :
+            <div>
+              <NavBar user={profile} />
+              <AnonymousDashboard user={profile} />
+              <Footer />
+            </div>
           }
-          <Route path='/Login'>
-            <LoginPage user={profile}/>
+        </Route>
+        {profile ? (
+          <Route path='/AuthDashboard'>
+            <AuthenticatedUserDashboard user={profile} />
           </Route>
+        ) :
+          <Route path='/AnonDashboard'>
+            <NavBar user={profile} />
+            <AnonymousDashboard user={profile} />
+            <Footer />
+          </Route>
+        }
+        <Route path='/Login'>
+          <LoginPage user={profile} />
+        </Route>
 
-          <Route path='/registration'>
-            <RegistrationPage user={profile}/>
-          </Route>
+        <Route path='/registration'>
+          <RegistrationPage user={profile} />
+        </Route>
 
-          <Route path='/registrationConfirmation'>
-            <RegistrationConfirmation user={profile}/>
-          </Route>
+        <Route path='/registrationConfirmation'>
+          <RegistrationConfirmation user={profile} />
+        </Route>
 
-          <Route path='/Calendar'>
-            <CalendarPage user={profile}/>
-          </Route>
+        <Route path='/Calendar'>
+          <CalendarPage user={profile} />
+        </Route>
 
-          <Route path='/opportunities'>
-            <OpportunitiesPage 
-              user={profile}
-              updateUser={updateProfile}/>
-          </Route>
-
-          { (profile?.admin === true) ? (
-          <Route path='/addOpportunity'>
-            <AddOpportunityForm user={profile}/>
-          </Route>
-          ) : 
-          <OpportunitiesPage 
+        <Route path='/opportunities'>
+          <OpportunitiesPage
             user={profile}
-            updateUser={updateProfile}/> 
-          }
+            updateUser={updateProfile} />
+        </Route>
 
-          <Route path='/opportunityDetail'>
-            <NavBar user={profile}/>
-            <OpportunityDetail 
-              updateCart = {updateCart}
-              user={profile}
-              updateUser={updateProfile} />
-            <Footer/>
+        {(profile?.admin === true) ? (
+          <Route path='/addOpportunity'>
+            <AddOpportunityForm user={profile} />
           </Route>
+        ) :
+          <OpportunitiesPage
+            user={profile}
+            updateUser={updateProfile} />
+        }
 
-          {/* <Route path='/Reports'>
+        <Route path='/opportunityDetail'>
+          <NavBar user={profile} />
+          <OpportunityDetail
+            updateCart={updateCart}
+            user={profile}
+            updateUser={updateProfile} />
+          <Footer />
+        </Route>
+
+
+
+        {/* <Route path='/Reports'>
             <ReportsPage user={profile}/>
           </Route> */}
 
-          {/* <Route path='/FAQ'>
+        {/* <Route path='/FAQ'>
             <FAQPage user={profile}/>
           </Route> */}
 
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+      </Switch>
+    </BrowserRouter>
+  );
+}
 export default App;

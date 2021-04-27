@@ -3,7 +3,7 @@ import arrow from "./../../Images/right-arrow.png";
 import defaultimg from "./../../Images/PRYAC_mark.png";
 
 function OpportunityCard(props) {
-    const text = props.desc;
+    const text = props.description;
     const MAX_LENGTH = 40;
 
     return (

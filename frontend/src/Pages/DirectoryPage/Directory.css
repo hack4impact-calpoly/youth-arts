@@ -1,0 +1,20 @@
+#directoryPage {
+    padding: 5% 10%;
+}
+
+#directory {
+    text-align: center;
+    font-weight: bold;
+    color: #1F4C82;
+}
+
+#directoryHeader {
+    background-color: #1F4C82;
+    color: white;
+    padding: 0.5% 0;
+    font-weight: bold;
+}
+
+#directoryTable {
+    padding: 2% 0;
+}

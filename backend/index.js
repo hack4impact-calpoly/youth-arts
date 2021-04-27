@@ -129,6 +129,17 @@ app.get('/auth/account', (req, res) => {
       }
   })  
 
+  app.get('/api/volunteers', async(req, res) => {
+     try {
+        var users = await Volunteer.find({});
+        res.status(200).json(users);
+     }
+     catch (error) {
+        console.log(errors);
+        res.status(400).send(error);
+     }
+  })
+
   const getVolunteer = async (userid) => {
 	return await Volunteer.findById(userid)
 }

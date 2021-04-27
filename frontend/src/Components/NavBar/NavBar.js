@@ -16,6 +16,7 @@ const NavBar = (props) => {
               <li><Link to="/opportunities" >Opportunities</Link></li>
               <li> <Link to="/authDashboard">Dashboard</Link></li>
               <li><Link to="/Calendar">Calendar</Link></li>
+              {user && user.admin !== null && user.admin === true ? <li><a href="http://localhost:3000/directory">Directory</a></li> : null}
               <li><Link to="/FAQ">FAQ</Link></li>
               { user ? (
                 <li><a href="http://localhost:4000/auth/logout">Log Out</a></li>
