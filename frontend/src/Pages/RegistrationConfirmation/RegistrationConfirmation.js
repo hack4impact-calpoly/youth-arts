@@ -7,12 +7,11 @@ import Icon from './heartIcon.png'
 import "./RegistrationConfirmation.css"
 import { Link } from 'react-router-dom';
 
-function RegistrationConfirmation() {
-
-  const [user, setUser] = useState({});
+const RegistrationConfirmation = (props) => {
+  const { user } = props;
   return (
       <body >
-        <NavBar/>
+        <NavBar user={user}/>
         <div id="heartIcon">
               <img src={Icon} width= "auto" height="100" alt=""></img>
         </div>

@@ -6,17 +6,9 @@ import React, {useEffect, useState} from 'react';
 
 
 function CalendarPage(props) {
-    const [user, setUser] = useState();
-    console.log(props);
-    
-    // if (mainUser !== null && mainUser !== undefined && mainUser !== {})
-    // {
-    //     console.log(mainUser)
-    //     setUser(user);
-    // }
     return (
         <div>
-            <NavBar />
+            <NavBar user={props.user}/>
                 <div id="authHeader">
                 <img id="authLogo" src={logo} alt="logo"/>
                 <h1 id="welcomeBack"> Calendar </h1>

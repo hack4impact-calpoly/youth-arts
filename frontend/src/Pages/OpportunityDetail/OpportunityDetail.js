@@ -11,12 +11,12 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
-//import DateMomentUtils from '@date-io/moment'; 
 
 class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
+        const { user } = props;
         this.state = {
             updateCart: props.updateCart,
             start_event: [],

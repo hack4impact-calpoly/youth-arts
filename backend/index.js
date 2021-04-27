@@ -15,18 +15,14 @@ const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
 app.use(bodyParser.json())
-app.use(
-   cors({
-        origin: "http://localhost:3000", // allow to server to accept request from different origin
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        credentials: true, // allow session cookie from browser to pass through
-  })
-);
 app.use((req, res, next) => {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   res.header('Access-Control-Allow-Origin', "http://localhost:3000");
+   res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
+   res.header('Access-Control-Allow-Credentials', true);
+   res.header('Access-Control-Allow-Headers',
+     'Origin, X-Requested-With, Content-Type, Accept');
    next();
-});
+ });
 
 app.use(cookieSession({
    name: 'session-name',
@@ -37,13 +33,6 @@ app.use(cookieSession({
 const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
-
-
-app.use((req, res, next) => {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-   next();
- });
 
 app.use(session({
    secret : "Our little secret.",
@@ -80,7 +69,7 @@ const accessProtectionMiddleware = (req, res, next) => {
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
    clientSecret: process.env.CLIENT_SECRET,
-   callbackURL: "http://localhost:4000/auth/google/callback",
+   callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
    },
 function(accessToken, refreshToken, profile, cb) {
@@ -111,6 +100,14 @@ function(accessToken, refreshToken, profile, cb) {
    });
 }
 ));
+
+app.get('/auth/account', (req, res) => {
+   console.log("HI");
+   const account = req.user 
+   console.log(account);
+   res.json(account || {});
+ });
+
 // Server endpoint that returns user info
 
    app.get('/api/volunteer/:id', async (req, res) => {
@@ -232,9 +229,10 @@ function(req, res, newuser) {
    res.status(302).json(req.user);
  });
 
-app.get("/logout", (req, res) => {
-   res.redirect("http://localhost:3000/")
-})
+ app.get('/auth/logout', (req, res) => {
+   req.logout();
+   res.redirect(process.env.CLIENT_URL);
+ });
 
 app.get('/',
   function(req, res) {
