@@ -11,6 +11,9 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
+import SubmitButton from "../../Components/SubmitButton/SubmitButton";
+import { withRouter } from "react-router";
+
 
 class OpportunityDetail extends React.Component{
 
@@ -64,12 +67,20 @@ class OpportunityDetail extends React.Component{
         this.setState({selectedEndDate: date});
     }
 
+    navigateTo = () => {
+        let url = '/addOpportunity/' + this.state._id;
+        console.log(this.props);
+        this.props.history.push(url);
+    }
+    
+
   render() {
+    
     return (
         <div className={ this.state.showDonateModal | this.state.showSignInModal ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
-                        <a href="/addOpportunity">Edit Opportunity--{'>'}</a>
+                        <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
                    </nav>}
           <div className="TitleImageContainer">
                 <div className="opportunityTitle">
@@ -387,4 +398,4 @@ class OpportunityDetail extends React.Component{
   }
 }
 
-export default OpportunityDetail;
+export default withRouter(OpportunityDetail);

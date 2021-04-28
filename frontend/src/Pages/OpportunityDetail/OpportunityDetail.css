@@ -523,7 +523,7 @@
     font-weight: 500;
     font-size: 40px;
     padding-top: 30px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .adminEdit a{ 
