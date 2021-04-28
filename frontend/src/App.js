@@ -15,6 +15,7 @@ import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
+import FAQPage from "./Pages/FAQPage/FAQPage";
 
 
 const App = () => {
@@ -43,6 +44,12 @@ const App = () => {
         <Route path='/directory'>
           <NavBar user={profile} />
           <DirectoryPage />
+          <Footer />
+        </Route>
+
+        <Route path="/FAQ">
+          <NavBar user={profile} />
+          <FAQPage />
           <Footer />
         </Route>
         
