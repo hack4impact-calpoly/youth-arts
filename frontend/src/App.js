@@ -1,6 +1,5 @@
 import './App.css';
-import queryString from "query-string";
-import React, { useState, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import NavBar from "./Components/NavBar/NavBar.js"
 import Footer from "./Components/Footer/Footer.js"
 import LoginPage from './Pages/LoginPage/LoginPage'
@@ -10,12 +9,13 @@ import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
 import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
-import AddOpportunity from './Pages/AddOpportunityForm/AddOpportunityForm';
 import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
-import { Nav } from 'react-bootstrap';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
+import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
+// import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
+<<<<<<< HEAD
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 
 
@@ -59,48 +59,110 @@ class App extends Component {
       <BrowserRouter>
       
       <Switch>
+=======
+import ContactPage from "./Pages/DirectoryPage/ContactPage";
 
-        <Route exact path='/'>
-          <LoginPage/>
+
+const App = () => {
+  const [profile, updateProfile] = useState(null);
+  const [cart, setCart] = useState();
+
+  const updateCart = (task) => {
+    cart.push(task);
+    this.setState({ cart: cart });
+    this.setCart(cart);
+  }
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`,
+      { credentials: 'include' }
+    ).then((res) => res.json())
+      .then((account) => {
+        if (Object.keys(account).length > 0) updateProfile(account);
+      });
+  }, []);
+
+>>>>>>> 18d32fff71a29355a441d774a018c5a129cf0423
+
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path='/directory'>
+          <NavBar user={profile} />
+          <DirectoryPage {...profile} />
+          <Footer />
         </Route>
-
-        <Route path='/AnonDashboard'>
-          <NavBar/>
-          <AnonymousDashboard/>
+        <Route exact path="/volunteer">
+          <NavBar user={profile} />
+          <ContactPage />
+          <Footer />
+        </Route>
+        <Route exact path='/'>
+          {profile ? (
+            <AuthenticatedUserDashboard user={profile} />
+          ) :
+            <div>
+              <NavBar user={profile} />
+              <AnonymousDashboard user={profile} />
+              <Footer />
+            </div>
+          }
+        </Route>
+        {profile ? (
+          <Route path='/AuthDashboard'>
+            <AuthenticatedUserDashboard user={profile} />
+          </Route>
+        ) :
+          <Route path='/AnonDashboard'>
+            <NavBar user={profile} />
+            <AnonymousDashboard user={profile} />
+            <Footer />
+          </Route>
+        }
+        <Route path='/Login'>
+          <LoginPage user={profile} />
         </Route>
 
         <Route path='/registration'>
-          <RegistrationPage/>
-        </Route>
-
-        <Route path='/addOpportunity'>
-          <AddOpportunityForm/>
+          <RegistrationPage user={profile} />
         </Route>
 
         <Route path='/registrationConfirmation'>
-          <RegistrationConfirmation/>
+          <RegistrationConfirmation user={profile} />
         </Route>
-
-        <Route path='/AuthDashboard'>
-          <AuthenticatedUserDashboard />
-        </Route>
-        
-        {/* <Route path='/Reports'>
-          <ReportsPage />
-        </Route> */}
 
         <Route path='/Calendar'>
-          <CalendarPage />
+          <CalendarPage user={profile} />
         </Route>
 
-      <Route path='/opportunities'>
-        <OpportunitiesPage />
-      </Route>
-
-      <Route path='/addOpportunity'>
-          <AddOpportunity/>
+        <Route path='/opportunities'>
+          <OpportunitiesPage
+            user={profile}
+            updateUser={updateProfile} />
         </Route>
 
+        {(profile?.admin === true) ? (
+          <Route path='/addOpportunity'>
+            <AddOpportunityForm user={profile} />
+          </Route>
+        ) :
+          <OpportunitiesPage
+            user={profile}
+            updateUser={updateProfile} />
+        }
+
+        <Route path='/opportunityDetail'>
+          <NavBar user={profile} />
+          <OpportunityDetail
+            updateCart={updateCart}
+            user={profile}
+            updateUser={updateProfile} />
+          <Footer />
+        </Route>
+
+
+
+<<<<<<< HEAD
       <Route path='/opportunityDetail'>
         <NavBar/>
           <OpportunityDetail 
@@ -118,8 +180,18 @@ class App extends Component {
     </Switch>
   </BrowserRouter>
   </div>
-  );
-  }
-}
+=======
+        {/* <Route path='/Reports'>
+            <ReportsPage user={profile}/>
+          </Route> */}
 
+        {/* <Route path='/FAQ'>
+            <FAQPage user={profile}/>
+          </Route> */}
+
+      </Switch>
+    </BrowserRouter>
+>>>>>>> 18d32fff71a29355a441d774a018c5a129cf0423
+  );
+}
 export default App;

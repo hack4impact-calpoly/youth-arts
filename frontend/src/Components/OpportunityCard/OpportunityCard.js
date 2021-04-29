@@ -1,10 +1,13 @@
 import "./OpportunityCard.css";
 import arrow from "./../../Images/right-arrow.png";
 import defaultimg from "./../../Images/PRYAC_mark.png";
+import { useHistory } from "react-router-dom";
 
 function OpportunityCard(props) {
-    const text = props.desc;
+    const text = props.description;
     const MAX_LENGTH = 40;
+    const history = useHistory();
+    const navigateTo = () => history.push('/opportunityDetail/' + props._id);
 
     return (
         <div className="opportunityCard">
@@ -29,7 +32,7 @@ function OpportunityCard(props) {
                     </td>
                 </tr>
             </table>
-            <button className="cardDetails" src={props.details}>VIEW DETAILS <img className="cardArrow" src={arrow} alt="arrow"/></button>
+            <button className="cardDetails" onClick={navigateTo} src={props.details}>VIEW DETAILS <img className="cardArrow" src={arrow} alt="arrow"/></button>
             <i class="fas fa-chevron-right"></i>
         </div>
     );

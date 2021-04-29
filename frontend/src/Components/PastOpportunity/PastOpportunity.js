@@ -5,7 +5,8 @@ import "./PastOpportunity.css";
     props.opps: array of opportunities (e.g. ["Opportunity 1", "Opportunity 2", ...])
 */
 
-function PastOpportunity(props) {
+const PastOpportunity = (props) => {
+    const { user } = props;
     const opps = props.opps;
     return (
         <div id="pastOpp">

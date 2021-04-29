@@ -13,11 +13,15 @@ import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
 import {Link} from 'react-router-dom';
 //import DateMomentUtils from '@date-io/moment'; 
+import SubmitButton from "../../Components/SubmitButton/SubmitButton";
+import { withRouter } from "react-router";
+
 
 class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
+        const { user } = props;
         this.state = {
             cart: props.cart,
             updateCart: props.updateCart,
@@ -37,14 +41,17 @@ class OpportunityDetail extends React.Component{
         };
     }
 
-    componentDidMount() {
-        const id = window.location.hash;
+    async componentDidMount() {
+        let id = window.location.pathname;
+        id = id.replace("/opportunityDetail/", "");
         console.log(id);
-        fetch('http://localhost:4000/api/opportunityDetail/604c7b80a52b3a681039b3d5')
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+        await fetch(url)
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
-        });
+            
+        });  
     }
 
     changeDonateModal = () => {
@@ -63,12 +70,20 @@ class OpportunityDetail extends React.Component{
         this.setState({selectedEndDate: date});
     }
 
+    navigateTo = () => {
+        let url = '/addOpportunity/' + this.state._id;
+        console.log(this.props);
+        this.props.history.push(url);
+    }
+    
+
   render() {
+    
     return (
         <div className={ this.state.showDonateModal | this.state.showSignInModal ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
-                        <a href="/addOpportunity">Edit Opportunity--></a>
+                        <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
                    </nav>}
           <div className="TitleImageContainer">
                 <div className="opportunityTitle">
@@ -244,7 +259,7 @@ class OpportunityDetail extends React.Component{
                             <div id="volunteerHeader">
                                 VOLUNTEERS
                             </div>
-                            <table>
+                            <table className="detailTable">
                                 <thead>
                                     <tr>
                                         <th>Task</th>
@@ -267,7 +282,7 @@ class OpportunityDetail extends React.Component{
                                                             if(volunteer === start)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -296,7 +311,7 @@ class OpportunityDetail extends React.Component{
                                                             else if(volunteer === end)
                                                             {
                                                                 return (
-                                                                    <td>{(i < (key_set.length - 1)) && 
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && 
                                                                         <div>
                                                                             {key_value.map( (time) => 
                                                                             {
@@ -326,7 +341,7 @@ class OpportunityDetail extends React.Component{
                                                             else{
                                                                 return(
                                                                     
-                                                                    <td>{(i < (key_set.length - 1)) && key_value.map(item =>
+                                                                    <td className="detailTD">{(i < (key_set.length - 1)) && key_value.map(item =>
                                                                         {
                                                                             return(
                                                                                 <li>{item}</li>
@@ -387,4 +402,4 @@ class OpportunityDetail extends React.Component{
   }
 }
 
-export default OpportunityDetail;
+export default withRouter(OpportunityDetail);

@@ -1,7 +1,7 @@
 
 import './AddOpportunityForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import ImageUpload from '../../Components/ImageUpload/ImageUpload'
@@ -12,6 +12,20 @@ function RegistrationPage() {
   function onClick() {
     //Add transition 
   }
+  const[opportunity, setOpportunity] = useState(0)
+
+  useEffect(() => {
+    let id = window.location.pathname;
+    id = id.replace("/addOpportunity/", "");
+    console.log(id);
+    if (id != '')
+    {
+      const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+      fetch(url)
+      .then(res => res.json())
+      .then(opportunity => setOpportunity(opportunity)); 
+    }
+  }, []);
 
   const [taskList, setTaskList] = useState([
         {task: ""}
@@ -65,7 +79,7 @@ const handleDeleteInputWish = index  => {
         <body>
         </body>
         <div className="title">
-            <h1>Create Opportunity</h1>
+            <h1>Create or Edit Opportunity</h1>
         </div>
         <div className="formWrapper">
           <form className="formStyle">

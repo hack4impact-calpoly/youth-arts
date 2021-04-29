@@ -34,6 +34,7 @@ class RegistrationPage extends React.Component {
         outreach: "",
         boardMember: false,
         signature: false,
+        userID: "",
 
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
@@ -63,7 +64,8 @@ class RegistrationPage extends React.Component {
   {
     let userId = window.location.pathname;
     userId = userId.replace("/registration/", "");
-    fetch('http://localhost:4000/api/volunteer/' + userId)
+    this.setState({userID: userId});
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId)
       .then(res => res.json())
       .then(data => this.setState({... data}));
   }
@@ -164,7 +166,7 @@ class RegistrationPage extends React.Component {
       signature: this.state.signature,
       boardMember: this.state.boardMember}
     console.log(JSON.stringify(userdata));
-    fetch('http://localhost:4000/api/postVolunteer/', {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -193,11 +195,11 @@ class RegistrationPage extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to='/authDashboard'/>;
+      return <Redirect to='/registrationConfirmation'/>;
     }
   return (
       <div >
-        <NavBar/>
+        <NavBar user={this.state.user}/>
         <body>
             <div id="headerImage">
               <img src={headerImage} width= "auto" height="100" alt=""></img>

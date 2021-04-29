@@ -16,18 +16,14 @@ const cookieSession = require('cookie-session');
 
 
 app.use(bodyParser.json())
-app.use(
-   cors({
-        origin: "http://localhost:3000", // allow to server to accept request from different origin
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-        credentials: true, // allow session cookie from browser to pass through
-  })
-);
 app.use((req, res, next) => {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
+   res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
+   res.header('Access-Control-Allow-Credentials', true);
+   res.header('Access-Control-Allow-Headers',
+     'Origin, X-Requested-With, Content-Type, Accept');
    next();
-});
+ });
 
 app.use(cookieSession({
    name: 'session-name',
@@ -38,13 +34,6 @@ app.use(cookieSession({
 const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
-
-
-app.use((req, res, next) => {
-   res.header("Access-Control-Allow-Origin", "*");
-   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-   next();
- });
 
 app.use(session({
    secret : "Our little secret.",
@@ -81,7 +70,7 @@ const accessProtectionMiddleware = (req, res, next) => {
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
    clientSecret: process.env.CLIENT_SECRET,
-   callbackURL: "http://localhost:4000/auth/google/callback",
+   callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
    },
 function(accessToken, refreshToken, profile, cb) {
@@ -89,26 +78,35 @@ function(accessToken, refreshToken, profile, cb) {
    Volunteer.findOne({
       googleId: profile.id 
    }, function(err, user) {
-       if (err) {
-           return cb(err);
-       }
        //No user was found... so create a new user 
        if (!user) {
            user = new Volunteer({
-            googleId: profile.id, username: profile.id, email: profile.emails[0].value
+            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null
            });
            user.save(function(err) {
                if (err) console.log(err);
                return cb(err, user, true)
            });
-           res.cookie('token', req.user, { httpOnly: false });
-       } else {
+       } 
+       else {
            //found user. Return
-           return cb(err, user, false)
+           if (!user.firstName){
+               return cb(err, user, true)
+           }
+           else {
+               return cb(err, user, false)
+           }
+           
        }
    });
 }
 ));
+
+app.get('/auth/account', (req, res) => {
+   const account = req.user 
+   res.json(account || {});
+ });
+
 // Server endpoint that returns user info
 
    app.get('/api/volunteer/:id', async (req, res) => {
@@ -118,7 +116,7 @@ function(accessToken, refreshToken, profile, cb) {
           var user;
           if (typeof userid === undefined || userid.length === 0)
           {
-            res.redirect("http://localhost:3000/")
+            res.redirect(`${process.env.CLIENT_URL}`)
           }
           user = await Volunteer.findById(userid)
           res.status(200).json(user);
@@ -129,6 +127,17 @@ function(accessToken, refreshToken, profile, cb) {
           res.status(400).send(error);
       }
   })  
+
+  app.get('/api/volunteers', async(req, res) => {
+     try {
+        var users = await Volunteer.find({});
+        res.status(200).json(users);
+     }
+     catch (error) {
+        console.log(errors);
+        res.status(400).send(error);
+     }
+  })
 
   const getVolunteer = async (userid) => {
 	return await Volunteer.findById(userid)
@@ -142,31 +151,36 @@ app.get('/user', accessProtectionMiddleware, (req, res) => {
 });
 
 
-mongoose.connect("mongodb+srv://pryacDev:hack4impact@cluster0.nyeny.mongodb.net/opportunityDB?retryWrites=true&w=majority", {
-   useNewUrlParser: true,
-   useUnifiedTopology: true,
-   useFindAndModify: false,
-   useCreateIndex: true
-}).then(() => console.log("Connected to userDB"))
-
-
-mongoose.set("useCreateIndex", true)
-
 app.get('/', (req, res) => {
   res.send('Hello world!')
 })
 
 app.get('/api/opportunityDetail/:name', async (req, res) => {
-   res.status(200);
-   const name = req.params.name;
-   let opp;
-   opp = await getOpportunityById(name);
-   res.json(opp);
+      var name = mongoose.Types.ObjectId(req.params.name)
+      try 
+      {
+          let opp = await Opportunity.findById(name)
+          res.status(200).json(opp);
+      }
+      catch (error)
+      {
+         console.log(error);
+         res.status(400).send(error);
+      }
 })
 
-const getOpportunityById = async (name) => {
-   return await Opportunity.findOne({'_id': name})
-}
+app.get('/api/opportunities', async (req, res) => {
+   try 
+   {
+       let opp = await Opportunity.find({});
+       res.status(200).json(opp);
+   }
+   catch (error)
+   {
+      console.log(error);
+      res.status(400).send(error);
+   }
+})
 
 
 app.get("/auth/google",
@@ -176,36 +190,33 @@ app.get("/auth/google",
 
 //Protected Route.
 app.get('/protected', checkUserLoggedIn, (req, res) => {
-   // console.log(req.user)
   res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`)
 });
 
 
  app.get('/profile',
-  passport.authorize('google', { failureRedirect: "http://localhost:3000/registration" }),
+  passport.authorize('google', { failureRedirect: `${process.env.CLIENT_URL}/registration` }),
   function(req, res) {
     var user = req.user;
     var account = req.account;
-   res.send("hi", "history", "hi");
   }
 );
 
 app.get("/auth/google/callback",
    passport.authenticate("google", { failureRedirect:
-   "http://localhost:3000/" }),
+      `${process.env.CLIENT_URL}` }),
    (req, res, newUser) => {
       //Succesful authentication, redirect secrets.
-      if (newUser == true || !res.firstName) {
-         // console.log(req.user)
+      if (req.user.firstName !== null) {
          req.logIn(req.user, (err) => {
             if (err) {
               return next(err);
             }
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;
-            res.redirect("http://localhost:3000/registration/" + req.user.id)
-          });
-         
+            res.redirect(`${process.env.CLIENT_URL}/authDashboard/` + req.user.id)
+          });  
+      
       }
       else {
          req.logIn(req.user, (err) => {
@@ -214,8 +225,9 @@ app.get("/auth/google/callback",
             }
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;
-            res.redirect("http://localhost:3000/authDashboard/" + req.user.id)
-          });      
+            res.redirect(`${process.env.CLIENT_URL}/registration/` + req.user.id)
+          });
+    
       }
 
    }
@@ -226,9 +238,10 @@ function(req, res, newuser) {
    res.status(302).json(req.user);
  });
 
-app.get("/logout", (req, res) => {
-   res.redirect("http://localhost:3000/")
-})
+ app.get('/auth/logout', (req, res) => {
+   req.logout();
+   res.redirect(process.env.CLIENT_URL);
+ });
 
 app.get('/',
   function(req, res) {
@@ -258,7 +271,6 @@ app.post("/api/opportunity", async(req, res) => {
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
-   console.log(newVolunteer)
    res.json(newVolunteer)
 })
 

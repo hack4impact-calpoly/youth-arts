@@ -11,9 +11,6 @@ const volunteerSchema = new mongoose.Schema({
         type: String,
         match: [/\S+@\S+.\S+/, 'is invalid']
     },
-    password: {
-        type: String,
-    },
     phoneNum: String,
     address: String,
     picture: String,
@@ -29,12 +26,12 @@ const volunteerSchema = new mongoose.Schema({
     availability: String,
     notes: String,
     boardMember: Boolean,
-    opportunities: {type: Map, of: {roleName: String, description: String, start: [Date], end: [Date], donated: [String]}}
-
+    admin: Boolean,
+    opportunities: {type: Map, of: [{task: String, description: String, start: [Date], end: [Date], donated: [String]}]}
 }, {collection : "userDB"})
 
 volunteerSchema.plugin(passportLocalMongoose)
 volunteerSchema.plugin(findOrCreate)
 
-const Volunteer  = volunteerDB.model('userDB', volunteerSchema)
+const Volunteer  = volunteerDB.model('volunteerDB', volunteerSchema)
 module.exports = Volunteer
