@@ -1,0 +1,32 @@
+.taskHeader{
+    text-align: center;
+    color: #1b75bc;
+    margin-top: 20px;
+    font-weight: bolder;
+}
+
+.cartContainer{
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.selectHeader{
+    padding-left: 30px;
+    color: #1b75bc;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.form-checkbox{
+    margin-left: 20px;
+}
+
+input.largerCheckbox{
+    width: 30px;
+    height: 30px;
+}
+
+.businessInput{
+    padding-left: 45px;
+    padding-top: 20px;
+}

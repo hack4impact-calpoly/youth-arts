@@ -16,6 +16,7 @@ import { Nav } from 'react-bootstrap';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
+import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 
 
 class App extends Component {
@@ -33,6 +34,13 @@ class App extends Component {
       this.state = {user: {} };
     }
 
+    deleteFromCart = (task) => {
+      const cart = this.state.cart;
+      const index = cart.indexOf(task)
+      cart.splice(index,1);
+      this.setState({cart: cart});
+    }
+
     /*componentDidMount() {
       var query = queryString.parse(this.props.location.search);
       if (query.token) {
@@ -47,7 +55,9 @@ class App extends Component {
 
   render(){
     return (
+      <div>
       <BrowserRouter>
+      
       <Switch>
 
         <Route exact path='/'>
@@ -94,12 +104,20 @@ class App extends Component {
       <Route path='/opportunityDetail'>
         <NavBar/>
           <OpportunityDetail 
-          updateCart = {this.updateCart}/>
+          updateCart = {this.updateCart}
+          cart = {this.state.cart}/>
+        </Route>
+
+        <Route path='/opportunityCheckout'>
+        <NavBar/>
+          <OpportunityCheckout 
+            cart = {this.state.cart}
+            deleteFromCart = {this.deleteFromCart}/>
         </Route>
       
     </Switch>
   </BrowserRouter>
-
+  </div>
   );
   }
 }

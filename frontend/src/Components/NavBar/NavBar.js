@@ -1,6 +1,7 @@
 //import styles from './NavBar.module.css';
 import './NavBar.css';
 import logo from '../../Images/PRYAC_logo-reversed.png';
+import {Link} from 'react-router-dom'
 
 function NavBar() {
   return (
@@ -10,10 +11,11 @@ function NavBar() {
         </a>
         <nav>
             <ul className="navlinks">
-              <li><a href="#">Reports</a></li>
-              <li><a href="#">Opportunities</a></li>
-              <li><a href="/anonDashboard">Dashboard</a></li>
-              <li><a href="#">Help</a></li>
+              <li><Link to="#">Reports</Link></li>
+              <li><Link to="#">Opportunities</Link></li>
+              <li><Link to="/anonDashboard">Dashboard</Link></li>
+              <li><Link to="#">Help</Link></li>
+              <li><Link to="/OpportunityCheckout">Cart</Link></li>
             </ul>
         </nav>
       </header>

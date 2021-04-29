@@ -11,6 +11,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
+import {Link} from 'react-router-dom';
 //import DateMomentUtils from '@date-io/moment'; 
 
 class OpportunityDetail extends React.Component{
@@ -18,6 +19,7 @@ class OpportunityDetail extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            cart: props.cart,
             updateCart: props.updateCart,
             start_event: [],
             end_event: [],
@@ -28,7 +30,7 @@ class OpportunityDetail extends React.Component{
             volunteers: [],
             showDonateModal: false,
             showSignInModal: false,
-            signedIn: false,
+            signedIn: true,
             admin: true,
             selectedStartDate: new Date(),
             selectedEndDate: new Date()
@@ -38,7 +40,7 @@ class OpportunityDetail extends React.Component{
     componentDidMount() {
         const id = window.location.hash;
         console.log(id);
-        fetch('http://localhost:4000/api/opportunityDetail/60764b69811b98df6f7f58fc')
+        fetch('http://localhost:4000/api/opportunityDetail/604c7b80a52b3a681039b3d5')
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
@@ -104,7 +106,7 @@ class OpportunityDetail extends React.Component{
                                         return(
                                             <div>
                                                 {dateFormat(end, " mmmm dS, yyyy ")} @
-                                                { dateFormat(end, " hh:mm")}
+                                                {dateFormat(end, " hh:mm")}
                                             </div>
                                         );
                                     })}
@@ -193,7 +195,7 @@ class OpportunityDetail extends React.Component{
                                                             }
                                                         )}
                                                         <button id="cartButtonStyle" onClick={this.state.signedIn ? 
-                                                        () => this.state.updateCart(this.state.task) : this.changeSignInModal}>Add to Cart</button>
+                                                        () => this.state.updateCart(task) : this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
                                               )  
@@ -378,6 +380,7 @@ class OpportunityDetail extends React.Component{
              }
             <div id="buttonContainer">
                 <button id="buttonStyles" onClick={!this.state.signedIn ? this.changeDonateModal : ""}>Donate</button> 
+               
             </div>
        </div>
     );
