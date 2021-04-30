@@ -16,6 +16,7 @@ import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
+import ContactPage from "./Pages/DirectoryPage/ContactPage";
 
 
 const App = () => {
@@ -43,16 +44,19 @@ const App = () => {
       <Switch>
         <Route path='/directory'>
           <NavBar user={profile} />
-          <DirectoryPage />
+          <DirectoryPage {...profile} />
           <Footer />
         </Route>
-
+        <Route exact path="/volunteer">
+          <NavBar user={profile} />
+          <ContactPage />
+          <Footer />
+        </Route>
         <Route path="/FAQ">
           <NavBar user={profile} />
           <FAQPage />
           <Footer />
         </Route>
-        
         <Route exact path='/'>
           {profile ? (
             <AuthenticatedUserDashboard user={profile} />

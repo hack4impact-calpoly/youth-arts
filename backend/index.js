@@ -102,9 +102,7 @@ function(accessToken, refreshToken, profile, cb) {
 ));
 
 app.get('/auth/account', (req, res) => {
-   console.log("HI");
    const account = req.user 
-   console.log(account);
    res.json(account || {});
  });
 
@@ -200,7 +198,6 @@ app.get('/protected', checkUserLoggedIn, (req, res) => {
   function(req, res) {
     var user = req.user;
     var account = req.account;
-   res.send("hi", "history", "hi");
   }
 );
 

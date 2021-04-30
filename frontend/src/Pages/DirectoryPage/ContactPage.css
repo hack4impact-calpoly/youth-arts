@@ -1,0 +1,48 @@
+#prof-pic {
+    height: auto;
+    width: 200px;
+}
+
+#contactInformation {
+    padding-left: 10%;
+}
+
+#contactPage {
+    padding: 5% 25%;
+}
+
+#contactName {
+    text-align: center;
+    font-weight: bold;
+    color: #1F4C82;
+    padding-bottom: 2%;
+}
+
+#volunteerAOI {
+    padding-left: 3%;
+}
+
+.contactTitle {
+    color: #1B75BC;
+}
+
+#contactExperience, #outreach, #volunteerStuff {
+    padding-top: 2%;
+}
+
+@media screen and (max-width: 1024px) {
+    #contactPage {
+        padding: 5% 10%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    #prof-pic {
+        height: auto;
+        width: 120px;
+    }
+
+    #contactPage {
+        padding: 5% 8%;
+    }
+}
