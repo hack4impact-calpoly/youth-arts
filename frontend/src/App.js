@@ -15,18 +15,25 @@ import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
+import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
 
-
+    
 const App = () => {
   const [profile, updateProfile] = useState(null);
-  const [cart, setCart] = useState();
+  const [cart, setCart] = useState([]);
 
   const updateCart = (task) => {
     cart.push(task);
-    this.setState({ cart: cart });
-    this.setCart(cart);
+    console.log(cart);
+  }
+
+
+  const deleteFromCart = (task) => {
+    const index = cart.indexOf(task)
+    cart.splice(index,1);
+    setCart(cart);
   }
 
   useEffect(() => {
@@ -37,7 +44,6 @@ const App = () => {
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
-
 
   return (
     <BrowserRouter>
@@ -103,7 +109,24 @@ const App = () => {
 
         {(profile?.admin === true) ? (
           <Route path='/addOpportunity'>
-            <AddOpportunityForm user={profile} />
+            <AddOpportunityForm user={profile} 
+            state={ { opportunity: { 
+                              id: "",
+                              title: "",
+                              description: "",
+                              pictures: [],
+                              start_event: [""],
+                              end_event: [""],
+                              skills: [""],
+                              wishlist: [""],
+                              location: "",
+                              requirements: [""],
+                              tasks: [{roleName: "", description: "", start: [""], end: [""], additionalInfo: [""]}],
+                              additionalInfo: [""],
+                              volunteers: {}
+                          }}
+                    }
+            />
           </Route>
         ) :
           <OpportunitiesPage
@@ -116,11 +139,18 @@ const App = () => {
           <OpportunityDetail
             updateCart={updateCart}
             user={profile}
-            updateUser={updateProfile} />
+            updateUser={updateProfile}
+            cart={cart} />
           <Footer />
         </Route>
 
-
+        <Route path='/opportunityCheckout'>
+        <NavBar/>
+          <OpportunityCheckout 
+            cart = {cart}
+            user={profile}
+            deleteFromCart = {deleteFromCart}/>
+        </Route>
 
         {/* <Route path='/Reports'>
             <ReportsPage user={profile}/>

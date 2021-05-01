@@ -14,6 +14,7 @@ const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
+
 app.use(bodyParser.json())
 app.use((req, res, next) => {
    res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
@@ -256,11 +257,45 @@ const getAllOpportunities = async () => {
    return await Opportunity.find({})
 }
 
+app.post("/api/updateOpportunity", async(req, res) => {
+   try 
+   {
+      
+       if (typeof req.body._id === undefined || req.body._id === "")
+       {
+         const newOpportunity = await postNewOpportunity(req.body.title, 
+                                                         req.body.description, 
+                                                         req.body.pictures,
+                                                         req.body.start_event,
+                                                         req.body.end_event,
+                                                         req.body.skills,
+                                                         req.body.wishlist,
+                                                         req.body.location,
+                                                         req.body.requirements,
+                                                         req.body.tasks,
+                                                         req.body.additionalInfo,
+                                                         req.body.volunteers) 
+       }
+       else 
+       {
+         console.log(req.body);
+         console.log(req.body._id);
+         const newOpportunity = await Opportunity.findByIdAndUpdate(mongoose.Types.ObjectId(req.body._id), req.body);
+         res.json(newOpportunity);
+       }
+   }
+   catch (error)
+   {
+      console.log(error);
+       res.status(400).send(error);
+   }
+})
+
 //Checking Postman
 app.post("/api/opportunity", async(req, res) => {
    const title = req.body.title
-   const desc = req.body.desc
-   const pic = req.body.pic
+   const desc = req.body.desccription
+   const pic = req.body.pictures
    const date = req.body.date
    const skills = req.body.skills
    const wishlist = req.body.wishlist
@@ -364,14 +399,11 @@ const updateItemsDonated = async (vol_id, opp_id, items) => {
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
 }
 
-const postNewOpportunity = async (title, desc, pictures, date, skills, wishlist) => {
+const postNewOpportunity = async (title, description, pictures, start_event, end_event, skills, 
+   wishlist, location, requirements, tasks, additionalInfo, volunteers) => {
    return new Opportunity({
-      title,
-      desc,
-      pictures,
-      date,
-      skills,
-      wishlist,
+      title, description, pictures, start_event, end_event, skills, 
+      wishlist, location, requirements, tasks, additionalInfo, volunteers
    }).save()
 }
 const postNewVolunteer = async (first, last, email, phone, address, role, AOI, experience, employment, hearAboutUs, boardMember, digitalWaiver) => {

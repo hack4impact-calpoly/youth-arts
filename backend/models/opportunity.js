@@ -12,7 +12,7 @@ const opportunitySchema = new mongoose.Schema({
    location: String,
    requirements: [String],
    additionalInfo: [String],
-   tasks: [{roleName: String, description: String, start: [Date], end: [Date], additionalRequirements: [String]}],
+   tasks: [{roleName: String, description: String, start: [Date], end: [Date], additionalInfo: [String]}],
    volunteers: {type: Map, of: [{task: String, start: [Date], end: [Date], donated: [String]}]}
 }, { collection: 'opportunityDB' })
 

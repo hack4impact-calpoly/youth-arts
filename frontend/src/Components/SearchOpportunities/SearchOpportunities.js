@@ -9,10 +9,12 @@ import event from "./../../../src/Images/PRYAC_Icons/event.png"
 import SubmitButton from "./../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
 import axios from "axios";
-
+import { useHistory } from "react-router-dom";
 
 function SearchOpportunities() {
     //need to connect backend here and set to opportunities
+    const history = useHistory();
+    const navigateTo = () => history.push('/addOpportunity');
     const [opportunities, setOpportunities] = useState("");
     async function fetchAll() {
         try {
@@ -129,7 +131,7 @@ function SearchOpportunities() {
                     </select>
                 </Col>
                 <Col id="button">
-                    <SubmitButton buttonText="ADD OPPORTUNITY"/>
+                    <SubmitButton onClick={navigateTo} buttonText="ADD OPPORTUNITY"/>
                 </Col>
             </Row>
 

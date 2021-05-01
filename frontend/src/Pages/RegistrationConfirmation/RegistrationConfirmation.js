@@ -16,7 +16,7 @@ const RegistrationConfirmation = (props) => {
               <img src={Icon} width= "auto" height="100" alt=""></img>
         </div>
         <h1 className="thanks">Thank you {user.firstName}!</h1>
-        <p className="confirmation">We'll let you know when we've received your application</p>
+        <p className="confirmation">Check your email for your confirmation</p>
         <div id="backButton">
         <Link to="/authDashboard">
             <input className="backButton" type="button" value="BACK TO DASHBOARD" />
