@@ -182,6 +182,19 @@ app.get('/api/opportunities', async (req, res) => {
    }
 })
 
+app.get('/api/volunteers', async (req, res) => {
+   try 
+   {
+       let opp = await Volunteer.find({});
+       res.status(200).json(opp);
+   }
+   catch (error)
+   {
+      console.log(error);
+      res.status(400).send(error);
+   }
+})
+
 
 app.get("/auth/google",
    passport.authenticate("google", { scope: ["profile", "email"] })
