@@ -150,3 +150,6 @@
     font-size: 15px;
 }
 
+#taskInputArea {
+    min-height: 100px;
+}

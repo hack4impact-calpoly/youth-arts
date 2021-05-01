@@ -19,8 +19,7 @@ class RegistrationPage extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
+    this.state = { 
         _id: "",
         firstName: "",
         lastName: "",
@@ -35,13 +34,12 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
-
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
-
-        redirect: false
-    };
+        redirect: false, 
+        ...props.user 
+      };
     
     this.handleFirst = this.handleFirst.bind(this);
     this.handleLast = this.handleLast.bind(this);
@@ -64,10 +62,17 @@ class RegistrationPage extends React.Component {
   {
     let userId = window.location.pathname;
     userId = userId.replace("/registration/", "");
-    this.setState({userID: userId});
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId)
-      .then(res => res.json())
-      .then(data => this.setState({... data}));
+    if (this.state.firstName === "" && userId !== "") 
+    {
+      this.setState({userID: userId});
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId)
+        .then(res => res.json())
+        .then(data => this.setState({... data}));
+    }
+    else 
+    {
+      this.setState({userID: this.state._id});
+    }
   }
 
   /* This lifecycle hook gets executed when the component mounts */
@@ -104,7 +109,7 @@ class RegistrationPage extends React.Component {
     let value = e.target.value;
     this.setState( {outreach: value} );
   }
-
+  
   handleRoleCheckBox(e) {
     const newSelection = e.target.value;
     let newSelectionArray;
@@ -133,7 +138,6 @@ class RegistrationPage extends React.Component {
   }
   handleWaiverCheckBox(e) {
     const newSelection = e.target.value;
-    // let newSelectionArray;
     if (this.state.signature != true) {
       this.setState( {signature: true });
     } else {
@@ -142,7 +146,6 @@ class RegistrationPage extends React.Component {
   }
   handleBoardCheckBox(e) {
     const newSelection = e.target.value;
-    // let newSelectionArray;
     if (this.state.boardMember != true) {
       this.setState( {boardMember: true });
     } else {
@@ -292,5 +295,6 @@ class RegistrationPage extends React.Component {
   );
 }
 }
+
 
 export default RegistrationPage;

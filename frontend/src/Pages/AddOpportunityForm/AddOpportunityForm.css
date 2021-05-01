@@ -18,6 +18,7 @@
     padding: 0px 20px;
     margin-top: 30px;
     margin-bottom: 0px;
+    
 }
 
 
@@ -32,6 +33,26 @@
     box-sizing: border-box;
     box-shadow: 0px 0px 3px 0px;
     padding-bottom: 0px;
+}
+
+.taskDates {
+    margin-left: 10px;
+}
+.taskLabel {
+    margin-left: 10px !important;
+}
+
+.taskDates input{
+    display: block;
+    width: 240px;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 5px 0 40px 0;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-top: 0px !important;
 }
 
 .inputStyles input{
@@ -70,7 +91,7 @@
     margin: 10px 30px 20px 0px;
     padding: 0 10px;
     box-sizing: border-box;
-    resize: none;
+    resize:both;
 }
 
 .textStyle label{
@@ -106,6 +127,10 @@
 }
 
 .buttonStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 30px 95px;
     margin-bottom: 0px;
 }
@@ -159,6 +184,76 @@
     font-size: 15px;
 }
 
+.inputDate {
+    display: flex;
+    /* justify-content: space-between; */
+    margin-bottom: 10px;
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+    width: 400px;
+}
+.inputDate input{
+    margin-bottom: 10px;
+}
+#addItemDate {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 13px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 5px;
+    width: 40%;
+    text-align: center;
+    text-justify: distribute;
+    padding: 13px 5px;
+}
+#deleteItemDate {
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 5px;
+    width: 1px !important;
+    margin: 18px 0px;
+    text-align: center;
+    text-indent: -4px;
+    padding: 15px 11px;
+}
+#addItemDateTask {
+    display: block;
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 13px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 5px;
+    width: 25%;
+    text-align: center;
+    text-justify: distribute;
+    padding: 13px 5px;
+}
+#deleteItemDateTask {
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 5px;
+    width: 1px !important;
+    margin: 13px -40px -10px -10px !important;
+    text-align: center;
+    text-indent: -4px;
+}
+
 .inputButtons {
     display: inline-block;
     height: 8px;
@@ -168,6 +263,7 @@
     margin-right: -30px;
     margin-bottom: 0px;
 }
+
 
 .inputButtons input{
     margin-bottom: 10px;
@@ -192,8 +288,8 @@
     border-radius: 13px;
     font-weight: bold;
     font-size: 16px;
-    line-height: 19px;
-    padding: 5px;
+    line-height: 21px;
+    padding: 3px 5px;
     min-width: 100px;
 }
 
@@ -203,11 +299,23 @@
     height: 8px;
     border-radius: 5px;
     border: 1px solid #C8C8C8;
-    margin: 0px 0 40px 0;
+    margin: 0px 0 10px 0;
     padding: 15px;
     box-sizing: border-box;
     margin-right: 10px;
     margin-top: -5px;
+}
+#taskInputArea {
+    width: 240px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-top: -5px;
+    margin: 0px 0 0px 10px;
+
 }
 
 #deleteItem{
@@ -227,4 +335,50 @@
 
 .addImages{
     font-size: 18px;
+}
+
+
+.IconSelect {
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    font-size: smaller;
+}
+
+.IconSelect label{
+    padding-right: 20px;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.IconSelect input{
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.formInside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#addReq {
+    margin-left: 10px;
+}
+
+#addItemReq{
+    display: block;
+    margin-top: 20px;
+    margin-left: 10px;
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 13px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 21px;
+    padding: 3px 5px;
+    min-width: 100px;
 }

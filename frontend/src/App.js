@@ -15,62 +15,24 @@ import DirectoryPage from "./Pages/DirectoryPage/Directory"
 // import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
-<<<<<<< HEAD
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
-
-
-class App extends Component {
-    constructor(props)
-    {
-      super(props);
-      this.state = {user: {},
-                    cart: [] };
-    }
-
-    updateCart = (task) => {
-      const cart = this.state.cart;
-      cart.push(task);
-      this.setState({cart: cart});
-      this.state = {user: {} };
-    }
-
-    deleteFromCart = (task) => {
-      const cart = this.state.cart;
-      const index = cart.indexOf(task)
-      cart.splice(index,1);
-      this.setState({cart: cart});
-    }
-
-    /*componentDidMount() {
-      var query = queryString.parse(this.props.location.search);
-      if (query.token) {
-        window.localStorage.setItem("jwt", query.token);
-        this.props.history.push("/");
-        this.setState({jwt: query.token});
-        console.log(query.token);
-    }
-    console.log(this.state.user);
-    console.log(this.state.jwt);
-  }*/
-
-  render(){
-    return (
-      <div>
-      <BrowserRouter>
-      
-      <Switch>
-=======
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
 
-
+    
 const App = () => {
   const [profile, updateProfile] = useState(null);
-  const [cart, setCart] = useState();
+  const [cart, setCart] = useState([]);
 
   const updateCart = (task) => {
     cart.push(task);
-    this.setState({ cart: cart });
-    this.setCart(cart);
+    console.log(cart);
+  }
+
+
+  const deleteFromCart = (task) => {
+    const index = cart.indexOf(task)
+    cart.splice(index,1);
+    setCart(cart);
   }
 
   useEffect(() => {
@@ -81,8 +43,6 @@ const App = () => {
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
-
->>>>>>> 18d32fff71a29355a441d774a018c5a129cf0423
 
   return (
     <BrowserRouter>
@@ -143,7 +103,24 @@ const App = () => {
 
         {(profile?.admin === true) ? (
           <Route path='/addOpportunity'>
-            <AddOpportunityForm user={profile} />
+            <AddOpportunityForm user={profile} 
+            state={ { opportunity: { 
+                              id: "",
+                              title: "",
+                              description: "",
+                              pictures: [],
+                              start_event: [""],
+                              end_event: [""],
+                              skills: [""],
+                              wishlist: [""],
+                              location: "",
+                              requirements: [""],
+                              tasks: [{roleName: "", description: "", start: [""], end: [""], additionalInfo: [""]}],
+                              additionalInfo: [""],
+                              volunteers: {}
+                          }}
+                    }
+            />
           </Route>
         ) :
           <OpportunitiesPage
@@ -156,31 +133,19 @@ const App = () => {
           <OpportunityDetail
             updateCart={updateCart}
             user={profile}
-            updateUser={updateProfile} />
+            updateUser={updateProfile}
+            cart={cart} />
           <Footer />
-        </Route>
-
-
-
-<<<<<<< HEAD
-      <Route path='/opportunityDetail'>
-        <NavBar/>
-          <OpportunityDetail 
-          updateCart = {this.updateCart}
-          cart = {this.state.cart}/>
         </Route>
 
         <Route path='/opportunityCheckout'>
         <NavBar/>
           <OpportunityCheckout 
-            cart = {this.state.cart}
-            deleteFromCart = {this.deleteFromCart}/>
+            cart = {cart}
+            user={profile}
+            deleteFromCart = {deleteFromCart}/>
         </Route>
-      
-    </Switch>
-  </BrowserRouter>
-  </div>
-=======
+
         {/* <Route path='/Reports'>
             <ReportsPage user={profile}/>
           </Route> */}
@@ -191,7 +156,6 @@ const App = () => {
 
       </Switch>
     </BrowserRouter>
->>>>>>> 18d32fff71a29355a441d774a018c5a129cf0423
   );
 }
 export default App;

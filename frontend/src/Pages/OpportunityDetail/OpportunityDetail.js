@@ -21,8 +21,9 @@ class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
-        const { user } = props;
+        // const { user } = props;
         this.state = {
+            user: props.user,
             cart: props.cart,
             updateCart: props.updateCart,
             start_event: [],
@@ -73,14 +74,32 @@ class OpportunityDetail extends React.Component{
     navigateTo = () => {
         let url = '/addOpportunity/' + this.state._id;
         console.log(this.props);
-        this.props.history.push(url);
+        console.log(this.state);
+        this.props.history.push({
+            pathname: url,
+            state: { opportunity: { 
+                        user: this.state.user,
+                        id: this.state._id,
+                        title: this.state.title,
+                        description: this.state.description,
+                        pictures: this.state.pictures,
+                        start_event: this.state.start_event,
+                        end_event: this.state.end_event,
+                        skills: this.state.skills,
+                        wishlist: this.state.wishlist,
+                        location: this.state.location,
+                        requirements: this.state.requirements,
+                        tasks: this.state.tasks,
+                        additionalInfo: this.state.additionalInfo,
+                        volunteers: this.state.volunteers
+                    }}});
     }
     
 
   render() {
     
     return (
-        <div className={ this.state.showDonateModal | this.state.showSignInModal ? "darkBackground" : ""}>
+        <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
@@ -146,12 +165,12 @@ class OpportunityDetail extends React.Component{
                             </div>
                         </div>
                         <div className="bodyContainer">
-                                <div id={this.state.showDonateModal | this.state.showSignInModal ? "darkTaskBody" : "taskBody"}>
+                                <div id={this.state.showDonateModal | !this.state.user ? "darkTaskBody" : "taskBody"}>
                                         <div>
                                            {this.state.tasks.map(task =>
                                             {
                                               return(
-                                                  <div id={this.state.showDonateModal | this.state.showSignInModal ? "darkTaskCard" : "taskCard"}>
+                                                  <div id={this.state.showDonateModal | !this.state.user ? "darkTaskCard" : "taskCard"}>
                                                     <div className="roleNameAndTime">
                                                         <p id="roleHeader">
                                                         Role:
@@ -209,7 +228,7 @@ class OpportunityDetail extends React.Component{
                                                                 </div>);
                                                             }
                                                         )}
-                                                        <button id="cartButtonStyle" onClick={this.state.signedIn ? 
+                                                        <button id="cartButtonStyle" onClick={this.state.user ? 
                                                         () => this.state.updateCart(task) : this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
@@ -376,7 +395,7 @@ class OpportunityDetail extends React.Component{
                     </div>
                 </div>
              }
-            {this.state.showSignInModal &&
+            {!this.state.user &&
                 <div className="popUpBackground">
                     <div className="ModalWrapper">
                         <div className="ModalContent">
@@ -394,7 +413,7 @@ class OpportunityDetail extends React.Component{
                 </div>
              }
             <div id="buttonContainer">
-                <button id="buttonStyles" onClick={!this.state.signedIn ? this.changeDonateModal : ""}>Donate</button> 
+                <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : ""}>Donate</button> 
                
             </div>
        </div>

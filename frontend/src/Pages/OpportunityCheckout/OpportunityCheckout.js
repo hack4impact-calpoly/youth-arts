@@ -8,17 +8,45 @@ class OpportunityCheckout extends React.Component{
 
     constructor(props) {
         super(props);
+        
         this.state = {
+            user: props.user,
             cart: props.cart,
-            deleteFromCart: props.deleteFromCart
+            deleteFromCart: props.deleteFromCart,
+            selectedTimes: Array((props.cart).length + 1).fill([]),
+            rerender: false
+
         };
+        
+        this.handleDateCheckBox = this.handleDateCheckBox.bind(this);
+  
     }
+
+    handleDateCheckBox(e, task) {
+        const newSelection = e.target.value;
+        let newSelectionArray;
+        console.log(this.state.selectedTimes);
+        console.log(task);
+        console.log(e.target.value);
+    
+        if (this.state.selectedTimes[task].indexOf(newSelection) != -1) {
+          newSelectionArray = this.state.selectedTimes[task].filter(
+            s => s !== newSelection
+          );
+        } else {
+        //   newSelectionArray = [...this.state.selectedTimes[task], newSelection];
+          newSelectionArray = [...this.state.selectedTimes];
+          newSelectionArray[task] = newSelection;
+        }
+        this.setState( {selectedTimes: newSelectionArray });
+      }
    
     render()
-    {    return (
+    {    
+        return (
             <body>
                 <h1 className="taskHeader" >My Tasks</h1>
-               {this.state.cart.map(task =>
+               {this.state.cart ? this.state.cart.map((task, index) =>
                 {
                     
                     return(
@@ -53,6 +81,7 @@ class OpportunityCheckout extends React.Component{
                                   <p id="roleHeader">
                                       End:
                                   </p>
+
                                   <div id="times">
                                       {task.end.map(end =>
                                           {
@@ -62,6 +91,9 @@ class OpportunityCheckout extends React.Component{
                                                           {dateFormat(end, " hh:mm")}
                                                           <input
                                                             className="form-checkbox"
+                                                            onChange={(e) => this.handleDateCheckBox(e, index)}
+                                                            value={end}
+                                                            // checked= { ((this.state.selectedTimes)[index]).indexOf(end) != -1 }
                                                             type="checkbox" />
                                                       </li>
                                                       <br/>
@@ -88,13 +120,13 @@ class OpportunityCheckout extends React.Component{
                                       </div>);
                                   }
                               )}
-                              <button id="cartButtonStyle" onClick={() => this.state.deleteFromCart(task)}>Delete Task</button>
+                              <button id="cartButtonStyle" onClick={() => {this.state.deleteFromCart(task); this.setState({rerender: !this.state.rerender})}}>Delete Task</button>
                           </div>
                       </div>
                       </div>
                     ) 
                 }
-                )}
+                ) : this.state }
                 <div className="businessInput">
                     <div className="inputStyles">
                     <label htmlFor="First Name">My Business (optional)</label>
