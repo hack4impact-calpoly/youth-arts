@@ -546,6 +546,9 @@
     border: 3px solid #1b75bc;
     padding-right: 10px;
   }
+  .detailTD li {
+    margin-left:15px;
+  }
 
 .detailTable{
     table-layout: fixed;

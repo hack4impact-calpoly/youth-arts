@@ -105,6 +105,7 @@ class OpportunityDetail extends React.Component{
     
 
   render() {
+      console.log(this.state.volunteers);
     
     return (
         <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
@@ -297,7 +298,7 @@ class OpportunityDetail extends React.Component{
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {(Object.keys(this.state.volunteers)).map(volunteers =>
+                                        {this.state.volunteers ? (Object.keys(this.state.volunteers)).map(volunteers =>
                                         {
                                             var vol = (this.state.volunteerList).find(x => x._id === volunteers);
                                             return(
@@ -397,24 +398,23 @@ class OpportunityDetail extends React.Component{
                                                                 {
                                                                     //any extra volunteer info
                                                                 }
-                                                                else{
+                                                                else if(volData[0] === "donated") {
                                                                     return(
-                                                                   
-                                                                        <td className="detailTD">{
-                                                                            // (i < (key_set.length - 1)) && 
-                                                                            
-                                                                            (volData[1]).map(item =>
-                                                                            {
-                                                                                return(
+                                                                        <td className="detailTD">{ 
+                                                                            (volData[1]).map(item => {
+                                                                                return (
                                                                                     <li>{item}</li>
-                                                                                )
-                                                                            })}</td>
+                                                                                );
+                                                                            })
+                                                                        }
+                                                                        </td>
                                                                 
-                                                                )}
-                                                        })
+                                                                    )
+                                                                }
+                                                            })
                                                         )})}
                                                         </tr>
-                                                    )})}
+                                                    )}) : "No Volunteers Found"}
                                             </tbody>
                                         </table>
                                     </div>}
