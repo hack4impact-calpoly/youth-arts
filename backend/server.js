@@ -17,7 +17,6 @@ const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 
-
 app.use(bodyParser.json())
 app.use((req, res, next) => {
    res.header("Referrer-Policy", "same-origin");
@@ -32,15 +31,12 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 
-
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
 
-
 passport.use(Volunteer.createStrategy())
-
 
 const accessProtectionMiddleware = (req, res, next) => {
    if (req.isAuthenticated()) {
@@ -51,7 +47,6 @@ const accessProtectionMiddleware = (req, res, next) => {
       });
    }
 };
-
 
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
@@ -82,7 +77,6 @@ function(accessToken, refreshToken, profile, cb) {
            else {
                return cb(err, user, false)
            }
-           
        }
    });
 }
