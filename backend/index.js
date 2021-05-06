@@ -7,6 +7,8 @@ const passport = require("passport")
 const passportLocalMongoose = require("passport-local-mongoose")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const findOrCreate = require("mongoose-findorcreate")
+const nodemailer = require("nodemailer")
+const dateFormat = require("dateformat")
 
 const app = express()
 const Opportunity = require('./models/opportunity')
@@ -14,6 +16,14 @@ const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
+let transport = nodemailer.createTransport({
+   host: "smtp.mailtrap.io",
+   port: 2525,
+   auth: {
+      user: "333d5d35efddbb",
+      pass: "619530fcb4f9a9"
+   }
+})
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
@@ -365,12 +375,99 @@ const getVolunteerInfo = async (opp_id) => {
 }
 
 const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
+   
    volunteer = await Volunteer.findById(vol_id)
    opportunity = await Opportunity.findById(opp_id)
    opportunity.volunteers.push({vol_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
    volunteer.opportunities.push({opp_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+   
+   //Emails to confirm signup
+   const volunteerMessage = {
+      from: "pryac@gmail.com",
+      to: volunteer.email,
+      subject: opportunity.title + " sign up successful",
+      text: "Hello " + volunteer.firstName + ",\n\nYou have successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+      + ". The event will currently be held at " + opportunity.location + 
+      ".\n\nThe business that you chose to donate to or register with was blank. " + 
+      "\n\n\nClick here or call this number (805-238-5825) to cancel your registration."
+   }
+
+   const adminMessage = {
+      from: "pryac@gmail.com",
+      to: "admin@gmail.com",
+      subject: opportunity.title + " sign up successful - " + volunteer.firstName + volunteer.lastName,
+      text: volunteer.firstName + "has successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+      + ".\n\nThe business that they chose to donate to or register with was blank."
+   }
+
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+}
+
+const volunteerUnregister = async (vol_id, opp_id) => {
+   
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   for(i = 0; i < opportunity.volunteers.length; i++){
+      if(opportunity.volunteers[i].vol_id == vol_id){
+         opportunity.volunteers.splice(i, 1)
+      }
+   }
+   for(i = 0; i < volunteer.opportunities.length; i++){
+      if(volunteer.opportunities[i].opp_id == opp_id){
+         volunteer.opportunities.splice(i, 1)
+      }
+   }
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+   
+   //Emails to confirm signup
+   const volunteerMessage = {
+      from: "pryac@gmail.com",
+      to: volunteer.email,
+      subject: opportunity.title + " sign up successful",
+      text: "Hello " + volunteer.firstName + ",\n\nYou have successfully unregistered for your volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+   }
+
+   const adminMessage = {
+      from: "pryac@gmail.com",
+      to: "admin@gmail.com",
+      subject: opportunity.title + " unregistration successful - " + volunteer.firstName + volunteer.lastName,
+      text: volunteer.firstName + "has successfully unregistered for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+   }
+
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
 }
 
 const updateStartTime = async (vol_id, opp_id, start) => {
@@ -420,7 +517,7 @@ const postNewOpportunity = async (title, description, pictures, start_event, end
    }).save()
 }
 const postNewVolunteer = async (first, last, email, phone, address, role, AOI, experience, employment, hearAboutUs, boardMember, digitalWaiver) => {
-   return new Volunteer({
+   newVolunteer = new Volunteer({
       id,
       first, 
       last, 
@@ -435,6 +532,36 @@ const postNewVolunteer = async (first, last, email, phone, address, role, AOI, e
       boardMember,
       digitalWaiver
    }).update()
+
+   //Email to new volunteer + bcc admin
+   const volunteerMessage = {
+      from: "pryac@gmail.com",
+      to: email,
+      subject: "Account signup successful",
+      text: "Congratulations " + first + ",\n\nYou have successfully made an account with PRYAC!"
+   }
+
+   const adminMessage = {
+      from: "pryac@gmail.com",
+      to: "admin@gmail.com",
+      subject: "New account signup",
+      text: first + last + "has successfully made an account with PRYAC."
+   }
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   return newVolunteer;
 }
 
 const getAllOpportunitiesByDates = async (start, end) => {
