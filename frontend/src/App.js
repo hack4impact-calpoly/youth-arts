@@ -66,6 +66,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
+      <Route path='/opportunityDetail'>
+          <NavBar user={profile} />
+          <OpportunityDetail
+            updateCart={updateCart}
+            user={profile}
+            updateUser={updateProfile}
+            cart={cart} />
+          <Footer />
+        </Route>
       <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path='/directory'>
           <NavBar user={profile} />
@@ -157,15 +166,7 @@ const App = () => {
             updateUser={updateProfile} />
         }
 
-        <Route path='/opportunityDetail'>
-          <NavBar user={profile} />
-          <OpportunityDetail
-            updateCart={updateCart}
-            user={profile}
-            updateUser={updateProfile}
-            cart={cart} />
-          <Footer />
-        </Route>
+        
 
         <Route path='/opportunityCheckout'>
         <NavBar/>

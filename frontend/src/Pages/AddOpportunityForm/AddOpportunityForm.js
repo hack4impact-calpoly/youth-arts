@@ -34,7 +34,6 @@ function AddOpportunityForm(props) {
         volunteers: opportunity.volunteers }
     fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
       method: "POST",
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
     },

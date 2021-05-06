@@ -167,7 +167,6 @@ class RegistrationPage extends React.Component {
     console.log(JSON.stringify(userdata));
     fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
       method: "POST",
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
     },
