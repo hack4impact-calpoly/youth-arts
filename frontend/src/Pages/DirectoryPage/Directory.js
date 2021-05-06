@@ -7,13 +7,11 @@ import {Container, Row, Col} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 function Directory(props) {
-    const { user } = props;
-
     //get all volunteers and store in directory
     const [directory, setDirectory] = useState("");
     async function fetchAll() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteers`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteers`, { credentials: 'include' });
             return response.data;
         }
         catch (error) {

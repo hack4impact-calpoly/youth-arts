@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-import Footer from '../../Components/Footer/Footer';
+import React from 'react';
 import './OpportunityDetail.css'
-import ActionButton from "../../Components/ActionButton/ActionButton";
 import ImageCarousel from './ImageCarousel/ImageCarousel'
 import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
@@ -11,8 +9,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
-import {Link} from 'react-router-dom';
-//import DateMomentUtils from '@date-io/moment'; 
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 
@@ -21,7 +17,6 @@ class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
-        // const { user } = props;
         this.state = {
             user: props.user,
             cart: props.cart,
@@ -49,14 +44,14 @@ class OpportunityDetail extends React.Component{
         id = id.replace("/opportunityDetail/", "");
         console.log(id);
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
-        await fetch(url)
+        await fetch(url, { credentials: 'include' })
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
             
         });  
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`, { credentials: 'include' })
         .then(res => res.json())
         .then(vols => {
             this.setState({volunteerList : vols});
@@ -101,6 +96,11 @@ class OpportunityDetail extends React.Component{
                         additionalInfo: this.state.additionalInfo,
                         volunteers: this.state.volunteers
                     }}});
+    }
+    sortTaskArray(a, b) {
+        if (a[0] > b[0]) return -1;
+        if (a[0] < b[0]) return 1;
+        return 0;
     }
     
 
@@ -300,14 +300,14 @@ class OpportunityDetail extends React.Component{
                                 <tbody>
                                         {this.state.volunteers ? (Object.keys(this.state.volunteers)).map(volunteers =>
                                         {
+                                            console.log(this.state.volunteers)
                                             var vol = (this.state.volunteerList).find(x => x._id === volunteers);
                                             return(
                                                 <tr>
                                                     {vol && <td className="detailTD">{
                                                         // (i < ((volData[1]).length - 1)) && 
                                                         <div>
-                                                            <td> {vol.firstName} </td>
-                                                            <td>{vol.lastName} </td>    
+                                                             {vol.firstName} { } {vol.lastName} 
                                                         </div>
                                                         }
                                                     </td>}
@@ -317,9 +317,10 @@ class OpportunityDetail extends React.Component{
                                                             const end = "end"
                                                             const key_value = Object.entries(this.state.volunteers[volunteers][volunteer]);
                                                             const key_set = Object.keys(this.state.volunteers[volunteers]);
-                                                            console.log(key_value);
+                                                            key_value.sort(this.sortTaskArray);
                                                             return (
-                                                                key_value.map((volData, v) =>
+                                                                <tr>
+                                                                {key_value.map((volData, v) =>
                                                                 {
                                                                 if (volData[0] ==="task") {
                                                                     return (
@@ -394,13 +395,11 @@ class OpportunityDetail extends React.Component{
                                                                         </td>
                                                                         )
                                                                 }
-                                                                else if(volData.length-1 == i)
-                                                                {
-                                                                    //any extra volunteer info
-                                                                }
                                                                 else if(volData[0] === "donated") {
                                                                     return(
+                                                                        
                                                                         <td className="detailTD">{ 
+                                                                            
                                                                             (volData[1]).map(item => {
                                                                                 return (
                                                                                     <li>{item}</li>
@@ -412,9 +411,13 @@ class OpportunityDetail extends React.Component{
                                                                     )
                                                                 }
                                                             })
-                                                        )})}
+                                                            }</tr>)
+                                                        
+                                                        })}
                                                         </tr>
-                                                    )}) : "No Volunteers Found"}
+                                                    )
+                                                    
+                                                    }) : "No Volunteers Found"}
                                             </tbody>
                                         </table>
                                     </div>}

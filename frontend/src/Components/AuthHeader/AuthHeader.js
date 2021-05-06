@@ -1,6 +1,6 @@
 import "./AuthHeader.css";
 import logo from "./../../Images/PRYAC_mark.png";
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom'
 
 

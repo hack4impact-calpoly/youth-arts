@@ -1,12 +1,12 @@
 import './App.css';
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect} from "react";
 import NavBar from "./Components/NavBar/NavBar.js"
 import Footer from "./Components/Footer/Footer.js"
 import LoginPage from './Pages/LoginPage/LoginPage'
 import AnonymousDashboard from "./Pages/AnonymousDashboard/AnonymousDashboard";
 import RegistrationPage from './Pages/RegistrationPage/RegistrationForm'
 import AddOpportunityForm from './Pages/AddOpportunityForm/AddOpportunityForm'
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
 import RegistrationConfirmation from './Pages/RegistrationConfirmation/RegistrationConfirmation';
 import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
 import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
@@ -18,6 +18,24 @@ import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
+
+const SetAuthToken = () => {
+  const { token } = useParams();
+
+  fetch(`${process.env.REACT_APP_SERVER_URL}/auth/token`, {
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({token}),
+  })
+  .then(() => window.location.assign('/'));
+
+  return <p>Loading...</p>;
+};
+
 
     
 const App = () => {
@@ -41,6 +59,7 @@ const App = () => {
       { credentials: 'include' }
     ).then((res) => res.json())
       .then((account) => {
+        console.log(account);
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
@@ -48,6 +67,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
+      <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path='/directory'>
           <NavBar user={profile} />
           <DirectoryPage {...profile} />
@@ -75,11 +95,11 @@ const App = () => {
           }
         </Route>
         {profile ? (
-          <Route path='/AuthDashboard'>
+          <Route path='/authDashboard'>
             <AuthenticatedUserDashboard user={profile} />
           </Route>
         ) :
-          <Route path='/AnonDashboard'>
+          <Route path='/anonDashboard'>
             <NavBar user={profile} />
             <AnonymousDashboard user={profile} />
             <Footer />

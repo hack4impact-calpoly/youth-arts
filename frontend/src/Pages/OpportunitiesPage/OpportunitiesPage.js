@@ -1,7 +1,7 @@
 import "./OpportunitiesPage.css"
 import NavBar from "../../Components/NavBar/NavBar";
 import SearchOpportunities from "../../Components/SearchOpportunities/SearchOpportunities"
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 const OpportunitiesPage = (props) => {
     const { user } = props;

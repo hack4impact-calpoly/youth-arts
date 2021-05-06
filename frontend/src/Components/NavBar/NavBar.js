@@ -5,6 +5,16 @@ import {Link} from 'react-router-dom'
 
 const NavBar = (props) => {
   const { user } = props;
+
+  const logout = async () => {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+    })
+    .then(() => window.location.reload());
+  };
+
   return (
       <header className="navbar">
         <Link className="logo" to="/anonDashboard">
@@ -12,7 +22,7 @@ const NavBar = (props) => {
         </Link>
         <nav>
             <ul className="navlinks">
-              <li><Link to="/authDashboard">Dashboard</Link></li>
+              <li><Link to="/">Dashboard</Link></li>
               <li><Link to="/opportunities" >Opportunities</Link></li>
               <li><Link to="/Calendar">Calendar</Link></li>
               <li><Link to="/Reports">Reports</Link></li>
@@ -20,7 +30,8 @@ const NavBar = (props) => {
               <li><Link to="/FAQ">FAQ</Link></li>
               <li><Link to="/OpportunityCheckout">Cart</Link></li>
               { user ? (
-                <li><a href={`${process.env.REACT_APP_SERVER_URL}/auth/logout`}>Log Out</a></li>
+                <li><a href="/" onClick={logout}>Log Out</a></li>
+                // <li><a href={`${process.env.REACT_APP_SERVER_URL}/auth/logout`}>Log Out</a></li>
               ) : 
                 <li><Link to="/Login">Login</Link></li>
               }
