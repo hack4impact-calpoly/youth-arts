@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'ITC Avant Garde Pro Md', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  src: url('http://fonts.cdnfonts.com/css/itc-avant-garde-pro-md'); /* IE9 Compat Modes */       
+}
