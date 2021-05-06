@@ -32,6 +32,7 @@ jobs:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
         CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        SERVER_URL: ${{ secrets.SERVER_URL }}
 
     - run: echo API is at ${{ steps.backend-deployment.outputs.api-url }}
       shell: bash
