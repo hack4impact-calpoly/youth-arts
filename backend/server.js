@@ -1,9 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const session = require("express-session")
 var cors = require('cors')
+const jsonwebtoken = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const passport = require("passport")
+const passportJwt = require('passport-jwt');
+const { auth, JWT_secret } = require('./auth');
+const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require("passport-local-mongoose")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const findOrCreate = require("mongoose-findorcreate")
@@ -27,6 +31,7 @@ let transport = nodemailer.createTransport({
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
+   res.header("Referrer-Policy", "same-origin");
    res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
    res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
    res.header('Access-Control-Allow-Credentials', true);
@@ -35,36 +40,15 @@ app.use((req, res, next) => {
    next();
  });
 
-app.use(cookieSession({
-   name: 'session-name',
-   keys: ['key1', 'key2']
- }))
+app.use(express.json());
+app.use(cookieParser());
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
 
-app.use(session({
-   secret : "Our little secret.",
-   resave: false,
-   saveUninitialized: false
-}))
-
-app.use(passport.initialize())
-app.use(passport.session())
-
 passport.use(Volunteer.createStrategy())
-
-passport.serializeUser((user, done) => {
-   done(null, user.id)
-})
-
-passport.deserializeUser((id, done) => {
-   Volunteer.findById(id, (err, user) => {
-      done(err, user)
-   })
-})
 
 const accessProtectionMiddleware = (req, res, next) => {
    if (req.isAuthenticated()) {
@@ -75,7 +59,6 @@ const accessProtectionMiddleware = (req, res, next) => {
       });
    }
 };
-
 
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
@@ -91,28 +74,51 @@ function(accessToken, refreshToken, profile, cb) {
        //No user was found... so create a new user 
        if (!user) {
            user = new Volunteer({
-            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null
+            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null, admin: false
            });
            user.save(function(err) {
                if (err) console.log(err);
-               return cb(err, user, true)
+               return cb(err, user)
            });
        } 
        else {
            //found user. Return
            if (!user.firstName){
-               return cb(err, user, true)
+               return cb(err, user)
            }
            else {
-               return cb(err, user, false)
+               return cb(err, user)
            }
-           
        }
    });
 }
 ));
 
-app.get('/auth/account', (req, res) => {
+app.post('/auth/token', (req, res) => {
+   const token = req.body.token;
+   const options = {
+     secure: true,
+     httpOnly: true,
+     sameSite: 'none',
+   };
+   res.cookie('auth_token', token, options);
+   res.sendStatus(200);
+ });
+ 
+ app.post('/auth/logout', (req, res) => {
+   const options = {
+     secure: true,
+     httpOnly: true,
+     sameSite: 'none',
+   };
+ 
+   res.clearCookie('auth_token', options);
+   res.sendStatus(200);
+   // res.redirect(process.env.CLIENT_URL);
+ });
+
+
+app.get('/auth/account', auth, (req, res) => {
    const account = req.user 
    res.json(account || {});
  });
@@ -226,32 +232,14 @@ app.get('/protected', checkUserLoggedIn, (req, res) => {
 );
 
 app.get("/auth/google/callback",
-   passport.authenticate("google", { failureRedirect:
+   passport.authenticate("google", { 
+      session: false,
+      failureRedirect:
       `${process.env.CLIENT_URL}` }),
-   (req, res, newUser) => {
+   (req, res) => {
       //Succesful authentication, redirect secrets.
-      if (req.user.firstName !== null) {
-         req.logIn(req.user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            const returnTo = req.session.returnTo;
-            delete req.session.returnTo;
-            res.redirect(`${process.env.CLIENT_URL}/authDashboard/` + req.user.id)
-          });  
-      
-      }
-      else {
-         req.logIn(req.user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            const returnTo = req.session.returnTo;
-            delete req.session.returnTo;
-            res.redirect(`${process.env.CLIENT_URL}/registration/` + req.user.id)
-          });
-    
-      }
+      const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
+      res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
 
    }
 )
@@ -259,11 +247,6 @@ app.get("/auth/google/callback",
  app.get('/current-user', passport.authenticate("google", { scope: [['https://www.googleapis.com/auth/plus.login']] }), 
 function(req, res, newuser) {
    res.status(302).json(req.user);
- });
-
- app.get('/auth/logout', (req, res) => {
-   req.logout();
-   res.redirect(process.env.CLIENT_URL);
  });
 
 app.get('/',
@@ -608,4 +591,9 @@ const getAllOpportunitiesWithSkill = async (start, end, skill) => {
    return including_skill
 }
 
-app.listen(4000)
+if (process.argv.includes('dev')) {
+   const PORT = process.env.PORT || 4000;
+   app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+ }
+
+ module.exports = app;

@@ -1,6 +1,5 @@
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState} from 'react';
-import Footer from '../../Components/Footer/Footer';
+import React from 'react';
 import GoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton';
 import "./LoginPage.css";
 import headerImage from './headerImage.png';

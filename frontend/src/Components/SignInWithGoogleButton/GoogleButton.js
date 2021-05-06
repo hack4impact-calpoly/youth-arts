@@ -1,5 +1,5 @@
 
-import styles from './GoogleButton.css';
+import './GoogleButton.css';
 
 function GoogleButton() {
   

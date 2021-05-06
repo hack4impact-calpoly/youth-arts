@@ -1,10 +1,8 @@
 
 import './RegistrationForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState} from 'react';
-import axios from 'axios';
+import React from 'react';
 import headerImage from './headerImage.png';
-import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import classroom from '../../Images/classroom.png'
 import event from '../../Images/event.png'
@@ -65,9 +63,9 @@ class RegistrationPage extends React.Component {
     if (this.state.firstName === "" && userId !== "") 
     {
       this.setState({userID: userId});
-      fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId)
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId, { credentials: 'include' })
         .then(res => res.json())
-        .then(data => this.setState({... data}));
+        .then(data => this.setState({...data}));
     }
     else 
     {
@@ -114,7 +112,7 @@ class RegistrationPage extends React.Component {
     const newSelection = e.target.value;
     let newSelectionArray;
 
-    if (this.state.communityRole.indexOf(newSelection) != -1) {
+    if (this.state.communityRole.indexOf(newSelection) !== -1) {
       newSelectionArray = this.state.communityRole.filter(
         s => s !== newSelection
       );
@@ -127,7 +125,7 @@ class RegistrationPage extends React.Component {
     const newSelection = e.target.value;
     let newSelectionArray;
 
-    if (this.state.AOI.indexOf(newSelection) != -1) {
+    if (this.state.AOI.indexOf(newSelection) !== -1) {
       newSelectionArray = this.state.AOI.filter(
         s => s !== newSelection
       );
@@ -137,16 +135,14 @@ class RegistrationPage extends React.Component {
     this.setState( {AOI: newSelectionArray });
   }
   handleWaiverCheckBox(e) {
-    const newSelection = e.target.value;
-    if (this.state.signature != true) {
+    if (this.state.signature !== true) {
       this.setState( {signature: true });
     } else {
       this.setState( {signature: false });
     }
   }
   handleBoardCheckBox(e) {
-    const newSelection = e.target.value;
-    if (this.state.boardMember != true) {
+    if (this.state.boardMember !== true) {
       this.setState( {boardMember: true });
     } else {
       this.setState( {boardMember: false });
@@ -237,7 +233,7 @@ class RegistrationPage extends React.Component {
                         className="form-checkbox"
                         onChange={this.handleRoleCheckBox}
                         value={option}
-                        checked= { this.state.communityRole.indexOf(option) != -1 }
+                        checked= { this.state.communityRole.indexOf(option) !== -1 }
                         type="checkbox" /> {option}
                     </label>
                   );
@@ -256,7 +252,7 @@ class RegistrationPage extends React.Component {
                           className="form-checkbox"
                           onChange={this.handleAOICheckBox}
                           value={option}
-                          checked= { this.state.AOI.indexOf(option) != -1 }
+                          checked= { this.state.AOI.indexOf(option) !== -1 }
                           type="checkbox" /> {option}
                       </label>
                     );

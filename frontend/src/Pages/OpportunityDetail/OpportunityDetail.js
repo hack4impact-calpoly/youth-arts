@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-import Footer from '../../Components/Footer/Footer';
+import React from 'react';
 import './OpportunityDetail.css'
-import ActionButton from "../../Components/ActionButton/ActionButton";
 import ImageCarousel from './ImageCarousel/ImageCarousel'
 import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
@@ -11,8 +9,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
-import {Link} from 'react-router-dom';
-//import DateMomentUtils from '@date-io/moment'; 
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 
@@ -21,7 +17,6 @@ class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
-        // const { user } = props;
         this.state = {
             user: props.user,
             cart: props.cart,
@@ -53,7 +48,6 @@ class OpportunityDetail extends React.Component{
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
-            
         });  
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
@@ -102,12 +96,18 @@ class OpportunityDetail extends React.Component{
                         volunteers: this.state.volunteers
                     }}});
     }
+    sortTaskArray(a, b) {
+        if (a[0] > b[0]) return -1;
+        if (a[0] < b[0]) return 1;
+        return 0;
+    }
     
 
   render() {
+      console.log(this.state.user);
     
     return (
-        <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
+        <div className={ ((this.state.showSignInModal && !this.state.user) || this.state.showDonateModal ) ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
@@ -173,12 +173,12 @@ class OpportunityDetail extends React.Component{
                             </div>
                         </div>
                         <div className="bodyContainer">
-                                <div id={this.state.showDonateModal | !this.state.user ? "darkTaskBody" : "taskBody"}>
+                                <div id={((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkTaskBody" : "taskBody"}>
                                         <div>
                                            {this.state.tasks.map(task =>
                                             {
                                               return(
-                                                  <div id={this.state.showDonateModal | !this.state.user ? "darkTaskCard" : "taskCard"}>
+                                                  <div id={((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkTaskCard" : "taskCard"}>
                                                     <div className="roleNameAndTime">
                                                         <p id="roleHeader">
                                                         Role:
@@ -237,7 +237,8 @@ class OpportunityDetail extends React.Component{
                                                             }
                                                         )}
                                                         <button id="cartButtonStyle" onClick={this.state.user ? 
-                                                        () => this.state.updateCart(task) : this.changeSignInModal}>Add to Cart</button>
+                                                        () => this.state.updateCart(task) : 
+                                                        () => this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
                                               )  
@@ -297,16 +298,16 @@ class OpportunityDetail extends React.Component{
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {(Object.keys(this.state.volunteers)).map(volunteers =>
+                                        {this.state.volunteers ? (Object.keys(this.state.volunteers)).map(volunteers =>
                                         {
+                                            console.log(this.state.volunteers)
                                             var vol = (this.state.volunteerList).find(x => x._id === volunteers);
                                             return(
                                                 <tr>
                                                     {vol && <td className="detailTD">{
                                                         // (i < ((volData[1]).length - 1)) && 
                                                         <div>
-                                                            <td> {vol.firstName} </td>
-                                                            <td>{vol.lastName} </td>    
+                                                             {vol.firstName} { } {vol.lastName} 
                                                         </div>
                                                         }
                                                     </td>}
@@ -316,9 +317,10 @@ class OpportunityDetail extends React.Component{
                                                             const end = "end"
                                                             const key_value = Object.entries(this.state.volunteers[volunteers][volunteer]);
                                                             const key_set = Object.keys(this.state.volunteers[volunteers]);
-                                                            console.log(key_value);
+                                                            key_value.sort(this.sortTaskArray);
                                                             return (
-                                                                key_value.map((volData, v) =>
+                                                                <tr>
+                                                                {key_value.map((volData, v) =>
                                                                 {
                                                                 if (volData[0] ==="task") {
                                                                     return (
@@ -393,28 +395,29 @@ class OpportunityDetail extends React.Component{
                                                                         </td>
                                                                         )
                                                                 }
-                                                                else if(volData.length-1 == i)
-                                                                {
-                                                                    //any extra volunteer info
-                                                                }
-                                                                else{
+                                                                else if(volData[0] === "donated") {
                                                                     return(
-                                                                   
-                                                                        <td className="detailTD">{
-                                                                            // (i < (key_set.length - 1)) && 
+                                                                        
+                                                                        <td className="detailTD">{ 
                                                                             
-                                                                            (volData[1]).map(item =>
-                                                                            {
-                                                                                return(
+                                                                            (volData[1]).map(item => {
+                                                                                return (
                                                                                     <li>{item}</li>
-                                                                                )
-                                                                            })}</td>
+                                                                                );
+                                                                            })
+                                                                        }
+                                                                        </td>
                                                                 
-                                                                )}
-                                                        })
-                                                        )})}
+                                                                    )
+                                                                }
+                                                            })
+                                                            }</tr>)
+                                                        
+                                                        })}
                                                         </tr>
-                                                    )})}
+                                                    )
+                                                    
+                                                    }) : "No Volunteers Found"}
                                             </tbody>
                                         </table>
                                     </div>}
@@ -441,7 +444,7 @@ class OpportunityDetail extends React.Component{
                     </div>
                 </div>
              }
-            {!this.state.user &&
+            {(this.state.showSignInModal ?
                 <div className="popUpBackground">
                     <div className="ModalWrapper">
                         <div className="ModalContent">
@@ -457,6 +460,7 @@ class OpportunityDetail extends React.Component{
                         </div>
                     </div>
                 </div>
+                : <div></div>)
              }
             <div id="buttonContainer">
                 <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : ""}>Donate</button> 

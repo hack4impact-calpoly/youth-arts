@@ -4,9 +4,9 @@ import OpportunityCard from "./../OpportunityCard/OpportunityCard";
 import {Row, Col} from "react-bootstrap";
 import {useState, useEffect} from "react";
 import axios from "axios"
+import { useHistory } from "react-router-dom";
 
 const Opportunities = (props) => {
-    const { user } = props;
 
     const [opportunities, setOpportunities] = useState("");
     async function fetchAll() {
@@ -39,6 +39,9 @@ const Opportunities = (props) => {
 
     const firstThree = getFirstThree();
 
+    const history = useHistory();
+    const navigateTo = () => history.push('opportunities/');
+
     return (
         <div>
             <h3 className="oppTitle">OPPORTUNITIES</h3>
@@ -50,7 +53,7 @@ const Opportunities = (props) => {
                         </Col>
                     ))}
                     <Col md="auto">
-                        <button className="viewMore"><img className="arrow" src={arrow} alt="arrow"/><br/><br/>View<br/> More</button>
+                        <button onClick={navigateTo} className="viewMore"><img className="arrow" src={arrow} alt="arrow"/><br/><br/>View<br/> More</button>
                     </Col>
                 </Row>
             </div>

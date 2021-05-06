@@ -1,7 +1,7 @@
 
 import './AddOpportunityForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import ImageUpload from '../../Components/ImageUpload/ImageUpload'
@@ -52,9 +52,9 @@ function AddOpportunityForm(props) {
   {
     props.state.opportunity = props.location.state.opportunity;
   }
-  const[opportunity, setOpportunity] = useState(props.state.opportunity);
+  const[opportunity] = useState(props.state.opportunity);
   
-  const [taskList, setTaskList] = useState(opportunity.tasks);
+  const [taskList] = useState(opportunity.tasks);
 
   const [wishList, setWishList] = useState(opportunity.wishlist);
   const [rerender, setRerender] = useState(false);
@@ -62,7 +62,7 @@ function AddOpportunityForm(props) {
   const handleAOICheckBox = (e) => {
     console.log(opportunity);
     const newSelection = e.target.value;
-    if (opportunity.skills && opportunity.skills.indexOf(newSelection) != -1) {
+    if (opportunity.skills && opportunity.skills.indexOf(newSelection) !== -1) {
       opportunity.skills.splice(opportunity.skills.indexOf(newSelection), 1);
     } else {
       opportunity.skills.push(newSelection);
@@ -98,7 +98,6 @@ const handleChangeWishList = (e, index) => {
     setRerender(!rerender);
   }
 const handleAddInputWish = () => {
-    const list = [...wishList];
     opportunity.wishlist.push("");
     setWishList(opportunity.wishlist);
     setRerender(!rerender);
@@ -110,13 +109,10 @@ const handleDeleteInputWish = index  => {
 }
 
 const handleEndChangeDate = (e, index) => {
-  const list = opportunity;
   (opportunity.end_event)[index] = e.target.value;
   setRerender(!rerender);
 }
 const handleStartChangeDate = (e, index) => {
-  const list = opportunity;
-  console.log(e.target.value);
   (opportunity.start_event)[index] = e.target.value;
   setRerender(!rerender);
 }
@@ -406,7 +402,7 @@ setRerender(!rerender);
                           className="form-checkbox"
                           onChange={e => handleAOICheckBox(e)}
                           value={option}
-                          checked= {opportunity.skills? opportunity.skills.indexOf(option) != -1 : false}
+                          checked= {opportunity.skills? opportunity.skills.indexOf(option) !== -1 : false}
                           type="checkbox" /> {option}
                       </label>
                     );

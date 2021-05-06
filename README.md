@@ -68,6 +68,6 @@ $ git push -u origin your_branch_name
 #### To create a Pull Request
 On GitHub, navigate to the branches tab and select the ‘New Pull Request’ button
 
-Write a comment of what your change was and write the issue number so that it links together
+Write a comment of what your change was and write the issue number to link it
 
 Add @JillianQuinn as a reviewer
