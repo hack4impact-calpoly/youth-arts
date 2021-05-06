@@ -12,7 +12,7 @@ function ContactPage() {
 
     async function fetchAll() {
         try {
-            const response = await axios.get("http://localhost:4000/api/volunteer/" + id);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + id);
             return response.data;
         }
         catch(error) {
