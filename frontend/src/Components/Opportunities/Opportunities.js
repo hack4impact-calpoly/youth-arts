@@ -10,8 +10,7 @@ const Opportunities = (props) => {
     const [opportunities, setOpportunities] = useState("");
     async function fetchAll() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`, 
-            { credentials: 'include' });
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
             return response.data;
         }
         catch(error) {

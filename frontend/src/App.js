@@ -37,7 +37,6 @@ const SetAuthToken = () => {
 };
 
 
-    
 const App = () => {
   const [profile, updateProfile] = useState(null);
   const [cart, setCart] = useState([]);
@@ -84,8 +83,12 @@ const App = () => {
           <Footer />
         </Route>
         <Route exact path='/'>
-          {profile ? (
+          {profile ? (Object.keys(profile).length > 7 ? 
             <AuthenticatedUserDashboard user={profile} />
+            :
+            <Route path='/registration'>
+              <RegistrationPage user={profile} />
+            </Route>
           ) :
             <div>
               <NavBar user={profile} />
