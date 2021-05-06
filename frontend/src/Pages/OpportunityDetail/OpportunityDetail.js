@@ -48,7 +48,6 @@ class OpportunityDetail extends React.Component{
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
-            
         });  
 
         await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
@@ -108,7 +107,7 @@ class OpportunityDetail extends React.Component{
       console.log(this.state.user);
     
     return (
-        <div className={ ((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkBackground" : ""}>
+        <div className={ ((this.state.showSignInModal && !this.state.user) || this.state.showDonateModal ) ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
@@ -238,7 +237,8 @@ class OpportunityDetail extends React.Component{
                                                             }
                                                         )}
                                                         <button id="cartButtonStyle" onClick={this.state.user ? 
-                                                        () => this.state.updateCart(task) : () => this.changeSignInModal}>Add to Cart</button>
+                                                        () => this.state.updateCart(task) : 
+                                                        () => this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
                                               )  
