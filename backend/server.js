@@ -66,16 +66,16 @@ function(accessToken, refreshToken, profile, cb) {
            });
            user.save(function(err) {
                if (err) console.log(err);
-               return cb(err, user, true)
+               return cb(err, user)
            });
        } 
        else {
            //found user. Return
            if (!user.firstName){
-               return cb(err, user, true)
+               return cb(err, user)
            }
            else {
-               return cb(err, user, false)
+               return cb(err, user)
            }
        }
    });
@@ -224,7 +224,7 @@ app.get("/auth/google/callback",
       session: false,
       failureRedirect:
       `${process.env.CLIENT_URL}` }),
-   (req, res, newUser) => {
+   (req, res) => {
       //Succesful authentication, redirect secrets.
       const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
       res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);

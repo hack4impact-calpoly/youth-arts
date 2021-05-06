@@ -11,7 +11,7 @@ const OpportunitiesPage = (props) => {
             <div id="oppsHeader">
                 <h1 id="oppsTitle">OPPORTUNITIES</h1>
             </div>
-            <SearchOpportunities />
+            <SearchOpportunities user={user}/>
         </body>
     );
 }

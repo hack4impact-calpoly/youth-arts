@@ -44,14 +44,14 @@ class OpportunityDetail extends React.Component{
         id = id.replace("/opportunityDetail/", "");
         console.log(id);
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
-        await fetch(url, { credentials: 'include' })
+        await fetch(url)
         .then(res => res.json())
         .then(opportunity => {
             this.setState({...opportunity});
             
         });  
 
-        await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`, { credentials: 'include' })
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
         .then(res => res.json())
         .then(vols => {
             this.setState({volunteerList : vols});
@@ -105,10 +105,10 @@ class OpportunityDetail extends React.Component{
     
 
   render() {
-      console.log(this.state.volunteers);
+      console.log(this.state.user);
     
     return (
-        <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
+        <div className={ ((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
@@ -174,12 +174,12 @@ class OpportunityDetail extends React.Component{
                             </div>
                         </div>
                         <div className="bodyContainer">
-                                <div id={this.state.showDonateModal | !this.state.user ? "darkTaskBody" : "taskBody"}>
+                                <div id={((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkTaskBody" : "taskBody"}>
                                         <div>
                                            {this.state.tasks.map(task =>
                                             {
                                               return(
-                                                  <div id={this.state.showDonateModal | !this.state.user ? "darkTaskCard" : "taskCard"}>
+                                                  <div id={((this.state.showSignInModal && !this.state.user) | this.state.showDonateModal ) ? "darkTaskCard" : "taskCard"}>
                                                     <div className="roleNameAndTime">
                                                         <p id="roleHeader">
                                                         Role:
@@ -238,7 +238,7 @@ class OpportunityDetail extends React.Component{
                                                             }
                                                         )}
                                                         <button id="cartButtonStyle" onClick={this.state.user ? 
-                                                        () => this.state.updateCart(task) : this.changeSignInModal}>Add to Cart</button>
+                                                        () => this.state.updateCart(task) : () => this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
                                               )  
@@ -444,7 +444,7 @@ class OpportunityDetail extends React.Component{
                     </div>
                 </div>
              }
-            {!this.state.user &&
+            {(this.state.showSignInModal ?
                 <div className="popUpBackground">
                     <div className="ModalWrapper">
                         <div className="ModalContent">
@@ -460,6 +460,7 @@ class OpportunityDetail extends React.Component{
                         </div>
                     </div>
                 </div>
+                : <div></div>)
              }
             <div id="buttonContainer">
                 <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : ""}>Donate</button> 

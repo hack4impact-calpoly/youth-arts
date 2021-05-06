@@ -62,10 +62,19 @@ const App = () => {
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
-
+  
   return (
     <BrowserRouter>
       <Switch>
+      <Route path='/opportunityDetail'>
+          <NavBar user={profile} />
+          <OpportunityDetail
+            updateCart={updateCart}
+            user={profile}
+            updateUser={updateProfile}
+            cart={cart} />
+          <Footer />
+        </Route>
       <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path='/directory'>
           <NavBar user={profile} />
@@ -83,13 +92,13 @@ const App = () => {
           <Footer />
         </Route>
         <Route exact path='/'>
-          {profile ? (Object.keys(profile).length > 7 ? 
-            <AuthenticatedUserDashboard user={profile} />
+          {profile ? 
+              (Object.keys(profile).length > 15 ? 
+                <AuthenticatedUserDashboard user={profile} />
+                :
+                <RegistrationPage user={profile} />
+              ) 
             :
-            <Route path='/registration'>
-              <RegistrationPage user={profile} />
-            </Route>
-          ) :
             <div>
               <NavBar user={profile} />
               <AnonymousDashboard user={profile} />
@@ -157,15 +166,7 @@ const App = () => {
             updateUser={updateProfile} />
         }
 
-        <Route path='/opportunityDetail'>
-          <NavBar user={profile} />
-          <OpportunityDetail
-            updateCart={updateCart}
-            user={profile}
-            updateUser={updateProfile}
-            cart={cart} />
-          <Footer />
-        </Route>
+        
 
         <Route path='/opportunityCheckout'>
         <NavBar/>

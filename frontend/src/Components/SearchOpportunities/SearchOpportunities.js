@@ -8,14 +8,15 @@ import {Row, Col} from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-function SearchOpportunities() {
+function SearchOpportunities(props) {
     //need to connect backend here and set to opportunities
+    const {user} = props;
     const history = useHistory();
     const navigateTo = () => history.push('/addOpportunity');
     const [opportunities, setOpportunities] = useState("");
     async function fetchAll() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`, { credentials: 'include' });
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
             return response.data;
         }
         catch(error) {
@@ -127,9 +128,9 @@ function SearchOpportunities() {
                         <option value="performance">Performance</option>
                     </select>
                 </Col>
-                <Col id="button">
+                {user && <Col id="button">
                     <SubmitButton onClick={navigateTo} buttonText="ADD OPPORTUNITY"/>
-                </Col>
+                </Col>}
             </Row>
 
             <Pagination
