@@ -12,7 +12,21 @@ code {
     monospace;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Avant Garde';
   src: url(./Fonts/ITCAvantGardePro-Bk.otf);
+} */
+
+@font-face {
+  font-family: 'Avant Garde';
+  /* font-family: 'ITCAvantGardeGothicW02-Book'; */
+  src: url('./Fonts/ITCAvantGardeGothicW02-Book.eot');
+  src: local('ITC Avant Garde Gothic W02 Bk'), local('ITCAvantGardeGothicW02-Book'),
+      url('./Fonts/ITCAvantGardeGothicW02-Book.eot?#iefix') format('embedded-opentype'),
+      url('./Fonts/ITCAvantGardeGothicW02-Book.woff2') format('woff2'),
+      url('./Fonts/ITCAvantGardeGothicW02-Book.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
+
