@@ -62,7 +62,7 @@ const App = () => {
         if (Object.keys(account).length > 0) updateProfile(account);
       });
   }, []);
-
+  
   return (
     <BrowserRouter>
       <Switch>
@@ -92,13 +92,13 @@ const App = () => {
           <Footer />
         </Route>
         <Route exact path='/'>
-          {profile ? (Object.keys(profile).length > 7 ? 
-            <AuthenticatedUserDashboard user={profile} />
+          {profile ? 
+              (Object.keys(profile).length > 15 ? 
+                <AuthenticatedUserDashboard user={profile} />
+                :
+                <RegistrationPage user={profile} />
+              ) 
             :
-            <Route path='/registration'>
-              <RegistrationPage user={profile} />
-            </Route>
-          ) :
             <div>
               <NavBar user={profile} />
               <AnonymousDashboard user={profile} />
