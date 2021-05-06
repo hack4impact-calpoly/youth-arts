@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-// const session = require("express-session")
 var cors = require('cors')
 const jsonwebtoken = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -17,7 +16,6 @@ const app = express()
 const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
-// const cookieSession = require('cookie-session');
 
 
 app.use(bodyParser.json())
@@ -31,10 +29,6 @@ app.use((req, res, next) => {
    next();
  });
 
-// app.use(cookieSession({
-//    name: 'session-name',
-//    keys: ['key1', 'key2']
-//  }))
 app.use(express.json());
 app.use(cookieParser());
 
@@ -44,26 +38,9 @@ const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
 
-// app.use(session({
-//    secret : "Our little secret.",
-//    resave: false,
-//    saveUninitialized: false
-// }))
-
-// app.use(passport.initialize())
-// app.use(passport.session())
 
 passport.use(Volunteer.createStrategy())
 
-// passport.serializeUser((user, done) => {
-//    done(null, user.id)
-// })
-
-// passport.deserializeUser((id, done) => {
-//    Volunteer.findById(id, (err, user) => {
-//       done(err, user)
-//    })
-// })
 
 const accessProtectionMiddleware = (req, res, next) => {
    if (req.isAuthenticated()) {
@@ -258,37 +235,6 @@ app.get("/auth/google/callback",
       const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
       res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
 
-
-      // if (req.user.firstName !== null) {
-      //    const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
-      //    res.redirect(`${process.env.CLIENT_URL}/authDashboard/${token}`);
-
-
-      //    // req.logIn(req.user, (err) => {
-      //    //    if (err) {
-      //    //      return next(err);
-      //    //    }
-      //    //    const returnTo = req.session.returnTo;
-      //    //    delete req.session.returnTo;
-      //    //    res.redirect(`${process.env.CLIENT_URL}/authDashboard/` + req.user.id)
-      //    //  });  
-      
-      // }
-      // else {
-      //    const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
-      //    res.redirect(`${process.env.CLIENT_URL}/registration/${token}`);
-
-      //    // req.logIn(req.user, (err) => {
-      //    //    if (err) {
-      //    //      return next(err);
-      //    //    }
-      //    //    const returnTo = req.session.returnTo;
-      //    //    delete req.session.returnTo;
-      //    //    res.redirect(`${process.env.CLIENT_URL}/registration/` + req.user.id)
-      //    //  });
-    
-      // }
-
    }
 )
 
@@ -296,11 +242,6 @@ app.get("/auth/google/callback",
 function(req, res, newuser) {
    res.status(302).json(req.user);
  });
-
-//  app.get('/auth/logout', (req, res) => {
-//    req.logout();
-//    res.redirect(process.env.CLIENT_URL);
-//  });
 
 app.get('/',
   function(req, res) {
