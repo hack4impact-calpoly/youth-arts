@@ -5,8 +5,7 @@ import Opportunities from "../../Components/Opportunities/Opportunities";
 import UpcomingOpportunities from "../../Components/UpcomingOpportunities/UpcomingOpportunities"
 import Footer from "../../Components/Footer/Footer";
 import { Row, Col } from "react-bootstrap";
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import { Redirect } from 'react-router-dom'
+import React, {useState} from 'react';
 
 const AuthenticatedUserDashboard = (props) => {
     //sample opportunities
@@ -21,7 +20,6 @@ const AuthenticatedUserDashboard = (props) => {
     } 
     return (
         <div>
-            {user &&
             <div>
                 <NavBar user={user}/>
                 <AuthHeader
@@ -42,7 +40,6 @@ const AuthenticatedUserDashboard = (props) => {
                 <Opportunities />
                 <Footer />
             </div>  
-            ||  <NavBar />}
         </div>    
     );
 }

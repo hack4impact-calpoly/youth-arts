@@ -1,5 +1,4 @@
-import {useState, Component} from 'react';
-import { render } from 'react-dom';
+import {Component} from 'react';
 import './ImageUpload.css'
 import AWS from 'aws-sdk'
 

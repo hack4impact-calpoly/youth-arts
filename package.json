@@ -2,7 +2,7 @@
   "name": "pryac",
   "version": "1.0.0",
   "description": "Hack4Impact Cal Poly nonprofit project for Paso Robles Youth Arts Center",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

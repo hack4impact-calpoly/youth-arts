@@ -1,5 +1,4 @@
 import "./OpportunityCheckout.css"
-import NavBar from "../../Components/NavBar/NavBar";
 import React from "react";
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
@@ -29,7 +28,7 @@ class OpportunityCheckout extends React.Component{
         console.log(task);
         console.log(e.target.value);
     
-        if (this.state.selectedTimes[task].indexOf(newSelection) != -1) {
+        if (this.state.selectedTimes[task].indexOf(newSelection) !== -1) {
           newSelectionArray = this.state.selectedTimes[task].filter(
             s => s !== newSelection
           );

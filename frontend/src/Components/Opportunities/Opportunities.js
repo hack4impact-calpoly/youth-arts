@@ -6,12 +6,12 @@ import {useState, useEffect} from "react";
 import axios from "axios"
 
 const Opportunities = (props) => {
-    const { user } = props;
 
     const [opportunities, setOpportunities] = useState("");
     async function fetchAll() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`, 
+            { credentials: 'include' });
             return response.data;
         }
         catch(error) {
