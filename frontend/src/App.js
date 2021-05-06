@@ -18,6 +18,7 @@ import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
+import { useHistory } from "react-router-dom";
 
 const SetAuthToken = () => {
   const { token } = useParams();
@@ -40,13 +41,14 @@ const SetAuthToken = () => {
 const App = () => {
   const [profile, updateProfile] = useState(null);
   const [cart, setCart] = useState([]);
+  const [newUser, setnewUser] = useState(0);
 
   const updateCart = (task) => {
     cart.push(task);
     console.log(cart);
   }
-
-
+  const history = useHistory();
+  
   const deleteFromCart = (task) => {
     const index = cart.indexOf(task)
     cart.splice(index,1);
@@ -59,7 +61,16 @@ const App = () => {
     ).then((res) => res.json())
       .then((account) => {
         console.log(account);
-        if (Object.keys(account).length > 0) updateProfile(account);
+        if (Object.keys(account).length > 0) {
+          if (Object.keys(account).length < 15) {
+            setnewUser(newUser + 1);
+          }
+          else
+          {
+            setnewUser(0);
+          }
+          updateProfile(account);
+        };
       });
   }, []);
   
@@ -93,8 +104,8 @@ const App = () => {
         </Route>
         <Route exact path='/'>
           {profile ? 
-              (Object.keys(profile).length > 15 ? 
-                <AuthenticatedUserDashboard user={profile} />
+              ((newUser <= 0) ? 
+              <AuthenticatedUserDashboard user={profile} />
                 :
                 <RegistrationPage user={profile} />
               ) 
