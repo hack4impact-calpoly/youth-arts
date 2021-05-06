@@ -26,7 +26,8 @@ const NavBar = (props) => {
               <li><Link to="/opportunities" >Opportunities</Link></li>
               <li><Link to="/Calendar">Calendar</Link></li>
               <li><Link to="/Reports">Reports</Link></li>
-              {user && user.admin !== null && user.admin === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}/directory`}>Directory</a></li> : null}
+              {/* {user && user.admin !== null && user.admin === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}/directory`}>Directory</a></li> : null} */}
+              {user && user.admin !== null && user.admin === true ? <li><Link to="/directory">Directory</Link></li> : null}
               <li><Link to="/FAQ">FAQ</Link></li>
               <li><Link to="/OpportunityCheckout">Cart</Link></li>
               { user ? (
