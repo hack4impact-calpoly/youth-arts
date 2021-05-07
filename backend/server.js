@@ -23,10 +23,17 @@ const cookieSession = require('cookie-session');
 let transport = nodemailer.createTransport({
   service: "gmail",
   auth: {
-     user: "jillian@hack4impact.org",
-     pass: ""
-  }
-  
+     user: `${process.env.EMAIL_USER}`,
+     pass: `${process.env.EMAIL_PASSWORD}`
+  },
+   // name: 'youtharts-volunteer.h4i-cp.org',
+   // host: "smtp.mailtrap.io",
+   // port: 2525,
+   // auth: {
+   //    user: "333d5d35efddbb",
+   //    pass: "619530fcb4f9a9"
+   // },
+   logger: true
 })
 
 app.use(bodyParser.json())
@@ -311,6 +318,47 @@ app.post("/api/opportunity", async(req, res) => {
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+
+   //Email to new volunteer + admin
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: req.body.email,
+      subject: "Account signup successful",
+      text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with PRYAC!",
+      html: "<img src = cid:pryacLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering!",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "../frontend/src/Images/PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: "New account signup",
+      text: req.body.firstName + req.body.lastName + "has successfully made an account with PRYAC.",
+      html: "<img src = cid:pryacLogo /><br></br><p>" + req.body.firstName + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering.</p>",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "../frontend/src/Images/PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })   
    res.json(newVolunteer)
 })
 
@@ -366,11 +414,12 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
    
+   console.log(volunteer.email);
    
    
    //Emails to confirm signup
    const volunteerMessage = {
-      from: "jillian@hack4impact.org",
+      from: `${process.env.EMAIL_USER}`,
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
@@ -378,21 +427,21 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       ".</p><p>The event will currently be held at " + opportunity.location + 
       ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:pryacLogo />",
       attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
          cid: "pryacLogo"
       }]
    }
    const adminMessage = {
-      from: "jillian@hack4impact.org",
-      to: "jillian@hack4impact.org",
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
       subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:pryacLogo />",
       attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
          cid: "pryacLogo"
       }]
    }
@@ -436,29 +485,29 @@ const volunteerUnregister = async (vol_id, opp_id) => {
    
    //Emails to confirm signup
    const volunteerMessage = {
-      from: "jillian@hack4impact.org",
+      from: `${process.env.EMAIL_USER}`,
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><br></br><img src = cid:pryacLogo />",
       attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
          cid: "pryacLogo"
       }]
    }
 
    const adminMessage = {
-      from: "jillian@hack4impact.org",
-      to: "jillian@hack4impact.org",
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
       subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><br></br><img src = cid:pryacLogo />",
       attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
          cid: "pryacLogo"
       }]
    }
@@ -524,65 +573,6 @@ const postNewOpportunity = async (title, description, pictures, start_event, end
       title, description, pictures, start_event, end_event, skills, 
       wishlist, location, requirements, tasks, additionalInfo, volunteers
    }).save()
-}
-const postNewVolunteer = async (first, last, email, phone, address, role, AOI, experience, employment, hearAboutUs, boardMember, digitalWaiver) => {
-   newVolunteer = new Volunteer({
-      id,
-      first, 
-      last, 
-      email, 
-      phone, 
-      address, 
-      role, 
-      AOI, 
-      experience, 
-      employment, 
-      hearAboutUs, 
-      boardMember,
-      digitalWaiver
-   }).update()
-
-   //Email to new volunteer + admin
-   const volunteerMessage = {
-      from: "jillian@hack4impact.org",
-      to: email,
-      subject: "Account signup successful",
-      text: "Congratulations " + first + ",\n\nYou have successfully made an account with PRYAC!",
-      html: "<p>Congratulations " + first + ",<br></br>You have successfully made an account with PRYAC!</p><br></br><img src = cid:pryacLogo />",
-      attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
-         cid: "pryacLogo"
-      }]
-   }
-
-   const adminMessage = {
-      from: "jillian@hack4impact.org",
-      to: "jillian@hack4impact.org",
-      subject: "New account signup",
-      text: first + last + "has successfully made an account with PRYAC.",
-      html: "<p>" + first + " " + last + " has successfully made an account with PRYAC.</p><br></br><img src = cid:pryacLogo />",
-      attachments: [{
-         filename: "PRYAC_mark.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
-         cid: "pryacLogo"
-      }]
-   }
-   transport.sendMail(volunteerMessage, function(err, info) {
-      if (err) {
-         console.log(err)
-      } else {
-         console.log(info)
-      }
-   })
-   transport.sendMail(adminMessage, function(err, info) {
-      if (err) {
-         console.log(err)
-      } else {
-         console.log(info)
-      }
-   })
-   return newVolunteer;
 }
 
 const getAllOpportunitiesByDates = async (start, end) => {
