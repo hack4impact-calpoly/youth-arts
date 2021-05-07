@@ -366,25 +366,34 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
    
+   
    //Emails to confirm signup
    const volunteerMessage = {
       from: "pryac@gmail.com",
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
-      text: "Hello " + volunteer.firstName + ",\n\nYou have successfully signed up for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
-      + ". The event will currently be held at " + opportunity.location + 
-      ".\n\nThe business that you chose to donate to or register with was blank. " + 
-      "\n\n\nClick here or call this number (805-238-5825) to cancel your registration."
+      html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><p>The event will currently be held at " + opportunity.location + 
+      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
-
    const adminMessage = {
       from: "pryac@gmail.com",
       to: "admin@gmail.com",
       subject: opportunity.title + " sign up successful - " + volunteer.firstName + volunteer.lastName,
-      text: volunteer.firstName + "has successfully signed up for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
-      + ".\n\nThe business that they chose to donate to or register with was blank."
+      html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
 
    transport.sendMail(volunteerMessage, function(err, info) {
@@ -394,6 +403,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
          console.log(info)
       }
    })
+   
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
@@ -401,6 +411,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
          console.log(info)
       }
    })
+   
 }
 
 const volunteerUnregister = async (vol_id, opp_id) => {
@@ -425,16 +436,28 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       from: "pryac@gmail.com",
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
-      text: "Hello " + volunteer.firstName + ",\n\nYou have successfully unregistered for your volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+      html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
 
    const adminMessage = {
       from: "pryac@gmail.com",
       to: "admin@gmail.com",
       subject: opportunity.title + " unregistration successful - " + volunteer.firstName + volunteer.lastName,
-      text: volunteer.firstName + "has successfully unregistered for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z")
+      html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
 
    transport.sendMail(volunteerMessage, function(err, info) {
@@ -516,19 +539,31 @@ const postNewVolunteer = async (first, last, email, phone, address, role, AOI, e
       digitalWaiver
    }).update()
 
-   //Email to new volunteer + bcc admin
+   //Email to new volunteer + admin
    const volunteerMessage = {
       from: "pryac@gmail.com",
       to: email,
       subject: "Account signup successful",
-      text: "Congratulations " + first + ",\n\nYou have successfully made an account with PRYAC!"
+      text: "Congratulations " + first + ",\n\nYou have successfully made an account with PRYAC!",
+      html: "<p>Congratulations " + first + ",<br></br>You have successfully made an account with PRYAC!</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
 
    const adminMessage = {
       from: "pryac@gmail.com",
       to: "admin@gmail.com",
       subject: "New account signup",
-      text: first + last + "has successfully made an account with PRYAC."
+      text: first + last + "has successfully made an account with PRYAC.",
+      html: "<p>" + first + last + " has successfully made an account with PRYAC.</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_mark.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
+         cid: "pryacLogo"
+      }]
    }
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
