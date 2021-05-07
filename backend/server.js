@@ -21,12 +21,12 @@ const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
 let transport = nodemailer.createTransport({
-   host: "smtp.mailtrap.io",
-   port: 2525,
-   auth: {
-      user: "333d5d35efddbb",
-      pass: "619530fcb4f9a9"
-   }
+  service: "gmail",
+  auth: {
+     user: "jillian@hack4impact.org",
+     pass: ""
+  }
+  
 })
 
 app.use(bodyParser.json())
@@ -367,9 +367,10 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
    
    
+   
    //Emails to confirm signup
    const volunteerMessage = {
-      from: "pryac@gmail.com",
+      from: "jillian@hack4impact.org",
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
@@ -383,9 +384,9 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       }]
    }
    const adminMessage = {
-      from: "pryac@gmail.com",
-      to: "admin@gmail.com",
-      subject: opportunity.title + " sign up successful - " + volunteer.firstName + volunteer.lastName,
+      from: "jillian@hack4impact.org",
+      to: "jillian@hack4impact.org",
+      subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:pryacLogo />",
@@ -395,7 +396,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
          cid: "pryacLogo"
       }]
    }
-
+   
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
@@ -403,6 +404,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
          console.log(info)
       }
    })
+   
    
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
@@ -413,6 +415,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    })
    
 }
+
 
 const volunteerUnregister = async (vol_id, opp_id) => {
    
@@ -433,7 +436,7 @@ const volunteerUnregister = async (vol_id, opp_id) => {
    
    //Emails to confirm signup
    const volunteerMessage = {
-      from: "pryac@gmail.com",
+      from: "jillian@hack4impact.org",
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
@@ -447,9 +450,9 @@ const volunteerUnregister = async (vol_id, opp_id) => {
    }
 
    const adminMessage = {
-      from: "pryac@gmail.com",
-      to: "admin@gmail.com",
-      subject: opportunity.title + " unregistration successful - " + volunteer.firstName + volunteer.lastName,
+      from: "jillian@hack4impact.org",
+      to: "jillian@hack4impact.org",
+      subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><br></br><img src = cid:pryacLogo />",
@@ -541,7 +544,7 @@ const postNewVolunteer = async (first, last, email, phone, address, role, AOI, e
 
    //Email to new volunteer + admin
    const volunteerMessage = {
-      from: "pryac@gmail.com",
+      from: "jillian@hack4impact.org",
       to: email,
       subject: "Account signup successful",
       text: "Congratulations " + first + ",\n\nYou have successfully made an account with PRYAC!",
@@ -554,11 +557,11 @@ const postNewVolunteer = async (first, last, email, phone, address, role, AOI, e
    }
 
    const adminMessage = {
-      from: "pryac@gmail.com",
-      to: "admin@gmail.com",
+      from: "jillian@hack4impact.org",
+      to: "jillian@hack4impact.org",
       subject: "New account signup",
       text: first + last + "has successfully made an account with PRYAC.",
-      html: "<p>" + first + last + " has successfully made an account with PRYAC.</p><br></br><img src = cid:pryacLogo />",
+      html: "<p>" + first + " " + last + " has successfully made an account with PRYAC.</p><br></br><img src = cid:pryacLogo />",
       attachments: [{
          filename: "PRYAC_mark.png",
          path: "..\\frontend\\src\\Images\\PRYAC_mark.png",
