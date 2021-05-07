@@ -36,6 +36,7 @@ class RegistrationPage extends React.Component {
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
         redirect: false, 
+        notValid: false,
         ...props.user 
       };
     
@@ -165,18 +166,31 @@ class RegistrationPage extends React.Component {
       signature: this.state.signature,
       boardMember: this.state.boardMember}
     console.log(JSON.stringify(userdata));
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(userdata)
-    }).then(response => {
-      response.json().then(data => {
-        console.log("Successful" + data);
-        this.setState({ redirect: true })
+
+    if (userdata.firstName === "" ||
+        userdata.lastName === "" ||
+        userdata.email === "" ||
+        userdata.phoneNum === "" ||
+        userdata.address === "" ||
+        userdata.signature === false)
+    {
+      this.setState({notValid : true})
+    }
+    else
+    {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(userdata)
+      }).then(response => {
+        response.json().then(data => {
+          console.log("Successful" + data);
+          this.setState({ redirect: true })
+        });
       });
-    });
+    }
   }
 
   handleClearForm(e) {
@@ -210,15 +224,15 @@ class RegistrationPage extends React.Component {
         <div className="formWrapper">
           <form className="formStyle">
           <div className="inputStyles">
-                <label htmlFor="First Name">First Name</label>
+                <label htmlFor="First Name">First Name<span className="red">*</span></label>
                 <input type="text" name="First Name" placeholder="Enter First Name Here" value={this.state.firstName} onChange={this.handleFirst}/>
-                <label htmlFor="Last Name">Last Name</label>
+                <label htmlFor="Last Name">Last Name<span className="red">*</span></label>
                 <input type="text" name="Last Name" placeholder="Enter Last Name Here" value={this.state.lastName} onChange={this.handleLast}/>
-                <label htmlFor="Email">Email</label>
+                <label htmlFor="Email">Email<span className="red">*</span></label>
                 <input type="email" name="Email" placeholder="Example@mail.com" value={this.state.email} onChange={this.handleEmail}/>
-                <label htmlFor="Phone">Phone</label>
+                <label htmlFor="Phone">Phone<span className="red">*</span></label>
                 <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
-                <label htmlFor="Address">Address</label>
+                <label htmlFor="Address">Address<span className="red">*</span></label>
                 <input type="text" name="Address" placeholder="Address" value={this.state.address} onChange={this.handleAddress}/>
           </div> 
             <br/>
@@ -279,9 +293,10 @@ class RegistrationPage extends React.Component {
                 <br/>
                 <label>
                     <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
-                       I agree to the digital volunteer waiver
+                       I agree to the digital volunteer waiver<span className="red">*</span>
                 </label>
                 <br/> 
+                {this.state.notValid && <label className="errorMessage">* Please Complete Required Fields</label>}
                 <div className="buttonStyle">
                   <SubmitButton onClick={this.handleFormSubmit} buttonText="Register Now"/>
                 </div>
