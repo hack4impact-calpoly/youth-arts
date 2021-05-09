@@ -16,6 +16,20 @@
     margin-top: 300px;
 }
 
+.red {
+    color: red  !important;
+}
+
+.errorMessage 
+{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: flex-end;
+    color: red  !important;
+}
+
 .formStyle {
     width: 100%;
     max-width: 700px;

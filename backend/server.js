@@ -1,12 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const session = require("express-session")
 var cors = require('cors')
+const jsonwebtoken = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const passport = require("passport")
+const passportJwt = require('passport-jwt');
+const { auth, JWT_secret } = require('./auth');
+const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require("passport-local-mongoose")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const findOrCreate = require("mongoose-findorcreate")
+const nodemailer = require("nodemailer")
+const dateFormat = require("dateformat")
 
 const app = express()
 const Opportunity = require('./models/opportunity')
@@ -14,9 +20,25 @@ const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
+let transport = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+     user: `${process.env.EMAIL_USER}`,
+     pass: `${process.env.EMAIL_PASSWORD}`
+  },
+   // name: 'youtharts-volunteer.h4i-cp.org',
+   // host: "smtp.mailtrap.io",
+   // port: 2525,
+   // auth: {
+   //    user: "333d5d35efddbb",
+   //    pass: "619530fcb4f9a9"
+   // },
+   logger: true
+})
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
+   res.header("Referrer-Policy", "same-origin");
    res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
    res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
    res.header('Access-Control-Allow-Credentials', true);
@@ -25,36 +47,15 @@ app.use((req, res, next) => {
    next();
  });
 
-app.use(cookieSession({
-   name: 'session-name',
-   keys: ['key1', 'key2']
- }))
+app.use(express.json());
+app.use(cookieParser());
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
    req.user ? next(): res.sendStatus(401);
  }
 
-app.use(session({
-   secret : "Our little secret.",
-   resave: false,
-   saveUninitialized: false
-}))
-
-app.use(passport.initialize())
-app.use(passport.session())
-
 passport.use(Volunteer.createStrategy())
-
-passport.serializeUser((user, done) => {
-   done(null, user.id)
-})
-
-passport.deserializeUser((id, done) => {
-   Volunteer.findById(id, (err, user) => {
-      done(err, user)
-   })
-})
 
 const accessProtectionMiddleware = (req, res, next) => {
    if (req.isAuthenticated()) {
@@ -65,7 +66,6 @@ const accessProtectionMiddleware = (req, res, next) => {
       });
    }
 };
-
 
 passport.use(new GoogleStrategy({
    clientID: process.env.CLIENT_ID,
@@ -81,28 +81,51 @@ function(accessToken, refreshToken, profile, cb) {
        //No user was found... so create a new user 
        if (!user) {
            user = new Volunteer({
-            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null
+            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null, admin: false
            });
            user.save(function(err) {
                if (err) console.log(err);
-               return cb(err, user, true)
+               return cb(err, user)
            });
        } 
        else {
            //found user. Return
            if (!user.firstName){
-               return cb(err, user, true)
+               return cb(err, user)
            }
            else {
-               return cb(err, user, false)
+               return cb(err, user)
            }
-           
        }
    });
 }
 ));
 
-app.get('/auth/account', (req, res) => {
+app.post('/auth/token', (req, res) => {
+   const token = req.body.token;
+   const options = {
+     secure: true,
+     httpOnly: true,
+     sameSite: 'none',
+   };
+   res.cookie('auth_token', token, options);
+   res.sendStatus(200);
+ });
+ 
+ app.post('/auth/logout', (req, res) => {
+   const options = {
+     secure: true,
+     httpOnly: true,
+     sameSite: 'none',
+   };
+ 
+   res.clearCookie('auth_token', options);
+   res.sendStatus(200);
+   // res.redirect(process.env.CLIENT_URL);
+ });
+
+
+app.get('/auth/account', auth, (req, res) => {
    const account = req.user 
    res.json(account || {});
  });
@@ -216,32 +239,14 @@ app.get('/protected', checkUserLoggedIn, (req, res) => {
 );
 
 app.get("/auth/google/callback",
-   passport.authenticate("google", { failureRedirect:
+   passport.authenticate("google", { 
+      session: false,
+      failureRedirect:
       `${process.env.CLIENT_URL}` }),
-   (req, res, newUser) => {
+   (req, res) => {
       //Succesful authentication, redirect secrets.
-      if (req.user.firstName !== null) {
-         req.logIn(req.user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            const returnTo = req.session.returnTo;
-            delete req.session.returnTo;
-            res.redirect(`${process.env.CLIENT_URL}/authDashboard/` + req.user.id)
-          });  
-      
-      }
-      else {
-         req.logIn(req.user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            const returnTo = req.session.returnTo;
-            delete req.session.returnTo;
-            res.redirect(`${process.env.CLIENT_URL}/registration/` + req.user.id)
-          });
-    
-      }
+      const token = jsonwebtoken.sign({id: req.user._id}, JWT_secret);
+      res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
 
    }
 )
@@ -249,11 +254,6 @@ app.get("/auth/google/callback",
  app.get('/current-user', passport.authenticate("google", { scope: [['https://www.googleapis.com/auth/plus.login']] }), 
 function(req, res, newuser) {
    res.status(302).json(req.user);
- });
-
- app.get('/auth/logout', (req, res) => {
-   req.logout();
-   res.redirect(process.env.CLIENT_URL);
  });
 
 app.get('/',
@@ -318,6 +318,47 @@ app.post("/api/opportunity", async(req, res) => {
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+
+   //Email to new volunteer + admin
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: req.body.email,
+      subject: "Account signup successful",
+      text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with PRYAC!",
+      html: "<img src = cid:pryacLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering!",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "../frontend/src/Images/PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: "New account signup",
+      text: req.body.firstName + req.body.lastName + "has successfully made an account with PRYAC.",
+      html: "<img src = cid:pryacLogo /><br></br><p>" + req.body.firstName + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering.</p>",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "../frontend/src/Images/PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })   
    res.json(newVolunteer)
 })
 
@@ -426,12 +467,126 @@ const getVolunteerInfo = async (opp_id) => {
 }
 
 const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
+   
    volunteer = await Volunteer.findById(vol_id)
    opportunity = await Opportunity.findById(opp_id)
    opportunity.volunteers.push({vol_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
    volunteer.opportunities.push({opp_id: {start: startTime, end: endTime, tasks: tasks, donated: []}})
    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+   
+   console.log(volunteer.email);
+   
+   
+   //Emails to confirm signup
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: volunteer.email,
+      subject: opportunity.title + " sign up successful",
+      html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><p>The event will currently be held at " + opportunity.location + 
+      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
+      html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+   
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   
+   
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   
+}
+
+
+const volunteerUnregister = async (vol_id, opp_id) => {
+   
+   volunteer = await Volunteer.findById(vol_id)
+   opportunity = await Opportunity.findById(opp_id)
+   for(i = 0; i < opportunity.volunteers.length; i++){
+      if(opportunity.volunteers[i].vol_id == vol_id){
+         opportunity.volunteers.splice(i, 1)
+      }
+   }
+   for(i = 0; i < volunteer.opportunities.length; i++){
+      if(volunteer.opportunities[i].opp_id == opp_id){
+         volunteer.opportunities.splice(i, 1)
+      }
+   }
+   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+   
+   //Emails to confirm signup
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: volunteer.email,
+      subject: opportunity.title + " sign up successful",
+      html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
+      html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
+      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      ".</p><br></br><img src = cid:pryacLogo />",
+      attachments: [{
+         filename: "PRYAC_logo.png",
+         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
+         cid: "pryacLogo"
+      }]
+   }
+
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
 }
 
 const updateStartTime = async (vol_id, opp_id, start) => {
@@ -480,23 +635,6 @@ const postNewOpportunity = async (title, description, pictures, start_event, end
       wishlist, location, requirements, tasks, additionalInfo, volunteers
    }).save()
 }
-const postNewVolunteer = async (first, last, email, phone, address, role, AOI, experience, employment, hearAboutUs, boardMember, digitalWaiver) => {
-   return new Volunteer({
-      id,
-      first, 
-      last, 
-      email, 
-      phone, 
-      address, 
-      role, 
-      AOI, 
-      experience, 
-      employment, 
-      hearAboutUs, 
-      boardMember,
-      digitalWaiver
-   }).update()
-}
 
 const getAllOpportunitiesByDates = async (start, end) => {
    opportunities = await Opportunity.find({})
@@ -542,4 +680,9 @@ const getAllOpportunitiesWithSkill = async (start, end, skill) => {
    return including_skill
 }
 
-app.listen(4000)
+if (process.argv.includes('dev')) {
+   const PORT = process.env.PORT || 4000;
+   app.listen(PORT, () => console.log(`server running on port ${PORT}`));
+ }
+
+ module.exports = app;

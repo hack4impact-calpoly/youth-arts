@@ -1,7 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Youth Arts",
+  "name": "Youth Arts Volunteer",
   "icons": [
+    {"src": "favicon.ico"}
   ],
   "start_url": ".",
   "display": "standalone",
