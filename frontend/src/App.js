@@ -18,6 +18,7 @@ import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
+import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 
     
 const App = () => {
@@ -48,6 +49,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path='/logHours'>
+          <NavBar user={profile} />
+          <BMLogHoursPage user={profile} />
+          <Footer />
+        </Route>
         <Route path='/directory'>
           <NavBar user={profile} />
           <DirectoryPage {...profile} />
