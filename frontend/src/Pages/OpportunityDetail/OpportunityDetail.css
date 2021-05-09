@@ -542,17 +542,18 @@
 
 .detailTD {
     text-align: left;
-    padding-left:10px;
     border: 3px solid #1b75bc;
-    padding-right: 10px;
+    min-width: 200px;
+    padding: 10px;
   }
+
   .detailTD li {
     margin-left:15px;
   }
 
 .detailTable{
     table-layout: fixed;
-    width: 600px;
+    width: 1000px;
   }
 
   #TimeList{
@@ -571,4 +572,16 @@
     color: #1b75bc;
     font-weight: bolder;
     padding-top:10px;
+  }
+
+  #timeButton{
+    background-color: #1b75bc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+
+  .tableContainer{
+    margin-left: 210px;
   }

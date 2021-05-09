@@ -15,6 +15,7 @@ import {Link} from 'react-router-dom';
 //import DateMomentUtils from '@date-io/moment'; 
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
+import {Container, Row, Col} from "react-bootstrap";
 
 
 class OpportunityDetail extends React.Component{
@@ -37,8 +38,6 @@ class OpportunityDetail extends React.Component{
             showSignInModal: false,
             signedIn: true,
             admin: true,
-            selectedStartDate: new Date(),
-            selectedEndDate: new Date(),
             volunteerList: []
         };
     }
@@ -71,14 +70,6 @@ class OpportunityDetail extends React.Component{
         this.setState({showSignInModal: !this.state.showSignInModal});
     };
 
-    handleStartDateChange = (date) => {
-        this.setState({selectedStartDate: date});
-    }
-
-    handleEndDateChange = (date) => {
-        this.setState({selectedEndDate: date});
-    }
-
     navigateTo = () => {
         let url = '/addOpportunity/' + this.state._id;
         console.log(this.props);
@@ -102,11 +93,58 @@ class OpportunityDetail extends React.Component{
                         volunteers: this.state.volunteers
                     }}});
     }
+
+    sortTaskArray(a, b) {
+        if (a[0] > b[0]) return -1;
+        if (a[0] < b[0]) return 1;
+        return 0;
+    }
+
+    postStartTime(date, volId, taskIndex, i) {
+
+        const startTimeBody = {
+            id: this.state._id,
+            date: date,
+            volId: volId,
+            taskIndex: taskIndex,
+            timeIndex: i
+        }
+
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(startTimeBody)
+        });
+
+    }
+
+    postEndTime(date, volId, taskIndex, i) {
+
+        const endTimeBody = {
+            id: this.state._id,
+            date: date,
+            volId: volId,
+            taskIndex: taskIndex,
+            timeIndex: i
+        }
+
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(endTimeBody)
+        });
+
+    }
     
 
   render() {
-      console.log(this.state.volunteers);
-    
+    console.log(this.state.volunteers);
     return (
         <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
           {this.state.admin && 
@@ -136,7 +174,7 @@ class OpportunityDetail extends React.Component{
                                         return(
                                             <div>
                                                 {dateFormat(start, " mmmm dS, yyyy ")} @
-                                                {dateFormat(start, " hh:mm")}
+                                                {dateFormat(start, "hh:MM")}
                                             </div>
                                         );
                                     })}
@@ -149,7 +187,7 @@ class OpportunityDetail extends React.Component{
                                         return(
                                             <div>
                                                 {dateFormat(end, " mmmm dS, yyyy ")} @
-                                                {dateFormat(end, " hh:mm")}
+                                                {dateFormat(end, " hh:MM")}
                                             </div>
                                         );
                                     })}
@@ -199,7 +237,7 @@ class OpportunityDetail extends React.Component{
                                                                        
                                                                         <ul id="TimeList">
                                                                             <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                                            {dateFormat(start, " hh:mm")}</li>
+                                                                            {dateFormat(start, " hh:MM")}</li>
                                                                         </ul>
                                                                     );
                                                                 })}
@@ -213,7 +251,7 @@ class OpportunityDetail extends React.Component{
                                                                         return(
                                                                             <ul id="TimeList">
                                                                                 <li>{dateFormat(end, " mmmm dS, yyyy ")} @
-                                                                                    {dateFormat(end, " hh:mm")}</li>
+                                                                                    {dateFormat(end, " hh:MM")}</li>
                                                                             </ul>
                                                                         );})}
                                                             </div>
@@ -282,142 +320,6 @@ class OpportunityDetail extends React.Component{
                                                 </div>
                                             )})}
                                     </ul>
-                        {this.state.admin 
-                        && <div>
-                            <div id="volunteerHeader">
-                                VOLUNTEERS
-                            </div>
-                            <table className="detailTable">
-                                <thead>
-                                    <tr>
-                                        <th>Volunteer</th>
-                                        <th>Task</th>
-                                        <th>Start Times</th>
-                                        <th>End Times</th>
-                                        <th>Donated Items</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        {this.state.volunteers ? (Object.keys(this.state.volunteers)).map(volunteers =>
-                                        {
-                                            var vol = (this.state.volunteerList).find(x => x._id === volunteers);
-                                            return(
-                                                <tr>
-                                                    {vol && <td className="detailTD">{
-                                                        // (i < ((volData[1]).length - 1)) && 
-                                                        <div>
-                                                            <td> {vol.firstName} </td>
-                                                            <td>{vol.lastName} </td>    
-                                                        </div>
-                                                        }
-                                                    </td>}
-                                                    {(Object.keys(this.state.volunteers[volunteers])).map((volunteer, i) =>
-                                                        {
-                                                            const start = "start"
-                                                            const end = "end"
-                                                            const key_value = Object.entries(this.state.volunteers[volunteers][volunteer]);
-                                                            const key_set = Object.keys(this.state.volunteers[volunteers]);
-                                                            console.log(key_value);
-                                                            return (
-                                                                key_value.map((volData, v) =>
-                                                                {
-                                                                if (volData[0] ==="task") {
-                                                                    return (
-                                                                        <td className="detailTD">{
-                                                                            // (i < ((volData[1]).length - 1)) && 
-                                                                            <div>
-                                                                                {volData[1]}     
-                                                                            </div>
-                                                                            }
-                                                                        </td>
-                                                                    );
-                                                                }
-                                                                else if(volData[0] === start)
-                                                                {
-                                                                    console.log((volData[1]));
-                                                                    return (
-                                                                       
-                                                                        <td className="detailTD">{
-                                                                            // (i < ((volData[1]).length - 1)) && 
-                                                                            <div>
-                                                                                {(volData[1]).map( (time) => 
-                                                                                {
-                                                                                    return(
-                                                                                        <div>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:mm")}
-                                                                                        </div>
-                                                                                    );
-                                                                                    })}
-                                                            
-                                                                                
-                                                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                                                    <br/>
-                                                                                    <label id="checkIn">Check In: </label>
-                                                                                    <KeyboardDateTimePicker utils={DateMomentUtils}
-                                                                                        value={this.state.selectedStartDate}
-                                                                                        selected={this.state.selectedStartDate}
-                                                                                        onChange={date => this.handleStartDateChange(date)}/>
-                                                                                </MuiPickersUtilsProvider>
-                                                                            </div>
-                                                                            }
-                                                                        </td>
-                                                                        
-                                                                    
-                                                                    )
-                                                                }
-                                                                else if(volData[0] === end)
-                                                                {
-                                                                    return (
-                                                                        
-                                                                        <td className="detailTD">{
-                                                                            // (i < (key_set.length - 1)) && 
-                                                                            <div>
-                                                                                {(volData[1]).map( (time) => 
-                                                                                {
-                                                                                    return(
-                                                                                        <div>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:mm")}
-                                                                                        </div>
-                                                                                    )})}
-
-                                                                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                                                    <br/>
-                                                                                    <label id="checkIn">Check Out:</label>
-                                                                                    <KeyboardDateTimePicker utils={DateMomentUtils}
-                                                                                    value={this.state.selectedEndDate}
-                                                                                    onChange={this.handleEndDateChange}/>
-                                                                                </MuiPickersUtilsProvider>
-                                                                            </div>
-                                                                            }
-                                                                        </td>
-                                                                        )
-                                                                }
-                                                                else if(volData.length-1 == i)
-                                                                {
-                                                                    //any extra volunteer info
-                                                                }
-                                                                else if(volData[0] === "donated") {
-                                                                    return(
-                                                                        <td className="detailTD">{ 
-                                                                            (volData[1]).map(item => {
-                                                                                return (
-                                                                                    <li>{item}</li>
-                                                                                );
-                                                                            })
-                                                                        }
-                                                                        </td>
-                                                                
-                                                                    )
-                                                                }
-                                                            })
-                                                        )})}
-                                                        </tr>
-                                                    )}) : "No Volunteers Found"}
-                                            </tbody>
-                                        </table>
-                                    </div>}
                                     </p>
                              </div>
 
@@ -458,6 +360,157 @@ class OpportunityDetail extends React.Component{
                     </div>
                 </div>
              }
+             {this.state.admin 
+                        && <div className="tableContainer">
+                            <div id="volunteerHeader">
+                                VOLUNTEERS
+                            </div>
+                            <table className="detailTable">
+                                <thead>
+                                    <tr>
+                                        <th>Volunteer</th>
+                                        <th>Task</th>
+                                        <th>Start Times</th>
+                                        <th>End Times</th>
+                                        <th>Donated Items</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        {this.state.volunteers ? (Object.keys(this.state.volunteers)).map(volunteers =>
+                                        {
+                                            var vol = (this.state.volunteerList).find(x => x._id === volunteers);
+                                            return(
+                                                <div>
+                                                    {vol && (Object.keys(this.state.volunteers[volunteers])).map((volunteer, i) =>
+                                                        {
+                                                            const start = "start"
+                                                            const end = "end"
+                                                            const key_value = Object.entries(this.state.volunteers[volunteers][volunteer]);
+                                                            const key_set = Object.keys(this.state.volunteers[volunteers]);
+                                                            const volId = volunteers;
+                                                            const taskIndex = volunteer;
+                                                            console.log(volunteer);
+                                                            console.log(volunteers);
+                                                            console.log(key_value);
+                                                            key_value.sort(this.sortTaskArray);
+                                                            return (
+                                                                <tr>
+                                                                    {vol && <td className="detailTD">{
+                                                                
+                                                                    
+                                                                    <div>
+                                                                        {console.log(vol)}
+                                                                        {vol.firstName}
+                                                                        <br/>
+                                                                        {vol.lastName}  
+                                                                    </div>
+                                                                    }
+                                                                </td>}
+                                                                {key_value.map((volData, v) =>
+                                                                {
+                                                                console.log(volData, v)
+                                                                console.log(key_value[1][1])
+                                                                if (volData[0] ==="task") {
+                                                                    console.log(volData[1])
+                                                                    return (
+                                                                        <td className="detailTD">{
+                                                                            
+                                                                            <td>
+                                                                                {volData[1]}     
+                                                                            </td>
+                                                                            }
+                                                                        </td>
+                                                                    );
+                                                                }
+                                                                else if(volData[0] === start)
+                                                                {
+
+                                                                    console.log((volData[1]));
+                                                                    return (
+                                                                       
+                                                                        <td className="detailTD">{
+                                                                            
+                                                                            <div>
+                                                                                {(volData[1]).map( (time, i) => 
+                                                                                {
+                                                                                    return(
+                                                                                        <div>
+                                                                                             <br/>
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                            {dateFormat(time, " hh:MM")}
+                                                                                        
+                                                                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                                            <br/>
+                                                                                            <label id="checkIn">Check In: 
+                                                                                                {/*<button id="timeButton" onClick={() =>
+                                                                                                this.postTime()
+                                                                                                }>submit</button>*/}
+                                                                                            </label>
+                                                                                            <KeyboardDateTimePicker id="startInput"
+                                                                                                utils={DateMomentUtils}
+                                                                                                value={time}
+                                                                                                onChange={date => this.postStartTime(date, volId, taskIndex, i)}/>
+                                                                                        </MuiPickersUtilsProvider>
+                                                                                   
+                                                                                    </div>
+                                                                                    );
+                                                                                    })} 
+                                                                            </div>
+                                                                            }
+                                                                        </td>
+                                                                    )
+                                                                }
+                                                                else if(volData[0] === end)
+                                                                {
+                                                                    return (
+                                                                        
+                                                                        <td className="detailTD">{
+                                                                            // (i < (key_set.length - 1)) && 
+                                                                            <div>
+                                                                                {(volData[1]).map( (time) => 
+                                                                                {
+                                                                                    return(
+                                                                                        <div>
+                                                                                             <br/>
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                            {dateFormat(time, " hh:MM")}
+
+                                                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                                                <br/>
+                                                                                                <label id="checkIn">Check Out:</label>
+                                                                                                <KeyboardDateTimePicker utils={DateMomentUtils}
+                                                                                                value={time}
+                                                                                                onChange={date => this.postEndTime(date, volId, taskIndex, i)}/>
+                                                                                            </MuiPickersUtilsProvider>
+                                                                                        </div>
+                                                                                    )})}
+
+                                                                            </div>
+                                                                            }
+                                                                        </td>
+                                                                        )
+                                                                }                         
+                                                                else if(volData[0] === "donated") {
+                                                                    return(
+                                                                        <td className="detailTD">{ 
+                                                                            (volData[1]).map(item => {
+                                                                                return (
+                                                                                    <li>{item}</li>
+                                                                                );
+                                                                            })
+                                                                        }
+                                                                        </td>
+                                                                
+                                                                    )
+                                                                }
+                                                            })}
+                                                        </tr>)})}
+                                                        </div>
+                                                    )}) : "No Volunteers Found"}
+                                                    {console.log(this.state.selectedStartDates)}
+                                            </tbody>
+                                        </table>
+                                    </div>}
             <div id="buttonContainer">
                 <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : ""}>Donate</button> 
                
