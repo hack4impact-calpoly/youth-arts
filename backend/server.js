@@ -362,6 +362,67 @@ app.post("/api/postVolunteer", async(req, res) => {
    res.json(newVolunteer)
 })
 
+app.post("/api/opportunityStartTime/", async (req, res) => { 
+
+   const id = req.body.id;
+   const volId = req.body.volId;
+   const date = req.body.date;
+   const taskIndex = req.body.taskIndex;
+   const timeIndex = req.body.timeIndex;
+
+   try {
+      await postStartTime(id, date, volId, taskIndex, timeIndex);
+      res.status(200);
+   }
+   catch (error)
+   {
+      console.log(error)
+      res.status(401).send(error)
+   }
+
+})
+
+app.post("/api/opportunityEndTime/", async (req, res) => { 
+
+   const id = req.body.id;
+   const volId = req.body.volId;
+   const date = req.body.date;
+   const taskIndex = req.body.taskIndex;
+   const timeIndex = req.body.timeIndex;
+
+   try {
+      await postEndTime(id, date, volId, taskIndex, timeIndex);
+      res.status(200);
+   }
+   catch (error)
+   {
+      console.log(error)
+      res.status(401).send(error)
+   }
+
+})
+
+const postStartTime = async (id, date, volId, taskIndex, timeIndex) => {
+      let opportunity = await Opportunity.findById(id);
+      opportunity.volunteers.get(volId)[taskIndex]["start"].splice(timeIndex, 1, date);
+      await Opportunity.findByIdAndUpdate(id, {volunteers: opportunity.volunteers});
+
+      // let volunteer = await Volunteer.findById(volId);
+      // volunteer.opportunity.get(id)[taskIndex]["start"].splice(timeIndex, 1, date);
+      // await Volunteer.findByIdAndUpdate(volId, {volunteers: opportunity.volunteers});
+        
+}
+
+const postEndTime = async (id, date, volId, taskIndex, timeIndex) => {
+   let opportunity = await Opportunity.findById(id);
+   opportunity.volunteers.get(volId)[taskIndex]["end"].splice(timeIndex, 1, date);
+   await Opportunity.findByIdAndUpdate(id, {volunteers: opportunity.volunteers});
+
+   // let volunteer = await Volunteer.findById(volId);
+   // volunteer.opportunity.get(id)[taskIndex]["end"].splice(timeIndex, 1, date);
+   // await Volunteer.findByIdAndUpdate(volId, {volunteers: opportunity.volunteers});
+   
+}
 
 const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
