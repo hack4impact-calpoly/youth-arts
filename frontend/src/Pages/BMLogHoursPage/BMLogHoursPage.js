@@ -63,6 +63,7 @@ function BMLogHoursPage(props) {
 
         // push new opportunities to database
         var newOpportunites = props.user.opportunities;
+        console.log(newOpportunites);
         newOpportunites[key] = opportunities;
         const updateVolunteer = {
             _id: props.user._id,

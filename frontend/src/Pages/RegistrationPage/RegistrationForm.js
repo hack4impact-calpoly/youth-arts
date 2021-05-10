@@ -27,6 +27,7 @@ class RegistrationPage extends React.Component {
         phoneNum: "",
         address: "",
         communityRole: [],
+        opportunities: {},
         AOI: [],
         experience: "",
         workHistory: "",
@@ -167,7 +168,8 @@ class RegistrationPage extends React.Component {
       workHistory: this.state.workHistory, 
       outreach: this.state.outreach, 
       signature: this.state.signature,
-      boardMember: this.state.boardMember}
+      boardMember: this.state.boardMember,
+      opportunities: this.state.opportunities}
     console.log(JSON.stringify(userdata));
     fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
       method: "POST",
