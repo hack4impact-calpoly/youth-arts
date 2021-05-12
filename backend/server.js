@@ -81,7 +81,13 @@ function(accessToken, refreshToken, profile, cb) {
        //No user was found... so create a new user 
        if (!user) {
            user = new Volunteer({
-            googleId: profile.id, username: profile.id, email: profile.emails[0].value, firstName: null, admin: false
+            googleId: profile.id, 
+            username: profile.id, 
+            email: profile.emails[0].value, 
+            firstName: null, 
+            admin: false, 
+            boardMember: false, 
+            opportunities: {}
            });
            user.save(function(err) {
                if (err) console.log(err);
