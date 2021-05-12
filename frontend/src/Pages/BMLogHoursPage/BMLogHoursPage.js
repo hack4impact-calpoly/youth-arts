@@ -1,6 +1,7 @@
 import "./BMLogHoursPage.css";
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import TextField from "@material-ui/core/TextField";
 
 function BMLogHoursPage(props) {
     //stores inputs from form
@@ -10,15 +11,29 @@ function BMLogHoursPage(props) {
 
     var opportunities;
     var key;
+    var firstTime = false;
 
-    if (props.user !== null && props.user.opportunities !== null) {
+    if(props.user !== null && !props.user.boardMember && (props.user.opportunities === null || props.user.opportunities === undefined)) {
+        opportunities = "false";
+    }
+    else if (props.user !== null && props.user.boardMember && props.user.opportunities !== null && props.user.opportunities !== undefined) {
         opportunities = props.user.opportunities;
         Object.keys(opportunities).map((item) => {
             key = item;
             return null;
         })
         opportunities = opportunities[key];
+        if(key === null || key === undefined) {
+            firstTime = true;
+            opportunities = [];
+        }
     }
+    else {
+        opportunities = [];
+        firstTime = true;
+    }
+
+    console.log(opportunities);
 
     function isValidForm() {
         if (startDT === "" || endDT === "" || tasks === "") {
@@ -35,14 +50,14 @@ function BMLogHoursPage(props) {
     //push form as element in opportunity array in volunteer schema
     function handleSubmit() {
         // make sure opportunties is defined
-        if (opportunities === null || opportunities === undefined) return;
+        if (opportunities === "false") return;
         //check if form is valid
         if (!isValidForm()) return;
         
         //if opportunities alreayd has the task, append start and end d/t to existing array
         var contains = false;
         opportunities.forEach(function(item) {
-            if(item.task.toLowerCase() === tasks.toLowerCase()) {
+            if(item.task.toLowerCase() !== "" && item.task.toLowerCase() === tasks.toLowerCase()) {
                 item.start.push(startDT);
                 item.end.push(endDT);
                 contains = true;
@@ -57,13 +72,23 @@ function BMLogHoursPage(props) {
                 description: "",
                 donated: []
             }
-    
             opportunities.push(newOpp)
         }
 
         // push new opportunities to database
-        var newOpportunites = props.user.opportunities;
-        newOpportunites[key] = opportunities;
+        var newOpportunites;
+        if(!firstTime) {
+            newOpportunites = props.user.opportunities;
+            newOpportunites[key] = opportunities;
+        }
+        else {
+            newOpportunites = new Map();
+            newOpportunites.set("60764b69811b98df6f7f58fc", opportunities);
+        }
+
+        console.log(opportunities[0].start + " " + opportunities[0].end + " " + opportunities[0].task);
+        console.log(newOpportunites);
+
         const updateVolunteer = {
             _id: props.user._id,
             AOI: props.user.AOI,
@@ -84,6 +109,7 @@ function BMLogHoursPage(props) {
             _v: props.user._v,
             opportunities: newOpportunites
         }
+
         fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer`, {
             method: "POST",
             headers: {
@@ -102,9 +128,9 @@ function BMLogHoursPage(props) {
             <h1 id="LHPageTitle">BOARD MEMBER LOG HOURS</h1>
             <Form >
                 <label for="startDateTime">Start Date and Time:</label><br />
-                <input type="datetime-local" id="startDate" name="startDateTime" onChange={e => setStartDT(e.target.value)} /><br /><br />
+                <TextField name="startDateTime" type="datetime-local" onChange={e => setStartDT(e.target.value)} /><br /><br />
                 <label for="endDateTime">End Date and Time:</label><br />
-                <input type="datetime-local" id="endDate" name="endDateTime" onChange={e => setEndDT(e.target.value)} /><br /><br />
+                <TextField name="endDateTime" type="datetime-local" onChange={e => setEndDT(e.target.value)} /><br /><br />
                 <Form.Group>
                     <Form.Label>Task (i.e. "Board meeting")</Form.Label>
                     <Form.Control as="textarea" rows={1} onChange={e => setTasks(e.target.value)} />
