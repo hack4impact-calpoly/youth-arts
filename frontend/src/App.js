@@ -137,6 +137,11 @@ const App = () => {
         <Route path='/Login'>
           <LoginPage user={profile} />
         </Route>
+        <Route path='/anonDashboard'>
+            <NavBar user={profile} />
+            <AnonymousDashboard user={profile} />
+            <Footer />
+        </Route>
 
         <Route path='/registration'>
           <RegistrationPage user={profile} />
