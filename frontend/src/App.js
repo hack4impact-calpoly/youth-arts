@@ -18,6 +18,7 @@ import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
+import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 import { useHistory } from "react-router-dom";
 
 const SetAuthToken = () => {
@@ -77,6 +78,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path='/logHours'>
+          <NavBar user={profile} />
+          <BMLogHoursPage user={profile} />
+          <Footer />
+        </Route>
       <Route path='/opportunityDetail'>
           <NavBar user={profile} />
           <OpportunityDetail
