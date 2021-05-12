@@ -1,7 +1,7 @@
 import "./OpportunitiesPage.css"
 import NavBar from "../../Components/NavBar/NavBar";
 import SearchOpportunities from "../../Components/SearchOpportunities/SearchOpportunities"
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 const OpportunitiesPage = (props) => {
     const { user } = props;
@@ -11,7 +11,7 @@ const OpportunitiesPage = (props) => {
             <div id="oppsHeader">
                 <h1 id="oppsTitle">OPPORTUNITIES</h1>
             </div>
-            <SearchOpportunities />
+            <SearchOpportunities user={user}/>
         </body>
     );
 }

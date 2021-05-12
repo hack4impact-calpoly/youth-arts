@@ -1,8 +1,6 @@
 
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState} from 'react';
-import Footer from '../../Components/Footer/Footer';
-import SubmitButton from '../../Components/SubmitButton/SubmitButton'
+import React from 'react';
 import Icon from './heartIcon.png'
 import "./RegistrationConfirmation.css"
 import { Link } from 'react-router-dom';

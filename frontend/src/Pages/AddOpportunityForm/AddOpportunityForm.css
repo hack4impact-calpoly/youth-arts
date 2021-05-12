@@ -21,6 +21,20 @@
     
 }
 
+.red {
+    color: red  !important;
+}
+
+.errorMessage 
+{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: flex-end;
+    color: red  !important;
+}
+
 
 .formStyle {
     width: 100%;

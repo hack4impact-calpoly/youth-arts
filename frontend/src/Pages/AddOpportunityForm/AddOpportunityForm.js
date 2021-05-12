@@ -1,7 +1,7 @@
 
 import './AddOpportunityForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import ImageUpload from '../../Components/ImageUpload/ImageUpload'
@@ -15,6 +15,8 @@ import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 
 function AddOpportunityForm(props) {
+
+  const[notValid, setnotValid] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -32,17 +34,30 @@ function AddOpportunityForm(props) {
         tasks: opportunity.tasks,
         additionalInfo: opportunity.additionalInfo,
         volunteers: opportunity.volunteers }
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(opp)
-    }).then(response => {
-        response.json().then(data => {
-        console.log("Successful" + data);
+
+    if (opp.title === "" ||
+        opp.description === "" ||
+        opp.start_event === [""] ||
+        opp.end_event === [""])
+    {
+      console.log("notvalid")
+      setnotValid(true)
+    }
+    else
+    {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(opp)
+      }).then(response => {
+          response.json().then(data => {
+          console.log("Successful" + data);
+        });
       });
-    });
+    }
+
   }
 
   const icons = [classroom, event, fundraiser, maintenance, officeAdmin, performance];
@@ -52,9 +67,9 @@ function AddOpportunityForm(props) {
   {
     props.state.opportunity = props.location.state.opportunity;
   }
-  const[opportunity, setOpportunity] = useState(props.state.opportunity);
+  const[opportunity] = useState(props.state.opportunity);
   
-  const [taskList, setTaskList] = useState(opportunity.tasks);
+  const [taskList] = useState(opportunity.tasks);
 
   const [wishList, setWishList] = useState(opportunity.wishlist);
   const [rerender, setRerender] = useState(false);
@@ -62,7 +77,7 @@ function AddOpportunityForm(props) {
   const handleAOICheckBox = (e) => {
     console.log(opportunity);
     const newSelection = e.target.value;
-    if (opportunity.skills && opportunity.skills.indexOf(newSelection) != -1) {
+    if (opportunity.skills && opportunity.skills.indexOf(newSelection) !== -1) {
       opportunity.skills.splice(opportunity.skills.indexOf(newSelection), 1);
     } else {
       opportunity.skills.push(newSelection);
@@ -98,7 +113,6 @@ const handleChangeWishList = (e, index) => {
     setRerender(!rerender);
   }
 const handleAddInputWish = () => {
-    const list = [...wishList];
     opportunity.wishlist.push("");
     setWishList(opportunity.wishlist);
     setRerender(!rerender);
@@ -110,13 +124,10 @@ const handleDeleteInputWish = index  => {
 }
 
 const handleEndChangeDate = (e, index) => {
-  const list = opportunity;
   (opportunity.end_event)[index] = e.target.value;
   setRerender(!rerender);
 }
 const handleStartChangeDate = (e, index) => {
-  const list = opportunity;
-  console.log(e.target.value);
   (opportunity.start_event)[index] = e.target.value;
   setRerender(!rerender);
 }
@@ -218,9 +229,11 @@ setRerender(!rerender);
           <form className="formStyle">
             <div className="formInside">
           <div className="inputStyles">
-                <label htmlFor="OpportunityTitle">Opportunity Title</label>
-                <input onChange={e => handleChangeTitle(e)} type="text" value={(opportunity && opportunity.title) ? opportunity.title : ""} name="OpportunityTitle" placeholder="Enter Opportunity Title Here"/>
-                <label htmlFor="OpportunityTitle">Opportunity Date</label>
+            <label htmlFor="OpportunityTitle">Opportunity Title <span className="red">*</span></label>
+
+                <input 
+                        onChange={e => handleChangeTitle(e)} type="text" value={(opportunity && opportunity.title) ? opportunity.title : ""} name="OpportunityTitle" placeholder="Enter Opportunity Title Here"/>
+                <label htmlFor="OpportunityTitle">Opportunity Date<span className="red">*</span></label>
                 {((opportunity && opportunity.start_event) ? opportunity.start_event : [""]).map((date, i) => {
                   let end = (new Date()).toISOString();
                   if (opportunity.end_event) 
@@ -393,7 +406,7 @@ setRerender(!rerender);
               })}
               
           <div className="textStyle">
-                <label htmlFor="OpportunityDescription">Opportunity Description</label>
+                <label htmlFor="OpportunityDescription">Opportunity Description<span className="red">*</span></label>
                 <textarea onChange={e => handleChangeDescription(e)} value={opportunity.description} placeholder="Enter description of opportunity"/>
                 <br/>
                 <label htmlFor="Skill/Interests">Skills/Interests</label>
@@ -406,7 +419,7 @@ setRerender(!rerender);
                           className="form-checkbox"
                           onChange={e => handleAOICheckBox(e)}
                           value={option}
-                          checked= {opportunity.skills? opportunity.skills.indexOf(option) != -1 : false}
+                          checked= {opportunity.skills? opportunity.skills.indexOf(option) !== -1 : false}
                           type="checkbox" /> {option}
                       </label>
                     );
@@ -464,7 +477,8 @@ setRerender(!rerender);
           </div>
           <br/>
           <ImageUpload/>
-           <br/>         
+           <br/>       
+               {notValid && <label className="errorMessage">* Please Complete Required Fields</label>}  
                 <div className="buttonStyle">
                   <SubmitButton onClick={handleFormSubmit} buttonText="Submit"/>
                 </div>
