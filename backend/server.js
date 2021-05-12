@@ -322,6 +322,10 @@ app.post("/api/opportunity", async(req, res) => {
    res.json(newOpportunity)
 })
 
+app.post("/api/updateVolunteer", async(req, res) => {
+   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+   });
+
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
 

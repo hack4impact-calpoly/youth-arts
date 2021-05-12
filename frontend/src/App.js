@@ -18,9 +18,7 @@ import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
-<<<<<<< HEAD
 import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
-=======
 import { useHistory } from "react-router-dom";
 
 const SetAuthToken = () => {
@@ -40,7 +38,6 @@ const SetAuthToken = () => {
   return <p>Loading...</p>;
 };
 
->>>>>>> origin
 
 const App = () => {
   const [profile, updateProfile] = useState(null);
@@ -81,13 +78,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-<<<<<<< HEAD
         <Route path='/logHours'>
           <NavBar user={profile} />
           <BMLogHoursPage user={profile} />
           <Footer />
         </Route>
-=======
       <Route path='/opportunityDetail'>
           <NavBar user={profile} />
           <OpportunityDetail
@@ -98,7 +93,6 @@ const App = () => {
           <Footer />
         </Route>
       <Route path="/auth/login/:token" component={SetAuthToken} />
->>>>>>> origin
         <Route path='/directory'>
           <NavBar user={profile} />
           <DirectoryPage {...profile} />

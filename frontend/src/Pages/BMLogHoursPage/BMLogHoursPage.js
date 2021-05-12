@@ -2,6 +2,8 @@ import "./BMLogHoursPage.css";
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
+import ObjectID from "bson-objectid";
+import Opportunities from "../../Components/Opportunities/Opportunities";
 
 function BMLogHoursPage(props) {
     //stores inputs from form
@@ -33,8 +35,6 @@ function BMLogHoursPage(props) {
         firstTime = true;
     }
 
-    console.log(opportunities);
-
     function isValidForm() {
         if (startDT === "" || endDT === "" || tasks === "") {
             alert("Incomplete form. Please try again.");
@@ -48,7 +48,8 @@ function BMLogHoursPage(props) {
     }
 
     //push form as element in opportunity array in volunteer schema
-    function handleSubmit() {
+    function handleSubmit(e) {
+        e.preventDefault();
         // make sure opportunties is defined
         if (opportunities === "false") return;
         //check if form is valid
@@ -82,12 +83,9 @@ function BMLogHoursPage(props) {
             newOpportunites[key] = opportunities;
         }
         else {
-            newOpportunites = new Map();
-            newOpportunites.set("60764b69811b98df6f7f58fc", opportunities);
+            newOpportunites = {};
+            newOpportunites = {'60764b69811b98df6f7f58fc' : opportunities};
         }
-
-        console.log(opportunities[0].start + " " + opportunities[0].end + " " + opportunities[0].task);
-        console.log(newOpportunites);
 
         const updateVolunteer = {
             _id: props.user._id,
@@ -110,7 +108,7 @@ function BMLogHoursPage(props) {
             opportunities: newOpportunites
         }
 
-        fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
