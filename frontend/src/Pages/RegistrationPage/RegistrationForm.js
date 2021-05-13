@@ -11,7 +11,9 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import { Redirect } from 'react-router-dom'
-
+import volunteerWaiver from './VolunteerWaiver.pdf'
+//import { Document, Page } from "react-pdf";
+import jsPDF from 'jspdf'
 
 class RegistrationPage extends React.Component {
 
@@ -32,6 +34,7 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
+        signatureValue: "",
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
@@ -48,6 +51,7 @@ class RegistrationPage extends React.Component {
     this.handleExperience = this.handleExperience.bind(this);
     this.handleEmployment = this.handleEmployment.bind(this);
     this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
+    this.handleSignatureValue = this.handleSignatureValue.bind(this);
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -107,6 +111,10 @@ class RegistrationPage extends React.Component {
   handleHearAboutUs(e) {
     let value = e.target.value;
     this.setState( {outreach: value} );
+  }
+  handleSignatureValue(e){
+    let value = e.target.value;
+    this.setState({signatureValue: value});
   }
   
   handleRoleCheckBox(e) {
@@ -206,6 +214,13 @@ class RegistrationPage extends React.Component {
     });
   }
 
+  pdfGenerate=()=>{
+    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
+    doc.addImage(volunteerWaiver, 'PNG', 65, 20, 500, 400)
+    doc.addPage()
+    doc.save('volunteerWaiver.pdf')
+  }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to='/registrationConfirmation'/>;
@@ -293,8 +308,13 @@ class RegistrationPage extends React.Component {
                 <br/>
                 <label>
                     <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
-                       I agree to the digital volunteer waiver<span className="red">*</span>
+                       I agree to the
+                    <a id="waiverLink" href={volunteerWaiver} download> digital volunteer waiver</a><span className="red">*</span>
                 </label>
+                <div id="digitalSignature">
+                  <label htmlFor="Address">Digital Signature<span className="red">*</span></label>
+                  <input type="text" name="signatureValue" placeholder="Type Signature Here" value={this.state.signatureValue} onChange={this.handleSignatureValue}/>
+                </div>
                 <br/> 
                 {this.state.notValid && <label className="errorMessage">* Please Complete Required Fields</label>}
                 <div className="buttonStyle">
