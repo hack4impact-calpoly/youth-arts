@@ -7,7 +7,7 @@ function About() {
     const history = useHistory();
     const navigateToOpps = () => history.push('/opportunities');
     const navigateToYA = () => window.location.href = 'https://pryoutharts.org/';
-    const navigateToDonate = () => window.location.href = 'http://pryoutharts.org/support/';
+    const navigateToDonate = () => window.location.href = 'https://donorbox.org/youth-arts-donate';
 
     const picUrl = "https://pasoroblesdailynews.com/wp-content/uploads/2017/04/Paso-youth-arts-2.jpg";
     return (
