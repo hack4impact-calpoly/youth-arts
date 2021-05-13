@@ -1,0 +1,15 @@
+#repHeader {
+   background-image: url("https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2017/11/04133712/waterfall.jpg");
+   width: 100%;
+   background-repeat: no-repeat;
+   padding: 7% 0;
+}
+
+#repTitle {
+   text-align: center;
+   background: rgba(255, 255, 255, 0.76);
+   font-style: normal;
+   font-weight: bold;
+   text-align: center;
+   color: #1F4C82;
+}
