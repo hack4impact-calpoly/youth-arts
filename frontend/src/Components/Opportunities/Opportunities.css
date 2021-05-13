@@ -1,5 +1,6 @@
 .oppTitle {
     text-align: center;
+    font-family: 'Avant Garde';
 }
 
 .oppDisplay {
@@ -23,6 +24,7 @@
     vertical-align: top;
     border: none;
     margin-top: 30px;
+    font-family: 'Avant Garde';
 }
 
 /* mobile */

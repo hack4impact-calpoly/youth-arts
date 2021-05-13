@@ -35,7 +35,7 @@ function About() {
                 <Col md={4}>
                     <ActionButton 
                         actionType="visit"
-                        action="Visit Us"
+                        action="Visit Our Website"
                         onClick={navigateToYA}
                     />
                 </Col>
