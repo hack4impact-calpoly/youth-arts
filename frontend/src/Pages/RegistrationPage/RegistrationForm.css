@@ -6,6 +6,15 @@
     padding-top: 70px;
     padding-bottom: 0px;
 }
+.PRYAheaderTitle {
+    text-align: center;
+    font-weight: 500;
+    font-size: 50px;
+    font-family: 'Avant Garde';
+    padding-top: 50px;
+    margin-bottom: -30px;
+    color: #1f4c82;
+}
 
 .formWrapper{
     display: flex;
@@ -54,6 +63,10 @@
     padding: 15px;
     box-sizing: border-box;
 }
+.finalCheckbox label{
+    padding-left: 10px;
+}
+
 
 .inputStyles {
     padding: 0px 50px;

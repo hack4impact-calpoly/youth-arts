@@ -20,7 +20,7 @@ const NavBar = (props) => {
         <Link className="logo" to="/anonDashboard">
           <img src={logo} width= "auto" height="45" alt=""></img>
         </Link>
-        <nav>
+        <nav class="navbar-expand">
             <ul className="navlinks">
               <li><Link to="/">Dashboard</Link></li>
               <li><Link to="/opportunities" >Opportunities</Link></li>
@@ -39,8 +39,13 @@ const NavBar = (props) => {
               }
             </ul>
         </nav>
+        
       </header>
   );
 }
 
 export default NavBar;
+
+
+
+
