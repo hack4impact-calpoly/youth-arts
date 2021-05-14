@@ -6,6 +6,7 @@
     max-height: 500px;
     width: 100%;
     color: white;
+    font-family: 'Avant Garde';
 }
 
 .logoDashboard {
@@ -19,16 +20,19 @@
     font-size: 50px;
     margin: 20px 0;
     font-weight: bold;
+    font-family: 'Avant Garde';
 }
 
 .orgTitle {
     margin: 10px;
     font-size: 40px;
-
+    font-family: 'Avant Garde';
+    background: rgba(0, 0, 0, 0.50);
 }
 
 .logInButton, .registerButton {
     padding: 2%;
+    background: rgba(255, 255, 255, 0.74);
 }
 
 @media screen and (max-width: 480px) {
@@ -43,10 +47,12 @@
         font-size: 18px;
         margin: 8px 0;
         padding: 5px;
+        background: rgba(255, 255, 255, 0.74);
     }
 
     .orgTitle {
         margin: 8px;
         font-size: 15px;
+        background: rgba(255, 255, 255, 0.74);
     }
 }
