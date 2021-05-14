@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hack4impact-calpoly/pryac/issues"
   },
-  "homepage": "https://github.com/hack4impact-calpoly/pryac#readme"
+  "homepage": "https://github.com/hack4impact-calpoly/pryac#readme",
+  "dependencies": {
+    "bson-objectid": "^2.0.1"
+  }
 }

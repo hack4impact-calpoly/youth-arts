@@ -1,5 +1,6 @@
 .oppTitle {
     text-align: center;
+    width: 100%
     font-family: 'Avant Garde';
 }
 
@@ -7,6 +8,7 @@
     padding: 1% 5%;
     background: #F3F3F3;
     box-shadow: inset 0px 0px 8px -2px rgba(0, 0, 0, 0.25);
+    width: 100%;
 }
 
 .arrow {
