@@ -13,6 +13,7 @@ import fundraiser from '../../Images/fundraiser.png'
 import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
+import moment from "moment";
 
 function AddOpportunityForm(props) {
 
@@ -247,7 +248,7 @@ setRerender(!rerender);
                               label="Start Date/Time"
                               type="datetime-local"
                               onChange={e => handleStartChangeDate(e, i)}
-                              value={date? date.substring(0,16) : "2021-03-27T10:32"}
+                              value={date? date.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                               InputLabelProps={{
                                 shrink: true,
                               }}
@@ -255,7 +256,7 @@ setRerender(!rerender);
                             <TextField
                               label="End Date/Time"
                               type="datetime-local"
-                              value={end? end.substring(0,16) : "2021-03-27T10:32"}
+                              value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                               onChange={e => handleEndChangeDate(e, i)}
                               InputLabelProps={{
                                 shrink: true,
@@ -283,6 +284,7 @@ setRerender(!rerender);
             {taskList.map((task, t) => {
                   return(
                     <div key={t}>
+                      <div className="TaskDiv">
                         <div className="inputButtons" >
                             <div >
                               <label htmlFor="OpportunityTitle">Task Name</label>
@@ -323,7 +325,7 @@ setRerender(!rerender);
                                             label="Start Date/Time"
                                             type="datetime-local"
                                             onChange={e => handleStartChangeDateTask(e, t, di)}
-                                            value={taskdate? taskdate.substring(0,16) : "2021-03-27T10:32"}
+                                            value={taskdate? taskdate.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                                             InputLabelProps={{
                                               shrink: true,
                                             }}
@@ -331,7 +333,7 @@ setRerender(!rerender);
                                           <TextField
                                             label="End Date/Time"
                                             type="datetime-local"
-                                            value={end? end.substring(0,16) : "2021-03-27T10:32"}
+                                            value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                                             onChange={e => handleEndChangeDateTask(e, t, di)}
                                             InputLabelProps={{
                                               shrink: true,
@@ -375,6 +377,7 @@ setRerender(!rerender);
                                     )
                                 })}
 
+                        </div>
                         </div>
                         {taskList.length -1 === t && 
                            <input id="addItem" type="button" 
