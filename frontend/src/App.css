@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Avant Garde';
 }
 
 .App-header {
@@ -11,4 +12,5 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: 'Avant Garde';
 }

@@ -11,7 +11,9 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import { Redirect } from 'react-router-dom'
-
+import volunteerWaiver from './VolunteerWaiver.pdf'
+import jsPDF from 'jspdf'
+import ImageUpload from '../../Components/ImageUpload/ImageUpload'
 
 class RegistrationPage extends React.Component {
 
@@ -24,7 +26,11 @@ class RegistrationPage extends React.Component {
         email: "",
         phoneNum: "",
         address: "",
+        city: "",
+        state: "",
+        zipcode: "",
         communityRole: [],
+        opportunities: {},
         AOI: [],
         experience: "",
         workHistory: "",
@@ -32,6 +38,7 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
+        signatureValue: "",
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
@@ -48,6 +55,8 @@ class RegistrationPage extends React.Component {
     this.handleExperience = this.handleExperience.bind(this);
     this.handleEmployment = this.handleEmployment.bind(this);
     this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
+    this.handleSignatureValue = this.handleSignatureValue.bind(this);
+    this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -92,10 +101,10 @@ class RegistrationPage extends React.Component {
     let value = e.target.value;
     this.setState( {phoneNum: value} );
   }
-  handleAddress(e) {
-    let value = e.target.value;
-    this.setState( {address: value} );
-  }
+  // handleAddress(e) {
+  //   let value = e.target.value;
+  //   this.setState( {address: value} );
+  // }
   handleExperience(e) {
     let value = e.target.value;
     this.setState( {experience: value} );
@@ -107,6 +116,10 @@ class RegistrationPage extends React.Component {
   handleHearAboutUs(e) {
     let value = e.target.value;
     this.setState( {outreach: value} );
+  }
+  handleSignatureValue(e){
+    let value = e.target.value;
+    this.setState({signatureValue: value});
   }
   
   handleRoleCheckBox(e) {
@@ -152,19 +165,21 @@ class RegistrationPage extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
+    const addr = this.state.address +  ", " + this.state.city +  ", " + this.state.state +  " " + this.state.zipcode
     const userdata = {_id: this.state._id, 
       firstName: this.state.firstName, 
       lastName: this.state.lastName, 
       email: this.state.email, 
       phoneNum: this.state.phoneNum, 
-      address: this.state.address, 
+      address: addr, 
       communityRole: this.state.communityRole, 
       AOI: this.state.AOI, 
       experience: this.state.experience, 
       workHistory: this.state.workHistory, 
       outreach: this.state.outreach, 
       signature: this.state.signature,
-      boardMember: this.state.boardMember}
+      boardMember: this.state.boardMember,
+      opportunities: this.state.opportunities}
     console.log(JSON.stringify(userdata));
 
     if (userdata.firstName === "" ||
@@ -206,6 +221,39 @@ class RegistrationPage extends React.Component {
     });
   }
 
+  onDocumentLoadSuccess({ numPages }) {
+    console.log(numPages);
+  }
+
+  pdfGenerate=()=>{
+    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
+    doc.addImage(volunteerWaiver, 'PNG', 65, 20, 500, 400)
+    doc.addPage()
+    doc.save('volunteerWaiver.pdf')
+  }
+
+  handleAddress = (e) => {
+    e.preventDefault(); 
+    const {name, value} = e.target; 
+    switch (name) {
+        case "address": 
+          this.setState( {address: value} );
+            break; 
+        case "city": 
+          this.setState( {city: value} );
+            break; 
+        case "state": 
+          this.setState( {state: value} );
+            break; 
+        case "zipcode": 
+          this.setState( {zipcode: value} );
+            break; 
+        default: 
+            break; 
+        }
+}
+
+
   render() {
     if (this.state.redirect) {
       return <Redirect to='/registrationConfirmation'/>;
@@ -214,8 +262,10 @@ class RegistrationPage extends React.Component {
       <div >
         <NavBar user={this.state.user}/>
         <body>
-            <div id="headerImage">
-              <img src={headerImage} width= "auto" height="100" alt=""></img>
+            {/* <div id="headerImage"> */}
+              <div>
+              {/* <img src={headerImage} width= "auto" height="100" alt=""></img> */}
+              <h2 className="PRYAheaderTitle">Paso Robles Youth Arts</h2>
             </div>
         </body>
         <div className="title">
@@ -233,7 +283,10 @@ class RegistrationPage extends React.Component {
                 <label htmlFor="Phone">Phone<span className="red">*</span></label>
                 <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
                 <label htmlFor="Address">Address<span className="red">*</span></label>
-                <input type="text" name="Address" placeholder="Address" value={this.state.address} onChange={this.handleAddress}/>
+                <input type="text" name="address" placeholder="Street Address" value={this.state.address} onChange={this.handleAddress}/>
+                <input type="text" name="city" placeholder="City" value={this.state.city} onChange={this.handleAddress}/>
+                <input type="text" name="state" placeholder="State" value={this.state.state} onChange={this.handleAddress}/>
+                <input type="text" name="zipcode" placeholder="Zip Code" value={this.state.zipcode} onChange={this.handleAddress}/>
           </div> 
             <br/>
             <br/>
@@ -285,16 +338,30 @@ class RegistrationPage extends React.Component {
                   <textarea placeholder="Let us know how you found us" value={this.state.outreach} onChange={this.handleHearAboutUs}/>
                 </div>
                 <br/>
-                <label>
+                <div className="addImages">
+                  <label >Profile Picture</label>
+                </div>
+                <ImageUpload/>
+
+
+                <label className="finalCheckbox">
                     <input type="checkbox" value={ this.state.boardMember } checked= { this.state.boardMember } onChange={this.handleBoardCheckBox}/>
-                      I am a Board Member
+                      <label>I am a Board Member</label>
                 </label>
                 <br/>                
                 <br/>
-                <label>
+                <label className="finalCheckbox">
                     <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
-                       I agree to the digital volunteer waiver<span className="red">*</span>
+                       <label> I agree to the
+                    <a id="waiverLink" href={volunteerWaiver} download> digital volunteer waiver</a><span className="red">*</span>
+                    </label>
                 </label>
+
+
+                <div id="digitalSignature">
+                  <label htmlFor="Address">Digital Signature<span className="red">*</span></label>
+                  <input type="text" name="signatureValue" placeholder="Type Signature Here" value={this.state.signatureValue} onChange={this.handleSignatureValue}/>
+                </div>
                 <br/> 
                 {this.state.notValid && <label className="errorMessage">* Please Complete Required Fields</label>}
                 <div className="buttonStyle">

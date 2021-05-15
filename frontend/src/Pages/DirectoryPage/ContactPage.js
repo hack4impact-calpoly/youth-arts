@@ -60,14 +60,10 @@ function ContactPage() {
                         </div>
                         <div id="outreach">
                             <h3 className="contactTitle">Outreach</h3>
-                            <h5>How Did They Hear About PRYAC? {contact.outreach}</h5>
+                            <h5>How Did They Hear About The Youth Arts? {contact.outreach}</h5>
                         </div>
                         <div id="outreach">
                             <h3 className="contactTitle">More Information</h3>
-                            <h5>Tasks: {contact && contact.tasks.map((c, index) => (
-                                <li id="volunteerAOI" key={index}>{c}</li>
-                            ))}</h5>
-                            <h5>Notes: {contact.notes}</h5>
                             <h5>Board Member? {contact && contact.boardMember ? "Yes" : "No"}</h5>
                         </div>
                         <div id="outreach">

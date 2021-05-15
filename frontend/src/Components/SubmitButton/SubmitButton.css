@@ -1,7 +1,7 @@
 .submitButton {
-    background: transparent;
+    background: #F7941D;
     border: 3px solid #F7941D;
-    color: #F7941D;
+    color: rgba(255, 255, 255);
     border-radius: 14px;
     font-weight: bold;
     font-size: 16px;
@@ -12,8 +12,9 @@
 }
 
 .submitButton:hover {
-    background: #F7941D;
-    color: white;
+    
+    background: rgba(247, 148, 29, 0);
+    color: #F7941D;
     cursor: pointer;
 }
 

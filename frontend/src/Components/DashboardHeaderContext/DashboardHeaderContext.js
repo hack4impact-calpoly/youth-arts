@@ -12,10 +12,12 @@ function DashboardHeaderContext () {
             <img className="logoDashboard" src={logo} alt="logo"/>
             <h1 className="orgSlogan">MAKE A DIFFERENCE TODAY!</h1>
             <h3 className="orgTitle">PASO ROBLES YOUTH ARTS CENTER</h3>
+            <h3 className="orgTitle">
             <section className="buttons">
                 <SubmitButton onClick={navigateTo} buttonText="REGISTER"/>
                 <SubmitButton onClick={navigateTo} buttonText="LOG IN"/>
             </section>
+            </h3>
         </div>
     )
 }

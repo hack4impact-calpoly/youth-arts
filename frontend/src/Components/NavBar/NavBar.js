@@ -20,7 +20,7 @@ const NavBar = (props) => {
         <Link className="logo" to="/anonDashboard">
           <img src={logo} width= "auto" height="45" alt=""></img>
         </Link>
-        <nav>
+        <nav class="navbar-expand">
             <ul className="navlinks">
               <li><Link to="/">Dashboard</Link></li>
               <li><Link to="/opportunities" >Opportunities</Link></li>
@@ -30,6 +30,7 @@ const NavBar = (props) => {
               {user && user.admin !== null && user.admin === true ? <li><Link to="/directory">Directory</Link></li> : null}
               <li><Link to="/FAQ">FAQ</Link></li>
               <li><Link to="/OpportunityCheckout">Cart</Link></li>
+              {user && user.boardMember !== null && user.boardMember === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}logHours`}>Log Hours</a></li> : null}
               { user ? (
                 <li><a href="/" onClick={logout}>Log Out</a></li>
                 // <li><a href={`${process.env.REACT_APP_SERVER_URL}/auth/logout`}>Log Out</a></li>
@@ -38,8 +39,13 @@ const NavBar = (props) => {
               }
             </ul>
         </nav>
+        
       </header>
   );
 }
 
 export default NavBar;
+
+
+
+
