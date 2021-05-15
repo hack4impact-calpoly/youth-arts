@@ -11,40 +11,7 @@ import {DataGrid, GridToolbarContainer, GridToolbarExport, GridColTypeDef} from 
 import dateFormat from 'dateformat';
 import moment from 'moment'
 import { keys } from "@material-ui/core/styles/createBreakpoints"
-
-const columns = [
-   { field: '_id', headerName: 'ID', width: 70 },
-   { field: 'firstName', headerName: 'First name', width: 130 },
-   { field: 'lastName', headerName: 'Last name', width: 130 },
-//    {
-//      field: 'age',
-//      headerName: 'Age',
-//      type: 'number',
-//      width: 90,
-//    },
-//    {
-//      field: 'fullName',
-//      headerName: 'Full name',
-//      description: 'This column has a value getter and is not sortable.',
-//      sortable: false,
-//      width: 160,
-//      valueGetter: (params) =>
-//        `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-//    },
- ];
- 
- const rows = [
-   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
- ];
-
+import Moment from "moment";
 
  function ExportButton() {
    return (
@@ -175,15 +142,52 @@ function ReportsSearchOpportunities(props) {
 
     const columnsOpps = [
         { field: 'title', headerName: 'Title', width: 250 },
-        { field: 'location', headerName: 'Location', width: 300},
-        { field: 'start_event', headerName: 'Start Date', width: 300, 
+        { field: 'location', headerName: 'Location', width: 250},
+        { field: 'start_event', headerName: 'Start Date', width: 220, 
         valueGetter: ({ value }) => {
-            return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
-        }},
-        { field: 'end_event', headerName: 'End Date', width: 300, 
+            if (Array.isArray(value))
+            {
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+            }
+            else
+            {
+                return value
+            }
+            
+        },
+        sortComparator: (param1, param2) => {
+            let date1 = param1.split(' at ').join().split('M,')[0];
+            date1 = date1.substring(1, date1.length - 8);
+            date1 = Moment(date1, 'MMMM Do YYYY');
+            let date2 = param2.split(' at ').join().split('M,')[0];
+            date2 = date2.substring(1, date2.length - 8);
+            date2= Moment(date2, 'MMMM Do YYYY');
+            return date1.diff(date2)
+        },
+        },
+        { field: 'end_event', headerName: 'End Date', width: 220, 
         valueGetter: ({ value }) => {
-            return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
-        }},
+            if (Array.isArray(value))
+            {
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+            }
+            else
+            {
+                return value
+            }
+        },
+        sortComparator: (param1, param2) => {
+            let date1 = param1.split(' at ').join().split(', \n');
+            date1 = date1[date1.length - 1]
+            date1 = date1.substring(1, date1.length - 8);
+            date1 = Moment(date1, 'MMMM Do YYYY');
+            let date2 = param2.split(' at ').join().split(', \n');
+            date2 = date2[date2.length - 1]
+            date2 = date2.substring(1, date2.length - 8);
+            date2= Moment(date2, 'MMMM Do YYYY');
+            return date1.diff(date2)
+        },
+        },
         { field: 'skills', headerName: 'Interest', width: 200, 
         valueGetter: ({ value }) => { return value.join(' ') }},
         { field: 'volunteers', headerName: 'Total Volunteers', width: 170, 
@@ -195,7 +199,6 @@ function ReportsSearchOpportunities(props) {
                 Object.keys(value).map(function(key, index) {
                     let tasks = value[key];
                     let times = tasks.map(task => {
-                        console.log(task);
                         for (var i = 0; i < task.start.length; i++)
                         {
                             var begin = task.start[i];
@@ -234,10 +237,12 @@ function ReportsSearchOpportunities(props) {
     },
 ];
 
-    return (
-        
+
+
+    return (        
         <div>
-            {opportunities ? <div style={{ height: 400, width: '100%' }}>
+            {opportunities ? 
+            <div style={{ height: 500, width: '100%', display: 'flex', padding: 50}}>
                <DataGrid className="Volgrid" 
                rows={opportunities} 
                columns={columnsOpps} 
@@ -245,6 +250,12 @@ function ReportsSearchOpportunities(props) {
                pageSize={5} 
                components={{
                   Toolbar: ExportButton
+                  }}
+                filterModel={{
+                    items: [
+                    //   { columnField: 'start_event', value: Moment().format('MMMM Do YYYY at h:mm:ss a'), operatorValue: 'contains' },
+                    //   { columnField: 'start_event', value: '3000000', operatorValue: 'After' },
+                    ],
                   }}
                />
             </div>

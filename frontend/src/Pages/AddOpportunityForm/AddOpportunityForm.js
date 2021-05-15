@@ -61,7 +61,6 @@ function AddOpportunityForm(props) {
       });
     }
     refresh()
-    // history.goBack();
 
   }
 
@@ -223,7 +222,7 @@ setRerender(!rerender);
 }
 
 const refresh = () => {
-  history.push("/");
+  history.push(history.location);
   setTimeout(() => history.push(history.goBack()), 10);
   history.goBack();
 };
