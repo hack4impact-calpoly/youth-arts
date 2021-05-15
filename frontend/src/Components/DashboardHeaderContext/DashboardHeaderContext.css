@@ -6,10 +6,12 @@
     max-height: 500px;
     width: 100%;
     color: white;
+    font-family: 'Avant Garde';
 }
 
 .logoDashboard {
     width: 150px;
+    font-family: 'Avant Garde';
 }
 
 .orgSlogan {
@@ -19,16 +21,19 @@
     font-size: 50px;
     margin: 20px 0;
     font-weight: bold;
+    font-family: 'Avant Garde';
 }
 
 .orgTitle {
     margin: 10px;
     font-size: 40px;
+    font-family: 'Avant Garde';
 
 }
 
 .logInButton, .registerButton {
     padding: 2%;
+    font-family: 'Avant Garde';
 }
 
 @media screen and (max-width: 480px) {

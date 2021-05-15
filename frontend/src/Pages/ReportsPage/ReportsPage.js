@@ -9,7 +9,7 @@ const ReportsPage = (props) => {
         <body>
             <NavBar user={user}/>
             <div id="repHeader">
-                <h1 id="repTitle">Reports</h1>
+                <h1 className="repTitle">REPORTS</h1>
             </div>
             <ReportsSearchOpportunities user={user}/>
         </body>

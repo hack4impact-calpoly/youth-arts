@@ -5,11 +5,13 @@
    padding: 7% 0;
 }
 
-#repTitle {
+.repTitle {
    text-align: center;
    background: rgba(255, 255, 255, 0.76);
    font-style: normal;
    font-weight: bold;
    text-align: center;
    color: #1F4C82;
+   font-family: 'Avant Garde';
+
 }

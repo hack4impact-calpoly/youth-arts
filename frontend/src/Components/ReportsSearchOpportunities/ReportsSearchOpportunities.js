@@ -7,27 +7,30 @@ import SubmitButton from "../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import {DataGrid, GridToolbarContainer, GridToolbarExport,} from '@material-ui/data-grid';
+import {DataGrid, GridToolbarContainer, GridToolbarExport, GridColTypeDef} from '@material-ui/data-grid';
+import dateFormat from 'dateformat';
+import moment from 'moment'
+import { keys } from "@material-ui/core/styles/createBreakpoints"
 
 const columns = [
-   { field: 'id', headerName: 'ID', width: 70 },
+   { field: '_id', headerName: 'ID', width: 70 },
    { field: 'firstName', headerName: 'First name', width: 130 },
    { field: 'lastName', headerName: 'Last name', width: 130 },
-   {
-     field: 'age',
-     headerName: 'Age',
-     type: 'number',
-     width: 90,
-   },
-   {
-     field: 'fullName',
-     headerName: 'Full name',
-     description: 'This column has a value getter and is not sortable.',
-     sortable: false,
-     width: 160,
-     valueGetter: (params) =>
-       `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
-   },
+//    {
+//      field: 'age',
+//      headerName: 'Age',
+//      type: 'number',
+//      width: 90,
+//    },
+//    {
+//      field: 'fullName',
+//      headerName: 'Full name',
+//      description: 'This column has a value getter and is not sortable.',
+//      sortable: false,
+//      width: 160,
+//      valueGetter: (params) =>
+//        `${params.getValue('firstName') || ''} ${params.getValue('lastName') || ''}`,
+//    },
  ];
  
  const rows = [
@@ -41,6 +44,7 @@ const columns = [
    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
  ];
+
 
  function ExportButton() {
    return (
@@ -56,6 +60,7 @@ function ReportsSearchOpportunities(props) {
     const history = useHistory();
     const navigateTo = () => history.push('/addOpportunity');
     const [opportunities, setOpportunities] = useState("");
+    const [volunteers, setVolunteers] = useState("");
     async function fetchAll() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
@@ -66,10 +71,31 @@ function ReportsSearchOpportunities(props) {
             return false;
         }
     }
+    async function fetchAllvolunteers() {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteers`);
+            return response.data;
+        }
+        catch(error) {
+            console.log(error);
+            return false;
+        }
+    }
     useEffect(() => {
         fetchAll().then(result => {
-            if(result)
+            if(result) {
+                Object.keys(result).map(function(key, index) {
+                    Object.assign(result[key], {volunteerHours: (result[key]).volunteers});
+                    Object.assign(result[key], {volunteerDonate: (result[key]).volunteers});
+                })
+                console.log(result);
                 setOpportunities(result);
+            }
+                
+        })
+        fetchAllvolunteers().then(result => {
+            if(result)
+                setVolunteers(result);
         })
     }, [])
 
@@ -143,67 +169,87 @@ function ReportsSearchOpportunities(props) {
         setCurrentPage(pageNumber)
     }
 
+    const DateFormatter = ({ value }) => { return <span style={{textTransform: 'uppercase'}}>{value}</span> };
+
+
+
+    const columnsOpps = [
+        { field: 'title', headerName: 'Title', width: 250 },
+        { field: 'location', headerName: 'Location', width: 300},
+        { field: 'start_event', headerName: 'Start Date', width: 300, 
+        valueGetter: ({ value }) => {
+            return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+        }},
+        { field: 'end_event', headerName: 'End Date', width: 300, 
+        valueGetter: ({ value }) => {
+            return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+        }},
+        { field: 'skills', headerName: 'Interest', width: 200, 
+        valueGetter: ({ value }) => { return value.join(' ') }},
+        { field: 'volunteers', headerName: 'Total Volunteers', width: 170, 
+        valueGetter: ({ value }) => Object.keys(value).length },
+        { field: 'volunteerHours', headerName: 'Total Volunteer Hours', width: 190, 
+        valueGetter: ({ value }) => {
+            let hours = 0;
+            if (Object.keys(value).length) {
+                Object.keys(value).map(function(key, index) {
+                    let tasks = value[key];
+                    let times = tasks.map(task => {
+                        console.log(task);
+                        for (var i = 0; i < task.start.length; i++)
+                        {
+                            var begin = task.start[i];
+                            var end = task.end[i];
+                            let diff = moment(end).diff(moment(begin));
+                            hours += diff;
+                        }
+                    })
+                })
+            }
+            return hours
+        }
+    },
+    { field: 'volunteerDonate', headerName: 'Donated Items', width: 200, 
+        valueGetter: ({ value }) => {
+            let donated = [];
+            if (Object.keys(value).length) {
+                Object.keys(value).map(function(key, index) {
+                    let tasks = value[key];
+                    let times = tasks.map(task => {  
+                        for (var i = 0; i < task.donated.length; i++)
+                        {
+                            donated = donated.concat(task.donated);
+                        }
+                    })
+                })
+            }
+            if (donated.length) {
+                return donated.join(", ");
+            }
+            else {
+                return "N/A"
+            }
+            
+        }
+    },
+];
+
     return (
+        
         <div>
-            <Row id="search">
-                <Col>
-                    <h4>Search Opportunities</h4>
-                    <hr />
-                    <input type="text" placeholder="Enter Keywords Here" onChange={e => setSearch(e.target.value)} />
-
-                    <label for="sortBy">Sort By:</label>
-                    <select id="sortBy" name="sortBy" onChange={e => setSortBy(e.target.value)}>
-                        <option value="">Select Option</option>
-                        <option value="date">Date</option>
-                        <option value="oppType">Opportunity Type</option>
-                    </select>
-
-                    <label for="filterBy">Filter By:</label>
-                    <select id="filterBy" name="filterBy" onChange={e => setFilterBy(e.target.value)}>
-                        <option value="">Select Option</option>
-                        <option value="classroom">Classroom</option>
-                        <option value="comittee">Comittee</option>
-                        <option value="event">Event</option>
-                        <option value="fundraiser">Fundraiser</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="office-admin">Office Admin</option>
-                        <option value="performance">Performance</option>
-                    </select>
-                </Col>
-                {user && <Col id="button">
-                    <SubmitButton onClick={navigateTo} buttonText="ADD OPPORTUNITY"/>
-                </Col>}
-            </Row>
-
-            <Pagination
-                    postsPerPage={postsPerPage}
-                    totalPosts={filteredOpps.length}
-                    paginate={paginate}
-            />
-
-            <br />
-
-            <div id="opportunities">
-                {currentPosts.map((opportunity, index) => (
-                    <OpportunityCard key={index} {...opportunity} />
-                ))}
-            </div>
-
-            <br />
-
-            <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={filteredOpps.length}
-                paginate={paginate}
-            />
-
-            <br />
-            <div style={{ height: 400, width: '100%' }}>
-               <DataGrid rows={rows} columns={columns} pageSize={5} components={{
-                  Toolbar: ExportButton, ExportButton,
+            {opportunities ? <div style={{ height: 400, width: '100%' }}>
+               <DataGrid className="Volgrid" 
+               rows={opportunities} 
+               columns={columnsOpps} 
+               getRowId ={(row) => row._id}
+               pageSize={5} 
+               components={{
+                  Toolbar: ExportButton
                   }}
                />
             </div>
+            :
+            <div></div>}
             <Footer />
         </div>
     )
