@@ -5,12 +5,16 @@ import Opportunities from "../../Components/Opportunities/Opportunities";
 import UpcomingOpportunities from "../../Components/UpcomingOpportunities/UpcomingOpportunities"
 import Footer from "../../Components/Footer/Footer";
 import { Row, Col } from "react-bootstrap";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { useHistory } from "react-router-dom";
+
+  
 
 const AuthenticatedUserDashboard = (props) => {
     //sample opportunities
     const { user } = props;
     const [opps, setOpps] = useState(["Upcoming Opportunity 1", "Upcoming Opportunity 2", "Upcoming Opportunity 3", "Upcoming Opportunity 4", "Upcoming Opportunity 5"]);
+    const history = useHistory();
 
     function handleCancel(index) {
         const updated = opps.filter((opp, i) => {
@@ -18,6 +22,15 @@ const AuthenticatedUserDashboard = (props) => {
         });
         setOpps(updated);
     } 
+    const refreshOnLogin = () => {
+        history.push("/");
+        setTimeout(() => history.push(history.push("/")), 10);
+      };
+
+    useEffect(() => {
+        refreshOnLogin();
+    }, []);
+
     return (
         <div>
             <div>

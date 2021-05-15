@@ -43,6 +43,7 @@ class RegistrationPage extends React.Component {
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
         redirect: false, 
+        reload: false, 
         notValid: false,
         ...props.user 
       };
@@ -51,7 +52,7 @@ class RegistrationPage extends React.Component {
     this.handleLast = this.handleLast.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePhone = this.handlePhone.bind(this);
-    this.handleAddress = this.handleAddress.bind(this);
+    this.handleStreetAddress = this.handleStreetAddress.bind(this);
     this.handleExperience = this.handleExperience.bind(this);
     this.handleEmployment = this.handleEmployment.bind(this);
     this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
@@ -76,10 +77,16 @@ class RegistrationPage extends React.Component {
       fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId, { credentials: 'include' })
         .then(res => res.json())
         .then(data => this.setState({...data}));
+        this.setState({reload: !this.state.reload});
     }
     else 
     {
       this.setState({userID: this.state._id});
+      this.setState({reload: !this.state.reload});
+    }
+    if (this.state.firstName === "" && userId !== "") 
+    {
+      this.setState({reload: !this.state.reload});
     }
   }
 
@@ -187,6 +194,7 @@ class RegistrationPage extends React.Component {
         userdata.email === "" ||
         userdata.phoneNum === "" ||
         userdata.address === "" ||
+        userdata.signatureValue === "false" ||
         userdata.signature === false)
     {
       this.setState({notValid : true})
@@ -232,7 +240,7 @@ class RegistrationPage extends React.Component {
     doc.save('volunteerWaiver.pdf')
   }
 
-  handleAddress = (e) => {
+  handleStreetAddress = (e) => {
     e.preventDefault(); 
     const {name, value} = e.target; 
     switch (name) {
@@ -283,10 +291,10 @@ class RegistrationPage extends React.Component {
                 <label htmlFor="Phone">Phone<span className="red">*</span></label>
                 <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
                 <label htmlFor="Address">Address<span className="red">*</span></label>
-                <input type="text" name="address" placeholder="Street Address" value={this.state.address} onChange={this.handleAddress}/>
-                <input type="text" name="city" placeholder="City" value={this.state.city} onChange={this.handleAddress}/>
-                <input type="text" name="state" placeholder="State" value={this.state.state} onChange={this.handleAddress}/>
-                <input type="text" name="zipcode" placeholder="Zip Code" value={this.state.zipcode} onChange={this.handleAddress}/>
+                <input type="text" name="address" placeholder="Street Address" value={this.state.address} onChange={this.handleStreetAddress}/>
+                <input type="text" name="city" placeholder="City" value={this.state.city} onChange={this.handleStreetAddress}/>
+                <input type="text" name="state" placeholder="State" value={this.state.state} onChange={this.handleStreetAddress}/>
+                <input type="text" name="zipcode" placeholder="Zip Code" value={this.state.zipcode} onChange={this.handleStreetAddress}/>
           </div> 
             <br/>
             <br/>
@@ -360,7 +368,7 @@ class RegistrationPage extends React.Component {
 
                 <div id="digitalSignature">
                   <label htmlFor="Address">Digital Signature<span className="red">*</span></label>
-                  <input type="text" name="signatureValue" placeholder="Type Signature Here" value={this.state.signatureValue} onChange={this.handleSignatureValue}/>
+                  <input type="text" name="signatureValue" placeholder="Type Name Here" value={this.state.signatureValue} onChange={this.handleSignatureValue}/>
                 </div>
                 <br/> 
                 {this.state.notValid && <label className="errorMessage">* Please Complete Required Fields</label>}
