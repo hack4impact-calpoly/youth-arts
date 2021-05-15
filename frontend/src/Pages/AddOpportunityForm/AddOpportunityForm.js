@@ -227,12 +227,11 @@ setRerender(!rerender);
             <h1>Create or Edit Opportunity</h1>
         </div>
         <div className="formWrapper">
-          <form className="formStyle">
-            <div className="formInside">
-          <div className="inputStyles">
+          <form className="OppformStyle">
+            <div className="OppformInside">
+          <div className="OppinputStyles">
             <label htmlFor="OpportunityTitle">Opportunity Title <span className="red">*</span></label>
-
-                <input 
+                <input className="formInput"
                         onChange={e => handleChangeTitle(e)} type="text" value={(opportunity && opportunity.title) ? opportunity.title : ""} name="OpportunityTitle" placeholder="Enter Opportunity Title Here"/>
                 <label htmlFor="OpportunityTitle">Opportunity Date<span className="red">*</span></label>
                 {((opportunity && opportunity.start_event) ? opportunity.start_event : [""]).map((date, i) => {
@@ -245,6 +244,7 @@ setRerender(!rerender);
                     <div key={i}>
                         <div className="inputDate" >
                             <TextField
+                              className="FormDate"
                               label="Start Date/Time"
                               type="datetime-local"
                               onChange={e => handleStartChangeDate(e, i)}
@@ -254,6 +254,7 @@ setRerender(!rerender);
                               }}
                             />
                             <TextField
+                              className="FormDate"
                               label="End Date/Time"
                               type="datetime-local"
                               value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
@@ -279,7 +280,7 @@ setRerender(!rerender);
 
           </div> 
           <div className="inputStyles">
-            <label htmlFor="tasks">Volunteer Tasks</label>
+            <label htmlFor="tasks">Volunteer Tasks <span className="red">*</span></label>
           </div>
             {taskList.map((task, t) => {
                   return(
@@ -293,11 +294,8 @@ setRerender(!rerender);
                                   placeholder="Enter Custom Volunteer Task"
                                   value = {task.roleName}
                                   onChange={e => handleChangeTaskTitle(e, t)}/>
-
                               {taskList.length !== 1 &&
-                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(t)}/>
-                              }
-
+                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(t)}/>}
                             <div className="taskLabel">
                             <br className="headerBreak" />
                               <label htmlFor="OpportunityTitle">Task Description</label>
@@ -322,6 +320,7 @@ setRerender(!rerender);
                                   <div key={di}>
                                       <div className="inputDate" >
                                           <TextField
+                                            className="FormDate"
                                             label="Start Date/Time"
                                             type="datetime-local"
                                             onChange={e => handleStartChangeDateTask(e, t, di)}
@@ -331,6 +330,7 @@ setRerender(!rerender);
                                             }}
                                           />
                                           <TextField
+                                            className="FormDate"
                                             label="End Date/Time"
                                             type="datetime-local"
                                             value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
@@ -352,8 +352,6 @@ setRerender(!rerender);
                                   </div>
                                 )
                             })}
-
-
                             <div className="taskLabel">
                             <br className="headerBreak" />
                               <label htmlFor="wishlist">Additional Requirements</label>
@@ -367,7 +365,6 @@ setRerender(!rerender);
                                               onChange={e => handleChangeTaskReq(e, t, r)}/>
                                               {(task.additionalInfo && task.additionalInfo.length !== 1) &&
                                                   <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteTaskReq(t, r)}/>
-
                                               }
                                           </div>
                                           {(task.additionalInfo.length -1 === r) && 
@@ -438,11 +435,11 @@ setRerender(!rerender);
                   return(
                     <div key={r}>
                         <div className="inputButtons" >
-                            <input id="taskInput" type="text" name="Additional Requirements" placeholder="Enter Additional Requirements"
+                            <input className="formInput" id="taskInput" type="text" name="Additional Requirements" placeholder="Enter Additional Requirements"
                             value = {req}
                             onChange={e => handleChangeOppReq(e, r)}/>
                             {(opportunity.requirements && opportunity.requirements.length !== 1) &&
-                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteOppReq(r)}/>
+                                <input className="formInput" id="deleteItem" type="button" value="X" onClick={() => handleDeleteOppReq(r)}/>
 
                             }
                         </div>
@@ -482,7 +479,7 @@ setRerender(!rerender);
           <ImageUpload/>
            <br/>       
                {notValid && <label className="errorMessage">* Please Complete Required Fields</label>}  
-                <div className="buttonStyle">
+                <div className="FormbuttonStyle">
                   <SubmitButton onClick={handleFormSubmit} buttonText="Submit"/>
                 </div>
             </div>
