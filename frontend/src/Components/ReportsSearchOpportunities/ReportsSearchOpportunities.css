@@ -1,0 +1,46 @@
+#search {
+    padding: 2% 5% 1% 5%;
+}
+
+#search h4 {
+    display: inline-block;
+}
+
+#search hr {
+    margin-top: 0.1%;
+    margin-left: 0;
+    text-align: left;
+}
+.Volgrid {
+    font-family: 'Avant Garde';
+
+}
+
+#search input {
+    background: #F3F3F3;
+    border-radius: 10px;
+    border: none;
+    margin-right: 1%;
+    padding-left: 1%;
+}
+
+#search label {
+    margin-right: 0.25%;
+}
+
+#search select {
+    background: #F3F3F3;
+    border: 0.25px solid #C1C1C1;
+    border-radius: 5px;
+    margin-right: 0.5%;
+    height: 25px;
+}
+
+#search #button {
+    text-align: right;
+}
+
+#opportunities {
+    background-color: #F3F3F3;
+    text-align: center;
+}

@@ -94,6 +94,15 @@
     color: 	#C0C0C0;
     font-size: 15px;
 }
+.TaskDiv {
+    border-style: solid none;
+    border-color: #1B75BC;
+    /* margin-top: 200px;
+    margin-bottom: 200px; */
+    padding-bottom: 20px;
+    padding-bottom: 20px;
+
+}
 
 .textStyle textarea{
     display: block;

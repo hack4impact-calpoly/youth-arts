@@ -12,7 +12,7 @@ import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
 import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 import DirectoryPage from "./Pages/DirectoryPage/Directory"
-// import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
+import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
@@ -155,6 +155,10 @@ const App = () => {
           <CalendarPage user={profile} />
         </Route>
 
+        <Route path='/Reports'>
+            <ReportsPage user={profile}/>
+          </Route>       
+
         <Route path='/opportunities'>
           <OpportunitiesPage
             user={profile}
@@ -197,10 +201,6 @@ const App = () => {
             user={profile}
             deleteFromCart = {deleteFromCart}/>
         </Route>
-
-        {/* <Route path='/Reports'>
-            <ReportsPage user={profile}/>
-          </Route> */}
 
         {/* <Route path='/FAQ'>
             <FAQPage user={profile}/>

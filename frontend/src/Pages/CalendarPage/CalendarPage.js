@@ -11,7 +11,7 @@ function CalendarPage(props) {
             <NavBar user={props.user}/>
                 <div id="authHeader">
                 <img id="authLogo" src={logo} alt="logo"/>
-                <h1 id="welcomeBack"> Calendar </h1>
+                <h1 id="welcomeBack"> CALENDAR </h1>
             </div>
             <body> 
                 <br></br>
