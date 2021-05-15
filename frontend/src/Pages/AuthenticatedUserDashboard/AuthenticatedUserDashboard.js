@@ -25,6 +25,7 @@ const AuthenticatedUserDashboard = (props) => {
     const refreshOnLogin = () => {
         history.push("/");
         setTimeout(() => history.push(history.push("/")), 10);
+        history.push("/");
       };
 
     useEffect(() => {
