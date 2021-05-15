@@ -55,6 +55,7 @@ const App = () => {
     cart.splice(index,1);
     setCart(cart);
   }
+  
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`,

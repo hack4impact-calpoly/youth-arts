@@ -14,10 +14,12 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 function AddOpportunityForm(props) {
 
   const[notValid, setnotValid] = useState(false);
+  const history = useHistory();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +60,8 @@ function AddOpportunityForm(props) {
         });
       });
     }
+    refresh()
+    // history.goBack();
 
   }
 
@@ -218,6 +222,12 @@ opportunity.additionalInfo.splice(index, 1);
 setRerender(!rerender);
 }
 
+const refresh = () => {
+  history.push("/");
+  setTimeout(() => history.push(history.goBack()), 10);
+  history.goBack();
+};
+
   return (
       <div >
         <NavBar/>
@@ -287,8 +297,9 @@ setRerender(!rerender);
                     <div key={t}>
                       <div className="TaskDiv">
                         <div className="inputButtons" >
+                          <br></br>
                             <div >
-                              <label htmlFor="OpportunityTitle">Task Name</label>
+                              <label htmlFor="OpportunityTitle">Task Name <span className="red">*</span></label>
                             </div>
                                 <input id="taskInput" type="text" name="task" 
                                   placeholder="Enter Custom Volunteer Task"

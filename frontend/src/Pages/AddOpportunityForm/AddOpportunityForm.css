@@ -102,7 +102,7 @@
     font-size: 15px;
 }
 .TaskDiv {
-    border-style: solid none;
+    border-style: none none solid none;
     border-color: #1B75BC;
     padding-bottom: 20px;
     padding-bottom: 20px;
