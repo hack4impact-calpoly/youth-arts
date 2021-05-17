@@ -15,17 +15,23 @@ const AuthenticatedUserDashboard = (props) => {
     //sample opportunities
     const { user } = props;
 
-    var key, opportunities;
+    var key;
+    var opportunities = [];
 
     if(user && (user.opportunities !== null || user.opportunities !== undefined)) {
         Object.keys(user.opportunities).map((item) => {
             key = item;
-            return null;
+            if(key !== null || key !== undefined) {
+                console.log(user.opportunities[key].length);
+                for(var i = 0; i < user.opportunities[key].length; i++) {
+                    (user.opportunities[key][i])["oppId"] = key
+                    opportunities.push(user.opportunities[key][i]);
+                }
+            } 
+            // return null;
         })
-        if(key !== null || key !== undefined) opportunities = user.opportunities[key];
-        else opportunities = [];
+
     }
-    else opportunities = []
 
     const [opps, setOpps] = useState(opportunities);
     const history = useHistory();
@@ -109,11 +115,14 @@ const AuthenticatedUserDashboard = (props) => {
         console.log(oppsArray);
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {
+            // for(var k = 0; k < user.opportunities.length; k++) {
+            //     if (user.opportunitiesoppsArray[i]._id)
+            // }
             var singleOpp = {
                 task: oppsArray[i].task,
                 start: oppsArray[i].start[j],
                 end: oppsArray[i].end[j],
-                id: oppsArray[i]._id
+                id: oppsArray[i].oppId
             }
             console.log(singleOpp);
             if(singleOpp !== undefined) {

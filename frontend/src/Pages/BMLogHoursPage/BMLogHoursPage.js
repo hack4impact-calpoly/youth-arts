@@ -88,7 +88,7 @@ function BMLogHoursPage(props) {
         }
         else {
             newOpportunites = {};
-            newOpportunites = {'60764b69811b98df6f7f58fc' : opportunities};
+            newOpportunites = {'6099c78c001ee300081c1dab' : opportunities};
         }
 
         const updateVolunteer = {
@@ -126,8 +126,11 @@ function BMLogHoursPage(props) {
     }
 
     return (
-        <body id="logHoursPage">
-            <h1 id="LHPageTitle">BOARD MEMBER LOG HOURS</h1>
+        <body>
+            <div id="calHeader">
+                    <h1 className="calTitle">BOARD MEMBER LOG HOURS</h1>
+            </div>
+            <div id="logHoursPage"> 
             <Form >
                 <label for="startDateTime">Start Date and Time:</label><br />
                 <TextField name="startDateTime" type="datetime-local" onChange={e => setStartDT(e.target.value)} /><br /><br />
@@ -139,6 +142,7 @@ function BMLogHoursPage(props) {
                 </Form.Group>
                 <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
             </Form>
+            </div>
         </body>
     );
 }
