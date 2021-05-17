@@ -1,11 +1,13 @@
 #directoryPage {
     padding: 5% 10%;
+    font-family: 'Avant Garde';
 }
 
 #directory {
     text-align: center;
     font-weight: bold;
     color: #1F4C82;
+    font-family: 'Avant Garde';
 }
 
 #directoryHeader {
@@ -13,6 +15,7 @@
     color: white;
     padding: 0.5% 0;
     font-weight: bold;
+    font-family: 'Avant Garde';
 }
 
 #directoryTable {

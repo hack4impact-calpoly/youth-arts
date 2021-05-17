@@ -10,3 +10,17 @@
     padding-bottom: 3%;
     font-family: 'Avant Garde';
 }
+
+.panel-title:after {
+    content: "▼";
+    float: right;
+    color: #1F4C82;
+}
+/* .panel-title.collapsed:after { */
+.panel-title[aria-expanded="true"]:after {
+    content: "▲";
+}
+
+
+
+

@@ -50,8 +50,12 @@ function Directory(props) {
     }
 
     return (
-        <body id="directoryPage">
-            <h1 id="directory">DIRECTORY</h1>
+        <body >
+
+            <div id="calHeader">
+                    <h1 className="calTitle">DIRECTORY</h1>
+            </div>
+        <div id="directoryPage">
             <h4>Search Directory</h4>
             <hr />
 
@@ -75,6 +79,7 @@ function Directory(props) {
                 totalPosts={filteredSearch.length}
                 paginate={paginate}
             />
+            </div>
         </body>
     );
 }

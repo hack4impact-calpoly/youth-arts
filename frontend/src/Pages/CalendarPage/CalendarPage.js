@@ -9,10 +9,9 @@ function CalendarPage(props) {
     return (
         <div>
             <NavBar user={props.user}/>
-                <div id="authHeader">
-                <img id="authLogo" src={logo} alt="logo"/>
-                <h1 id="welcomeBack"> CALENDAR </h1>
-            </div>
+                <div id="calHeader">
+                    <h1 className="calTitle">CALENDAR</h1>
+                </div>
             <body> 
                 <br></br>
                 <h4 className="calText">Below is our upcoming event schedule. For questions or further information, feel free to contact us at (805) 238-5825.</h4>
