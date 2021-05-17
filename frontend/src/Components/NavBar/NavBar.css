@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: baseline;
     height: 60px;
-    width: 100%
+    width: 100%;
   }
 
   .logo {
@@ -23,6 +23,9 @@
     align-items: center;
     color: white;
   }
+  /* nav .navbar-expand {
+    
+  } */
 
   .navlinks {
     list-style: none;
@@ -58,6 +61,4 @@
     font-family: 'Avant Garde';
     src: url(./fonts/ITCAvantGardePro-Bk.otf);
   } */
-
-
 

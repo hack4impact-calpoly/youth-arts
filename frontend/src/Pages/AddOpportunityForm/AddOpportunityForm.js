@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import ImageUpload from '../../Components/ImageUpload/ImageUpload'
+import ImageUploadMulti from '../../Components/ImageUpload/ImageUploadMulti'
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router";
 import classroom from '../../Images/classroom.png'
@@ -226,6 +227,14 @@ const refresh = () => {
   setTimeout(() => history.push(history.goBack()), 10);
   history.goBack();
 };
+
+const getFileNames = (files) => {
+  for (let i = 0; i < files.length; i++) {
+    opportunity.pictures.push('https://pryac.s3-us-west-1.amazonaws.com/' + files[i]);
+    console.log(files[i]);
+  }
+  console.log(opportunity.pictures);
+}
 
   return (
       <div >
@@ -486,7 +495,7 @@ const refresh = () => {
              <label >Add Images</label>
           </div>
           <br/>
-          <ImageUpload/>
+          <ImageUploadMulti getFiles={getFileNames.bind(this)}/>
            <br/>       
                {notValid && <label className="errorMessage">* Please Complete Required Fields</label>}  
                 <div className="FormbuttonStyle">

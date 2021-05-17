@@ -33,7 +33,7 @@ function OpportunityCard(props) {
                 </tr>
             </table>
             <button className="cardDetails" onClick={navigateTo} src={props.details}>VIEW DETAILS <img className="cardArrow" src={arrow} alt="arrow"/></button>
-            <i class="fas fa-chevron-right"></i>
+            {/* <i class="fas fa-chevron-right"></i> */}
         </div>
     );
 }

@@ -13,7 +13,7 @@ import performance from '../../Images/performance.png'
 import { Redirect } from 'react-router-dom'
 import volunteerWaiver from './VolunteerWaiver.pdf'
 import jsPDF from 'jspdf'
-import ImageUpload from '../../Components/ImageUpload/ImageUpload'
+import ImageUploadMulti from '../../Components/ImageUpload/ImageUploadMulti'
 
 class RegistrationPage extends React.Component {
 
@@ -38,6 +38,7 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
+        picture: [],
         signatureValue: "",
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
@@ -48,6 +49,7 @@ class RegistrationPage extends React.Component {
         ...props.user 
       };
     
+    this.getFileNames = this.getFileNames.bind(this);
     this.handleFirst = this.handleFirst.bind(this);
     this.handleLast = this.handleLast.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
@@ -91,6 +93,14 @@ class RegistrationPage extends React.Component {
   }
 
   /* This lifecycle hook gets executed when the component mounts */
+  getFileNames = (files) => {
+    let newSelectionArray = [...this.state.picture]
+    for (let i = 0; i < files.length; i++) {
+      newSelectionArray.push('https://pryac.s3-us-west-1.amazonaws.com/' + files[i]);
+    }
+    this.setState( {picture: newSelectionArray });
+    console.log(this.state.picture);
+  }
 
   handleFirst(e) {
     let value = e.target.value;
@@ -181,6 +191,7 @@ class RegistrationPage extends React.Component {
       address: addr, 
       communityRole: this.state.communityRole, 
       AOI: this.state.AOI, 
+      picture: this.state.picture,
       experience: this.state.experience, 
       workHistory: this.state.workHistory, 
       outreach: this.state.outreach, 
@@ -349,7 +360,8 @@ class RegistrationPage extends React.Component {
                 <div className="addImages">
                   <label >Profile Picture</label>
                 </div>
-                <ImageUpload/>
+                <ImageUploadMulti getFiles={this.getFileNames}/>
+                <br></br>
 
 
                 <label className="finalCheckbox">
