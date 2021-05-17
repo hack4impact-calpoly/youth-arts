@@ -42,7 +42,9 @@ function AddOpportunityForm(props) {
     if (opp.title === "" ||
         opp.description === "" ||
         opp.start_event === [""] ||
-        opp.end_event === [""])
+        opp.end_event === [""] ||
+        opp.skills === [""]
+        )
     {
       console.log("notvalid")
       setnotValid(true)
@@ -86,6 +88,10 @@ function AddOpportunityForm(props) {
       opportunity.skills.splice(opportunity.skills.indexOf(newSelection), 1);
     } else {
       opportunity.skills.push(newSelection);
+    }
+    if (opportunity.skills.indexOf("") !== -1)
+    {
+      opportunity.skills.splice(opportunity.skills.indexOf(""), 1);
     }
     setRerender(!rerender);
   }
@@ -428,7 +434,7 @@ const getFileNames = (files) => {
                 <label htmlFor="OpportunityDescription">Opportunity Description<span className="red">*</span></label>
                 <textarea onChange={e => handleChangeDescription(e)} value={opportunity.description} placeholder="Enter description of opportunity"/>
                 <br/>
-                <label htmlFor="Skill/Interests">Skills/Interests</label>
+                <label htmlFor="Skill/Interests">Skills/Interests <span className="red">*</span></label>
                 <div className="IconSelect">
                   {AOIOptions.map(option => {
                     return (

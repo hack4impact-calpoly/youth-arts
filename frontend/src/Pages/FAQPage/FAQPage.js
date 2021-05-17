@@ -29,7 +29,7 @@ function FAQPage() {
             </Card>
             <Card>
                 <Accordion.Toggle as={Card.Header} eventKey="2" className="panel-title">
-                How do I volunteer if I'm under 18? <MdKeyboardArrowDown></MdKeyboardArrowDown>
+                How do I volunteer if I'm under 18?
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="2">
                 <Card.Body>Volunteers under 18 are welcome and we have many opportunities for helping! Each posted volunteer opportunity will list any age requirements and any additional permission forms needed.</Card.Body>
