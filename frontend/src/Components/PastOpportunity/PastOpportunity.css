@@ -11,6 +11,9 @@
 .pastOpp {
     padding: 0 5%;
 }
+.pastOppLink {
+    color: #1F4C82;
+}
 
 .pastOppTask {
     margin-bottom: 0;

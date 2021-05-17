@@ -78,7 +78,8 @@ const AuthenticatedUserDashboard = (props) => {
             response.json().then(data => {
                 console.log("Successful" + data);
             });
-        });       
+        });    
+        setOpps(opps);   
     } 
 
     function getDonated(opp) {
@@ -105,13 +106,16 @@ const AuthenticatedUserDashboard = (props) => {
     var totalHours = 0;
 
     for(var i = 0; i < oppsArray.length; i++) {
+        console.log(oppsArray);
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {
             var singleOpp = {
                 task: oppsArray[i].task,
                 start: oppsArray[i].start[j],
-                end: oppsArray[i].end[j]
+                end: oppsArray[i].end[j],
+                id: oppsArray[i]._id
             }
+            console.log(singleOpp);
             if(singleOpp !== undefined) {
                 if(new Date(singleOpp.start) > currentDate) {
                     upcomingOpportunities.push(singleOpp);
@@ -127,6 +131,7 @@ const AuthenticatedUserDashboard = (props) => {
         history.push("/");
         setTimeout(() => history.push(history.push("/")), 10);
         history.push("/");
+
       };
 
     useEffect(() => {
