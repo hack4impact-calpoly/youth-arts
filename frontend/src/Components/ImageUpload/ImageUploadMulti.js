@@ -36,7 +36,7 @@ function ImageUploadMulti(props) {
     for (let i = 0; i < newArr.length; i++) {
         let name = Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2)
         const params = {
-          // ACL: 'public-read-write',
+          ACL: 'public-read-write',
           Key: name,
           ContentType: newArr[i].type,
           Bucket: 'pryac',
