@@ -1,23 +1,68 @@
-#pastOpp {
+#pastOpps {
     max-height: fit-content;
-    max-width: 300px;
+    width: 700px;
     background-color: #f3f3f3;
     color: #1B75BC;
-    padding-bottom: 1%;
+    padding-bottom: 4%;
     font-weight: bold;
     font-family: 'Avant Garde';
 }
 
-.opp {
-    margin: 1px 8%;
+.pastOpp {
+    padding: 0 5%;
+}
+.pastOppLink {
+    color: #1F4C82;
 }
 
-#oppType {
+.pastOppTask {
+    margin-bottom: 0;
+}
+
+.pastOppDate {
+    font-size: 80%;
+    color: black;
+    margin: 0;
+}
+
+.pastOppCancel {
+    text-align: right;
+}
+
+#upType {
     background-color: #1F4C82;
     color: #FFFFFF;
     padding: 3%;
     text-align: center;
-    margin-bottom: 7%;
+    margin-bottom: 3%;
     font-weight: bold;
     font-family: 'Avant Garde';
+} 
+
+
+/* mobile */
+@media screen and (max-width: 480px) {
+    .middleSection {
+        padding: 10%;
+    }
+
+    #pastOpps {
+        width: 300px;
+        margin-bottom: 5%;
+    }
+
+    #upType {
+        font-size: 18px;
+    }
+
+    .pastOpp {
+        font-size: 12px;
+    }
+}
+
+/*laptop and tablet*/
+@media screen and (min-width: 1024px) and (max-width: 1600px) {
+    #pastOpps {
+        width: 500px;
+    }
 }
