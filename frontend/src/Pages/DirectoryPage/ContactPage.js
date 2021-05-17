@@ -3,6 +3,7 @@ import ContactOpportunityCard from "./../../Components/ContactOpportunityCard/Co
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
+import AWS from 'aws-sdk'
 
 function ContactPage() {
     const anonPic = "https://nlgmass.org/wp-content/uploads/eb4d0533e292cf95bff821da17289e80.png"
@@ -33,13 +34,22 @@ function ContactPage() {
         }
         return true;
     }
+    console.log(contact);
+    console.log(contact.picture);
   
     return(
         <div id="contactPage">
             <h1 id="contactName">{contact.firstName + " " + contact.lastName}</h1>
             <Container fluid>
                 <Row>
-                    <Col md="auto">{contact && contact.picture !== null ? <img id="prof-pic" src={anonPic} alt="prof-pic"/> : <img id="prof-pic" src={anonPic} alt="prof-pic"/>}</Col>
+                    <Col md="auto">{(contact && contact.picture !== undefined && contact.picture !== null) ? 
+                                        <img id="prof-pic" src={contact.picture} alt="prof-pic"/> : 
+                                        <img id="prof-pic" src={anonPic} alt="prof-pic"/>}
+
+
+
+
+                    </Col>
                     <Col id="contactInformation">
                         <div id="contact">
                             <h3 className="contactTitle">Contact Information</h3>

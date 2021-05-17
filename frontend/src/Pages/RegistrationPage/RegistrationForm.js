@@ -94,12 +94,7 @@ class RegistrationPage extends React.Component {
 
   /* This lifecycle hook gets executed when the component mounts */
   getFileNames = (files) => {
-    let newSelectionArray = [...this.state.picture]
-    for (let i = 0; i < files.length; i++) {
-      newSelectionArray.push('https://pryac.s3-us-west-1.amazonaws.com/' + files[i]);
-    }
-    this.setState( {picture: newSelectionArray });
-    console.log(this.state.picture);
+    this.setState( {picture: 'https://pryac.s3-us-west-1.amazonaws.com/' + files[0] });
   }
 
   handleFirst(e) {

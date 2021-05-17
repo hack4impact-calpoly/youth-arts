@@ -244,7 +244,7 @@ const getFileNames = (files) => {
 
   return (
       <div >
-        <NavBar/>
+        <NavBar user={props.user}/>
         <body>
         </body>
         <div className="title">

@@ -31,6 +31,7 @@ const NavBar = (props) => {
               <li><Link to="/FAQ">FAQ</Link></li>
               <li><Link to="/OpportunityCheckout">Cart</Link></li>
               {user && user.boardMember !== null && user.boardMember === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}logHours`}>Log Hours</a></li> : null}
+              { user ? <li><Link to="/registration">Edit Profile</Link></li> : null }
               { user ? (
                 <li><a href="/" onClick={logout}>Log Out</a></li>
                 // <li><a href={`${process.env.REACT_APP_SERVER_URL}/auth/logout`}>Log Out</a></li>

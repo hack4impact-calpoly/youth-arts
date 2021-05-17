@@ -13,6 +13,10 @@
         margin-bottom: 7px;
         font-family: 'Avant Garde';
 }
+.sucessMessage {
+    padding-top: 10px;
+    color: #39B54A; 
+}
     
 .draggable-container {
         min-width: 40em;

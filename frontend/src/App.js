@@ -192,11 +192,8 @@ const App = () => {
             user={profile}
             updateUser={updateProfile} />
         }
-
-        
-
         <Route path='/opportunityCheckout'>
-        <NavBar/>
+        <NavBar user={profile}/>
           <OpportunityCheckout 
             cart = {cart}
             user={profile}

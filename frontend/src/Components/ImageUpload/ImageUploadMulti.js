@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react"
 import S3 from "react-aws-s3";
 import AWS from 'aws-sdk'
 import './ImageUploadMulti.css'
@@ -6,6 +7,8 @@ import _uniqueId from 'lodash/uniqueId';
 
 function ImageUploadMulti(props) {
   const oppId = props.opportunityId;
+
+  const [areUploaded, setUploaded] = useState(false);
 
   const fileInput = React.useRef();
 
@@ -43,6 +46,7 @@ function ImageUploadMulti(props) {
       handleUpload(params);
     }
     props.getFiles(fileNames);
+    setUploaded(true);
   };
 
   const handleUpload = (file) => {
@@ -69,11 +73,12 @@ function ImageUploadMulti(props) {
     <>
       <form className='upload-steps'>
         <label>
-          Upload file:
+        Select all files then click upload:
           <input type='file' multiple ref={fileInput} />
         </label>
         <br />
-        <button onClick={handleClick}>Upload</button>
+        <button onClick={handleClick}>Upload Images to Form</button>
+        {areUploaded && <label className="sucessMessage">Images Sucessfully Uploaded </label>}
       </form>
     </>
   );
