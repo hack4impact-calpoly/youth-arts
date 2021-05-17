@@ -157,12 +157,10 @@ const AuthenticatedUserDashboard = (props) => {
                         <hr id="line" />
                         <p><b>Total Hours:</b> {totalHours}</p>
                         <p><b>Total Items Donated:</b> {donated}</p>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center pastOpp">
                         <PastOpportunity 
                             opps={pastOpportunities}
                         />
+                    </Col>
                 </Row>
                 <Opportunities />
                 <Footer />
