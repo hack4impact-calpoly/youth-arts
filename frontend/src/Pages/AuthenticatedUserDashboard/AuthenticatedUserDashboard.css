@@ -1,5 +1,13 @@
+#authDashboard {
+    font-family: 'Avant Garde';
+}
+
 .middleSection {
     padding: 4%;
+}
+
+.pastOpp {
+    margin-bottom: 2%;
 }
 
 #impactSection {

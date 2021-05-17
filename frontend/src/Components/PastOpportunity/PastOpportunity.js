@@ -1,4 +1,6 @@
 import "./PastOpportunity.css";
+import { Row, Col, Button } from "react-bootstrap";
+import Moment from "moment";
 
 /*
     props.oppType: title of component (e.g. "PAST OPPORTUNITY" or "CURRENT OPPORTUNITIES")
@@ -7,12 +9,17 @@ import "./PastOpportunity.css";
 
 const PastOpportunity = (props) => {
     const { user } = props;
-    const opps = props.opps;
+    const pastOpportunities = props.opps;
     return (
-        <div id="pastOpp">
-            <p id="oppType">{props.oppType}</p>
-            {opps.map((each, index) => (
-                <p class="opp" key={index}>{each}</p>
+        <div id="pastOpps">
+            <h4 id="upType">PAST OPPORTUNTIES</h4>
+            {pastOpportunities && pastOpportunities.map((opp, i) => (
+                <Row key={i} className="pastOpp">
+                    <Col md="auto" className="col-6">
+                        <p className="pastOppTask">{opp.task}</p>
+                        <p className="pastOppDate">{Moment(opp.start).format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).format('MMMM Do YYYY, h:mm a')}</p>
+                    </Col>
+                </Row>
             ))}
         </div>
     );

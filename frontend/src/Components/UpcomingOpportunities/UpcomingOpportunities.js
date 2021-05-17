@@ -7,26 +7,11 @@ import Moment from "moment";
 */
 
 function UpcomingOpportunities(props) {
-    const opps = props.opps;
-    var oppsArray = Object.values(opps);
-    var oppsToDisplay = []
-
-    // put opportunities into a 1D array
-    for(var i = 0; i < oppsArray.length; i++) {
-        for(var j = 0; j < oppsArray[i].start.length; j++) {
-            var singleOpp = {
-                task: oppsArray[i].task,
-                start: oppsArray[i].start[j],
-                end: oppsArray[i].end[j]
-            }            
-            if(singleOpp !== undefined) oppsToDisplay.push(singleOpp);
-        }
-    }
-
+    const upcomingOpportunities = props.opps;
     return (
         <div id="upOpps">
             <h4 id="upType">UPCOMING OPPORTUNTIES</h4>
-            {oppsToDisplay && oppsToDisplay.map((opp, i) => (
+            {upcomingOpportunities && upcomingOpportunities.map((opp, i) => (
                 <Row key={i} className="upOpp">
                     <Col md="auto" className="col-6">
                         <p className="upOppTask">{opp.task}</p>
