@@ -147,7 +147,7 @@ const AuthenticatedUserDashboard = (props) => {
                             handleCancel={handleCancel}
                         />
                     </Col>
-                    <Col id="impactSection" md="auto">
+                    <Col id="justify-content-md-center impactSection" md="auto">
                         <h4 id="impact">YOUR IMPACT</h4>
                         <hr id="line" />
                         <p><b>Total Hours:</b> {totalHours}</p>
