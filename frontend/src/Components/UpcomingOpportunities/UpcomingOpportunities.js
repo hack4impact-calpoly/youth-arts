@@ -1,5 +1,6 @@
 import "./UpcomingOpportunities.css";
 import { Button, Row, Col } from "react-bootstrap"
+import { useState } from "react";
 import Moment from "moment";
 import {Link} from 'react-router-dom'
 
@@ -8,7 +9,16 @@ import {Link} from 'react-router-dom'
 */
 
 function UpcomingOpportunities(props) {
-    const upcomingOpportunities = props.opps;
+    const [upcomingOpportunities, setUpOpps] = useState(props.opps);
+
+    function handleButtonPress(index) {
+        const updated = upcomingOpportunities.filter((opp, i) => {
+            return i !== index
+        });
+        setUpOpps(updated);
+        return true;
+    }
+
     return (
         <div id="upOpps">
             <h4 id="upType">UPCOMING OPPORTUNTIES</h4>
@@ -21,7 +31,7 @@ function UpcomingOpportunities(props) {
                         </Link>
                     </Col>
                     <Col className="upOppCancel">
-                        <Button variant="danger" onClick={() => props.handleCancel(opp)}>Cancel</Button>
+                        <Button variant="danger" onClick={() => handleButtonPress(i) && props.handleCancel(opp)}>Cancel</Button>
                     </Col>
                 </Row>
             ))}
