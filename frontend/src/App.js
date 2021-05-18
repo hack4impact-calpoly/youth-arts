@@ -12,12 +12,13 @@ import OpportunityDetail from './Pages/OpportunityDetail/OpportunityDetail';
 import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 import DirectoryPage from "./Pages/DirectoryPage/Directory"
-// import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
+import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
 // import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
+import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 import { useHistory } from "react-router-dom";
 
 const SetAuthToken = () => {
@@ -54,6 +55,7 @@ const App = () => {
     cart.splice(index,1);
     setCart(cart);
   }
+  
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`,
@@ -77,6 +79,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path='/logHours'>
+          <NavBar user={profile} />
+          <BMLogHoursPage user={profile} />
+          <Footer />
+        </Route>
       <Route path='/opportunityDetail'>
           <NavBar user={profile} />
           <OpportunityDetail
@@ -131,6 +138,11 @@ const App = () => {
         <Route path='/Login'>
           <LoginPage user={profile} />
         </Route>
+        <Route path='/anonDashboard'>
+            <NavBar user={profile} />
+            <AnonymousDashboard user={profile} />
+            <Footer />
+        </Route>
 
         <Route path='/registration'>
           <RegistrationPage user={profile} />
@@ -143,6 +155,10 @@ const App = () => {
         <Route path='/Calendar'>
           <CalendarPage user={profile} />
         </Route>
+
+        <Route path='/Reports'>
+            <ReportsPage user={profile}/>
+          </Route>       
 
         <Route path='/opportunities'>
           <OpportunitiesPage
@@ -176,20 +192,13 @@ const App = () => {
             user={profile}
             updateUser={updateProfile} />
         }
-
-        
-
         <Route path='/opportunityCheckout'>
-        <NavBar/>
+        <NavBar user={profile}/>
           <OpportunityCheckout 
             cart = {cart}
             user={profile}
             deleteFromCart = {deleteFromCart}/>
         </Route>
-
-        {/* <Route path='/Reports'>
-            <ReportsPage user={profile}/>
-          </Route> */}
 
         {/* <Route path='/FAQ'>
             <FAQPage user={profile}/>

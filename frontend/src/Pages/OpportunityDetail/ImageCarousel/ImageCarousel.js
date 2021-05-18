@@ -1,27 +1,65 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { CarouselData } from './CarouselData'
 import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'
 import '../OpportunityDetail.css'
+import logo from "../../../Images/YouthArtsLogoMark.png";
+
+const ImageCarousel = (props) => {
+    const slides = props.slides;
+    console.log(slides);
+    let CarouselDisplay = [];
+    let notDefault = false;
+    if (slides && slides.length > 0) {
+        for (let i = 0; i < slides.length; i++) {
+            notDefault = true;
+            CarouselDisplay.push( { image: slides[i] } );
+        }
+    }
+    else
+    {
+        notDefault = false;
+        CarouselDisplay = [
+            {
+                image: logo
+            }
+        ];
+    }
+
+    useEffect(() => {
+        if (slides && slides.length > 0) {
+            for (let i = 0; i < slides.length; i++) {
+                notDefault = true;
+                CarouselDisplay.push( { image: slides[i] } );
+            }
+        }
+        else
+        {
+            notDefault = false;
+            CarouselDisplay = [
+                {
+                    image: logo
+                }
+            ];
+        }
+    }, [slides])
 
 
-const ImageCarousel = ({slides}) => {
+    const[current, setCurrent] = useState(0)
+    const length = CarouselDisplay.length;
 
-const[current, setCurrent] = useState(0)
-const length = slides.length
+    const nextSlide = () => {
+        setCurrent(current === length - 1 ? 0 : current + 1)
+    }
 
-const nextSlide = () => {
-    setCurrent(current === length - 1 ? 0 : current + 1)
-}
-
-const prevSlide = () => {
-    setCurrent(current === 0 ? length - 1 : current - 1)
-}
+    const prevSlide = () => {
+        setCurrent(current === 0 ? length - 1 : current - 1)
+    }
 
     return(
         <section className="slider">
             <FaArrowAltCircleLeft className="left-arrow" onClick={prevSlide}/>
             <FaArrowAltCircleRight className="right-arrow" onClick={nextSlide}/>
-            {CarouselData.map((slide, index) => {
+            {CarouselDisplay.map((slide, index) => {
                 return (
                     <div className={index === current ? 'slide active' : 'slide'}
                     key={index}>
@@ -30,7 +68,7 @@ const prevSlide = () => {
                         )}
                     </div>
                 )
-            })}
+             })}
         </section>
     );
 };

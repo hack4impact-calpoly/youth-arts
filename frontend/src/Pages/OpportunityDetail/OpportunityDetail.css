@@ -18,6 +18,7 @@
     padding-top: 70px;
     font-size: 40px;
     font-weight: 40px;
+    font-family: 'Avant Garde';
     margin-bottom: 30px;
 }
 
@@ -55,6 +56,7 @@
     font-style: italic;
     text-align: left;
     font-size: 20px;
+    font-family: 'Avant Garde';
 }
 
 .outerContainer{
@@ -71,6 +73,7 @@
     font-weight: 600px;
     color: #1b75bc;
     font-weight: bolder;
+    font-family: 'Avant Garde';
 }
 
 .DescriptionAndDateContainer{
@@ -87,6 +90,7 @@
     margin-left: -100px;
     margin-right: 400px;
     margin-top: -35px;
+    font-family: 'Avant Garde';
 }
 
 .descriptionText{
@@ -112,6 +116,7 @@
     margin-left: 110px;
     margin-right: 150px;
     margin-top: -35px;
+    font-family: 'Avant Garde';
 }
 
 .dateText{
@@ -147,6 +152,7 @@
     font-weight: 600px;
     color: #1b75bc;
     font-weight: bolder;
+    font-family: 'Avant Garde';
 }
 
 .bodyContainer{
@@ -165,6 +171,7 @@
     margin-right: -200px;
     margin-left: 80px;
     padding-right: 120px;
+    font-family: 'Avant Garde';
 }
 
 #requirementsHeader{
@@ -178,6 +185,7 @@
     margin-bottom: 340px;
     margin-right: 0px;
     margin-left: 520px;
+    font-family: 'Avant Garde';
 }
 
 #taskBody{
@@ -251,6 +259,7 @@
     font-weight: 600px;
     color: #1b75bc;
     font-weight: bolder;
+    font-family: 'Avant Garde';
 }
 
 .addInfoText{
@@ -299,6 +308,7 @@
     padding: 8px;
     min-width: 10vw;
     margin: 10px 50px;
+    font-family: 'Avant Garde';
 }
 
 #buttonStyles:hover {
@@ -318,6 +328,7 @@
     font-weight: 900;
     padding-top: 30px;
     padding-right:6px;
+    font-family: 'Avant Garde';
 }
 
 #times{
@@ -326,6 +337,7 @@
     padding-left: 0px;
     padding-top: 30px;
     padding-right: 20px;
+    font-family: 'Avant Garde';
 }
 
 #roleName{
@@ -334,6 +346,7 @@
     padding-left: 20px;
     padding-left: 5px;
     padding-top: 30px;
+    font-family: 'Avant Garde';
 }
 
 #roleDesc{
@@ -344,6 +357,7 @@
     padding-top: 20px;
     margin-top: -30px;
     margin-bottom: -20px;
+    font-family: 'Avant Garde';
 }
 
 .roleNameAndTime{
@@ -357,6 +371,7 @@
     padding-top: 20px;
     padding-bottom: 30px;
     padding-right: 5px;
+    font-family: 'Avant Garde';
 }
 
 #additionalReq{
@@ -367,6 +382,7 @@
     padding-top: 20px;
     margin-top: -40px;
     margin-bottom: -20px;
+    font-family: 'Avant Garde';
 }
 
 #additionalReqText{
@@ -377,6 +393,7 @@
     padding-bottom: 30px;
     display: flex;
     justify-content: space-between;
+    font-family: 'Avant Garde';
 }
 
 .addInfoContainer{
@@ -479,6 +496,7 @@
     font-size: 30px;
     font-weight: 30px;
     color: #1b75bc;
+    font-family: 'Avant Garde';
 }
 
 #signIn{
@@ -494,6 +512,7 @@
     color: #1b75bc;
     font-size: 20px;
     font-weight: 30px;
+    font-family: 'Avant Garde';
 }
 
 #guestCheckout{
@@ -503,6 +522,7 @@
     border-radius: 5px;
     font-weight: bold;
     font-size: 20px;
+    font-family: 'Avant Garde';
     line-height: 19px;
     padding: 15px;
     min-width: 15vw;
@@ -524,6 +544,7 @@
     margin-top: -100px;
     margin-bottom: 60px;
     font-size: 20px;
+    font-family: 'Avant Garde';
     color: #1b75bc;
     margin-right: -30px;
     margin-left: -15px;
@@ -535,6 +556,7 @@
     padding-right: 100px;
     font-weight: 500;
     font-size: 40px;
+    font-family: 'Avant Garde';
     padding-top: 30px;
     /* text-decoration: underline; */
 }
@@ -542,6 +564,7 @@
 .adminEdit a{ 
     color: #1b75bc;
     font-size: 25px;
+    font-family: 'Avant Garde';
 }
 
 #volunteerHeader{
@@ -551,6 +574,7 @@
     font-size: 20px;
     font-weight: 600px;
     font-weight: bolder;
+    font-family: 'Avant Garde';
 }
 
 .detailTD {
@@ -567,6 +591,7 @@
 .detailTable{
     table-layout: fixed;
     width: 1000px;
+    font-family: 'Avant Garde';
   }
 
   #TimeList{
@@ -585,6 +610,7 @@
     color: #1b75bc;
     font-weight: bolder;
     padding-top:10px;
+    font-family: 'Avant Garde';
   }
 
   #timeButton{

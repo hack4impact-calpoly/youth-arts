@@ -1,5 +1,5 @@
 import "./AuthHeader.css";
-import logo from "./../../Images/PRYAC_mark.png";
+import logo from "./../../Images/YouthArtsLogoMark.png";
 import React from 'react';
 import { Redirect } from 'react-router-dom'
 

@@ -8,11 +8,13 @@
     font-size: 2.5rem;
     padding-top: 0;
     margin: 2.5% 2%;
+    font-family: 'Avant Garde';
 }
 
 .volunteer:hover {
     background-color: #FDE9D3;
     color: #F7941D;
+    font-family: 'Avant Garde';
 }
 
 .visit {
@@ -24,11 +26,13 @@
     color: #00A79D;
     font-size: 40px;
     margin: 2.5% 2%;
+    font-family: 'Avant Garde';
 }
 
 .visit:hover {
     background-color: #CDEDEB;
     color: #00A79D;
+    font-family: 'Avant Garde';
 }
 
 .donate {
@@ -40,11 +44,13 @@
     color: #39B54A;
     font-size: 40px;
     margin: 2.5% 2%;
+    font-family: 'Avant Garde';
 }
 
 .donate:hover {
     background-color: #D8F0DB;
     color: #39B54A;
+    font-family: 'Avant Garde';
 }
 
 @media screen and (max-width: 480px) {

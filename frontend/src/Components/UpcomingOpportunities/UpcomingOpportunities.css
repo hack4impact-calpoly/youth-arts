@@ -5,11 +5,27 @@
     color: #1B75BC;
     padding-bottom: 4%;
     font-weight: bold;
+    font-family: 'Avant Garde';
 }
 
 .upOpp {
-    margin: 0 8%;
+    padding: 0 5%;
+}
+
+.upOppTask {
+    margin-bottom: 0;
     display: inline;
+}
+
+.upOppDate {
+    font-size: 80%;
+    color: black;
+    margin: 0;
+    margin-bottom: 3%;
+}
+
+.upOppCancel {
+    text-align: right;
 }
 
 #upType {
@@ -19,11 +35,9 @@
     text-align: center;
     margin-bottom: 3%;
     font-weight: bold;
+    font-family: 'Avant Garde';
 } 
 
-.upButton {
-    
-}
 
 /* mobile */
 @media screen and (max-width: 480px) {
@@ -48,6 +62,6 @@
 /*laptop and tablet*/
 @media screen and (min-width: 1024px) and (max-width: 1600px) {
     #upOpps {
-        width: 400px;
+        width: 500px;
     }
 }

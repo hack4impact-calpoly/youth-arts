@@ -1,5 +1,13 @@
+#authDashboard {
+    font-family: 'Avant Garde';
+}
+
 .middleSection {
     padding: 4%;
+}
+
+.pastOpp {
+    margin-bottom: 2%;
 }
 
 #impactSection {
@@ -14,6 +22,7 @@
     text-align: center;
     font-weight: bold;
     color: #1F4C82;
+    font-family: 'Avant Garde';
 }
 
 /* mobile */

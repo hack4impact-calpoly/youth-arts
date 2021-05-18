@@ -36,7 +36,7 @@
 }
 
 
-.formStyle {
+.OppformStyle {
     width: 100%;
     max-width: 700px;
     padding: 50px 170px;
@@ -47,18 +47,19 @@
     box-sizing: border-box;
     box-shadow: 0px 0px 3px 0px;
     padding-bottom: 0px;
+    padding-left: 50px !important;
 }
 
-.taskDates {
+/* .taskDates {
     margin-left: 10px;
-}
-.taskLabel {
+} */
+/* .taskLabel {
     margin-left: 10px !important;
-}
+} */
 
 .taskDates input{
     display: block;
-    width: 240px;
+    width: 500px;
     background-color: #F5F5F5;
     height: 8px;
     border-radius: 5px;
@@ -69,9 +70,9 @@
     margin-top: 0px !important;
 }
 
-.inputStyles input{
+.OppinputStyles input{
     display: block;
-    width: 240px;
+    width: 100%;
     background-color: #F5F5F5;
     height: 8px;
     border-radius: 5px;
@@ -80,19 +81,32 @@
     padding: 15px;
     box-sizing: border-box;
 }
+#addItemDate{
+    width: 100px !important;
+}
+.OppinputStyles textarea {
+    width: 520px !important;
+}
 
-.inputStyles {
+.OppinputStyles {
     padding: 0px 50px;
 }
 
-.inputStyles label{
+.OppinputStyles label{
     font-size: 18px;
 }
 
-.inputStyles input::placeholder {
+.OppinputStyles input::placeholder {
     font-family: 'Avant Garde';
     color: 	#C0C0C0;
     font-size: 15px;
+}
+.TaskDiv {
+    border-style: none none solid none;
+    border-color: #1B75BC;
+    padding-bottom: 20px;
+    padding-bottom: 20px;
+
 }
 
 .textStyle textarea{
@@ -106,6 +120,7 @@
     padding: 0 10px;
     box-sizing: border-box;
     resize:both;
+    font-family: 'Avant Garde';
 }
 
 .textStyle label{
@@ -140,7 +155,7 @@
     margin-left: 5px;
 }
 
-.buttonStyle {
+.FormbuttonStyle {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -196,6 +211,9 @@
     color: lightgray;
     font-family: 'Avant Garde';
     font-size: 15px;
+}
+.FormDate {
+    min-width: 270px !important;
 }
 
 .inputDate {
@@ -313,14 +331,14 @@
     height: 8px;
     border-radius: 5px;
     border: 1px solid #C8C8C8;
-    margin: 0px 0 10px 0;
+    /* margin: 0px 0 10px 0; */
     padding: 15px;
     box-sizing: border-box;
     margin-right: 10px;
     margin-top: -5px;
 }
 #taskInputArea {
-    width: 240px;
+    width: 340px;
     background-color: #F5F5F5;
     border-radius: 5px;
     border: 1px solid #C8C8C8;
@@ -328,7 +346,7 @@
     box-sizing: border-box;
     margin-right: 10px;
     margin-top: -5px;
-    margin: 0px 0 0px 10px;
+    /* margin: 0px 0 0px 10px; */
 
 }
 
@@ -372,11 +390,13 @@
     margin-left: 5px;
 }
 
-.formInside {
+.OppformInside {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    width: 125% !important;
 }
+
 
 #addReq {
     margin-left: 10px;

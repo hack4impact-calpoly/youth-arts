@@ -47,48 +47,50 @@ function SearchOpportunities(props) {
     })
 
     //sort logic
+    if(sortBy === "oppAlphabetical") {
+        filteredOpps = filteredOpps.sort((a, b) => {
+            return a.title.localeCompare(b.title)
+        });
+    }
     if(sortBy === "oppType") {
-        filteredOpps = filteredOpps.sort((a, b) => a.type.localeCompare(b.type));
+        filteredOpps = filteredOpps.sort((a, b) => {
+            return a.skills[0].localeCompare(b.skills[0])
+        });
     }
     else if(sortBy === "date") {
-        filteredOpps = filteredOpps.sort((a, b) => a.date < b.date ? -1 : 1)
+        filteredOpps = filteredOpps.sort((a, b) => a.start_event < b.start_event ? -1 : 1)
     }
     
 
     //filter logic
-    if (filterBy === "classroom") {
+    if (filterBy === "Classroom") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("classroom")
+            return opportunity.skills.includes("Classroom")
         });
     }
-    else if (filterBy === "comittee") {
+    else if (filterBy === "Event") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("comittee")
+            return opportunity.skills.includes("Event")
         });
     }
-    else if (filterBy === "event") {
+    else if (filterBy === "Fundraiser") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("event")
+            return opportunity.skills.includes("Fundraiser")
         });
     }
-    else if (filterBy === "fundraiser") {
+    else if (filterBy === "Maintenance") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("fundraiser")
+            return opportunity.skills.includes("Maintenance")
         });
     }
-    else if (filterBy === "maintenance") {
+    else if (filterBy === "Office/Admin") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("maintenance")
+            return opportunity.skills.includes("Office/Admin")
         });
     }
-    else if (filterBy === "office-admin") {
+    else if (filterBy === "Performance") {
         filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("office-admin")
-        });
-    }
-    else if (filterBy === "performance") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("performance")
+            return opportunity.skills.includes("Performance")
         });
     }
 
@@ -113,19 +115,19 @@ function SearchOpportunities(props) {
                     <select id="sortBy" name="sortBy" onChange={e => setSortBy(e.target.value)}>
                         <option value="">Select Option</option>
                         <option value="date">Date</option>
-                        <option value="oppType">Opportunity Type</option>
+                        <option value="oppAlphabetical">Alphabetical</option>
+                        <option value="oppType">Interest</option>
                     </select>
 
                     <label for="filterBy">Filter By:</label>
                     <select id="filterBy" name="filterBy" onChange={e => setFilterBy(e.target.value)}>
                         <option value="">Select Option</option>
-                        <option value="classroom">Classroom</option>
-                        <option value="comittee">Comittee</option>
-                        <option value="event">Event</option>
-                        <option value="fundraiser">Fundraiser</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="office-admin">Office Admin</option>
-                        <option value="performance">Performance</option>
+                        <option value="Classroom">Classroom</option>
+                        <option value="Event">Event</option>
+                        <option value="Fundraiser">Fundraiser</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Office/Admin">Office/Admin</option>
+                        <option value="Performance">Performance</option>
                     </select>
                 </Col>
                 {user && <Col id="button">

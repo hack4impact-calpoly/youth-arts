@@ -3,12 +3,15 @@ import ContactOpportunityCard from "./../../Components/ContactOpportunityCard/Co
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
+import AWS from 'aws-sdk'
 
 function ContactPage() {
     const anonPic = "https://nlgmass.org/wp-content/uploads/eb4d0533e292cf95bff821da17289e80.png"
     //get id and find volunteer object on backend
     const id = window.location.hash.substring(1);
     const [contact, setContact] = useState("");
+    const [notes, setNotes] = useState(contact.notes);
+    
 
     async function fetchAll() {
         try {
@@ -24,8 +27,11 @@ function ContactPage() {
         fetchAll().then(result => {
             if(result)
                 setContact(result);
+                setNotes(result.notes);
         })
     }, []);
+
+    
 
     function getEvents() {
         if(contact === null || contact.opportunities === undefined || contact.opportunities === null) {
@@ -33,13 +39,54 @@ function ContactPage() {
         }
         return true;
     }
+    function handleChangeDescription(e) 
+    {
+        setNotes(e.target.value);
+        console.log(notes);
+
+    }
+    function uploadNotes() {
+        let c = contact;
+        c.notes = notes;
+        setContact(c);
+        console.log(c);
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(contact)
+        }).then(response => {
+            response.json().then(data => {
+                console.log("Successful" + data);
+            });
+        });
+
+    }
   
     return(
         <div id="contactPage">
             <h1 id="contactName">{contact.firstName + " " + contact.lastName}</h1>
             <Container fluid>
                 <Row>
-                    <Col md="auto">{contact && contact.picture !== null ? <img id="prof-pic" src={anonPic} alt="prof-pic"/> : <img id="prof-pic" src={anonPic} alt="prof-pic"/>}</Col>
+                    <Col md="auto">{(contact && contact.picture !== undefined && contact.picture !== null) ? 
+                                        <img id="prof-pic" src={contact.picture} alt="prof-pic"/> : 
+                                        <img id="prof-pic" src={anonPic} alt="prof-pic"/>}
+            
+                        <Row> 
+                            <div> 
+                                <Row>
+                                <h3 id="notesText" className="contactTitle">Notes</h3>
+                                </Row>
+                                <Row>
+                                <textarea className="textareaNotes" onChange={e => handleChangeDescription(e)} value={notes} placeholder="Enter notes about the volunteer"/>
+                                </Row>
+                                <Row>
+                                <button className="notesButton" type="submit" onClick={uploadNotes}>Post Note</button>
+                                </Row>
+                            </div>
+                        </Row>
+                    </Col>
                     <Col id="contactInformation">
                         <div id="contact">
                             <h3 className="contactTitle">Contact Information</h3>
@@ -60,14 +107,10 @@ function ContactPage() {
                         </div>
                         <div id="outreach">
                             <h3 className="contactTitle">Outreach</h3>
-                            <h5>How Did They Hear About PRYAC? {contact.outreach}</h5>
+                            <h5>How Did They Hear About The Youth Arts? {contact.outreach}</h5>
                         </div>
                         <div id="outreach">
                             <h3 className="contactTitle">More Information</h3>
-                            <h5>Tasks: {contact && contact.tasks.map((c, index) => (
-                                <li id="volunteerAOI" key={index}>{c}</li>
-                            ))}</h5>
-                            <h5>Notes: {contact.notes}</h5>
                             <h5>Board Member? {contact && contact.boardMember ? "Yes" : "No"}</h5>
                         </div>
                         <div id="outreach">

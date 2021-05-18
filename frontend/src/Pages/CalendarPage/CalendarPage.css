@@ -22,6 +22,23 @@
     margin-bottom: 30px;
 }
 
+#calHeader {
+    background-image: url("https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2017/11/04133712/waterfall.jpg");
+    width: 100%;
+    background-repeat: no-repeat;
+    padding: 7% 0;
+ }
+ 
+ .calTitle {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.76);
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    color: #1F4C82;
+    font-family: 'Avant Garde';
+ 
+ }
 .formStyle {
     
     width: 100%;
@@ -45,6 +62,10 @@
     padding: 0px 20px;
     margin-top: 30px;
     margin-bottom: 30px;
+    font-family: 'Avant Garde';
+}
+#welcomeBack {
+    font-family: 'Avant Garde';
 }
 
 /* mobile */

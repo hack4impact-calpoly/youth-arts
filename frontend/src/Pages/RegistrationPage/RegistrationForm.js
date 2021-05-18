@@ -11,7 +11,9 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import { Redirect } from 'react-router-dom'
-
+import volunteerWaiver from './VolunteerWaiver.pdf'
+import jsPDF from 'jspdf'
+import ImageUploadMulti from '../../Components/ImageUpload/ImageUploadMulti'
 
 class RegistrationPage extends React.Component {
 
@@ -24,7 +26,11 @@ class RegistrationPage extends React.Component {
         email: "",
         phoneNum: "",
         address: "",
+        city: "",
+        state: "",
+        zipcode: "",
         communityRole: [],
+        opportunities: {},
         AOI: [],
         experience: "",
         workHistory: "",
@@ -32,22 +38,28 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
+        picture: [],
+        signatureValue: "",
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
         AOIOptions: ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"],
         redirect: false, 
+        reload: false, 
         notValid: false,
         ...props.user 
       };
     
+    this.getFileNames = this.getFileNames.bind(this);
     this.handleFirst = this.handleFirst.bind(this);
     this.handleLast = this.handleLast.bind(this);
     this.handleEmail = this.handleEmail.bind(this);
     this.handlePhone = this.handlePhone.bind(this);
-    this.handleAddress = this.handleAddress.bind(this);
+    this.handleStreetAddress = this.handleStreetAddress.bind(this);
     this.handleExperience = this.handleExperience.bind(this);
     this.handleEmployment = this.handleEmployment.bind(this);
     this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
+    this.handleSignatureValue = this.handleSignatureValue.bind(this);
+    this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -67,14 +79,23 @@ class RegistrationPage extends React.Component {
       fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/` + userId, { credentials: 'include' })
         .then(res => res.json())
         .then(data => this.setState({...data}));
+        this.setState({reload: !this.state.reload});
     }
     else 
     {
       this.setState({userID: this.state._id});
+      this.setState({reload: !this.state.reload});
+    }
+    if (this.state.firstName === "" && userId !== "") 
+    {
+      this.setState({reload: !this.state.reload});
     }
   }
 
   /* This lifecycle hook gets executed when the component mounts */
+  getFileNames = (files) => {
+    this.setState( {picture: 'https://pryac.s3-us-west-1.amazonaws.com/' + files[0] });
+  }
 
   handleFirst(e) {
     let value = e.target.value;
@@ -92,10 +113,10 @@ class RegistrationPage extends React.Component {
     let value = e.target.value;
     this.setState( {phoneNum: value} );
   }
-  handleAddress(e) {
-    let value = e.target.value;
-    this.setState( {address: value} );
-  }
+  // handleAddress(e) {
+  //   let value = e.target.value;
+  //   this.setState( {address: value} );
+  // }
   handleExperience(e) {
     let value = e.target.value;
     this.setState( {experience: value} );
@@ -107,6 +128,10 @@ class RegistrationPage extends React.Component {
   handleHearAboutUs(e) {
     let value = e.target.value;
     this.setState( {outreach: value} );
+  }
+  handleSignatureValue(e){
+    let value = e.target.value;
+    this.setState({signatureValue: value});
   }
   
   handleRoleCheckBox(e) {
@@ -152,19 +177,22 @@ class RegistrationPage extends React.Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
+    const addr = this.state.address +  ", " + this.state.city +  ", " + this.state.state +  " " + this.state.zipcode
     const userdata = {_id: this.state._id, 
       firstName: this.state.firstName, 
       lastName: this.state.lastName, 
       email: this.state.email, 
       phoneNum: this.state.phoneNum, 
-      address: this.state.address, 
+      address: addr, 
       communityRole: this.state.communityRole, 
       AOI: this.state.AOI, 
+      picture: this.state.picture,
       experience: this.state.experience, 
       workHistory: this.state.workHistory, 
       outreach: this.state.outreach, 
       signature: this.state.signature,
-      boardMember: this.state.boardMember}
+      boardMember: this.state.boardMember,
+      opportunities: this.state.opportunities}
     console.log(JSON.stringify(userdata));
 
     if (userdata.firstName === "" ||
@@ -172,6 +200,7 @@ class RegistrationPage extends React.Component {
         userdata.email === "" ||
         userdata.phoneNum === "" ||
         userdata.address === "" ||
+        userdata.signatureValue === "false" ||
         userdata.signature === false)
     {
       this.setState({notValid : true})
@@ -206,6 +235,39 @@ class RegistrationPage extends React.Component {
     });
   }
 
+  onDocumentLoadSuccess({ numPages }) {
+    console.log(numPages);
+  }
+
+  pdfGenerate=()=>{
+    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
+    doc.addImage(volunteerWaiver, 'PNG', 65, 20, 500, 400)
+    doc.addPage()
+    doc.save('volunteerWaiver.pdf')
+  }
+
+  handleStreetAddress = (e) => {
+    e.preventDefault(); 
+    const {name, value} = e.target; 
+    switch (name) {
+        case "address": 
+          this.setState( {address: value} );
+            break; 
+        case "city": 
+          this.setState( {city: value} );
+            break; 
+        case "state": 
+          this.setState( {state: value} );
+            break; 
+        case "zipcode": 
+          this.setState( {zipcode: value} );
+            break; 
+        default: 
+            break; 
+        }
+}
+
+
   render() {
     if (this.state.redirect) {
       return <Redirect to='/registrationConfirmation'/>;
@@ -214,8 +276,10 @@ class RegistrationPage extends React.Component {
       <div >
         <NavBar user={this.state.user}/>
         <body>
-            <div id="headerImage">
-              <img src={headerImage} width= "auto" height="100" alt=""></img>
+            {/* <div id="headerImage"> */}
+              <div>
+              {/* <img src={headerImage} width= "auto" height="100" alt=""></img> */}
+              <h2 className="PRYAheaderTitle">Paso Robles Youth Arts</h2>
             </div>
         </body>
         <div className="title">
@@ -233,7 +297,10 @@ class RegistrationPage extends React.Component {
                 <label htmlFor="Phone">Phone<span className="red">*</span></label>
                 <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
                 <label htmlFor="Address">Address<span className="red">*</span></label>
-                <input type="text" name="Address" placeholder="Address" value={this.state.address} onChange={this.handleAddress}/>
+                <input type="text" name="address" placeholder="Street Address" value={this.state.address} onChange={this.handleStreetAddress}/>
+                <input type="text" name="city" placeholder="City" value={this.state.city} onChange={this.handleStreetAddress}/>
+                <input type="text" name="state" placeholder="State" value={this.state.state} onChange={this.handleStreetAddress}/>
+                <input type="text" name="zipcode" placeholder="Zip Code" value={this.state.zipcode} onChange={this.handleStreetAddress}/>
           </div> 
             <br/>
             <br/>
@@ -285,16 +352,31 @@ class RegistrationPage extends React.Component {
                   <textarea placeholder="Let us know how you found us" value={this.state.outreach} onChange={this.handleHearAboutUs}/>
                 </div>
                 <br/>
-                <label>
+                <div className="addImages">
+                  <label >Profile Picture</label>
+                </div>
+                <ImageUploadMulti getFiles={this.getFileNames}/>
+                <br></br>
+
+
+                <label className="finalCheckbox">
                     <input type="checkbox" value={ this.state.boardMember } checked= { this.state.boardMember } onChange={this.handleBoardCheckBox}/>
-                      I am a Board Member
+                      <label>I am a Board Member</label>
                 </label>
                 <br/>                
                 <br/>
-                <label>
+                <label className="finalCheckbox">
                     <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
-                       I agree to the digital volunteer waiver<span className="red">*</span>
+                       <label> I agree to the
+                    <a id="waiverLink" href={volunteerWaiver} download> digital volunteer waiver</a><span className="red">*</span>
+                    </label>
                 </label>
+
+
+                <div id="digitalSignature">
+                  <label htmlFor="Address">Digital Signature<span className="red">*</span></label>
+                  <input type="text" name="signatureValue" placeholder="Type Name Here" value={this.state.signatureValue} onChange={this.handleSignatureValue}/>
+                </div>
                 <br/> 
                 {this.state.notValid && <label className="errorMessage">* Please Complete Required Fields</label>}
                 <div className="buttonStyle">

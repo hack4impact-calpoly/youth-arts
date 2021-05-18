@@ -6,6 +6,15 @@
     padding-top: 70px;
     padding-bottom: 0px;
 }
+.PRYAheaderTitle {
+    text-align: center;
+    font-weight: 500;
+    font-size: 50px;
+    font-family: 'Avant Garde';
+    padding-top: 50px;
+    margin-bottom: -30px;
+    color: #1f4c82;
+}
 
 .formWrapper{
     display: flex;
@@ -41,6 +50,7 @@
     box-sizing: border-box;
     box-shadow: 0px 0px 3px 0px;
     padding-bottom: 0px;
+    margin-bottom: 100px;
 }
 
 .inputStyles input{
@@ -54,6 +64,10 @@
     padding: 15px;
     box-sizing: border-box;
 }
+.finalCheckbox label{
+    padding-left: 10px;
+}
+
 
 .inputStyles {
     padding: 0px 50px;
@@ -73,16 +87,18 @@
     border-radius: 5px;
     border: 1px solid #C8C8C8;
     margin: 10px 30px 20px 0px;
-    padding: 0 10px;
+    /* padding: 0 10px; */
     box-sizing: border-box;
     resize: none;
+    font-family: 'Avant Garde';
+    padding-top: 5px !important;
 }
 
 .textStyle textarea::placeholder {
     font-family: 'Avant Garde';
     color: 	#C0C0C0;
     font-size: 15px;
-    padding-top: 10px;
+    padding-top: 0px !important;
 }
 
 .fieldSet {
@@ -108,6 +124,11 @@
 .buttonStyle {
     padding: 30px 95px;
     margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px
 }
 
 .legendStyle {
@@ -166,4 +187,34 @@
 
 #taskInputArea {
     min-height: 100px;
+}
+
+
+#digitalSignature input{
+    display: block;
+    width: 240px;
+    background-color: #F5F5F5;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 1px 0 30px 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+#digitalSignature {
+    padding: 0px 0px;
+    margin-top: 20px;
+}
+
+#digitalSignature input::placeholder {
+    font-family: 'Avant Garde';
+    color: 	#C0C0C0;
+    font-size: 15px;
+}
+
+#waiverLink{
+    color:black;
+    text-decoration: underline;
+    font-size: 15px;
 }

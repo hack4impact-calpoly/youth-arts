@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import ImageUpload from '../../Components/ImageUpload/ImageUpload'
+import ImageUploadMulti from '../../Components/ImageUpload/ImageUploadMulti'
 import TextField from "@material-ui/core/TextField";
 import { withRouter } from "react-router";
 import classroom from '../../Images/classroom.png'
@@ -13,10 +14,13 @@ import fundraiser from '../../Images/fundraiser.png'
 import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
+import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 function AddOpportunityForm(props) {
 
   const[notValid, setnotValid] = useState(false);
+  const history = useHistory();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +42,9 @@ function AddOpportunityForm(props) {
     if (opp.title === "" ||
         opp.description === "" ||
         opp.start_event === [""] ||
-        opp.end_event === [""])
+        opp.end_event === [""] ||
+        opp.skills === [""]
+        )
     {
       console.log("notvalid")
       setnotValid(true)
@@ -57,6 +63,7 @@ function AddOpportunityForm(props) {
         });
       });
     }
+    refresh()
 
   }
 
@@ -75,12 +82,15 @@ function AddOpportunityForm(props) {
   const [rerender, setRerender] = useState(false);
 
   const handleAOICheckBox = (e) => {
-    console.log(opportunity);
     const newSelection = e.target.value;
     if (opportunity.skills && opportunity.skills.indexOf(newSelection) !== -1) {
       opportunity.skills.splice(opportunity.skills.indexOf(newSelection), 1);
     } else {
       opportunity.skills.push(newSelection);
+    }
+    if (opportunity.skills.indexOf("") !== -1)
+    {
+      opportunity.skills.splice(opportunity.skills.indexOf(""), 1);
     }
     setRerender(!rerender);
   }
@@ -98,7 +108,6 @@ function AddOpportunityForm(props) {
       const date = new Date();
       const task = {roleName: "", description: "", start: [date.toISOString()], end: [date.toISOString()], additionalInfo: [""]};
       (opportunity.tasks).push(task);
-      console.log(opportunity.tasks);
       setRerender(!rerender);
   }
   const handleDeleteInputTask = index  => {
@@ -217,21 +226,32 @@ opportunity.additionalInfo.splice(index, 1);
 setRerender(!rerender);
 }
 
+const refresh = () => {
+  history.push(history.location);
+  setTimeout(() => history.push(history.goBack()), 10);
+  history.goBack();
+};
+
+const getFileNames = (files) => {
+  for (let i = 0; i < files.length; i++) {
+    opportunity.pictures.push('https://pryac.s3-us-west-1.amazonaws.com/' + files[i]);
+  }
+}
+
   return (
       <div >
-        <NavBar/>
+        <NavBar user={props.user}/>
         <body>
         </body>
         <div className="title">
             <h1>Create or Edit Opportunity</h1>
         </div>
         <div className="formWrapper">
-          <form className="formStyle">
-            <div className="formInside">
-          <div className="inputStyles">
+          <form className="OppformStyle">
+            <div className="OppformInside">
+          <div className="OppinputStyles">
             <label htmlFor="OpportunityTitle">Opportunity Title <span className="red">*</span></label>
-
-                <input 
+                <input className="formInput"
                         onChange={e => handleChangeTitle(e)} type="text" value={(opportunity && opportunity.title) ? opportunity.title : ""} name="OpportunityTitle" placeholder="Enter Opportunity Title Here"/>
                 <label htmlFor="OpportunityTitle">Opportunity Date<span className="red">*</span></label>
                 {((opportunity && opportunity.start_event) ? opportunity.start_event : [""]).map((date, i) => {
@@ -244,18 +264,20 @@ setRerender(!rerender);
                     <div key={i}>
                         <div className="inputDate" >
                             <TextField
+                              className="FormDate"
                               label="Start Date/Time"
                               type="datetime-local"
                               onChange={e => handleStartChangeDate(e, i)}
-                              value={date? date.substring(0,16) : "2021-03-27T10:32"}
+                              value={date? date.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                               InputLabelProps={{
                                 shrink: true,
                               }}
                             />
                             <TextField
+                              className="FormDate"
                               label="End Date/Time"
                               type="datetime-local"
-                              value={end? end.substring(0,16) : "2021-03-27T10:32"}
+                              value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                               onChange={e => handleEndChangeDate(e, i)}
                               InputLabelProps={{
                                 shrink: true,
@@ -278,24 +300,23 @@ setRerender(!rerender);
 
           </div> 
           <div className="inputStyles">
-            <label htmlFor="tasks">Volunteer Tasks</label>
+            <label htmlFor="tasks">Volunteer Tasks <span className="red">*</span></label>
           </div>
             {taskList.map((task, t) => {
                   return(
                     <div key={t}>
+                      <div className="TaskDiv">
                         <div className="inputButtons" >
+                          <br></br>
                             <div >
-                              <label htmlFor="OpportunityTitle">Task Name</label>
+                              <label htmlFor="OpportunityTitle">Task Name <span className="red">*</span></label>
                             </div>
                                 <input id="taskInput" type="text" name="task" 
                                   placeholder="Enter Custom Volunteer Task"
                                   value = {task.roleName}
                                   onChange={e => handleChangeTaskTitle(e, t)}/>
-
                               {taskList.length !== 1 &&
-                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(t)}/>
-                              }
-
+                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(t)}/>}
                             <div className="taskLabel">
                             <br className="headerBreak" />
                               <label htmlFor="OpportunityTitle">Task Description</label>
@@ -320,18 +341,20 @@ setRerender(!rerender);
                                   <div key={di}>
                                       <div className="inputDate" >
                                           <TextField
+                                            className="FormDate"
                                             label="Start Date/Time"
                                             type="datetime-local"
                                             onChange={e => handleStartChangeDateTask(e, t, di)}
-                                            value={taskdate? taskdate.substring(0,16) : "2021-03-27T10:32"}
+                                            value={taskdate? taskdate.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                                             InputLabelProps={{
                                               shrink: true,
                                             }}
                                           />
                                           <TextField
+                                            className="FormDate"
                                             label="End Date/Time"
                                             type="datetime-local"
-                                            value={end? end.substring(0,16) : "2021-03-27T10:32"}
+                                            value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
                                             onChange={e => handleEndChangeDateTask(e, t, di)}
                                             InputLabelProps={{
                                               shrink: true,
@@ -350,8 +373,6 @@ setRerender(!rerender);
                                   </div>
                                 )
                             })}
-
-
                             <div className="taskLabel">
                             <br className="headerBreak" />
                               <label htmlFor="wishlist">Additional Requirements</label>
@@ -365,7 +386,6 @@ setRerender(!rerender);
                                               onChange={e => handleChangeTaskReq(e, t, r)}/>
                                               {(task.additionalInfo && task.additionalInfo.length !== 1) &&
                                                   <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteTaskReq(t, r)}/>
-
                                               }
                                           </div>
                                           {(task.additionalInfo.length -1 === r) && 
@@ -375,6 +395,7 @@ setRerender(!rerender);
                                     )
                                 })}
 
+                        </div>
                         </div>
                         {taskList.length -1 === t && 
                            <input id="addItem" type="button" 
@@ -409,7 +430,7 @@ setRerender(!rerender);
                 <label htmlFor="OpportunityDescription">Opportunity Description<span className="red">*</span></label>
                 <textarea onChange={e => handleChangeDescription(e)} value={opportunity.description} placeholder="Enter description of opportunity"/>
                 <br/>
-                <label htmlFor="Skill/Interests">Skills/Interests</label>
+                <label htmlFor="Skill/Interests">Skills/Interests <span className="red">*</span></label>
                 <div className="IconSelect">
                   {AOIOptions.map(option => {
                     return (
@@ -435,11 +456,11 @@ setRerender(!rerender);
                   return(
                     <div key={r}>
                         <div className="inputButtons" >
-                            <input id="taskInput" type="text" name="Additional Requirements" placeholder="Enter Additional Requirements"
+                            <input className="formInput" id="taskInput" type="text" name="Additional Requirements" placeholder="Enter Additional Requirements"
                             value = {req}
                             onChange={e => handleChangeOppReq(e, r)}/>
                             {(opportunity.requirements && opportunity.requirements.length !== 1) &&
-                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteOppReq(r)}/>
+                                <input className="formInput" id="deleteItem" type="button" value="X" onClick={() => handleDeleteOppReq(r)}/>
 
                             }
                         </div>
@@ -476,10 +497,10 @@ setRerender(!rerender);
              <label >Add Images</label>
           </div>
           <br/>
-          <ImageUpload/>
+          <ImageUploadMulti getFiles={getFileNames.bind(this)}/>
            <br/>       
                {notValid && <label className="errorMessage">* Please Complete Required Fields</label>}  
-                <div className="buttonStyle">
+                <div className="FormbuttonStyle">
                   <SubmitButton onClick={handleFormSubmit} buttonText="Submit"/>
                 </div>
             </div>

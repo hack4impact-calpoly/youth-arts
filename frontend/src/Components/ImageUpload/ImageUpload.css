@@ -11,6 +11,7 @@
         text-align: center;
         font-size: 18px;
         margin-bottom: 7px;
+        font-family: 'Avant Garde';
 }
     
 .draggable-container {
@@ -127,6 +128,7 @@
 
 .helper-text{
     font-size: 16px;
+    font-family: 'Avant Garde';
 }
 
 #uploadButton input{
