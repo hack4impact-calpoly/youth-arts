@@ -13,6 +13,8 @@ class OpportunityCheckout extends React.Component{
             cart: props.cart,
             deleteFromCart: props.deleteFromCart,
             selectedTimes: Array((props.cart).length + 1).fill([]),
+            selectedTasks: [],
+            //selectedTimes: [],
             rerender: false
 
         };
@@ -21,13 +23,36 @@ class OpportunityCheckout extends React.Component{
   
     }
 
+    postTask = async (roleName, description, start, end, oppId, volId) => {
+
+        const newOpp = {
+            task: roleName,
+            start: start,
+            end: end,
+            description: description,
+            donated: [],
+            oppId: oppId,
+            volId: volId
+        }
+
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newOpp)
+        });
+        
+    }
+
     handleDateCheckBox(e, task) {
         const newSelection = e.target.value;
         let newSelectionArray;
         console.log(this.state.selectedTimes);
         console.log(task);
-        console.log(e.target.value);
-    
+        console.log(newSelection);
+
         if (this.state.selectedTimes[task].indexOf(newSelection) !== -1) {
           newSelectionArray = this.state.selectedTimes[task].filter(
             s => s !== newSelection
@@ -49,7 +74,9 @@ class OpportunityCheckout extends React.Component{
                 {
                     
                     return(
+                        
                         <div className="cartContainer">
+                            {this.state.selectedTasks.push(task)}
                         <p className="selectHeader">Select Times:</p>
                         <div id="taskCard">
                           <div className="roleNameAndTime">
@@ -60,44 +87,34 @@ class OpportunityCheckout extends React.Component{
                               {task.roleName}
                               </div>
                           </div>
+                          <div id="roleHeader">
+                            Check One or More Times Below:
+                          </div>
                           <div className="roleNameAndTime">
                               <p id="roleHeader">
-                                  Start:
+                                  Times:
                               </p>
                               <div id="times">
-                                  {task.start.map(start =>
+                                  {task.start.map((start, i )=>
                                       {
                                           return(
                                              
                                               <ul id="TimeList">
                                                 <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                  {dateFormat(start, " hh:mm")}</li>
+                                                    {dateFormat(start, " hh:MM TT")}
+                                                    --
+                                                    {dateFormat(task.end[i], "hh:MM TT")}
+                                                    <input
+                                                            className="form-checkbox"
+                                                            onChange={(e) => this.handleDateCheckBox(e, index)}
+                                                            value={task.end[i]}
+                                                            // checked= { ((this.state.selectedTimes)[index]).indexOf(end) != -1 }
+                                                            type="checkbox" />
+                                                </li>
                                                   <br/>
                                               </ul>
                                           );
                                       })}
-                                  </div>
-                                  <p id="roleHeader">
-                                      End:
-                                  </p>
-
-                                  <div id="times">
-                                      {task.end.map(end =>
-                                          {
-                                              return(
-                                                  <ul id="TimeList">
-                                                      <li>{dateFormat(end, " mmmm dS, yyyy ")} @
-                                                          {dateFormat(end, " hh:mm")}
-                                                          <input
-                                                            className="form-checkbox"
-                                                            onChange={(e) => this.handleDateCheckBox(e, index)}
-                                                            value={end}
-                                                            // checked= { ((this.state.selectedTimes)[index]).indexOf(end) != -1 }
-                                                            type="checkbox" />
-                                                      </li>
-                                                      <br/>
-                                                  </ul>
-                                              );})}
                                   </div>
                           </div>
                           <br/>
@@ -132,8 +149,18 @@ class OpportunityCheckout extends React.Component{
                     <input type="text" name="First Name" placeholder="Enter Name of Your Business"/>
                     </div>
                 </div>
-            <div id="buttonContainer">
-            <Link to="/registrationConfirmation" id="buttonStyles">Confirm Checkout</Link>
+            {console.log(this.state.cart)}
+            <div className="confirmCheckout" id="buttonContainer">
+            <Link to="/registrationConfirmation" id="buttonStyles" 
+            onClick={ () => {this.state.cart.map( task =>
+                {
+                    return(
+                        <div>
+                            {this.postTask(task.roleName, task.description, task.start, task.end, task.oppId, task.volId)}
+                        </div>
+                    )
+                }
+                )}}>Confirm Checkout</Link>
             </div>
             </body>)
     }

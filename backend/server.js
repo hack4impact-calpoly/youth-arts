@@ -402,6 +402,49 @@ app.post("/api/opportunityEndTime/", async (req, res) => {
 
 })
 
+app.post("/api/VolunteerTask", async (req, res) => {
+
+   const task = req.body.task
+   const description = req.body.description
+   const start = req.body.start
+   const end = req.body.end 
+   const donated = req.body.donated
+   const oppId = req.body.oppId
+   const volId = req.body.volId
+
+   try{
+      await postNewVolunteerTask(task, description, start, end, donated, oppId, volId);
+      res.status(200);
+   }
+   catch (error)
+   {
+      res.status(401).send(error)
+   }
+})
+
+
+const postNewVolunteerTask = async (task, description, start, end, donated, oppId, volId) => {
+
+   taskObj = {
+      task: task,
+      start: start,
+      end: end,
+      description: description,
+      donated: donated
+   }
+
+   let opportunity = await Opportunity.findById(oppId);
+   let volList = opportunity.volunteers.get(volId)
+   volList.push(taskObj)
+   await Opportunity.findByIdAndUpdate(oppId, {volunteers: opportunity.volunteers});
+
+   let volunteer = await Volunteer.findById(volId);
+   console.log(volunteer.opportunities)
+   volunteer.opportunities.set(oppId, taskObj);
+   console.log(volunteer.opportunities)
+   await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
+}
+
 const postStartTime = async (id, date, volId, taskIndex, timeIndex) => {
       let opportunity = await Opportunity.findById(id);
       opportunity.volunteers.get(volId)[taskIndex]["start"].splice(timeIndex, 1, date);
