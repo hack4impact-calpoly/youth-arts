@@ -15,7 +15,7 @@ import {Link} from 'react-router-dom';
 //import DateMomentUtils from '@date-io/moment'; 
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
-import {Container, Row, Col} from "react-bootstrap";
+import {Modal, Button} from "react-bootstrap";
 
 
 class OpportunityDetail extends React.Component{
@@ -35,18 +35,27 @@ class OpportunityDetail extends React.Component{
             wishlist: [],
             volunteers: [],
             showDonateModal: false,
+            showUserDonateModal: false,
             showSignInModal: false,
+            showCartModal: false,
             signedIn: true,
             admin: true,
-            volunteerList: []
+            volunteerList: [],
+            updateTime: false
         };
+    }
+
+    updateCartWithOpportunity(task){
+        task["oppId"] = this.state._id
+        task["volId"] = this.state.user._id
+        this.state.updateCart(task)
     }
     
 
     async componentDidMount() {
         let id = window.location.pathname;
         id = id.replace("/opportunityDetail/", "");
-        console.log(id);
+        //console.log(id);
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
         await fetch(url)
         .then(res => res.json())
@@ -62,18 +71,30 @@ class OpportunityDetail extends React.Component{
         });  
     }
 
+    postDonations(){
+        //this.changeDonateModal();
+    }
+
     changeDonateModal = () => {
         this.setState({showDonateModal: !this.state.showDonateModal});
+    };
+
+    changeUserDonateModal = () => {
+        this.setState({showUserDonateModal: !this.state.showUserDonateModal});
     };
 
     changeSignInModal = () => {
         this.setState({showSignInModal: !this.state.showSignInModal});
     };
 
+    changeCartModal = (task) => {
+        this.setState({showCartModal: !this.state.showCartModal});
+    };
+
     navigateTo = () => {
         let url = '/addOpportunity/' + this.state._id;
-        console.log(this.props);
-        console.log(this.state);
+       // console.log(this.props);
+        //console.log(this.state);
         this.props.history.push({
             pathname: url,
             state: { opportunity: { 
@@ -100,7 +121,9 @@ class OpportunityDetail extends React.Component{
         return 0;
     }
 
-    postStartTime(date, volId, taskIndex, i) {
+    postStartTime(date, volId, taskIndex, i) { 
+
+        this.setState({updateTime: !this.state.updateTime})
 
         const startTimeBody = {
             id: this.state._id,
@@ -121,6 +144,7 @@ class OpportunityDetail extends React.Component{
 
     }
 
+
     postEndTime(date, volId, taskIndex, i) {
 
         const endTimeBody = {
@@ -139,15 +163,15 @@ class OpportunityDetail extends React.Component{
             },
             body: JSON.stringify(endTimeBody)
         });
+        this.setState({updateTime: !this.state.updateTime})
 
     }
     
     
 
   render() {
-    console.log(this.state.pictures);
     return (
-        <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
+        <div className={ this.state.showDonateModal | this.state.showSignInModal | this.state.showUserDonateModal ? "darkBackground" : ""}>
           {this.state.admin && 
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
@@ -213,12 +237,12 @@ class OpportunityDetail extends React.Component{
                             </div>
                         </div>
                         <div className="bodyContainer">
-                                <div id={this.state.showDonateModal | !this.state.user ? "darkTaskBody" : "taskBody"}>
+                                <div id={this.state.showDonateModal | this.state.showSignInModal | this.state.showUserDonateModal ? "darkTaskBody" : "taskBody"}>
                                         <div>
                                            {this.state.tasks.map(task =>
                                             {
                                               return(
-                                                  <div id={this.state.showDonateModal | !this.state.user ? "darkTaskCard" : "taskCard"}>
+                                                  <div id={this.state.showDonateModal | this.state.showSignInModal | this.state.showUserDonateModal? "darkTaskCard" : "taskCard"}>
                                                     <div className="roleNameAndTime">
                                                         <p id="roleHeader">
                                                         Role:
@@ -276,14 +300,14 @@ class OpportunityDetail extends React.Component{
                                                                 </div>);
                                                             }
                                                         )}
+                                                        {console.log(task)}
                                                         <button id="cartButtonStyle" onClick={this.state.user ? 
-                                                        () => this.state.updateCart(task) : this.changeSignInModal}>Add to Cart</button>
+                                                        () => {this.updateCartWithOpportunity(task); this.changeCartModal(task)}  : this.changeSignInModal}>Add to Cart</button>
                                                     </div>
                                                 </div>
                                               )  
                                             })}
                                         </div>
-
                                 </div>
                                 <div className="reqAndItems">
                                     <div id="reqBody">
@@ -306,6 +330,10 @@ class OpportunityDetail extends React.Component{
                                                     <br/>
                                                 </div>
                                             )})}
+                                      <div id="buttonContainer">
+                                         <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : this.changeUserDonateModal}>Donate</button> 
+                                    </div>
+                                    
                                     </ul>
                                     </div>
                                 </div>
@@ -323,44 +351,8 @@ class OpportunityDetail extends React.Component{
                                     </ul>
                                     </p>
                              </div>
-
                         </div>
             </div>  
-            {this.state.showDonateModal && 
-                <div className="popUpBackground">
-                    <div className="ModalWrapper">
-                        <div className="ModalContent">
-                            <div id="signIn">
-                                 <SignInWithGoogleButton/>
-                                 <p id="or">
-                                     or
-                                 </p>
-                                <button id="guestCheckout">Checkout as Guest</button>
-                            </div>
-                            <div className="closeModal">
-                                <MdClose id="exitIcon" onClick={this.changeDonateModal}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-             }
-            {!this.state.user &&
-                <div className="popUpBackground">
-                    <div className="ModalWrapper">
-                        <div className="ModalContent">
-                            <div id="signIn">
-                                <p id="signInMessage">
-                                    Sign In to Add to Cart
-                                </p>
-                                 <SignInWithGoogleButton/>
-                            </div>
-                            <div className="closeModal">
-                                <MdClose id="exitIcon" onClick={this.changeSignInModal}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-             }
              {this.state.admin 
                         && <div className="tableContainer">
                             <div id="volunteerHeader">
@@ -390,9 +382,8 @@ class OpportunityDetail extends React.Component{
                                                             const key_set = Object.keys(this.state.volunteers[volunteers]);
                                                             const volId = volunteers;
                                                             const taskIndex = volunteer;
-                                                            console.log(volunteer);
-                                                            console.log(volunteers);
-                                                            console.log(key_value);
+                                                            //console.log(volunteer);
+                                                            //console.log(key_value);
                                                             key_value.sort(this.sortTaskArray);
                                                             return (
                                                                 <tr>
@@ -409,10 +400,10 @@ class OpportunityDetail extends React.Component{
                                                                 </td>}
                                                                 {key_value.map((volData, v) =>
                                                                 {
-                                                                console.log(volData, v)
-                                                                console.log(key_value[1][1])
+                                                                //console.log(volData, v)
+                                                                //console.log(key_value[1][1])
                                                                 if (volData[0] ==="task") {
-                                                                    console.log(volData[1])
+                                                                    //console.log(volData[1])
                                                                     return (
                                                                         <td className="detailTD">{
                                                                             
@@ -426,7 +417,7 @@ class OpportunityDetail extends React.Component{
                                                                 else if(volData[0] === start)
                                                                 {
 
-                                                                    console.log((volData[1]));
+                                                                    //.log((volData[1]));
                                                                     return (
                                                                        
                                                                         <td className="detailTD">{
@@ -508,17 +499,142 @@ class OpportunityDetail extends React.Component{
                                                         </tr>)})}
                                                         </div>
                                                     )}) : "No Volunteers Found"}
-                                                    {console.log(this.state.selectedStartDates)}
                                             </tbody>
                                         </table>
                                     </div>}
-            <div id="buttonContainer">
-                <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : ""}>Donate</button> 
-               
-            </div>
-       </div>
-    );
-  }
-}
+
+                            <Modal 
+                                show={this.state.showCartModal}
+                                onHide={this.changeCartModal}
+                                backdrop="static"
+                                keyboard={false}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Success! Task has been added</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body id="modalButtons">
+                                <Link to="/opportunityCheckout" id="modalButton" className="linkPadding">Go to Cart</Link>
+                                <Button id="modalButton" variant="primary"
+                                        onClick={this.changeCartModal}>Add more tasks</Button>
+                                </Modal.Body>
+                            </Modal>
+
+                            <Modal 
+                                show={this.state.showDonateModal}
+                                onHide={this.changeDonateModal}
+                                backdrop="static"
+                                keyboard={false}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Sign In to Donate</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body id="signIn">
+                                    <SignInWithGoogleButton/>
+                                </Modal.Body>
+                            </Modal>
+
+                            <Modal 
+                                show={this.state.showUserDonateModal}
+                                onHide={this.changeUserDonateModal}
+                                backdrop="static"
+                                keyboard={false}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Select Items to Donate</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {this.state.wishlist.map( item =>
+                                        {return(
+                                            <div>
+                                                <li>{item}
+                                                    <input
+                                                    className="form-checkbox"
+                                                    type="checkbox"/>
+                                                </li>
+                                                <br/>
+                                            </div>)})}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                <Button id="modalButton" variant="primary"
+                                        onClick={this.postDonations}>Confirm Donation</Button>
+                                </Modal.Footer>
+                            </Modal>
+
+                            <Modal 
+                                show={this.state.showSignInModal}
+                                onHide={this.changeSignInModal}
+                                backdrop="static"
+                                keyboard={false}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>Sign In to Add to Cart</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body id="signIn">
+                                    <SignInWithGoogleButton/>
+                                </Modal.Body>
+                            </Modal>
+
+                           {/*{this.state.showUserDonateModal && 
+                                            <div className="popUpBackground" class="overlay">
+                                                <div className="ModalWrapper">
+                                                    <div className="ModalContent">
+                                                        <div id="donateItemsHeader">
+                                                            Select Items To Donate:
+                                                        </div>
+                                                        <div id="donateItems">
+                                                            {this.state.wishlist.map( item =>
+                                                            {return(
+                                                                <div>
+                                                                    <li>{item}
+                                                                    <input
+                                                                        className="form-checkbox"
+                                                                        type="checkbox" />
+                                                                    </li>
+                                                                    <br/>
+                                                                </div>
+                                                            )})}
+                                                        </div>
+                                                        <div className="closeModal">
+                                                            <MdClose id="exitIcon" onClick={this.changeUserDonateModal}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }*/}
+
+                           {/* {this.state.showDonateModal && 
+                                            <div className="popUpBackground" class="overlay">
+                                                <div className="ModalWrapper">
+                                                    <div className="ModalContent">
+                                                        <div id="signIn">
+                                                            <SignInWithGoogleButton/>
+                                                            <p id="or">
+                                                                or
+                                                            </p>
+                                                            <button id="guestCheckout">Checkout as Guest</button>
+                                                        </div>
+                                                        <div className="closeModal">
+                                                            <MdClose id="exitIcon" onClick={this.changeDonateModal}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }*/}
+
+                       { /*{!this.state.user && this.state.showSignInModal &&
+                                        <div className="popUpBackground">
+                                            <div className="ModalWrapper">
+                                                <div className="ModalContent">
+                                                    <div id="signIn">
+                                                        <p id="signInMessage">
+                                                            Sign In to Add to Cart
+                                                        </p>
+                                                        <SignInWithGoogleButton/>
+                                                    </div>
+                                                    <div className="closeModal">
+                                                        <MdClose id="exitIcon" onClick={this.changeSignInModal}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                        */}
+                    </div>);}}
 
 export default withRouter(OpportunityDetail);

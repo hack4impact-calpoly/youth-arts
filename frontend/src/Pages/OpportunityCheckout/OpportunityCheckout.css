@@ -30,3 +30,8 @@ input.largerCheckbox{
     padding-left: 45px;
     padding-top: 20px;
 }
+
+.confirmCheckout{
+    display: flex;
+    justify-content: center;
+}
