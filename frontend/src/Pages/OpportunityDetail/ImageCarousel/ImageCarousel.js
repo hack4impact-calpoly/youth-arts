@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { CarouselData } from './CarouselData'
 import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'
 import '../OpportunityDetail.css'
-
+import logo from "../../../Images/YouthArtsLogoMark.png";
 
 const ImageCarousel = (props) => {
     const slides = props.slides;
@@ -18,7 +18,11 @@ const ImageCarousel = (props) => {
     else
     {
         notDefault = false;
-        CarouselDisplay = CarouselData;
+        CarouselDisplay = [
+            {
+                image: logo
+            }
+        ];
     }
 
     const[current, setCurrent] = useState(0)
@@ -36,22 +40,12 @@ const ImageCarousel = (props) => {
         <section className="slider">
             <FaArrowAltCircleLeft className="left-arrow" onClick={prevSlide}/>
             <FaArrowAltCircleRight className="right-arrow" onClick={nextSlide}/>
-            {notDefault ? CarouselDisplay.map((slide, index) => {
+            {CarouselDisplay.map((slide, index) => {
                 return (
                     <div className={index === current ? 'slide active' : 'slide'}
                     key={index}>
                         {index === current && (
                              <img src={slide.image} width= "auto" height="400" className="img"/>
-                        )}
-                    </div>
-                )
-             }) : 
-             CarouselDisplay.map((slide, index) => {
-                return (
-                    <div className={index === current ? 'slide active' : 'slide'}
-                    key={index}>
-                        {index === current && (
-                             <img src={slide.image} width= "auto" height="200" className="img"/>
                         )}
                     </div>
                 )

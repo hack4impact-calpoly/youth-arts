@@ -3,7 +3,7 @@ import Footer from '../../Components/Footer/Footer';
 import './OpportunityDetail.css'
 import ActionButton from "../../Components/ActionButton/ActionButton";
 import ImageCarousel from './ImageCarousel/ImageCarousel'
-import { CarouselData } from './ImageCarousel/CarouselData'
+// import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
 import {MdClose} from 'react-icons/md'
 import SignInWithGoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton'
@@ -142,9 +142,10 @@ class OpportunityDetail extends React.Component{
 
     }
     
+    
 
   render() {
-    console.log(this.state.volunteers);
+    console.log(this.state.pictures);
     return (
         <div className={ this.state.showDonateModal | !this.state.user ? "darkBackground" : ""}>
           {this.state.admin && 
@@ -155,7 +156,7 @@ class OpportunityDetail extends React.Component{
                 <div className="opportunityTitle">
                     {this.state.title}  
                     <div className="imageCarousel">
-                        <ImageCarousel slides={CarouselData}/>
+                        <ImageCarousel slides={this.state.pictures}/>
                     </div>  
                 </div>
             </div>
@@ -174,7 +175,7 @@ class OpportunityDetail extends React.Component{
                                         return(
                                             <div>
                                                 {dateFormat(start, " mmmm dS, yyyy ")} @
-                                                {dateFormat(start, "hh:MM")}
+                                                {dateFormat(start, "h:MM TT", true)}
                                             </div>
                                         );
                                     })}
@@ -187,7 +188,7 @@ class OpportunityDetail extends React.Component{
                                         return(
                                             <div>
                                                 {dateFormat(end, " mmmm dS, yyyy ")} @
-                                                {dateFormat(end, " hh:MM")}
+                                                {dateFormat(end, " h:MM TT", true)}
                                             </div>
                                         );
                                     })}
