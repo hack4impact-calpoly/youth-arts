@@ -9,6 +9,7 @@
 
 #contactPage {
     padding: 5% 25%;
+    font-family: 'Avant Garde';
 }
 
 #contactName {
@@ -16,6 +17,48 @@
     font-weight: bold;
     color: #1F4C82;
     padding-bottom: 2%;
+    font-family: 'Avant Garde';
+}
+
+.textareaNotes {
+    display: block;
+    width: 100%;
+    background-color:#F5F5F5;
+    min-height: 180px;
+    border-radius: 5px;
+    border: 1px solid #C8C8C8;
+    margin: 10px 30px 20px 0px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    resize:both;
+    font-family: 'Avant Garde';
+    margin-left: 30px !important;
+}
+#notesText {
+    margin-left: 30px !important;
+    margin-top: 40px;
+    font-family: 'Avant Garde';
+}
+.notesButton {
+    background-color:#1b75bc;
+    color: white;
+    border: none;
+    font-family:  'Avant Garde';
+    min-width: 80px;
+    height: 30px;
+    display: block;
+    justify-content: center;
+    margin-left: 75px;
+    background-color: #1b75bc;
+    color: white;
+    border: 3px solid;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    min-width: 100px;
+    min-height: 35px;
+
 }
 
 #volunteerAOI {
