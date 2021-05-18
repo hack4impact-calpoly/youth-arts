@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { CarouselData } from './CarouselData'
 import {FaArrowAltCircleRight, FaArrowAltCircleLeft} from 'react-icons/fa'
 import '../OpportunityDetail.css'
@@ -24,6 +24,25 @@ const ImageCarousel = (props) => {
             }
         ];
     }
+
+    useEffect(() => {
+        if (slides && slides.length > 0) {
+            for (let i = 0; i < slides.length; i++) {
+                notDefault = true;
+                CarouselDisplay.push( { image: slides[i] } );
+            }
+        }
+        else
+        {
+            notDefault = false;
+            CarouselDisplay = [
+                {
+                    image: logo
+                }
+            ];
+        }
+    }, [slides])
+
 
     const[current, setCurrent] = useState(0)
     const length = CarouselDisplay.length;
