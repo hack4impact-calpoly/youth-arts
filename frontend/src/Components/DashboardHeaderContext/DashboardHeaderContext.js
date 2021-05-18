@@ -1,6 +1,6 @@
 import "./DashboardHeaderContext.css";
 import SubmitButton from "./../SubmitButton/SubmitButton";
-import logo from "./../../Images/PRYAC_mark.png";
+import logo from "./../../Images/YouthArtsLogoMark.png";
 import { useHistory } from "react-router-dom";
 
 function DashboardHeaderContext () {

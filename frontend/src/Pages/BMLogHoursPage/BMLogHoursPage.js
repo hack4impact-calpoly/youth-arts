@@ -58,14 +58,10 @@ function BMLogHoursPage(props) {
         //if opportunities alreayd has the task, append start and end d/t to existing array
         var contains = false;
         opportunities.forEach(function(item) {
-            console.log(item.task.toLowerCase());
-            console.log(tasks.toLowerCase());
-            console.log(item.task.toLowerCase() === tasks.toLowerCase());
             if(item.task.toLowerCase() !== "" && item.task.toLowerCase() === tasks.toLowerCase()) {
                 item.start.push(startDT);
                 item.end.push(endDT);
                 contains = true;
-                console.log(opportunities);
             }
         })
         //else add the opportunity

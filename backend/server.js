@@ -334,12 +334,12 @@ app.post("/api/postVolunteer", async(req, res) => {
       from: `${process.env.EMAIL_USER}`,
       to: req.body.email,
       subject: "Account signup successful",
-      text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with PRYAC!",
-      html: "<img src = cid:pryacLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering!",
+      text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you so much for your support! If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
+      html: "<img src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you so much for your support! If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "../frontend/src/Images/PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
 
@@ -347,12 +347,12 @@ app.post("/api/postVolunteer", async(req, res) => {
       from: `${process.env.EMAIL_USER}`,
       to: `${process.env.EMAIL_USER}`,
       subject: "New account signup",
-      text: req.body.firstName + req.body.lastName + "has successfully made an account with PRYAC.",
-      html: "<img src = cid:pryacLogo /><br></br><p>" + req.body.firstName + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering.</p>",
+      text: req.body.firstName + req.body.lastName + "has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
+      html: "<img src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering. Their contact email is: " +  req.body.email + "</p>",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "../frontend/src/Images/PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
    transport.sendMail(volunteerMessage, function(err, info) {
@@ -496,11 +496,11 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><p>The event will currently be held at " + opportunity.location + 
-      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:pryacLogo />",
+      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:YouthArtsLogo />",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
    const adminMessage = {
@@ -509,11 +509,11 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
-      ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:pryacLogo />",
+      ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
    
@@ -561,11 +561,11 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
-      ".</p><br></br><img src = cid:pryacLogo />",
+      ".</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
 
@@ -575,11 +575,11 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
-      ".</p><br></br><img src = cid:pryacLogo />",
+      ". Their contact email is: " + volunteer.email + "</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
-         filename: "PRYAC_logo.png",
-         path: "..\\frontend\\src\\Images\\PRYAC_logo.png",
-         cid: "pryacLogo"
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
       }]
    }
 

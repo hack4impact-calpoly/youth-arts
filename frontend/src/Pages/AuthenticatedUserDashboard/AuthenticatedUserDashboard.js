@@ -22,7 +22,6 @@ const AuthenticatedUserDashboard = (props) => {
         Object.keys(user.opportunities).map((item) => {
             key = item;
             if(key !== null || key !== undefined) {
-                console.log(user.opportunities[key].length);
                 for(var i = 0; i < user.opportunities[key].length; i++) {
                     (user.opportunities[key][i])["oppId"] = key
                     opportunities.push(user.opportunities[key][i]);
@@ -112,7 +111,6 @@ const AuthenticatedUserDashboard = (props) => {
     var totalHours = 0;
 
     for(var i = 0; i < oppsArray.length; i++) {
-        console.log(oppsArray);
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {
             // for(var k = 0; k < user.opportunities.length; k++) {
@@ -124,7 +122,6 @@ const AuthenticatedUserDashboard = (props) => {
                 end: oppsArray[i].end[j],
                 id: oppsArray[i].oppId
             }
-            console.log(singleOpp);
             if(singleOpp !== undefined) {
                 if(new Date(singleOpp.start) > currentDate) {
                     upcomingOpportunities.push(singleOpp);

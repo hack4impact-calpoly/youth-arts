@@ -11,7 +11,6 @@ import {Link} from 'react-router-dom'
 const PastOpportunity = (props) => {
     const { user } = props;
     const pastOpportunities = props.opps;
-    console.log(pastOpportunities);
     return (
         <div id="pastOpps">
             <h4 id="upType">PAST OPPORTUNTIES</h4>

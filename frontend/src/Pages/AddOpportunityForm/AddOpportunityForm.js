@@ -82,7 +82,6 @@ function AddOpportunityForm(props) {
   const [rerender, setRerender] = useState(false);
 
   const handleAOICheckBox = (e) => {
-    console.log(opportunity);
     const newSelection = e.target.value;
     if (opportunity.skills && opportunity.skills.indexOf(newSelection) !== -1) {
       opportunity.skills.splice(opportunity.skills.indexOf(newSelection), 1);
@@ -109,7 +108,6 @@ function AddOpportunityForm(props) {
       const date = new Date();
       const task = {roleName: "", description: "", start: [date.toISOString()], end: [date.toISOString()], additionalInfo: [""]};
       (opportunity.tasks).push(task);
-      console.log(opportunity.tasks);
       setRerender(!rerender);
   }
   const handleDeleteInputTask = index  => {
@@ -237,9 +235,7 @@ const refresh = () => {
 const getFileNames = (files) => {
   for (let i = 0; i < files.length; i++) {
     opportunity.pictures.push('https://pryac.s3-us-west-1.amazonaws.com/' + files[i]);
-    console.log(files[i]);
   }
-  console.log(opportunity.pictures);
 }
 
   return (

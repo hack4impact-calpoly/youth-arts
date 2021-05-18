@@ -14,20 +14,10 @@ function ImageUploadMulti(props) {
 
   const config = {
     bucketName: 'pryac',
-    // dirName: "Opportunities" /* optional */,
     region: process.env.REACT_APP_AWS_REGION,
     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
   };
- 
-  // const params = {
-  //   ACL: 'bucket-owner-full-control',
-  //   Key: this.state.selectedFile.name,
-  //   ContentType: this.state.selectedFile.type,
-  //   Bucket: 'pryac',
-  //   Body: this.state.selectedFile,
-  // }
-
 
   const handleClick = (event) => {
     event.preventDefault();

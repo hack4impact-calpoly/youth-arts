@@ -1,6 +1,6 @@
 import "./OpportunityCard.css";
 import arrow from "./../../Images/right-arrow.png";
-import defaultimg from "./../../Images/PRYAC_mark.png";
+import defaultimg from "./../../Images/YouthArtsLogoMark.png";
 import classroom from '../../Images/classroom.png'
 import event from '../../Images/event.png'
 import fundraiser from '../../Images/fundraiser.png'
@@ -17,7 +17,6 @@ function OpportunityCard(props) {
     const AOIOptions = ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance", ""];
     const history = useHistory();
     const navigateTo = () => history.push('/opportunityDetail/' + props._id);
-    console.log(`${props.title} ${props.skills}`);
     if (props.skills && props.skills.length > 1 && props.skills[0] == "")
     {
         skill = props.skills[1];

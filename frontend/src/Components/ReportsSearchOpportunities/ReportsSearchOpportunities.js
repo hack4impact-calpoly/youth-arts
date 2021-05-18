@@ -22,7 +22,6 @@ import Moment from "moment";
  }
 
 function ReportsSearchOpportunities(props) {
-    //need to connect backend here and set to opportunities
     const {user} = props;
     const history = useHistory();
     const navigateTo = () => history.push('/addOpportunity');
@@ -67,76 +66,76 @@ function ReportsSearchOpportunities(props) {
     }, [])
 
 
-    //stores whats being filtered/sorted/searched
-    const [search, setSearch] = useState("");
-    const [sortBy, setSortBy] = useState("");
-    const [filterBy, setFilterBy] = useState("");
+    // //stores whats being filtered/sorted/searched
+    // const [search, setSearch] = useState("");
+    // const [sortBy, setSortBy] = useState("");
+    // const [filterBy, setFilterBy] = useState("");
 
-    //for pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(3);
+    // //for pagination
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [postsPerPage] = useState(3);
 
-    //search logic
-    var filteredOpps = Object.values(opportunities).filter(opportunity => {
-        return opportunity.title.toLowerCase().includes(search.toLowerCase())
-    })
+    // //search logic
+    // var filteredOpps = Object.values(opportunities).filter(opportunity => {
+    //     return opportunity.title.toLowerCase().includes(search.toLowerCase())
+    // })
 
-    //sort logic
-    if(sortBy === "oppType") {
-        filteredOpps = filteredOpps.sort((a, b) => a.type.localeCompare(b.type));
-    }
-    else if(sortBy === "date") {
-        filteredOpps = filteredOpps.sort((a, b) => a.date < b.date ? -1 : 1)
-    }
+    // //sort logic
+    // if(sortBy === "oppType") {
+    //     filteredOpps = filteredOpps.sort((a, b) => a.type.localeCompare(b.type));
+    // }
+    // else if(sortBy === "date") {
+    //     filteredOpps = filteredOpps.sort((a, b) => a.date < b.date ? -1 : 1)
+    // }
     
 
-    //filter logic
-    if (filterBy === "classroom") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("classroom")
-        });
-    }
-    else if (filterBy === "comittee") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("comittee")
-        });
-    }
-    else if (filterBy === "event") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("event")
-        });
-    }
-    else if (filterBy === "fundraiser") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("fundraiser")
-        });
-    }
-    else if (filterBy === "maintenance") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("maintenance")
-        });
-    }
-    else if (filterBy === "office-admin") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("office-admin")
-        });
-    }
-    else if (filterBy === "performance") {
-        filteredOpps = filteredOpps.filter(opportunity => {
-            return opportunity.type.toLowerCase().includes("performance")
-        });
-    }
+    // //filter logic
+    // if (filterBy === "classroom") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("classroom")
+    //     });
+    // }
+    // else if (filterBy === "comittee") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("comittee")
+    //     });
+    // }
+    // else if (filterBy === "event") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("event")
+    //     });
+    // }
+    // else if (filterBy === "fundraiser") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("fundraiser")
+    //     });
+    // }
+    // else if (filterBy === "maintenance") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("maintenance")
+    //     });
+    // }
+    // else if (filterBy === "office-admin") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("office-admin")
+    //     });
+    // }
+    // else if (filterBy === "performance") {
+    //     filteredOpps = filteredOpps.filter(opportunity => {
+    //         return opportunity.type.toLowerCase().includes("performance")
+    //     });
+    // }
 
-    //Get current posts
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = filteredOpps.slice(indexOfFirstPost, indexOfLastPost);
+    // //Get current posts
+    // const indexOfLastPost = currentPage * postsPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = filteredOpps.slice(indexOfFirstPost, indexOfLastPost);
 
-    function paginate(pageNumber) {
-        setCurrentPage(pageNumber)
-    }
+    // function paginate(pageNumber) {
+    //     setCurrentPage(pageNumber)
+    // }
 
-    const DateFormatter = ({ value }) => { return <span style={{textTransform: 'uppercase'}}>{value}</span> };
+    // const DateFormatter = ({ value }) => { return <span style={{textTransform: 'uppercase'}}>{value}</span> };
 
 
 
@@ -203,13 +202,13 @@ function ReportsSearchOpportunities(props) {
                         {
                             var begin = task.start[i];
                             var end = task.end[i];
-                            let diff = moment(end).diff(moment(begin));
+                            let diff = moment.duration(moment(end).diff(moment(begin))).asHours();
                             hours += diff;
                         }
                     })
                 })
             }
-            return hours
+            return hours.toFixed(2);
         }
     },
     { field: 'volunteerDonate', headerName: 'Donated Items', width: 200, 
@@ -222,6 +221,8 @@ function ReportsSearchOpportunities(props) {
                         for (var i = 0; i < task.donated.length; i++)
                         {
                             donated = donated.concat(task.donated);
+                            console.log(donated);
+                            console.log(value);
                         }
                     })
                 })
@@ -251,12 +252,10 @@ function ReportsSearchOpportunities(props) {
                components={{
                   Toolbar: ExportButton
                   }}
-                filterModel={{
-                    items: [
-                    //   { columnField: 'start_event', value: Moment().format('MMMM Do YYYY at h:mm:ss a'), operatorValue: 'contains' },
-                    //   { columnField: 'start_event', value: '3000000', operatorValue: 'After' },
-                    ],
-                  }}
+                // filterModel={{
+                //     items: [
+                //     ],
+                //   }}
                />
             </div>
             :

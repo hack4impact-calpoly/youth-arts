@@ -23,6 +23,11 @@
     margin: 10px;
     font-size: 30px;
     color: white;
+    /* margin: 10px;
+    font-size: 40px; */
+    width: 100%;
+    font-family: 'Avant Garde';
+    background: rgba(0, 0, 0, 0.50);
 }
 
 /* mobile */

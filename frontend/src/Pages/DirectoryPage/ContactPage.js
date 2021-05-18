@@ -34,8 +34,6 @@ function ContactPage() {
         }
         return true;
     }
-    console.log(contact);
-    console.log(contact.picture);
   
     return(
         <div id="contactPage">

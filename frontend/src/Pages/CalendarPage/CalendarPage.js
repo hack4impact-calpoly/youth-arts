@@ -1,6 +1,6 @@
 import "./CalendarPage.css";
 import NavBar from "../../Components/NavBar/NavBar";
-import logo from "./../../Images/PRYAC_mark.png";
+import logo from "./../../Images/YouthArtsLogoMark.png";
 import Footer from "../../Components/Footer/Footer";
 import React from 'react';
 
