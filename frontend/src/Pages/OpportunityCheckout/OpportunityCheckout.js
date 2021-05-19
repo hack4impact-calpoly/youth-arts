@@ -36,8 +36,11 @@ class OpportunityCheckout extends React.Component{
         }
 
         const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+        console.log(url);
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -69,7 +72,9 @@ class OpportunityCheckout extends React.Component{
     {    
         return (
             <body>
-                <h1 className="taskHeader" >My Tasks</h1>
+                <div id="calHeader">
+                    <h1 className="calTitle">TASK CART</h1>
+                </div>
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
                     
@@ -101,9 +106,9 @@ class OpportunityCheckout extends React.Component{
                                              
                                               <ul id="TimeList">
                                                 <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                    {dateFormat(start, " hh:MM TT")}
+                                                    {dateFormat(start, " hh:MM TT", true)}
                                                     --
-                                                    {dateFormat(task.end[i], "hh:MM TT")}
+                                                    {dateFormat(task.end[i], "hh:MM TT", true)}
                                                     <input
                                                             className="form-checkbox"
                                                             onChange={(e) => this.handleDateCheckBox(e, index)}

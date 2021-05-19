@@ -26,8 +26,10 @@ function SearchOpportunities(props) {
     }
     useEffect(() => {
         fetchAll().then(result => {
-            if(result)
+            if(result) {
+                result = result.filter(opp => opp.title != "Board Member");
                 setOpportunities(result);
+            }
         })
     }, [])
 

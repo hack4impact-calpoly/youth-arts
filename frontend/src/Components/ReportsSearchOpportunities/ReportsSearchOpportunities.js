@@ -146,7 +146,7 @@ function ReportsSearchOpportunities(props) {
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
             }
             else
             {
@@ -168,7 +168,7 @@ function ReportsSearchOpportunities(props) {
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
             }
             else
             {

@@ -3,11 +3,13 @@
     color: #1b75bc;
     margin-top: 20px;
     font-weight: bolder;
+    font-family: 'Avant Garde';
 }
 
 .cartContainer{
     padding-left: 80px;
     padding-right: 80px;
+    font-family: 'Avant Garde';
 }
 
 .selectHeader{
@@ -15,6 +17,7 @@
     color: #1b75bc;
     font-weight: bolder;
     font-size: 25px;
+    font-family: 'Avant Garde';
 }
 
 .form-checkbox{
@@ -29,9 +32,11 @@ input.largerCheckbox{
 .businessInput{
     padding-left: 45px;
     padding-top: 20px;
+    font-family: 'Avant Garde';
 }
 
 .confirmCheckout{
     display: flex;
     justify-content: center;
+    font-family: 'Avant Garde';
 }

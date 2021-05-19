@@ -136,6 +136,8 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -158,6 +160,8 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -262,7 +266,7 @@ class OpportunityDetail extends React.Component{
                                                                        
                                                                         <ul id="TimeList">
                                                                             <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                                            {dateFormat(start, " hh:MM")}</li>
+                                                                            {dateFormat(start, " hh:MM TT", true)}</li>
                                                                         </ul>
                                                                     );
                                                                 })}
@@ -276,7 +280,7 @@ class OpportunityDetail extends React.Component{
                                                                         return(
                                                                             <ul id="TimeList">
                                                                                 <li>{dateFormat(end, " mmmm dS, yyyy ")} @
-                                                                                    {dateFormat(end, " hh:MM")}</li>
+                                                                                    {dateFormat(end, " hh:MM TT", true)}</li>
                                                                             </ul>
                                                                         );})}
                                                             </div>
@@ -429,7 +433,7 @@ class OpportunityDetail extends React.Component{
                                                                                         <div>
                                                                                              <br/>
                                                                                             {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:MM")}
+                                                                                            {dateFormat(time, " hh:MM TT", true)}
                                                                                         
                                                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                             <br/>
@@ -465,7 +469,7 @@ class OpportunityDetail extends React.Component{
                                                                                         <div>
                                                                                              <br/>
                                                                                             {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:MM")}
+                                                                                            {dateFormat(time, " hh:MM TT", true)}
 
                                                                                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                                 <br/>
@@ -503,7 +507,7 @@ class OpportunityDetail extends React.Component{
                                         </table>
                                     </div>}
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showCartModal}
                                 onHide={this.changeCartModal}
                                 backdrop="static"
@@ -518,7 +522,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Body>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showDonateModal}
                                 onHide={this.changeDonateModal}
                                 backdrop="static"
@@ -531,7 +535,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Body>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showUserDonateModal}
                                 onHide={this.changeUserDonateModal}
                                 backdrop="static"
@@ -557,7 +561,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Footer>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showSignInModal}
                                 onHide={this.changeSignInModal}
                                 backdrop="static"
