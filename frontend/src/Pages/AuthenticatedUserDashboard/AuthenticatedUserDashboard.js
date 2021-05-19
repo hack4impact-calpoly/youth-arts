@@ -161,7 +161,7 @@ const AuthenticatedUserDashboard = (props) => {
                     <Col id="justify-content-md-center impactSection" md="auto">
                         <h4 id="impact">YOUR IMPACT</h4>
                         <hr id="line" />
-                        <p><b>Total Hours:</b> {totalHours}</p>
+                        <p><b>Total Hours:</b> {totalHours.toFixed(2)}</p>
                         <p><b>Total Items Donated:</b> {donated}</p>
                         <PastOpportunity 
                             opps={pastOpportunities}
