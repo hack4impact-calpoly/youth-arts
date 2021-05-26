@@ -15,13 +15,34 @@
    font-family: 'Avant Garde';
 
 }
+.reportsTextWrapper {
+   margin-top: 30px;
+}
+
+.reportsText {
+   display: flex;
+   flex-direction: row;
+   vertical-align: center;
+   justify-content: center;
+   margin-left: 150px;
+   align-items: flex-end;
+   height: auto;
+   padding: 0px 20px;
+   font-family: 'Avant Garde';
+}
+.MuiDataGrid-viewport {
+   max-height: fit-content!important;
+   font-family: 'Avant Garde';
+}
 
 
 .MuiDataGrid-viewport, .MuiDataGrid-row, .MuiDataGrid-renderingZone {
    /* max-height: fit-content!important; */
+   font-family: 'Avant Garde';
 }
 
 .MuiDataGrid-cell {
+   font-family: 'Avant Garde';
    max-height:fit-content!important;
    overflow:auto;
    max-height: inherit;
@@ -34,6 +55,7 @@
    
    }
    .MuiDataGrid-cell > div { 
+      font-family: 'Avant Garde';
       max-height: inherit;
       width: 100%;
       white-space: initial;

@@ -20,6 +20,7 @@
     "date-fns": "^2.21.1",
     "dateformat": "^4.5.1",
     "dotenv": "^8.2.0",
+    "filefy": "^0.1.10",
     "jspdf": "^2.3.1",
     "moment": "^2.29.1",
     "query-string": "^4.3.4",
