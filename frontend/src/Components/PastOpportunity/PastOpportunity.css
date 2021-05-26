@@ -6,10 +6,14 @@
     padding-bottom: 4%;
     font-weight: bold;
     font-family: 'Avant Garde';
+    max-height: 500px !important;
+    overflow: scroll !important;
+    
 }
 
 .pastOpp {
     padding: 0 5%;
+    
 }
 .pastOppLink {
     color: #1F4C82;

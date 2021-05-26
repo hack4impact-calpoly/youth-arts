@@ -15,6 +15,7 @@ const PastOpportunity = (props) => {
         <div id="pastOpps">
             <h4 id="upType">PAST OPPORTUNTIES</h4>
             {pastOpportunities && pastOpportunities.map((opp, i) => (
+                <div id="pastOppsInside">
                 <Row key={i} className="pastOpp">
                     <Col md="auto" className="col-6">
                         <Link to={'/opportunityDetail/' + opp.id} className="pastOppLink">
@@ -23,6 +24,7 @@ const PastOpportunity = (props) => {
                         </Link>
                     </Col>
                 </Row>
+                </div>
             ))}
         </div>
     );
