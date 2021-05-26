@@ -22,8 +22,14 @@ function Directory(props) {
     useEffect(() => {
         fetchAll().then(result => {
             //if(result && user !== null && user.admin === true)
-            if(result)
+            if(result) {
+                result.sort(function(a, b) {
+                    return a.lastName.localeCompare(b.lastName);
+                 });
                 setDirectory(result);
+            }
+
+                
         });
     }, [])
 
