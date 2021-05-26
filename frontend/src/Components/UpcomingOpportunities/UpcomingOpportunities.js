@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom'
 
 function UpcomingOpportunities(props) {
     const [upcomingOpportunities, setUpOpps] = useState(props.opps);
+    console.log(upcomingOpportunities);
 
     function handleButtonPress(index) {
         const updated = upcomingOpportunities.filter((opp, i) => {

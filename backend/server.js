@@ -168,6 +168,22 @@ app.get('/auth/account', auth, (req, res) => {
      }
   })
 
+  app.get('/api/getOpportunity/:id', async (req, res) => {
+   var oppid = mongoose.Types.ObjectId(req.params.id)
+   try 
+   {
+      
+       opp = await Opportunity.findById(oppid);
+       console.log(opp);
+       res.status(200).json(opp);
+   }
+   catch (error)
+   {
+      console.log(error);
+       res.status(400).send(error);
+   }
+})  
+
   const getVolunteer = async (userid) => {
 	return await Volunteer.findById(userid)
 }
@@ -279,7 +295,6 @@ const getAllOpportunities = async () => {
 app.post("/api/updateOpportunity", async(req, res) => {
    try 
    {
-      
        if (typeof req.body._id === undefined || req.body._id === "")
        {
          const newOpportunity = await postNewOpportunity(req.body.title, 
@@ -293,13 +308,16 @@ app.post("/api/updateOpportunity", async(req, res) => {
                                                          req.body.requirements,
                                                          req.body.tasks,
                                                          req.body.additionalInfo,
-                                                         req.body.volunteers) 
+                                                         req.body.volunteers)
+                                                         console.log(newOpportunity);
+                                                         console.log("new");
        }
        else 
        {
-         console.log(req.body);
-         console.log(req.body._id);
          const newOpportunity = await Opportunity.findByIdAndUpdate(mongoose.Types.ObjectId(req.body._id), req.body);
+         console.log(newOpportunity);
+         console.log(newOpportunity.volunteers);
+         console.log("update");
          res.json(newOpportunity);
        }
    }
@@ -325,6 +343,10 @@ app.post("/api/opportunity", async(req, res) => {
 app.post("/api/updateVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
    });
+
+   app.post("/api/updateBoardOpportunity", async(req, res) => {
+      const newOpportunity = await Opportunity.findByIdAndUpdate(req.body._id, req.body)
+      });
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
@@ -462,7 +484,8 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       from: `${process.env.EMAIL_USER}`,
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
-      html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
+      html: "<p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about the volunteer opportunity you selected. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
+      "<br></br> You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
       " on " + dateFormat(task.start, "fullDate", true) + " at " + dateFormat(task.start, "h:MM TT Z", true) + 
       ".</p><p>The event will currently be held at " + opportunity.location + 
       ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:YouthArtsLogo />",

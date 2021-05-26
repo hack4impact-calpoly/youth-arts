@@ -280,6 +280,10 @@
     margin-top: -180px;
 }
 
+.linkPadding {
+    padding-left: 15px;
+}
+
 .fullContainer2{
     display: grid;
     grid-template-columns: auto auto ;
