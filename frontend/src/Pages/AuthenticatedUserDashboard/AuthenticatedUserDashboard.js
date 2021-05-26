@@ -70,10 +70,11 @@ const AuthenticatedUserDashboard = (props) => {
             username: props.user.username,
             workHistory: props.user.workHistory,
             _v: props.user._v,
-            opportunities: newOpportunites
+            opportunities: newOpportunites,
+            cancelOpp: cancelOpp
         }
 
-        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/cancelOpportunity`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

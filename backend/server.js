@@ -344,6 +344,60 @@ app.post("/api/updateVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
    });
 
+app.post("/api/cancelOpportunity", async(req, res) => {
+   const opportunity = await Opportunity.findById(req.body.cancelOpp.id)
+   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+
+   //Emails to cancel signup
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: newVolunteer.email,
+      subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
+      html: "<img src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
+      "<br></br> You have successfully cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true) + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
+      "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
+      html: "<img src = cid:YouthArtsLogo /> <br></br> <p> " + newVolunteer.firstName + " has cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true) + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
+      "<br></br><br></br> Their contact email is: " + newVolunteer.email + "</p>",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+
+
+
+
+
+
+   });
+
    app.post("/api/updateBoardOpportunity", async(req, res) => {
       const newOpportunity = await Opportunity.findByIdAndUpdate(req.body._id, req.body)
       });
