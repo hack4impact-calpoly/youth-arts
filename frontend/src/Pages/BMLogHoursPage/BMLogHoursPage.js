@@ -46,7 +46,6 @@ function BMLogHoursPage(props) {
             response.json()
             .then(data => {
                 setboardOpportunity(data);
-                console.log(boardOpportunity);
             });
         });
     }, []);
@@ -56,7 +55,6 @@ function BMLogHoursPage(props) {
             response.json()
             .then(data => {
                 setboardOpportunity(data);
-                console.log(boardOpportunity);
             });
         });
     }, [updateBoard]);
@@ -146,7 +144,6 @@ function BMLogHoursPage(props) {
             });
         });
 
-        console.log(boardOpportunity);
         let volunteers = boardOpportunity.volunteers;
         Object.keys(volunteers).map((item) => {
             key = item;
@@ -158,7 +155,6 @@ function BMLogHoursPage(props) {
             volunteers = [];
         }
 
-        console.log(volunteers);
         if ((volunteers == [] || volunteers.length <= 0 || volunteers == undefined || volunteers == null) && volunteers[props.user._id] == null) {
             contains = false;
             volunteers = []
@@ -198,9 +194,7 @@ function BMLogHoursPage(props) {
             newVolunteers = {};
             newVolunteers[props.user._id] = volunteers;
         }
-        console.log(boardOpportunity);
         boardOpportunity['volunteers'] = newVolunteers;
-        console.log(boardOpportunity);
         fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity`, {
             method: "POST",
             headers: {

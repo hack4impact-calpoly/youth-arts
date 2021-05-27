@@ -81,7 +81,7 @@ const App = () => {
       <Switch>
         <Route path='/logHours'>
           <NavBar user={profile} />
-          <BMLogHoursPage user={profile} />
+          <BMLogHoursPage user={profile} updateUser={updateProfile}  />
           <Footer />
         </Route>
       <Route path='/opportunityDetail'>
@@ -163,7 +163,8 @@ const App = () => {
         <Route path='/opportunities'>
           <OpportunitiesPage
             user={profile}
-            updateUser={updateProfile} />
+            updateUser={updateProfile} 
+            />
         </Route>
 
         {(profile?.admin === true) ? (

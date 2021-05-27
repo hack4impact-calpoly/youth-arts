@@ -28,7 +28,7 @@ const NavBar = (props) => {
               {user && user.admin !== null && user.admin === true ? <li><Link to="/Reports">Reports</Link></li> : null}
               {user && user.admin !== null && user.admin === true ? <li><Link to="/directory">Directory</Link></li> : null}
               <li><Link to="/FAQ">FAQ</Link></li>
-              {user && user.boardMember !== null && user.boardMember === true ? <li><a href={`${process.env.REACT_APP_CLIENT_URL}logHours`}>Log Hours</a></li> : null}
+              {user && user.boardMember !== null && user.boardMember === true ? <li><Link to="/logHours">Log Hours</Link></li> : null}
               { user ? <li><Link to="/registration">Profile</Link></li> : null }
               { user ? <li><Link to="/OpportunityCheckout">Cart</Link></li> : null }
               { user ? (
