@@ -10,6 +10,7 @@ import React, {useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import axios from "axios"
 import Moment from "moment";
+import tz from "moment-timezone";
 
   
 
@@ -103,7 +104,7 @@ const AuthenticatedUserDashboard = (props) => {
                 for(var j = 0; j < opVols.length; j++) {
                     if(opVols[j].task === cancelOpp.task) {
                         for(var k = 0; k < opVols[j].start.length; k++) {
-                            if(Moment(cancelOpp.start).format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].start[k]).format('MMMM Do YYYY, h:mm:ss a') && Moment(cancelOpp.end).format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].end[k]).format('MMMM Do YYYY, h:mm:ss a')) {
+                            if(Moment(cancelOpp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].start[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') && Moment(cancelOpp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].end[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a')) {
                                 oppToUpdate.volunteers[props.user._id][j].start.splice(k, 1);
                                 oppToUpdate.volunteers[props.user._id][j].end.splice(k, 1);
                                 if (oppToUpdate.volunteers[props.user._id][j].start.length === 0)

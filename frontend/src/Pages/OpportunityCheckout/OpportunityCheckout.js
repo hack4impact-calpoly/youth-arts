@@ -2,6 +2,8 @@ import "./OpportunityCheckout.css"
 import React from "react";
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
+import Moment from "moment";
+import tz from "moment-timezone";
 
 class OpportunityCheckout extends React.Component{
 
@@ -105,7 +107,7 @@ class OpportunityCheckout extends React.Component{
                                           return(
                                              
                                               <ul id="TimeList">
-                                                <li>{dateFormat(start, " mmmm dS, yyyy ")} @
+                                                <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
                                                     {dateFormat(start, " hh:MM TT", true)}
                                                     --
                                                     {dateFormat(task.end[i], "hh:MM TT", true)}

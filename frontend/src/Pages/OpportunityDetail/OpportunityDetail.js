@@ -16,6 +16,8 @@ import {Link} from 'react-router-dom';
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 import {Modal, Button} from "react-bootstrap";
+import Moment from "moment";
+import tz from "moment-timezone";
 
 
 class OpportunityDetail extends React.Component{
@@ -202,7 +204,7 @@ class OpportunityDetail extends React.Component{
                                     {
                                         return(
                                             <div>
-                                                {dateFormat(start, " mmmm dS, yyyy ")} @
+                                                {dateFormat(start, " mmmm dS, yyyy ", true)} @
                                                 {dateFormat(start, "h:MM TT", true)}
                                             </div>
                                         );
@@ -215,7 +217,7 @@ class OpportunityDetail extends React.Component{
                                     {
                                         return(
                                             <div>
-                                                {dateFormat(end, " mmmm dS, yyyy ")} @
+                                                {dateFormat(end, " mmmm dS, yyyy ", true)} @
                                                 {dateFormat(end, " h:MM TT", true)}
                                             </div>
                                         );
@@ -265,7 +267,7 @@ class OpportunityDetail extends React.Component{
                                                                     return(
                                                                        
                                                                         <ul id="TimeList">
-                                                                            <li>{dateFormat(start, " mmmm dS, yyyy ")} @
+                                                                            <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
                                                                             {dateFormat(start, " hh:MM TT", true)}</li>
                                                                         </ul>
                                                                     );
@@ -279,7 +281,7 @@ class OpportunityDetail extends React.Component{
                                                                     {
                                                                         return(
                                                                             <ul id="TimeList">
-                                                                                <li>{dateFormat(end, " mmmm dS, yyyy ")} @
+                                                                                <li>{dateFormat(end, " mmmm dS, yyyy ", true)} @
                                                                                     {dateFormat(end, " hh:MM TT", true)}</li>
                                                                             </ul>
                                                                         );})}
@@ -432,7 +434,7 @@ class OpportunityDetail extends React.Component{
                                                                                     return(
                                                                                         <div>
                                                                                              <br/>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ", true)} @
                                                                                             {dateFormat(time, " hh:MM TT", true)}
                                                                                         
                                                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -468,7 +470,7 @@ class OpportunityDetail extends React.Component{
                                                                                     return(
                                                                                         <div>
                                                                                              <br/>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ", true)} @
                                                                                             {dateFormat(time, " hh:MM TT", true)}
 
                                                                                             <MuiPickersUtilsProvider utils={DateFnsUtils}>

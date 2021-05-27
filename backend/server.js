@@ -355,7 +355,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
       "<br></br> You have successfully cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
-      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true) + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true, 'America/Los_Angeles') + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
       "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",

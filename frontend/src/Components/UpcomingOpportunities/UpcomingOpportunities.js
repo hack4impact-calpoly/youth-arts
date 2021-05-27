@@ -28,7 +28,7 @@ function UpcomingOpportunities(props) {
                     <Col md="auto" className="col-6">
                         <Link to={'/opportunityDetail/' + opp.id} className="pastOppLink">
                             <p className="upOppTask">{opp.task}</p>
-                            <p className="upOppDate">{Moment(opp.start).format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).format('MMMM Do YYYY, h:mm a')}</p>
+                            <p className="upOppDate">{Moment(opp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a')}</p>
                         </Link>
                     </Col>
                     <Col className="upOppCancel">
