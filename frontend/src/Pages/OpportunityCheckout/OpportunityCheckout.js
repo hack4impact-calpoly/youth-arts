@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 
 class OpportunityCheckout extends React.Component{
 
+
     constructor(props) {
         super(props);
         
@@ -12,25 +13,20 @@ class OpportunityCheckout extends React.Component{
             user: props.user,
             cart: props.cart,
             deleteFromCart: props.deleteFromCart,
-            selectedTimes: Array((props.cart).length + 1).fill([]),
-            selectedTasks: [],
-            //selectedTimes: [],
             rerender: false
 
         };
-        
-        this.handleDateCheckBox = this.handleDateCheckBox.bind(this);
   
     }
 
-    postTask = async (roleName, description, start, end, oppId, volId) => {
+    postTask = async (roleName, description, start, end, oppId, volId, donated) => {
 
         const newOpp = {
             task: roleName,
             start: start,
             end: end,
             description: description,
-            donated: [],
+            donated: donated,
             oppId: oppId,
             volId: volId
         }
@@ -46,37 +42,67 @@ class OpportunityCheckout extends React.Component{
         
     }
 
-    handleDateCheckBox(e, task) {
-        const newSelection = e.target.value;
-        let newSelectionArray;
-        console.log(this.state.selectedTimes);
-        console.log(task);
-        console.log(newSelection);
+    handleDateCheckBox(e, task, endTime, index) {
 
-        if (this.state.selectedTimes[task].indexOf(newSelection) !== -1) {
-          newSelectionArray = this.state.selectedTimes[task].filter(
-            s => s !== newSelection
-          );
-        } else {
-        //   newSelectionArray = [...this.state.selectedTimes[task], newSelection];
-          newSelectionArray = [...this.state.selectedTimes];
-          newSelectionArray[task] = newSelection;
-        }
-        this.setState( {selectedTimes: newSelectionArray });
+        let selectedTimes = document.getElementsByName(`selectedTimes${task.roleName}`)
+        let startTimeSelections = task["selectedStart"] 
+        let endTimeSelections = task["selectedEnd"] 
+        
+
+        selectedTimes.forEach(item => 
+            
+            {
+
+                let includedStart = startTimeSelections.includes(item.value)
+
+                if(item.checked){
+                    if(!includedStart)
+                    {
+                        startTimeSelections.push(item.value)
+                        endTimeSelections.push(endTime)
+                    }
+                }
+                else
+                { 
+                    if(includedStart){
+                        startTimeSelections = startTimeSelections.filter(
+                           function(el){
+                               return el !== item.value
+                           }
+                        );
+
+                        endTimeSelections = endTimeSelections.filter(
+                            function(el){
+                                return el !== endTime
+                            }
+                         );
+                    }
+                }
+            })
+        
+        task["selectedStart"] = startTimeSelections
+        task["selectedEnd"] = endTimeSelections
+ 
       }
+
+
    
     render()
     {    
         return (
             <body>
                 <h1 className="taskHeader" >My Tasks</h1>
+                {this.state.cart ? this.state.cart.map((task) =>
+                {
+                    task["selectedStart"] = []
+                    task["selectedEnd"] = []
+                    {console.log(task)}
+                }) : this.state}
+
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
-                    
                     return(
-                        
-                        <div className="cartContainer">
-                            {this.state.selectedTasks.push(task)}
+                        <div className="cartContainer">                         
                         <p className="selectHeader">Select Times:</p>
                         <div id="taskCard">
                           <div className="roleNameAndTime">
@@ -97,6 +123,9 @@ class OpportunityCheckout extends React.Component{
                               <div id="times">
                                   {task.start.map((start, i )=>
                                       {
+                                          let times = [];
+                                          times.push(start);
+                                          times.push(task.end[i]);
                                           return(
                                              
                                               <ul id="TimeList">
@@ -104,14 +133,16 @@ class OpportunityCheckout extends React.Component{
                                                     {dateFormat(start, " hh:MM TT")}
                                                     --
                                                     {dateFormat(task.end[i], "hh:MM TT")}
+                                                    {console.log(task.end[i])}
+
                                                     <input
                                                             className="form-checkbox"
-                                                            onChange={(e) => this.handleDateCheckBox(e, index)}
-                                                            value={task.end[i]}
-                                                            // checked= { ((this.state.selectedTimes)[index]).indexOf(end) != -1 }
-                                                            type="checkbox" />
+                                                            onChange={(e) => this.handleDateCheckBox(e, task, task.end[i], index)}
+                                                            value={start}
+                                                            type="checkbox"
+                                                            name={`selectedTimes${task.roleName}`}/>
                                                 </li>
-                                                  <br/>
+                                                <br/>
                                               </ul>
                                           );
                                       })}
@@ -140,6 +171,7 @@ class OpportunityCheckout extends React.Component{
                           </div>
                       </div>
                       </div>
+                      
                     ) 
                 }
                 ) : this.state }
@@ -149,14 +181,14 @@ class OpportunityCheckout extends React.Component{
                     <input type="text" name="First Name" placeholder="Enter Name of Your Business"/>
                     </div>
                 </div>
-            {console.log(this.state.cart)}
             <div className="confirmCheckout" id="buttonContainer">
+            
             <Link to="/registrationConfirmation" id="buttonStyles" 
-            onClick={ () => {this.state.cart.map( task =>
+            onClick={ () => {this.state.cart.map( (task, i) =>
                 {
                     return(
                         <div>
-                            {this.postTask(task.roleName, task.description, task.start, task.end, task.oppId, task.volId)}
+                            {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated)}
                         </div>
                     )
                 }

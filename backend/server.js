@@ -450,7 +450,14 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
 
    let volunteer = await Volunteer.findById(volId);
    console.log(volunteer.opportunities)
-   volunteer.opportunities.set(oppId, taskObj);
+   try {
+      let oppList = volunteer.opportunities.get(oppId)
+      oppList.push(taskObj)
+   }
+   catch{
+      volunteer.opportunities.set(oppId, taskObj);
+   }
+   
    console.log(volunteer.opportunities)
    await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
 }
