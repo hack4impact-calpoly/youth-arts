@@ -1,6 +1,7 @@
 
 import './AddOpportunityForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
+import Header from "../../Components/Header/Header";
 import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
@@ -241,7 +242,7 @@ const getFileNames = (files) => {
 
   return (
       <div >
-        <NavBar user={props.user}/>
+        <Header user={props.user}/>
         <body>
         </body>
         <div className="title">

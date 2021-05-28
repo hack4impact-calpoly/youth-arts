@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useState, useEffect} from "react";
 import NavBar from "./Components/NavBar/NavBar.js"
+import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer.js"
 import LoginPage from './Pages/LoginPage/LoginPage'
 import AnonymousDashboard from "./Pages/AnonymousDashboard/AnonymousDashboard";
@@ -80,12 +81,12 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         <Route path='/logHours'>
-          <NavBar user={profile} />
+          <Header user={profile} />
           <BMLogHoursPage user={profile} updateUser={updateProfile}  />
           <Footer />
         </Route>
       <Route path='/opportunityDetail'>
-          <NavBar user={profile} />
+          <Header user={profile} />
           <OpportunityDetail
             updateCart={updateCart}
             user={profile}
@@ -95,17 +96,17 @@ const App = () => {
         </Route>
       <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path='/directory'>
-          <NavBar user={profile} />
+          <Header user={profile} />
           <DirectoryPage {...profile} />
           <Footer />
         </Route>
         <Route exact path="/volunteer">
-          <NavBar user={profile} />
+          <Header user={profile} />
           <ContactPage />
           <Footer />
         </Route>
         <Route path="/FAQ">
-          <NavBar user={profile} />
+          <Header user={profile} />
           <FAQPage />
           <Footer />
         </Route>
@@ -118,7 +119,7 @@ const App = () => {
               ) 
             :
             <div>
-              <NavBar user={profile} />
+              <Header user={profile} />
               <AnonymousDashboard user={profile} />
               <Footer />
             </div>
@@ -130,7 +131,7 @@ const App = () => {
           </Route>
         ) :
           <Route path='/anonDashboard'>
-            <NavBar user={profile} />
+            <Header user={profile} />
             <AnonymousDashboard user={profile} />
             <Footer />
           </Route>
@@ -139,7 +140,7 @@ const App = () => {
           <LoginPage user={profile} />
         </Route>
         <Route path='/anonDashboard'>
-            <NavBar user={profile} />
+            <Header user={profile} />
             <AnonymousDashboard user={profile} />
             <Footer />
         </Route>
@@ -194,7 +195,7 @@ const App = () => {
             updateUser={updateProfile} />
         }
         <Route path='/opportunityCheckout'>
-        <NavBar user={profile}/>
+        <Header user={profile}/>
           <OpportunityCheckout 
             cart = {cart}
             user={profile}

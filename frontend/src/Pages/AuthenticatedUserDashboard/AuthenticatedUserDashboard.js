@@ -12,6 +12,8 @@ import axios from "axios"
 import Moment from "moment";
 import tz from "moment-timezone";
 
+import Header from "../../Components/Header/Header";
+
   
 
 const AuthenticatedUserDashboard = (props) => {
@@ -225,7 +227,7 @@ const AuthenticatedUserDashboard = (props) => {
     return (
         <div id="authDashboard">
             <div>
-                <NavBar user={user}/>
+                <Header user={user}/>
                 <AuthHeader
                     user={user}
                 />

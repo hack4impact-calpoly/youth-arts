@@ -1,4 +1,5 @@
 import NavBar from '../../Components/NavBar/NavBar'
+import Header from "../../Components/Header/Header";
 import React from 'react';
 import GoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton';
 import "./LoginPage.css";
@@ -14,7 +15,7 @@ class LoginPage extends React.Component {
 
   return (
       <body >
-        <NavBar/>            
+        <Header/>            
         <div id="headerImage"> 
             <img src={headerImage} width= "auto" height="100" alt=""></img>
         </div>

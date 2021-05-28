@@ -1,5 +1,6 @@
 
-import NavBar from '../../Components/NavBar/NavBar'
+import NavBar from '../../Components/NavBar/NavBar';
+import Header from "../../Components/Header/Header";
 import React from 'react';
 import Icon from './heartIcon.png'
 import "./RegistrationConfirmation.css"
@@ -9,7 +10,7 @@ const RegistrationConfirmation = (props) => {
   const { user } = props;
   return (
       <body >
-        <NavBar user={user}/>
+        <Header user={user}/>
         <div id="heartIcon">
               <img src={Icon} width= "auto" height="100" alt=""></img>
         </div>

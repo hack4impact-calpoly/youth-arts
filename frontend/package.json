@@ -37,6 +37,7 @@
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
+    "react-scroll": "^1.8.2",
     "react-slideshow-image": "^3.4.3",
     "react-table": "^7.6.3",
     "web-vitals": "^0.2.4"
