@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import SubmitButton from "../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import {DataGrid, GridApi, GridToolbarContainer, GridToolbarExport, GridColTypeDef} from '@material-ui/data-grid';
 import dateFormat from 'dateformat';
 import moment from 'moment'
@@ -26,6 +26,9 @@ import tz from "moment-timezone"
 function ReportsSearchOpportunities(props) {
     const {user} = props;
     const history = useHistory();
+    function navigateToOp(p, e) {
+        history.push(`/opportunityDetail/${p.id}`)
+    };
     const navigateTo = () => history.push('/addOpportunity');
     const [opportunities, setOpportunities] = useState("");
     const [volunteers, setVolunteers] = useState("");
@@ -191,9 +194,9 @@ function ReportsSearchOpportunities(props) {
                 } }>Export Phone Numbers</button>;
             }
           },
-        { field: 'title', headerName: 'Title', width: 250 },
+        { field: 'title', headerName: 'Title', width: 250, disableSelectionOnClick: true },
         { field: 'location', headerName: 'Location', width: 250},
-        { field: 'start_event', headerName: 'Start Date', width: 220, 
+        { field: 'start_event', headerName: 'Start Date', width: 220,
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
@@ -295,9 +298,13 @@ function ReportsSearchOpportunities(props) {
                columns={columnsOpps} 
                getRowId ={(row) => row._id}
                pageSize={5} 
+               onRowClick={(p, e) => {navigateToOp(p, e);}}
+               checkboxSelection
                components={{
                   Toolbar: ExportButton
                   }}
+                  
+                
                />
             </div>
             :
