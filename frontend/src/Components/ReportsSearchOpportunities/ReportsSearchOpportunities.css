@@ -6,6 +6,27 @@
     display: inline-block;
 }
 
+
+.exportButton{
+    background: transparent;
+    /* border: 3px solid #F7941D; */
+    /* border: 3px solid #1F4C82; */
+    color: black;
+    border-radius: 14px;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+    font-family: 'Avant Garde';
+}
+
+.exportButton:hover {
+    /* background: #F7941D; */
+    border: 3px solid #F7941D;
+    /* color: white; */
+    color: black;
+    cursor: pointer;
+}
+
 #search hr {
     margin-top: 0.1%;
     margin-left: 0;

@@ -1,6 +1,7 @@
 
 import './AddOpportunityForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
+import Header from "../../Components/Header/Header";
 import React, {useState} from 'react';
 import Footer from '../../Components/Footer/Footer';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
@@ -15,6 +16,7 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import moment from "moment";
+import tz from "moment-timezone";
 import { useHistory } from "react-router-dom";
 
 function AddOpportunityForm(props) {
@@ -240,7 +242,7 @@ const getFileNames = (files) => {
 
   return (
       <div >
-        <NavBar user={props.user}/>
+        <Header user={props.user}/>
         <body>
         </body>
         <div className="title">
@@ -268,7 +270,7 @@ const getFileNames = (files) => {
                               label="Start Date/Time"
                               type="datetime-local"
                               onChange={e => handleStartChangeDate(e, i)}
-                              value={date? date.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
+                              value={date? date.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
                               InputLabelProps={{
                                 shrink: true,
                               }}
@@ -277,7 +279,7 @@ const getFileNames = (files) => {
                               className="FormDate"
                               label="End Date/Time"
                               type="datetime-local"
-                              value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
+                              value={end? end.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
                               onChange={e => handleEndChangeDate(e, i)}
                               InputLabelProps={{
                                 shrink: true,
@@ -345,7 +347,7 @@ const getFileNames = (files) => {
                                             label="Start Date/Time"
                                             type="datetime-local"
                                             onChange={e => handleStartChangeDateTask(e, t, di)}
-                                            value={taskdate? taskdate.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
+                                            value={taskdate? taskdate.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
                                             InputLabelProps={{
                                               shrink: true,
                                             }}
@@ -354,7 +356,7 @@ const getFileNames = (files) => {
                                             className="FormDate"
                                             label="End Date/Time"
                                             type="datetime-local"
-                                            value={end? end.substring(0,16) : moment().format("DD-MM-YYYY hh:mm:ss")}
+                                            value={end? end.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
                                             onChange={e => handleEndChangeDateTask(e, t, di)}
                                             InputLabelProps={{
                                               shrink: true,

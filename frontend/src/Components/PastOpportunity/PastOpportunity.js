@@ -1,6 +1,7 @@
 import "./PastOpportunity.css";
 import { Row, Col, Button } from "react-bootstrap";
 import Moment from "moment";
+import tz from "moment-timezone";
 import {Link} from 'react-router-dom'
 
 /*
@@ -15,14 +16,16 @@ const PastOpportunity = (props) => {
         <div id="pastOpps">
             <h4 id="upType">PAST OPPORTUNTIES</h4>
             {pastOpportunities && pastOpportunities.map((opp, i) => (
+                <div id="pastOppsInside">
                 <Row key={i} className="pastOpp">
                     <Col md="auto" className="col-6">
                         <Link to={'/opportunityDetail/' + opp.id} className="pastOppLink">
                             <p className="pastOppTask">{opp.task}</p>
-                            <p className="pastOppDate">{Moment(opp.start).format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).format('MMMM Do YYYY, h:mm a')}</p>
+                            <p className="pastOppDate">{Moment(opp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a')}</p>
                         </Link>
                     </Col>
                 </Row>
+                </div>
             ))}
         </div>
     );

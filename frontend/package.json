@@ -20,8 +20,10 @@
     "date-fns": "^2.21.1",
     "dateformat": "^4.5.1",
     "dotenv": "^8.2.0",
+    "filefy": "^0.1.10",
     "jspdf": "^2.3.1",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "query-string": "^4.3.4",
     "react": "^17.0.1",
     "react-aws-s3": "^1.5.0",
@@ -35,6 +37,7 @@
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
+    "react-scroll": "^1.8.2",
     "react-slideshow-image": "^3.4.3",
     "react-table": "^7.6.3",
     "web-vitals": "^0.2.4"

@@ -1,5 +1,6 @@
 import "./CalendarPage.css";
 import NavBar from "../../Components/NavBar/NavBar";
+import Header from "../../Components/Header/Header";
 import logo from "./../../Images/YouthArtsLogoMark.png";
 import Footer from "../../Components/Footer/Footer";
 import React from 'react';
@@ -8,7 +9,7 @@ import React from 'react';
 function CalendarPage(props) {
     return (
         <div>
-            <NavBar user={props.user}/>
+            <Header user={props.user}/>
                 <div id="calHeader">
                     <h1 className="calTitle">CALENDAR</h1>
                 </div>

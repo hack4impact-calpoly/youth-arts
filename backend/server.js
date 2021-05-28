@@ -168,6 +168,22 @@ app.get('/auth/account', auth, (req, res) => {
      }
   })
 
+  app.get('/api/getOpportunity/:id', async (req, res) => {
+   var oppid = mongoose.Types.ObjectId(req.params.id)
+   try 
+   {
+      
+       opp = await Opportunity.findById(oppid);
+       console.log(opp);
+       res.status(200).json(opp);
+   }
+   catch (error)
+   {
+      console.log(error);
+       res.status(400).send(error);
+   }
+})  
+
   const getVolunteer = async (userid) => {
 	return await Volunteer.findById(userid)
 }
@@ -279,7 +295,6 @@ const getAllOpportunities = async () => {
 app.post("/api/updateOpportunity", async(req, res) => {
    try 
    {
-      
        if (typeof req.body._id === undefined || req.body._id === "")
        {
          const newOpportunity = await postNewOpportunity(req.body.title, 
@@ -293,13 +308,16 @@ app.post("/api/updateOpportunity", async(req, res) => {
                                                          req.body.requirements,
                                                          req.body.tasks,
                                                          req.body.additionalInfo,
-                                                         req.body.volunteers) 
+                                                         req.body.volunteers)
+                                                         console.log(newOpportunity);
+                                                         console.log("new");
        }
        else 
        {
-         console.log(req.body);
-         console.log(req.body._id);
          const newOpportunity = await Opportunity.findByIdAndUpdate(mongoose.Types.ObjectId(req.body._id), req.body);
+         console.log(newOpportunity);
+         console.log(newOpportunity.volunteers);
+         console.log("update");
          res.json(newOpportunity);
        }
    }
@@ -326,6 +344,64 @@ app.post("/api/updateVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
    });
 
+app.post("/api/cancelOpportunity", async(req, res) => {
+   const opportunity = await Opportunity.findById(req.body.cancelOpp.id)
+   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+
+   //Emails to cancel signup
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: newVolunteer.email,
+      subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
+      html: "<img src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
+      "<br></br> You have successfully cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true, 'America/Los_Angeles') + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
+      "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
+      html: "<img src = cid:YouthArtsLogo /> <br></br> <p> " + newVolunteer.firstName + " has cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate", true) + " at " + dateFormat(req.body.cancelOpp.start, "h:MM TT Z", true) + 
+      "<br></br><br></br> Their contact email is: " + newVolunteer.email + "</p>",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+
+
+
+
+
+
+   });
+
+   app.post("/api/updateBoardOpportunity", async(req, res) => {
+      const newOpportunity = await Opportunity.findByIdAndUpdate(req.body._id, req.body)
+      });
+
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
 
@@ -347,8 +423,8 @@ app.post("/api/postVolunteer", async(req, res) => {
       from: `${process.env.EMAIL_USER}`,
       to: `${process.env.EMAIL_USER}`,
       subject: "New account signup",
-      text: req.body.firstName + req.body.lastName + "has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
-      html: "<img src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering. Their contact email is: " +  req.body.email + "</p>",
+      text: req.body.firstName + " " + req.body.lastName + "has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
+      html: "<img src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering. Their contact email is: " +  req.body.email + "</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "../frontend/src/Images/YouthArtsLogo.png",
@@ -425,6 +501,7 @@ app.post("/api/VolunteerTask", async (req, res) => {
    try{
       await postNewVolunteerTask(task, description, start, end, donated, oppId, volId);
       res.status(200);
+
    }
    catch (error)
    {
@@ -444,12 +521,13 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
    }
 
    let opportunity = await Opportunity.findById(oppId);
-   let volList = opportunity.volunteers.get(volId)
-   volList.push(taskObj)
+   let volList = opportunity.volunteers.get(volId);
+   volList.push(taskObj);
+   opportunity.volunteers.volId.push(taskObj);
    await Opportunity.findByIdAndUpdate(oppId, {volunteers: opportunity.volunteers});
 
    let volunteer = await Volunteer.findById(volId);
-   console.log(volunteer.opportunities)
+
    try {
       let oppList = volunteer.opportunities.get(oppId)
       oppList.push(taskObj)
@@ -458,8 +536,58 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       volunteer.opportunities.set(oppId, taskObj);
    }
    
-   console.log(volunteer.opportunities)
+
    await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
+
+
+   //Emails to confirm signup
+   const volunteerMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: volunteer.email,
+      subject: opportunity.title + " sign up successful",
+      html: "<p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about the volunteer opportunity you selected. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
+      "<br></br> You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
+      " on " + dateFormat(task.start, "fullDate", true) + " at " + dateFormat(task.start, "h:MM TT Z", true) + 
+      ".</p><p>The event will currently be held at " + opportunity.location + 
+      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:YouthArtsLogo />",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   const adminMessage = {
+      from: `${process.env.EMAIL_USER}`,
+      to: `${process.env.EMAIL_USER}`,
+      subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
+      html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
+      " on " + dateFormat(task.start, "fullDate", true) + " at " + dateFormat(task.start, "h:MM TT Z", true) + 
+      ".</p><p>The business that they chose to donate to or register with was {BUSINESS} }.</p><br></br><img src = cid:YouthArtsLogo />",
+      attachments: [{
+         filename: "YouthArtsLogo.png",
+         path: "../frontend/src/Images/YouthArtsLogo.png",
+         cid: "YouthArtsLogo"
+      }]
+   }
+   
+   transport.sendMail(volunteerMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+   
+   
+   transport.sendMail(adminMessage, function(err, info) {
+      if (err) {
+         console.log(err)
+      } else {
+         console.log(info)
+      }
+   })
+
+
 }
 
 const postStartTime = async (id, date, volId, taskIndex, timeIndex) => {
@@ -544,7 +672,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      " on " + dateFormat(opportunity.start_event, "fullDate", true) + " at " + dateFormat(opportunity.start_event, "h:MM TT Z", true) + 
       ".</p><p>The event will currently be held at " + opportunity.location + 
       ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p><img src = cid:YouthArtsLogo />",
       attachments: [{
@@ -558,7 +686,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       to: `${process.env.EMAIL_USER}`,
       subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      " on " + dateFormat(opportunity.start_event, "fullDate", true) + " at " + dateFormat(opportunity.start_event, "h:MM TT Z", true) + 
       ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
          filename: "YouthArtsLogo.png",
@@ -610,7 +738,7 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      " on " + dateFormat(opportunity.start_event, "fullDate", true) + " at " + dateFormat(opportunity.start_event, "h:MM TT Z", true) + 
       ".</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
          filename: "YouthArtsLogo.png",
@@ -624,7 +752,7 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       to: `${process.env.EMAIL_USER}`,
       subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
-      " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
+      " on " + dateFormat(opportunity.start_event, "fullDate", true) + " at " + dateFormat(opportunity.start_event, "h:MM TT Z", true) + 
       ". Their contact email is: " + volunteer.email + "</p><br></br><img src = cid:YouthArtsLogo />",
       attachments: [{
          filename: "YouthArtsLogo.png",

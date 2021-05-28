@@ -1,6 +1,7 @@
 
 import './RegistrationForm.css';
 import NavBar from '../../Components/NavBar/NavBar'
+import Header from "../../Components/Header/Header";
 import React from 'react';
 import headerImage from './headerImage.png';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
@@ -274,7 +275,7 @@ class RegistrationPage extends React.Component {
     }
   return (
       <div >
-        <NavBar user={this.state.user}/>
+        <Header user={this.state.user}/>
         <body>
             {/* <div id="headerImage"> */}
               <div>

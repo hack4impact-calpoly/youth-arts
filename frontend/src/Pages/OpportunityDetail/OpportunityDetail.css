@@ -12,6 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Avant Garde';
 }
 
 .imageCarousel{
@@ -116,6 +117,9 @@
     margin-left: 110px;
     margin-right: 150px;
     margin-top: -35px;
+    font-family: 'Avant Garde';
+}
+.ModalText {
     font-family: 'Avant Garde';
 }
 
@@ -274,6 +278,10 @@
     resize: none;
     margin-left: -690px;
     margin-top: -180px;
+}
+
+.linkPadding {
+    padding-left: 15px;
 }
 
 .fullContainer2{
@@ -470,6 +478,7 @@
     position: relative;
     z-index: 10;
     border-radius: 10px;
+    font-family: 'Avant Garde';
 }
 
 .ModalContent{
@@ -479,6 +488,7 @@
     align-items: center;
     line-height: 1.8;
     color: #141414;
+    font-family: 'Avant Garde';
 }
 
 .closeModal{
@@ -490,6 +500,7 @@
     height: 32px;
     padding: 0;
     z-index: 10; 
+    font-family: 'Avant Garde';
 }
 
 #exitIcon{
@@ -528,6 +539,7 @@
     min-width: 15vw;
     margin: 10px -30px;
     box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.1);
+    font-family: 'Avant Garde';
 }
 
 #guestCheckout:hover{
@@ -623,6 +635,7 @@
 
   .tableContainer{
     margin-left: 210px;
+    margin-bottom: 40px;
   }
 
   #donateItemsHeader{

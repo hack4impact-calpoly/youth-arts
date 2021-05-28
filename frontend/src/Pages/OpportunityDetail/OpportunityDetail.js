@@ -16,6 +16,8 @@ import {Link} from 'react-router-dom';
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 import {Modal, Button} from "react-bootstrap";
+import Moment from "moment";
+import tz from "moment-timezone";
 
 
 class OpportunityDetail extends React.Component{
@@ -145,6 +147,8 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -167,6 +171,8 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -237,7 +243,7 @@ class OpportunityDetail extends React.Component{
                                     {
                                         return(
                                             <div>
-                                                {dateFormat(start, " mmmm dS, yyyy ")} @
+                                                {dateFormat(start, " mmmm dS, yyyy ", true)} @
                                                 {dateFormat(start, "h:MM TT", true)}
                                             </div>
                                         );
@@ -250,7 +256,7 @@ class OpportunityDetail extends React.Component{
                                     {
                                         return(
                                             <div>
-                                                {dateFormat(end, " mmmm dS, yyyy ")} @
+                                                {dateFormat(end, " mmmm dS, yyyy ", true)} @
                                                 {dateFormat(end, " h:MM TT", true)}
                                             </div>
                                         );
@@ -300,8 +306,8 @@ class OpportunityDetail extends React.Component{
                                                                     return(
                                                                        
                                                                         <ul id="TimeList">
-                                                                            <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                                            {dateFormat(start, " hh:MM")}</li>
+                                                                            <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
+                                                                            {dateFormat(start, " hh:MM TT", true)}</li>
                                                                         </ul>
                                                                     );
                                                                 })}
@@ -314,8 +320,8 @@ class OpportunityDetail extends React.Component{
                                                                     {
                                                                         return(
                                                                             <ul id="TimeList">
-                                                                                <li>{dateFormat(end, " mmmm dS, yyyy ")} @
-                                                                                    {dateFormat(end, " hh:MM")}</li>
+                                                                                <li>{dateFormat(end, " mmmm dS, yyyy ", true)} @
+                                                                                    {dateFormat(end, " hh:MM TT", true)}</li>
                                                                             </ul>
                                                                         );})}
                                                             </div>
@@ -461,23 +467,28 @@ class OpportunityDetail extends React.Component{
                                                                                 {
                                                                                     return(
                                                                                         <div>
+
+                                                                                             <br/>
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ", true)} @
+                                                                                            {dateFormat(time, " hh:MM TT", true)}
+                                                                                        
+                                                                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                             <br/>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:MM")}
-                                                                                            
-                                                                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                                                                <br/>
-                                                                                                <label id="checkIn">Check In: 
-                                                                                                </label>
-                                                                                                <KeyboardDateTimePicker id="startInput"
-                                                                                                    utils={DateMomentUtils}
-                                                                                                    value={time}
-                                                                                                    onChange={date => this.postStartTime(date, volId, taskIndex, i)}/>
-                                                                                            </MuiPickersUtilsProvider>
-                                                                                        </div>);
-                                                                                })} 
-                                                                            </div>}
-                                                                        </td>)
+                                                                                            <label id="checkIn">Check In: 
+                                                                                            </label>
+                                                                                            <KeyboardDateTimePicker id="startInput"
+                                                                                                utils={DateMomentUtils}
+                                                                                                value={time}
+                                                                                                onChange={date => this.postStartTime(date, volId, taskIndex, i)}/>
+                                                                                        </MuiPickersUtilsProvider>
+                                                                                   
+                                                                                    </div>
+                                                                                    );
+                                                                                    })} 
+                                                                            </div>
+                                                                            }
+                                                                        </td>
+                                                                    )
                                                                 }
                                                                 else if(volData[0] === end)
                                                                 {
@@ -491,8 +502,8 @@ class OpportunityDetail extends React.Component{
                                                                                     return(
                                                                                         <div>
                                                                                              <br/>
-                                                                                            {dateFormat(time, " mmmm dS, yyyy ")} @
-                                                                                            {dateFormat(time, " hh:MM")}
+                                                                                            {dateFormat(time, " mmmm dS, yyyy ", true)} @
+                                                                                            {dateFormat(time, " hh:MM TT", true)}
 
                                                                                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                                 <br/>
@@ -527,7 +538,7 @@ class OpportunityDetail extends React.Component{
                                         </table>
                                     </div>}
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showCartModal}
                                 onHide={this.changeCartModal}
                                 backdrop="static"
@@ -542,7 +553,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Body>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showDonateModal}
                                 onHide={this.changeDonateModal}
                                 backdrop="static"
@@ -555,7 +566,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Body>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showUserDonateModal}
                                 onHide={this.changeUserDonateModal}
                                 backdrop="static"
@@ -585,7 +596,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Footer>
                             </Modal>
 
-                            <Modal 
+                            <Modal className="ModalText"
                                 show={this.state.showSignInModal}
                                 onHide={this.changeSignInModal}
                                 backdrop="static"

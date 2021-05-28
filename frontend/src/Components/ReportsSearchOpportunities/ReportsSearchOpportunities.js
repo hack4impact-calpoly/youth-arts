@@ -6,12 +6,14 @@ import { useEffect, useState } from "react"
 import SubmitButton from "../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
-import {DataGrid, GridToolbarContainer, GridToolbarExport, GridColTypeDef} from '@material-ui/data-grid';
+import { useHistory, Link } from "react-router-dom";
+import {DataGrid, GridApi, GridToolbarContainer, GridToolbarExport, GridColTypeDef} from '@material-ui/data-grid';
 import dateFormat from 'dateformat';
 import moment from 'moment'
 import { keys } from "@material-ui/core/styles/createBreakpoints"
 import Moment from "moment";
+import { CsvBuilder } from "filefy";
+import tz from "moment-timezone"
 
  function ExportButton() {
    return (
@@ -24,6 +26,9 @@ import Moment from "moment";
 function ReportsSearchOpportunities(props) {
     const {user} = props;
     const history = useHistory();
+    function navigateToOp(p, e) {
+        history.push(`/opportunityDetail/${p.id}`)
+    };
     const navigateTo = () => history.push('/addOpportunity');
     const [opportunities, setOpportunities] = useState("");
     const [volunteers, setVolunteers] = useState("");
@@ -54,7 +59,6 @@ function ReportsSearchOpportunities(props) {
                     Object.assign(result[key], {volunteerHours: (result[key]).volunteers});
                     Object.assign(result[key], {volunteerDonate: (result[key]).volunteers});
                 })
-                console.log(result);
                 setOpportunities(result);
             }
                 
@@ -66,87 +70,137 @@ function ReportsSearchOpportunities(props) {
     }, [])
 
 
-    // //stores whats being filtered/sorted/searched
-    // const [search, setSearch] = useState("");
-    // const [sortBy, setSortBy] = useState("");
-    // const [filterBy, setFilterBy] = useState("");
-
-    // //for pagination
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [postsPerPage] = useState(3);
-
-    // //search logic
-    // var filteredOpps = Object.values(opportunities).filter(opportunity => {
-    //     return opportunity.title.toLowerCase().includes(search.toLowerCase())
-    // })
-
-    // //sort logic
-    // if(sortBy === "oppType") {
-    //     filteredOpps = filteredOpps.sort((a, b) => a.type.localeCompare(b.type));
-    // }
-    // else if(sortBy === "date") {
-    //     filteredOpps = filteredOpps.sort((a, b) => a.date < b.date ? -1 : 1)
-    // }
-    
-
-    // //filter logic
-    // if (filterBy === "classroom") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("classroom")
-    //     });
-    // }
-    // else if (filterBy === "comittee") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("comittee")
-    //     });
-    // }
-    // else if (filterBy === "event") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("event")
-    //     });
-    // }
-    // else if (filterBy === "fundraiser") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("fundraiser")
-    //     });
-    // }
-    // else if (filterBy === "maintenance") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("maintenance")
-    //     });
-    // }
-    // else if (filterBy === "office-admin") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("office-admin")
-    //     });
-    // }
-    // else if (filterBy === "performance") {
-    //     filteredOpps = filteredOpps.filter(opportunity => {
-    //         return opportunity.type.toLowerCase().includes("performance")
-    //     });
-    // }
-
-    // //Get current posts
-    // const indexOfLastPost = currentPage * postsPerPage;
-    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    // const currentPosts = filteredOpps.slice(indexOfFirstPost, indexOfLastPost);
-
-    // function paginate(pageNumber) {
-    //     setCurrentPage(pageNumber)
-    // }
-
-    // const DateFormatter = ({ value }) => { return <span style={{textTransform: 'uppercase'}}>{value}</span> };
-
-
-
     const columnsOpps = [
-        { field: 'title', headerName: 'Title', width: 250 },
+          {
+            field: "Volunteer Data",
+            headerName: "Volunteer Data",
+            sortable: false,
+            export: false,
+            width: 130,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+              return <button className="exportButton" onClick={(e) => {
+                const api = params.api;
+                const fields = api
+                .getAllColumns()
+                .map((c) => c.field)
+                .filter((c) => c !== "__check__" && !!c);
+                const thisRow = {};
+
+                fields.forEach((f) => {
+                thisRow[f] = params.getValue(f);
+                });
+                const fileName = `${thisRow.title}Data`;
+                const builder = new CsvBuilder(
+                    fileName + ".csv"
+                );
+                let rowOpportunity = opportunities.filter(o => o.title == thisRow.title && o.location == thisRow.location);
+                console.log(rowOpportunity);
+                let rowVols = []
+                if (rowOpportunity.length && rowOpportunity[0].volunteers !== undefined) {
+                    rowVols = Object.keys(rowOpportunity[0].volunteers);
+                    rowVols.forEach(function(part, index, theArray) {
+                        let curVol = volunteers.filter(v => v._id == part);
+                        console.log(curVol);
+                        if (curVol.length && curVol[0] !== undefined) {
+                            let hours = 0;
+                            let donated = [];
+                            let taskList = [];
+                            Object.keys(curVol[0].opportunities).map(function(key, index) {
+                                let tasks = curVol[0].opportunities[key];
+                                console.log(tasks);
+                                let times = tasks.map(task => {
+                                    taskList.push(task.task);
+                                    for (var i = 0; i < task.start.length; i++)
+                                    {
+                                        var begin = task.start[i];
+                                        var end = task.end[i];
+                                        let diff = moment.duration(moment(end).diff(moment(begin))).asHours();
+                                        hours += diff;
+                                    }
+                                    for (var i = 0; i < task.donated.length; i++)
+                                    {
+                                        donated = donated.concat(task.donated);
+                                    }
+                                })
+                            })
+                            if (donated.length) {
+                                donated.sort();
+                                donated = donated.join(", ");
+                            }
+                            else {
+                                donated = "N/A";
+                            }
+                            if (taskList.length) {
+                                taskList.sort();
+                                taskList = taskList.join(", ");
+                            }
+                            else {
+                                taskList = "N/A";
+                            }
+                            theArray[index] = [curVol[0].firstName, curVol[0].lastName, curVol[0].email, curVol[0].phoneNum, curVol[0].address, taskList, hours.toFixed(2), donated];
+                        }
+                      });
+                }
+                builder
+                    .setColumns( ['First Name', 'Last Name', 'Email', 'Phone Number', 'Address', "Tasks", "Hours Volunteered", "Items Donated"])
+                    .addRows(rowVols)
+                    .exportFile();
+                } }>Export Volunteers</button>;
+            }
+          },
+          {
+            field: "Contact Volunteers",
+            // headerName: "Export Volunteers",
+            sortable: false,
+            export: false,
+            width: 130,
+            disableClickEventBubbling: true,
+            renderCell: (params) => {
+              return <button className="exportButton" onClick={(e) => {
+                const api = params.api;
+                const fields = api
+                .getAllColumns()
+                .map((c) => c.field)
+                .filter((c) => c !== "__check__" && !!c);
+                const thisRow = {};
+
+                fields.forEach((f) => {
+                thisRow[f] = params.getValue(f);
+                });
+
+                
+                const fileName = `${thisRow.title}VolunteerData`;
+                const builder = new CsvBuilder(
+                    fileName + ".csv"
+                );
+                let rowOpportunity = opportunities.filter(o => o.title == thisRow.title && o.location == thisRow.location);
+                console.log(rowOpportunity);
+                let rowVols = []
+                if (rowOpportunity.length && rowOpportunity[0].volunteers !== undefined) {
+                    rowVols = Object.keys(rowOpportunity[0].volunteers);
+                    rowVols.forEach(function(part, index, theArray) {
+                        console.log(part);
+                        let curVol = volunteers.filter(v => v._id == part);
+                        if (curVol.length && curVol[0] !== undefined) {
+                            theArray[index] = [curVol[0].firstName, curVol[0].lastName, curVol[0].phoneNum];
+                        }
+                      });
+                }
+                builder
+                    .setColumns( ['First Name', 'Last Name', 'Phone Number'])
+                    .addRows(rowVols)
+                    .exportFile();
+                } }>Export Phone Numbers</button>;
+            }
+          },
+        { field: 'title', headerName: 'Title', width: 250, disableSelectionOnClick: true },
         { field: 'location', headerName: 'Location', width: 250},
-        { field: 'start_event', headerName: 'Start Date', width: 220, 
+        { field: 'start_event', headerName: 'Start Date', width: 220,
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ", true) + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
             }
             else
             {
@@ -168,7 +222,7 @@ function ReportsSearchOpportunities(props) {
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ", true) + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
             }
             else
             {
@@ -221,8 +275,6 @@ function ReportsSearchOpportunities(props) {
                         for (var i = 0; i < task.donated.length; i++)
                         {
                             donated = donated.concat(task.donated);
-                            console.log(donated);
-                            console.log(value);
                         }
                     })
                 })
@@ -237,9 +289,6 @@ function ReportsSearchOpportunities(props) {
         }
     },
 ];
-
-
-
     return (        
         <div>
             {opportunities ? 
@@ -249,13 +298,13 @@ function ReportsSearchOpportunities(props) {
                columns={columnsOpps} 
                getRowId ={(row) => row._id}
                pageSize={5} 
+               onRowClick={(p, e) => {navigateToOp(p, e);}}
+               checkboxSelection
                components={{
                   Toolbar: ExportButton
                   }}
-                // filterModel={{
-                //     items: [
-                //     ],
-                //   }}
+                  
+                
                />
             </div>
             :

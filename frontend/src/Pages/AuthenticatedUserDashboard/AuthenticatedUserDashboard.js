@@ -8,46 +8,137 @@ import Footer from "../../Components/Footer/Footer";
 import { Row, Col } from "react-bootstrap";
 import React, {useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
+import axios from "axios"
+import Moment from "moment";
+import tz from "moment-timezone";
+
+import Header from "../../Components/Header/Header";
 
   
 
 const AuthenticatedUserDashboard = (props) => {
     //sample opportunities
     const { user } = props;
-
-    var key;
     var opportunities = [];
+    var key;
+    const [opps, setOpps] = useState(opportunities);
+    const history = useHistory();
+
+
+    const refreshOnLogin = () => {
+        history.push("/");
+        setTimeout(() => history.push(history.push("/")), 10);
+        history.push("/");
+
+      };
+
+    const [allOpportunities, setAllOpportunities] = useState("");
+    async function fetchAll() {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
+            return response.data;
+        }
+        catch(error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    useEffect(() => {
+        fetchAll().then(result => {
+            if(result)
+                setAllOpportunities(result);
+        })
+        refreshOnLogin();
+    }, []);
 
     if(user && (user.opportunities !== null || user.opportunities !== undefined)) {
         Object.keys(user.opportunities).map((item) => {
             key = item;
+            
             if(key !== null || key !== undefined) {
                 for(var i = 0; i < user.opportunities[key].length; i++) {
                     (user.opportunities[key][i])["oppId"] = key
-                    opportunities.push(user.opportunities[key][i]);
+                    if (!(opportunities.includes(user.opportunities[key][i]))){
+                        opportunities.push(user.opportunities[key][i]);
+                    }
                 }
             } 
             // return null;
         })
-
     }
 
-    const [opps, setOpps] = useState(opportunities);
-    const history = useHistory();
+    
 
     function handleCancel(cancelOpp) {
-        var updated = opps;
+        if (opps.length !== opportunities.length)
+        {
+            setOpps(opportunities);
+        }
+        let updated = opps;
         for(var i = 0; i < updated.length; i++) {
             if(updated[i].task === cancelOpp.task) {
+                if (updated[i].start.length === 0)
+                {
+                    updated.splice(i, 1);
+                    break;
+                }
                 for(var j = 0; j < updated[i].start.length; j++) {
-                    if(cancelOpp.start === opps[i].start[j] && cancelOpp.end === opps[i].end[j]) {
+                    if(cancelOpp.start === updated[i].start[j] && cancelOpp.end === updated[i].end[j]) {
                         updated[i].start.splice(j, 1);
                         updated[i].end.splice(j, 1);
+                        if (updated[i].start.length === 0)
+                        {
+                            updated.splice(i, 1);
+                        }
+                        break;
                     }
                 }
+                break;
             }
         }
         setOpps(updated);
+        var oppToUpdate = {}
+        for(var i = 0; i < allOpportunities.length; i++) {
+            if(allOpportunities[i]._id === cancelOpp.id) {
+                oppToUpdate = allOpportunities[i];
+                var opVols = oppToUpdate.volunteers[props.user._id];
+                for(var j = 0; j < opVols.length; j++) {
+                    if(opVols[j].task === cancelOpp.task) {
+                        for(var k = 0; k < opVols[j].start.length; k++) {
+                            if(Moment(cancelOpp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].start[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') && Moment(cancelOpp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].end[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a')) {
+                                oppToUpdate.volunteers[props.user._id][j].start.splice(k, 1);
+                                oppToUpdate.volunteers[props.user._id][j].end.splice(k, 1);
+                                if (oppToUpdate.volunteers[props.user._id][j].start.length === 0)
+                                {
+                                    oppToUpdate.volunteers[props.user._id].splice(j, 1);
+                                }
+                                break;
+                            }
+                        
+                        }
+                        break;
+                    }
+                }
+                let newO = allOpportunities;
+                newO[i] = oppToUpdate
+                setAllOpportunities(newO);
+                break;
+            }
+        }
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(oppToUpdate)
+        }).then(response => {
+            response.json().then(data => {
+                console.log("Successful" + data);
+            });
+        });    
+        
+
 
         var newOpportunites = user.opportunities;
         newOpportunites[key] = opps;
@@ -70,10 +161,11 @@ const AuthenticatedUserDashboard = (props) => {
             username: props.user.username,
             workHistory: props.user.workHistory,
             _v: props.user._v,
-            opportunities: newOpportunites
+            opportunities: newOpportunites,
+            cancelOpp: cancelOpp
         }
 
-        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/cancelOpportunity`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -113,9 +205,6 @@ const AuthenticatedUserDashboard = (props) => {
     for(var i = 0; i < oppsArray.length; i++) {
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {
-            // for(var k = 0; k < user.opportunities.length; k++) {
-            //     if (user.opportunitiesoppsArray[i]._id)
-            // }
             var singleOpp = {
                 task: oppsArray[i].task,
                 start: oppsArray[i].start[j],
@@ -133,21 +222,12 @@ const AuthenticatedUserDashboard = (props) => {
         }
     }
 
-    const refreshOnLogin = () => {
-        history.push("/");
-        setTimeout(() => history.push(history.push("/")), 10);
-        history.push("/");
-
-      };
-
-    useEffect(() => {
-        refreshOnLogin();
-    }, []);
+    
 
     return (
         <div id="authDashboard">
             <div>
-                <NavBar user={user}/>
+                <Header user={user}/>
                 <AuthHeader
                     user={user}
                 />
@@ -161,7 +241,7 @@ const AuthenticatedUserDashboard = (props) => {
                     <Col id="justify-content-md-center impactSection" md="auto">
                         <h4 id="impact">YOUR IMPACT</h4>
                         <hr id="line" />
-                        <p><b>Total Hours:</b> {totalHours}</p>
+                        <p><b>Total Hours:</b> {totalHours.toFixed(2)}</p>
                         <p><b>Total Items Donated:</b> {donated}</p>
                         <PastOpportunity 
                             opps={pastOpportunities}

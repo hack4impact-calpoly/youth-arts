@@ -10,6 +10,12 @@
     height: 60px;
     width: 100%;
   }
+  .smallham {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4000px;
+  }
 
   .logo {
     cursor: pointer;

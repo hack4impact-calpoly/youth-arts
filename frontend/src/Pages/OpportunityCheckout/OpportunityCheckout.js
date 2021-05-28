@@ -2,6 +2,8 @@ import "./OpportunityCheckout.css"
 import React from "react";
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
+import Moment from "moment";
+import tz from "moment-timezone";
 
 class OpportunityCheckout extends React.Component{
 
@@ -32,8 +34,11 @@ class OpportunityCheckout extends React.Component{
         }
 
         const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+        console.log(url);
         fetch(url, {
             method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -99,6 +104,10 @@ class OpportunityCheckout extends React.Component{
                     {console.log(task)}
                 }) : this.state}
 
+
+                <div id="calHeader">
+                    <h1 className="calTitle">TASK CART</h1>
+                </div>
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
                     return(
@@ -129,12 +138,11 @@ class OpportunityCheckout extends React.Component{
                                           return(
                                              
                                               <ul id="TimeList">
-                                                <li>{dateFormat(start, " mmmm dS, yyyy ")} @
-                                                    {dateFormat(start, " hh:MM TT")}
+                                                <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
+                                                    {dateFormat(start, " hh:MM TT", true)}
                                                     --
                                                     {dateFormat(task.end[i], "hh:MM TT")}
                                                     {console.log(task.end[i])}
-
                                                     <input
                                                             className="form-checkbox"
                                                             onChange={(e) => this.handleDateCheckBox(e, task, task.end[i], index)}

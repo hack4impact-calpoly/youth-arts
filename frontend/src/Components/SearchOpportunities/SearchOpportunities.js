@@ -7,6 +7,7 @@ import SubmitButton from "./../SubmitButton/SubmitButton"
 import {Row, Col} from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import moment from 'moment'
 
 function SearchOpportunities(props) {
     //need to connect backend here and set to opportunities
@@ -26,8 +27,19 @@ function SearchOpportunities(props) {
     }
     useEffect(() => {
         fetchAll().then(result => {
-            if(result)
+            if(result) {
+                result = result.filter(opp => opp.title != "Board Member");
+                console.log()
+                result = result.filter(opp => {
+                    let diff = moment.duration(moment(opp.end_event[opp.end_event.length - 1]).diff(moment().startOf('day'))).asHours();
+                    console.log(diff);
+                    if (!moment.duration(moment(opp.end_event[opp.end_event.length - 1]).diff(moment().startOf('day'))).asHours()) {
+                        diff = 0;
+                    }
+                    return diff >= 0
+                });
                 setOpportunities(result);
+            }
         })
     }, [])
 
