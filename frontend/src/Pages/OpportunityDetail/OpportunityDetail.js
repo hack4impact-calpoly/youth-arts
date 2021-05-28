@@ -36,6 +36,7 @@ class OpportunityDetail extends React.Component{
             additionalInfo: [],
             wishlist: [],
             volunteers: [],
+            donatedItems: [],
             showDonateModal: false,
             showUserDonateModal: false,
             showSignInModal: false,
@@ -45,11 +46,17 @@ class OpportunityDetail extends React.Component{
             volunteerList: [],
             updateTime: false
         };
+
+        this.handleDonateCheckBox = this.handleDonateCheckBox.bind(this);
     }
+
+    
 
     updateCartWithOpportunity(task){
         task["oppId"] = this.state._id
         task["volId"] = this.state.user._id
+        task["donated"] = this.state.donatedItems
+        
         this.state.updateCart(task)
     }
     
@@ -74,7 +81,9 @@ class OpportunityDetail extends React.Component{
     }
 
     postDonations(){
-        //this.changeDonateModal();
+        this.state.cart.map(task => {
+            task["donated"] = this.state.donatedItems
+        })
     }
 
     changeDonateModal = () => {
@@ -91,12 +100,12 @@ class OpportunityDetail extends React.Component{
 
     changeCartModal = (task) => {
         this.setState({showCartModal: !this.state.showCartModal});
+        
     };
 
     navigateTo = () => {
         let url = '/addOpportunity/' + this.state._id;
-       // console.log(this.props);
-        //console.log(this.state);
+
         this.props.history.push({
             pathname: url,
             state: { opportunity: { 
@@ -172,8 +181,38 @@ class OpportunityDetail extends React.Component{
         this.setState({updateTime: !this.state.updateTime})
 
     }
+
     
-    
+    handleDonateCheckBox(e) {
+
+        let items = document.getElementsByName("donatedItems")
+        let newSelectionArray = this.state.donatedItems
+
+        items.forEach(item => 
+            
+            {
+                let included = newSelectionArray.includes(item.value)
+
+                if(item.checked){
+                    if(!included)
+                    {
+                        newSelectionArray.push(item.value)
+                    }
+                }
+                else
+                { 
+                    if(included){
+                        newSelectionArray = newSelectionArray.filter(
+                           function(el){
+                               return el !== item.value
+                           }
+                        );
+                    }
+                }
+            })
+
+        this.setState( {donatedItems: newSelectionArray })
+      }
 
   render() {
     return (
@@ -336,7 +375,7 @@ class OpportunityDetail extends React.Component{
                                                     <br/>
                                                 </div>
                                             )})}
-                                      <div id="buttonContainer">
+                                    <div id="buttonContainer">
                                          <button id="buttonStyles" onClick={!this.state.user ? this.changeDonateModal : this.changeUserDonateModal}>Donate</button> 
                                     </div>
                                     
@@ -388,8 +427,7 @@ class OpportunityDetail extends React.Component{
                                                             const key_set = Object.keys(this.state.volunteers[volunteers]);
                                                             const volId = volunteers;
                                                             const taskIndex = volunteer;
-                                                            //console.log(volunteer);
-                                                            //console.log(key_value);
+
                                                             key_value.sort(this.sortTaskArray);
                                                             return (
                                                                 <tr>
@@ -406,10 +444,8 @@ class OpportunityDetail extends React.Component{
                                                                 </td>}
                                                                 {key_value.map((volData, v) =>
                                                                 {
-                                                                //console.log(volData, v)
-                                                                //console.log(key_value[1][1])
                                                                 if (volData[0] ==="task") {
-                                                                    //console.log(volData[1])
+
                                                                     return (
                                                                         <td className="detailTD">{
                                                                             
@@ -422,8 +458,6 @@ class OpportunityDetail extends React.Component{
                                                                 }
                                                                 else if(volData[0] === start)
                                                                 {
-
-                                                                    //.log((volData[1]));
                                                                     return (
                                                                        
                                                                         <td className="detailTD">{
@@ -433,6 +467,7 @@ class OpportunityDetail extends React.Component{
                                                                                 {
                                                                                     return(
                                                                                         <div>
+
                                                                                              <br/>
                                                                                             {dateFormat(time, " mmmm dS, yyyy ", true)} @
                                                                                             {dateFormat(time, " hh:MM TT", true)}
@@ -440,9 +475,6 @@ class OpportunityDetail extends React.Component{
                                                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                             <br/>
                                                                                             <label id="checkIn">Check In: 
-                                                                                                {/*<button id="timeButton" onClick={() =>
-                                                                                                this.postTime()
-                                                                                                }>submit</button>*/}
                                                                                             </label>
                                                                                             <KeyboardDateTimePicker id="startInput"
                                                                                                 utils={DateMomentUtils}
@@ -498,10 +530,7 @@ class OpportunityDetail extends React.Component{
                                                                             })
                                                                         }
                                                                         </td>
-                                                                
-                                                                    )
-                                                                }
-                                                            })}
+                                                                )}})}
                                                         </tr>)})}
                                                         </div>
                                                     )}) : "No Volunteers Found"}
@@ -549,8 +578,12 @@ class OpportunityDetail extends React.Component{
                                     {this.state.wishlist.map( item =>
                                         {return(
                                             <div>
-                                                <li>{item}
+                                                <li>
+                                                    {item}
                                                     <input
+                                                    name="donatedItems"
+                                                    value={item}
+                                                    onChange={this.handleDonateCheckBox}
                                                     className="form-checkbox"
                                                     type="checkbox"/>
                                                 </li>
@@ -559,7 +592,7 @@ class OpportunityDetail extends React.Component{
                                 </Modal.Body>
                                 <Modal.Footer>
                                 <Button id="modalButton" variant="primary"
-                                        onClick={this.postDonations}>Confirm Donation</Button>
+                                        onClick={ () => {this.postDonations(); this.changeUserDonateModal()}}>Confirm Donation</Button>
                                 </Modal.Footer>
                             </Modal>
 
@@ -575,72 +608,6 @@ class OpportunityDetail extends React.Component{
                                     <SignInWithGoogleButton/>
                                 </Modal.Body>
                             </Modal>
-
-                           {/*{this.state.showUserDonateModal && 
-                                            <div className="popUpBackground" class="overlay">
-                                                <div className="ModalWrapper">
-                                                    <div className="ModalContent">
-                                                        <div id="donateItemsHeader">
-                                                            Select Items To Donate:
-                                                        </div>
-                                                        <div id="donateItems">
-                                                            {this.state.wishlist.map( item =>
-                                                            {return(
-                                                                <div>
-                                                                    <li>{item}
-                                                                    <input
-                                                                        className="form-checkbox"
-                                                                        type="checkbox" />
-                                                                    </li>
-                                                                    <br/>
-                                                                </div>
-                                                            )})}
-                                                        </div>
-                                                        <div className="closeModal">
-                                                            <MdClose id="exitIcon" onClick={this.changeUserDonateModal}/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }*/}
-
-                           {/* {this.state.showDonateModal && 
-                                            <div className="popUpBackground" class="overlay">
-                                                <div className="ModalWrapper">
-                                                    <div className="ModalContent">
-                                                        <div id="signIn">
-                                                            <SignInWithGoogleButton/>
-                                                            <p id="or">
-                                                                or
-                                                            </p>
-                                                            <button id="guestCheckout">Checkout as Guest</button>
-                                                        </div>
-                                                        <div className="closeModal">
-                                                            <MdClose id="exitIcon" onClick={this.changeDonateModal}/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }*/}
-
-                       { /*{!this.state.user && this.state.showSignInModal &&
-                                        <div className="popUpBackground">
-                                            <div className="ModalWrapper">
-                                                <div className="ModalContent">
-                                                    <div id="signIn">
-                                                        <p id="signInMessage">
-                                                            Sign In to Add to Cart
-                                                        </p>
-                                                        <SignInWithGoogleButton/>
-                                                    </div>
-                                                    <div className="closeModal">
-                                                        <MdClose id="exitIcon" onClick={this.changeSignInModal}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                        */}
                     </div>);}}
 
 export default withRouter(OpportunityDetail);

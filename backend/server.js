@@ -527,9 +527,16 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
    await Opportunity.findByIdAndUpdate(oppId, {volunteers: opportunity.volunteers});
 
    let volunteer = await Volunteer.findById(volId);
-   console.log(volunteer.opportunities);
-   volunteer.opportunities.oppId.push(taskObj);
-   console.log(volunteer.opportunities);
+
+   try {
+      let oppList = volunteer.opportunities.get(oppId)
+      oppList.push(taskObj)
+   }
+   catch{
+      volunteer.opportunities.set(oppId, taskObj);
+   }
+   
+
    await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
 
 
