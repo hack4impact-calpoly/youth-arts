@@ -120,7 +120,6 @@ class OpportunityCheckout extends React.Component{
     {    
         return (
             <body>
-                <h1 className="taskHeader" >My Tasks</h1>
                 {this.state.cart ? this.state.cart.map((task) =>
                 {
                     task["selectedStart"] = []
@@ -135,7 +134,8 @@ class OpportunityCheckout extends React.Component{
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
                     return(
-                        <div className="cartContainer">                         
+                        <div className="cartContainer">    
+                        <br></br>                     
                         <p className="selectHeader">Select Times:</p>
                         <div id="taskCard">
                           <div className="roleNameAndTime">
@@ -146,7 +146,7 @@ class OpportunityCheckout extends React.Component{
                               {task.roleName}
                               </div>
                           </div>
-                          <div id="roleHeader">
+                          <div id="roleHeadertimes">
                             Check One or More Times Below:
                           </div>
                           <div className="roleNameAndTime">
@@ -207,25 +207,32 @@ class OpportunityCheckout extends React.Component{
                     ) 
                 }
                 ) : this.state }
-                <div className="businessInput">
-                    <div className="inputStyles">
-                    <label htmlFor="First Name">My Business (optional)</label>
-                    <input value={this.state.business} onChange={this.handleBusiness} type="text" name="First Name" placeholder="Enter Name of Your Business"/>
-                    </div>
-                </div>
-            <div className="confirmCheckout" id="buttonContainer">
-            
-            <Link to="/registrationConfirmation" id="buttonStyles" 
-            onClick={ () => {this.state.cart.map( (task, i) =>
-                {
-                    return(
-                        <div>
-                            {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
+                {this.state.cart.length ? 
+                <div>
+                
+                    <div className="businessInput">
+                        <div className="inputStyles">
+                        <label htmlFor="First Name">My Business (optional)</label>
+                        <input value={this.state.business} onChange={this.handleBusiness} type="text" name="First Name" placeholder="Enter Name of Your Business"/>
                         </div>
-                    )
-                }
-                )}}>Confirm Checkout</Link>
+                    </div>
+                <div className="confirmCheckout" id="buttonContainer">
+                
+                <Link to="/registrationConfirmation" id="buttonStyles" 
+                onClick={ () => {this.state.cart.map( (task, i) =>
+                    {
+                        return(
+                            <div>
+                                {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
+                            </div>
+                        )
+                    }
+                    )}}>Confirm Checkout</Link>
+                </div>
             </div>
+            : <div id="taskCard">
+            <br></br>
+             <p className="emptyCartHeader">Cart is Empty</p></div>}
             </body>)
     }
 }
