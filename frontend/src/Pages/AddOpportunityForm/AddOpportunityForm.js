@@ -18,6 +18,8 @@ import performance from '../../Images/performance.png'
 import moment from "moment";
 import tz from "moment-timezone";
 import { useHistory } from "react-router-dom";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 
 function AddOpportunityForm(props) {
 
@@ -262,15 +264,33 @@ const getFileNames = (files) => {
                   {
                     end = (opportunity.end_event)[i];
                   }
+                  var testDateUtc = moment.utc();
+                  var localDate = moment(testDateUtc).local();
+                  var s = localDate.format("YYYY-MM-DD HH:mm:ss");
+                  console.log(localDate.format("DD-MM-YYYY HH:mm:ss"));
                   return(
                     <div key={i}>
                         <div className="inputDate" >
-                            <TextField
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <DateTimePicker
+                            className="FormDate"
+                            label="Start Date/Time"
+                            value={date? date.substring(0,16) : localDate}
+                            onChange={e => handleStartChangeDate(e, i)}
+                          />
+                          <DateTimePicker
+                            className="FormDate"
+                            label="End Date/Time"
+                            value={end? end.substring(0,16) : localDate}
+                            onChange={e => handleEndChangeDate(e, i)}
+                          />
+                        </MuiPickersUtilsProvider>
+                            {/* <TextField
                               className="FormDate"
                               label="Start Date/Time"
                               type="datetime-local"
                               onChange={e => handleStartChangeDate(e, i)}
-                              value={date? date.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
+                              value={date? date.substring(0,16) : localDate.format("DD-MM-YYYY hh:mm:ss")}
                               InputLabelProps={{
                                 shrink: true,
                               }}
@@ -279,12 +299,12 @@ const getFileNames = (files) => {
                               className="FormDate"
                               label="End Date/Time"
                               type="datetime-local"
-                              value={end? end.substring(0,16) : moment().tz('America/Los_Angeles').format("DD-MM-YYYY hh:mm:ss")}
+                              value={end? end.substring(0,16) : moment().local().tz('America/Los_Angeles', true).format("DD-MM-YYYY hh:mm:ss")}
                               onChange={e => handleEndChangeDate(e, i)}
                               InputLabelProps={{
                                 shrink: true,
                               }}
-                            />
+                            /> */}
                             {(opportunity.start_event).length !== 1 &&
                                 <input id="deleteItemDate" type="button" value="X" onClick={() => handleDeleteInputDate(i)}/>
                             }
@@ -342,7 +362,21 @@ const getFileNames = (files) => {
                                   <div className="taskDates">
                                   <div key={di}>
                                       <div className="inputDate" >
-                                          <TextField
+                                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <DateTimePicker
+                                          className="FormDate"
+                                          label="Start Date/Time"
+                                          value={taskdate? taskdate.substring(0,16) : moment().utc().local()}
+                                          onChange={e => handleStartChangeDateTask(e, t, di)}
+                                        />
+                                        <DateTimePicker
+                                          className="FormDate"
+                                          label="End Date/Time"
+                                          value={end? end.substring(0,16) : moment().utc().local()}
+                                          onChange={e => handleEndChangeDateTask(e, t, di)}
+                                        />
+                                      </MuiPickersUtilsProvider>
+                                          {/* <TextField
                                             className="FormDate"
                                             label="Start Date/Time"
                                             type="datetime-local"
@@ -361,7 +395,7 @@ const getFileNames = (files) => {
                                             InputLabelProps={{
                                               shrink: true,
                                             }}
-                                          />
+                                          /> */}
                                           {(task.start).length !== 1 &&
                                               <input id="deleteItemDateTask" type="button" value="X" onClick={() => handleDeleteInputDateTask(t, di)}/>
                                           }

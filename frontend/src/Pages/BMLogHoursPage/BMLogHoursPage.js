@@ -5,6 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import ObjectID from "bson-objectid";
 import Opportunities from "../../Components/Opportunities/Opportunities";
 import {Link} from 'react-router-dom';
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 // import { update } from "../../../../backend/models/volunteer";
 
 function BMLogHoursPage(props) {
@@ -217,11 +219,27 @@ function BMLogHoursPage(props) {
             </div>
             <div id="logHoursPage"> 
             <Form >
-                <label for="startDateTime">Start Date and Time:</label><br />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DateTimePicker
+                    name="startDateTime"
+                    label="Start Date/Time"
+                    onChange={e => setStartDT(e.target.value)}
+                    />
+                    <br></br>
+                    <br></br>
+                    <DateTimePicker
+                    name="endDateTime"
+                    label="End Date/Time"
+                    onChange={e => setEndDT(e.target.value)}
+                    />
+                </MuiPickersUtilsProvider>
+                <br></br>
+                {/* <label for="startDateTime">Start Date and Time:</label><br />
                 <TextField name="startDateTime" type="datetime-local" onChange={e => setStartDT(e.target.value)} /><br /><br />
                 <label for="endDateTime">End Date and Time:</label><br />
-                <TextField name="endDateTime" type="datetime-local" onChange={e => setEndDT(e.target.value)} /><br /><br />
+                <TextField name="endDateTime" type="datetime-local" onChange={e => setEndDT(e.target.value)} /><br /><br /> */}
                 <Form.Group>
+                    <br></br>
                     <Form.Label>Task (i.e. "Board meeting")</Form.Label>
                     <Form.Control as="textarea" rows={1} onChange={e => setTasks(e.target.value)} />
                 </Form.Group>

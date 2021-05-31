@@ -20,6 +20,18 @@
    margin-bottom: -30px;
 }
 
+.MuiDataGrid-root
+{
+   font-family: "Avant Garde" !important;
+}
+.MuiTypography-root
+{
+    font-family: "Avant Garde" !important;
+}
+.MuiFormLabel-root{
+    font-family: "Avant Garde" !important;
+}
+
 .reportsText {
    display: flex;
    flex-direction: row;

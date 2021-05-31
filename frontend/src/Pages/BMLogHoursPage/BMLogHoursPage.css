@@ -9,3 +9,11 @@
     color: #1F4C82;
     padding-bottom: 2%;
 }
+
+.MuiInput-root 
+{
+    font-family: "Avant Garde" !important;
+}
+.MuiFormLabel-root{
+    font-family: "Avant Garde" !important;
+}

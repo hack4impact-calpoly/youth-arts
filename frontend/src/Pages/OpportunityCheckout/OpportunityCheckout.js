@@ -129,7 +129,7 @@ class OpportunityCheckout extends React.Component{
 
 
                 <div id="calHeader">
-                    <h1 className="calTitle">TASK CART</h1>
+                    <h1 className="calTitle">MY CART</h1>
                 </div>
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
