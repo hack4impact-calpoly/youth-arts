@@ -475,6 +475,7 @@ class OpportunityDetail extends React.Component{
                                                                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                             <br/>
                                                                                             <label id="checkIn">Check In: 
+
                                                                                             </label>
                                                                                             <KeyboardDateTimePicker id="startInput"
                                                                                                 utils={DateMomentUtils}
