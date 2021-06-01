@@ -15,7 +15,13 @@ const PastOpportunity = (props) => {
     return (
         <div id="pastOpps">
             <h4 id="upType">PAST OPPORTUNTIES</h4>
-            {pastOpportunities && pastOpportunities.map((opp, i) => (
+            {pastOpportunities && pastOpportunities.map((opp, i) => 
+            {
+            if (opp.id === "609aaae254dce7000860ddb5") {
+                console.log(opp);
+                return;
+            }
+            return (
                 <div id="pastOppsInside">
                 <Row key={i} className="pastOpp">
                     <Col md="auto" className="col-6">
@@ -26,7 +32,8 @@ const PastOpportunity = (props) => {
                     </Col>
                 </Row>
                 </div>
-            ))}
+            )}
+            )}
         </div>
     );
 }

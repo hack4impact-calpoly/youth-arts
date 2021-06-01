@@ -40,3 +40,25 @@ input.largerCheckbox{
     justify-content: center;
     font-family: 'Avant Garde';
 }
+
+#roleHeadertimes {
+    text-decoration: underline !important;
+    color: #1b75bc;
+    font-size: 19px;
+    padding-left: 20px;
+    font-weight: 900;
+    padding-top: 30px;
+    padding-right:6px;
+    font-family: 'Avant Garde';
+}
+
+.emptyCartHeader {
+    color: #F7941D;
+    font-weight: bolder;
+    font-size: 25px;
+    font-family: 'Avant Garde';
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 50px;
+}

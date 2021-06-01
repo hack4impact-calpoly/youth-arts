@@ -49,6 +49,9 @@ const App = () => {
     cart.push(task);
     console.log(cart);
   }
+  const emptyCart = () => setCart([]);
+
+
   const history = useHistory();
   
   const deleteFromCart = (task) => {
@@ -198,6 +201,8 @@ const App = () => {
         <Header user={profile}/>
           <OpportunityCheckout 
             cart = {cart}
+            updateCart={updateCart}
+            emptyCart={emptyCart}
             user={profile}
             deleteFromCart = {deleteFromCart}/>
         </Route>

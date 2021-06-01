@@ -191,7 +191,13 @@ const AuthenticatedUserDashboard = (props) => {
 
     function getHours(start, end) {
         var diff = new Date(end).getTime() - new Date(start).getTime();
-        return (diff/(1000*60*60));
+        console.log(diff);
+        console.log(end);
+        console.log(start);
+        console.log(new Date(start).getTime());
+        console.log(new Date(end).getTime());
+        return (diff/(1000*60*60))%24;
+        
     }
 
     // sort upcoming and past opportunities
@@ -214,7 +220,9 @@ const AuthenticatedUserDashboard = (props) => {
             if(singleOpp !== undefined) {
                 if(new Date(singleOpp.start) > currentDate) {
                     upcomingOpportunities.push(singleOpp);
-                } else {
+                } 
+                else {
+                    console.log(oppsArray[i].task);
                     totalHours += getHours(oppsArray[i].start[j], oppsArray[i].end[j]);
                     pastOpportunities.push(singleOpp);
                 }

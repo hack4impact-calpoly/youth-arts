@@ -7,7 +7,7 @@ import ImageCarousel from './ImageCarousel/ImageCarousel'
 import dateFormat from 'dateformat';
 import {MdClose} from 'react-icons/md'
 import SignInWithGoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
 import {KeyboardDateTimePicker} from '@material-ui/pickers';
@@ -18,6 +18,7 @@ import { withRouter } from "react-router";
 import {Modal, Button} from "react-bootstrap";
 import Moment from "moment";
 import tz from "moment-timezone";
+
 
 
 class OpportunityDetail extends React.Component{
@@ -477,10 +478,16 @@ class OpportunityDetail extends React.Component{
                                                                                             <label id="checkIn">Check In: 
 
                                                                                             </label>
-                                                                                            <KeyboardDateTimePicker id="startInput"
+                                                                                            <DateTimePicker
+                                                                                                    id="startInput"
+                                                                                                    utils={DateMomentUtils}
+                                                                                                    value={time}
+                                                                                                    onChange={date => this.postStartTime(date, volId, taskIndex, i)}
+                                                                                                />
+                                                                                            {/* <KeyboardDateTimePicker id="startInput"
                                                                                                 utils={DateMomentUtils}
                                                                                                 value={time}
-                                                                                                onChange={date => this.postStartTime(date, volId, taskIndex, i)}/>
+                                                                                                onChange={date => this.postStartTime(date, volId, taskIndex, i)}/> */}
                                                                                         </MuiPickersUtilsProvider>
                                                                                    
                                                                                     </div>
@@ -509,9 +516,15 @@ class OpportunityDetail extends React.Component{
                                                                                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                                                                                 <br/>
                                                                                                 <label id="checkIn">Check Out:</label>
-                                                                                                <KeyboardDateTimePicker utils={DateMomentUtils}
+                                                                                                <DateTimePicker
+                                                                                                    id="startInput"
+                                                                                                    utils={DateMomentUtils}
+                                                                                                    value={time}
+                                                                                                    onChange={date => this.postEndTime(date, volId, taskIndex, i)}
+                                                                                                />
+                                                                                                {/* <KeyboardDateTimePicker utils={DateMomentUtils}
                                                                                                 value={time}
-                                                                                                onChange={date => this.postEndTime(date, volId, taskIndex, i)}/>
+                                                                                                onChange={date => this.postEndTime(date, volId, taskIndex, i)}/> */}
                                                                                             </MuiPickersUtilsProvider>
                                                                                         </div>
                                                                                     )})}

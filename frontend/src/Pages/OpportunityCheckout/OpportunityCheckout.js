@@ -15,13 +15,18 @@ class OpportunityCheckout extends React.Component{
             user: props.user,
             cart: props.cart,
             deleteFromCart: props.deleteFromCart,
-            rerender: false
-
+            emptyCart: props.emptyCart,
+            rerender: false,
+            business: ""
         };
-  
+        this.handleBusiness = this.handleBusiness.bind(this);
+        this.handleDateCheckBox = this.handleDateCheckBox.bind(this);
     }
+    
 
-    postTask = async (roleName, description, start, end, oppId, volId, donated) => {
+    postTask = async (roleName, description, start, end, oppId, volId, donated, business) => {
+        console.log(start);
+        console.log(end);
 
         const newOpp = {
             task: roleName,
@@ -30,22 +35,41 @@ class OpportunityCheckout extends React.Component{
             description: description,
             donated: donated,
             oppId: oppId,
-            volId: volId
+            volId: volId,
+            business: business
         }
+        if (start !== null && start !== undefined && start.length)
+        {
+            console.log(start);
+            console.log(start.length);
+            const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+            console.log(url);
+            console.log(JSON.stringify(newOpp));
+            fetch(url, {
+                method: 'POST',
+                // mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newOpp)
+            });
+            this.state.emptyCart();
+        }
+        else
+        {
+            console.log("no start");
+            console.log(start);
+            console.log(end);
 
-        const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
-        console.log(url);
-        fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newOpp)
-        });
-        
+        }
     }
+
+    handleBusiness(e) {
+        let value = e.target.value;
+        this.setState( {business: value} );
+        console.log(this.state.business);
+      }
 
     handleDateCheckBox(e, task, endTime, index) {
 
@@ -85,8 +109,8 @@ class OpportunityCheckout extends React.Component{
                 }
             })
         
-        task["selectedStart"] = startTimeSelections
-        task["selectedEnd"] = endTimeSelections
+        task["selectedStart"] = startTimeSelections;
+        task["selectedEnd"] = endTimeSelections;
  
       }
 
@@ -96,7 +120,6 @@ class OpportunityCheckout extends React.Component{
     {    
         return (
             <body>
-                <h1 className="taskHeader" >My Tasks</h1>
                 {this.state.cart ? this.state.cart.map((task) =>
                 {
                     task["selectedStart"] = []
@@ -106,12 +129,13 @@ class OpportunityCheckout extends React.Component{
 
 
                 <div id="calHeader">
-                    <h1 className="calTitle">TASK CART</h1>
+                    <h1 className="calTitle">MY CART</h1>
                 </div>
                {this.state.cart ? this.state.cart.map((task, index) =>
                 {
                     return(
-                        <div className="cartContainer">                         
+                        <div className="cartContainer">    
+                        <br></br>                     
                         <p className="selectHeader">Select Times:</p>
                         <div id="taskCard">
                           <div className="roleNameAndTime">
@@ -122,7 +146,7 @@ class OpportunityCheckout extends React.Component{
                               {task.roleName}
                               </div>
                           </div>
-                          <div id="roleHeader">
+                          <div id="roleHeadertimes">
                             Check One or More Times Below:
                           </div>
                           <div className="roleNameAndTime">
@@ -183,25 +207,32 @@ class OpportunityCheckout extends React.Component{
                     ) 
                 }
                 ) : this.state }
-                <div className="businessInput">
-                    <div className="inputStyles">
-                    <label htmlFor="First Name">My Business (optional)</label>
-                    <input type="text" name="First Name" placeholder="Enter Name of Your Business"/>
-                    </div>
-                </div>
-            <div className="confirmCheckout" id="buttonContainer">
-            
-            <Link to="/registrationConfirmation" id="buttonStyles" 
-            onClick={ () => {this.state.cart.map( (task, i) =>
-                {
-                    return(
-                        <div>
-                            {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated)}
+                {this.state.cart.length ? 
+                <div>
+                
+                    <div className="businessInput">
+                        <div className="inputStyles">
+                        <label htmlFor="First Name">My Business (optional)</label>
+                        <input value={this.state.business} onChange={this.handleBusiness} type="text" name="First Name" placeholder="Enter Name of Your Business"/>
                         </div>
-                    )
-                }
-                )}}>Confirm Checkout</Link>
+                    </div>
+                <div className="confirmCheckout" id="buttonContainer">
+                
+                <Link to="/registrationConfirmation" id="buttonStyles" 
+                onClick={ () => {this.state.cart.map( (task, i) =>
+                    {
+                        return(
+                            <div>
+                                {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
+                            </div>
+                        )
+                    }
+                    )}}>Confirm Checkout</Link>
+                </div>
             </div>
+            : <div id="taskCard">
+            <br></br>
+             <p className="emptyCartHeader">Cart is Empty</p></div>}
             </body>)
     }
 }
