@@ -2,7 +2,7 @@
   "short_name": "Youth Arts",
   "name": "Youth Arts Volunteer",
   "icons": [
-    {"src": "YouthArtsFavicon.ico"}
+    {"src": "favicon.ico"}
   ],
   "start_url": ".",
   "display": "standalone",
