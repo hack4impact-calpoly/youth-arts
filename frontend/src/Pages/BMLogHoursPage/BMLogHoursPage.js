@@ -16,6 +16,7 @@ function BMLogHoursPage(props) {
     const [tasks, setTasks] = useState("");
     const [showLoggedModal, setshowLoggedModal] = useState(false);
     const [boardOpportunity, setboardOpportunity] = useState({});
+    const [rerender, setRerender] = useState(false);
 
     var opportunities;
     var key;
@@ -223,14 +224,18 @@ function BMLogHoursPage(props) {
                     <DateTimePicker
                     name="startDateTime"
                     label="Start Date/Time"
-                    onChange={e => setStartDT(e.target.value)}
+                    value={startDT? startDT : (new Date())}
+                    onChange={e => {setStartDT(e);
+                                    setRerender(!rerender);}}
                     />
                     <br></br>
                     <br></br>
                     <DateTimePicker
                     name="endDateTime"
                     label="End Date/Time"
-                    onChange={e => setEndDT(e.target.value)}
+                    value={endDT? endDT : (new Date())}
+                    onChange={e => {setEndDT(e);
+                                    setRerender(!rerender);}}
                     />
                 </MuiPickersUtilsProvider>
                 <br></br>

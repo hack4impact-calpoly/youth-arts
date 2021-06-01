@@ -64,6 +64,7 @@ function ImageUploadMulti(props) {
       <form className='upload-steps'>
         <label>
         Select all files then click upload:
+        <br></br>
           <input type='file' multiple ref={fileInput} />
         </label>
         <br />

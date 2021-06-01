@@ -162,8 +162,8 @@ class OpportunityCheckout extends React.Component{
                                           return(
                                              
                                               <ul id="TimeList">
-                                                <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
-                                                    {dateFormat(start, " hh:MM TT", true)}
+                                                <li>{dateFormat(start, " mmmm dS, yyyy ")} @
+                                                    {dateFormat(start, " hh:MM TT")}
                                                     --
                                                     {dateFormat(task.end[i], "hh:MM TT")}
                                                     {console.log(task.end[i])}
