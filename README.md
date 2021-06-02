@@ -2,10 +2,10 @@
 
 # Paso Robles Youth Arts Center Volunteer Management Web App
 
+Deployed at: https://youtharts-volunteer.h4i-cp.org/
 
-Hack4Impact Cal Poly nonprofit project for Paso Robles Youth Arts Center.
-Paso Robles Youth Arts works with the local Paso Robles youth to provide free programs in visual and performing. 
-This website is a volunteer sign up system that makes it much easier for guardians and surrounding neighbors to register to volunteer as well as see their impact. This website also has an admin side to manage volunteer data, export reports, and more. 
+Over the course of 6 months, 7 students from <a href="https://calpoly.hack4impact.org">Hack4Impact Cal Poly</a> developed a MERN web app for the local nonprofit, <a href="https://pryoutharts.org/">Paso Robles Youth Arts Center</a>. They work with the local Paso Robles youth to provide free programs in visual and performing arts. 
+This project serves as a volunteer sign up system to make it much easier for guardians and surrounding neighbors to register to volunteer as well as see their impact. Additonally, for the admin side, Paso Robles Youth Arts Center representatives can create and edit volunteer opportunities, manage volunteer data, view volunteer profiles, export csv reports, and more. 
 
 ## Development Team
 
