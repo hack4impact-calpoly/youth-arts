@@ -26,7 +26,8 @@ const PastOpportunity = (props) => {
                 <Row key={i} className="pastOpp">
                     <Col md="auto" className="col-6">
                         <Link to={'/opportunityDetail/' + opp.id} className="pastOppLink">
-                            <p className="pastOppTask">{opp.task}</p>
+                            {(opp.task === "Donated") ? <p className="pastOppTask">{opp.task} {opp.donated.join(', ')}</p> : 
+                                                        <p className="pastOppTask">{opp.task} </p>}
                             <p className="pastOppDate">{Moment(opp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a') + " to " + Moment(opp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm a')}</p>
                         </Link>
                     </Col>

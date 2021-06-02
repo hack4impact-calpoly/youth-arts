@@ -80,6 +80,26 @@ class OpportunityDetail extends React.Component{
             this.setState({volunteerList : vols});
         });  
     }
+    async componentDidUpdate()
+    {
+        let id = window.location.pathname;
+        id = id.replace("/opportunityDetail/", "");
+        //console.log(id);
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+        await fetch(url)
+        .then(res => res.json())
+        .then(opportunity => {
+            this.setState({...opportunity});
+            
+        });  
+
+        await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+        .then(res => res.json())
+        .then(vols => {
+            this.setState({volunteerList : vols});
+        }); 
+
+    }
 
     postDonations = async () => {
         const newOpp = {
@@ -101,6 +121,10 @@ class OpportunityDetail extends React.Component{
             },
             body: JSON.stringify(newOpp)
         });
+        this.componentDidUpdate();
+        this.props.fetchAllVolunteers();
+        this.props.fetchAllOpportunities();
+
 
 
     }
@@ -144,6 +168,11 @@ class OpportunityDetail extends React.Component{
                         volunteers: this.state.volunteers
                     }}});
     }
+    navigateToDonate = () => {
+        let url = 'https://donorbox.org/youth-arts-donate'
+
+        this.props.history.push({url: url})
+    }
 
     sortTaskArray(a, b) {
         if (a[0] > b[0]) return -1;
@@ -173,6 +202,9 @@ class OpportunityDetail extends React.Component{
             body: JSON.stringify(startTimeBody)
         });
         this.setState({updateTime: !this.state.updateTime})
+        this.componentDidUpdate();
+        this.props.fetchAllVolunteers();
+        this.props.fetchAllOpportunities();
 
     }
 
@@ -198,6 +230,9 @@ class OpportunityDetail extends React.Component{
             body: JSON.stringify(endTimeBody)
         });
         this.setState({updateTime: !this.state.updateTime})
+        this.componentDidUpdate()
+        this.props.fetchAllVolunteers();
+        this.props.fetchAllOpportunities();
 
     }
 
@@ -236,10 +271,10 @@ class OpportunityDetail extends React.Component{
   render() {
     return (
         <div className={ this.state.showDonateModal | this.state.showSignInModal | this.state.showUserDonateModal ? "darkBackground" : ""}>
-          {this.state.admin && 
+          {(this.state.user && this.state.user.admin) ?
                    <nav className="adminEdit">
                         <SubmitButton buttonText="Edit Opportunity" onClick={this.navigateTo}>Edit Opportunity--{'>'}</SubmitButton>
-                   </nav>}
+                   </nav> : null}
           <div className="TitleImageContainer">
                 <div className="opportunityTitle">
                     {this.state.title}  
@@ -417,8 +452,8 @@ class OpportunityDetail extends React.Component{
                              </div>
                         </div>
             </div>  
-             {this.state.admin 
-                        && <div className="tableContainer">
+             {(this.state.user && this.state.user.admin) ?
+                 <div className="tableContainer">
                             <div id="volunteerHeader">
                                 VOLUNTEERS
                             </div>
@@ -565,7 +600,15 @@ class OpportunityDetail extends React.Component{
                                                     )}) : "No Volunteers Found"}
                                             </tbody>
                                         </table>
-                                    </div>}
+                                    </div> : 
+                                    <div>
+                                        <br></br>
+                                        <br></br>
+                                        <br></br>
+                                        <br></br>
+                                    </div>
+                                    
+                                     }
 
                             <Modal className="ModalText"
                                 show={this.state.showCartModal}
@@ -593,6 +636,10 @@ class OpportunityDetail extends React.Component{
                                 <Modal.Body id="signIn">
                                     <SignInWithGoogleButton/>
                                 </Modal.Body>
+                                <Modal.Footer className="donateModalFooter">
+                                <Button id="donateModalButton" variant="primary"
+                                        href='https://donorbox.org/youth-arts-donate'>Donate Money</Button>
+                                </Modal.Footer>
                             </Modal>
 
                             <Modal className="ModalText"
@@ -607,21 +654,24 @@ class OpportunityDetail extends React.Component{
                                     {this.state.wishlist.map( item =>
                                         {return(
                                             <div>
-                                                <li>
-                                                    {item}
                                                     <input
                                                     name="donatedItems"
                                                     value={item}
                                                     onChange={this.handleDonateCheckBox}
                                                     className="form-checkbox"
                                                     type="checkbox"/>
-                                                </li>
+                                                    &emsp;
+                                                    {item}
+                                                    <br></br>
                                                 <br/>
                                             </div>)})}
                                 </Modal.Body>
-                                <Modal.Footer>
+                                <Modal.Footer className="donateModalFooter">
+                                <Button id="donateModalButton" variant="primary"
+                                        href='https://donorbox.org/youth-arts-donate'>Donate Money</Button>
+                                        {/* <p>or</p> */}
                                 <Button id="modalButton" variant="primary"
-                                        onClick={ () => {this.postDonations(); this.changeUserDonateModal()}}>Confirm Donation</Button>
+                                        onClick={ () => {this.postDonations(); this.changeUserDonateModal()}}>Confirm Items</Button>
                                 </Modal.Footer>
                             </Modal>
 

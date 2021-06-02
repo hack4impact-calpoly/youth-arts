@@ -191,11 +191,6 @@ const AuthenticatedUserDashboard = (props) => {
 
     function getHours(start, end) {
         var diff = new Date(end).getTime() - new Date(start).getTime();
-        console.log(diff);
-        console.log(end);
-        console.log(start);
-        console.log(new Date(start).getTime());
-        console.log(new Date(end).getTime());
         return (diff/(1000*60*60))%24;
         
     }
@@ -207,7 +202,7 @@ const AuthenticatedUserDashboard = (props) => {
     var currentDate = new Date();
     var donated = 0;
     var totalHours = 0;
-
+    console.log(oppsArray);
     for(var i = 0; i < oppsArray.length; i++) {
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {
@@ -215,7 +210,8 @@ const AuthenticatedUserDashboard = (props) => {
                 task: oppsArray[i].task,
                 start: oppsArray[i].start[j],
                 end: oppsArray[i].end[j],
-                id: oppsArray[i].oppId
+                id: oppsArray[i].oppId,
+                donated: oppsArray[i].donated
             }
             if(singleOpp !== undefined) {
                 if(new Date(singleOpp.start) > currentDate) {
@@ -223,10 +219,24 @@ const AuthenticatedUserDashboard = (props) => {
                 } 
                 else {
                     console.log(oppsArray[i].task);
+                    console.log("ELSE");
+                    console.log(oppsArray[i].donated);
                     totalHours += getHours(oppsArray[i].start[j], oppsArray[i].end[j]);
                     pastOpportunities.push(singleOpp);
                 }
             }
+        }
+        if (oppsArray[i].start.length === 0)
+        {
+            var singleOpp = {
+                task: oppsArray[i].task,
+                start: oppsArray[i].start,
+                end: oppsArray[i].end,
+                id: oppsArray[i].oppId,
+                donated: oppsArray[i].donated
+            }
+            pastOpportunities.push(singleOpp);
+
         }
     }
 

@@ -31,6 +31,9 @@
 .reportsTextWrapper {
    margin-top: 30px;
    margin-bottom: -30px;
+   justify-content: space-evenly;
+   padding-right: 50px;
+   width: 100%;
    
 }
 .reportsTextOptions

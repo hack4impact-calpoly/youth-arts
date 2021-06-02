@@ -6,13 +6,30 @@ import logo from "../../../Images/YouthArtsLogoMark.png";
 
 const ImageCarousel = (props) => {
     const slides = props.slides;
-    console.log(slides);
     let CarouselDisplay = [];
     let notDefault = false;
     if (slides && slides.length > 0) {
+        let count = 0;
         for (let i = 0; i < slides.length; i++) {
             notDefault = true;
-            CarouselDisplay.push( { image: slides[i] } );
+            console.log(slides[i]);
+            if (slides[i] !== "" && !slides[i].includes("undefined"))
+            {
+                CarouselDisplay.push( { image: slides[i] } );
+            } 
+            else
+            {
+                count++;
+            }
+        }
+        if (count === slides.length - 1)
+        {
+            notDefault = false;
+            CarouselDisplay = [
+                {
+                    image: logo
+                }
+            ];
         }
     }
     else
@@ -29,7 +46,10 @@ const ImageCarousel = (props) => {
         if (slides && slides.length > 0) {
             for (let i = 0; i < slides.length; i++) {
                 notDefault = true;
-                CarouselDisplay.push( { image: slides[i] } );
+                if (slides[i] !== "")
+                {
+                    CarouselDisplay.push( { image: slides[i] } );
+                } 
             }
         }
         else

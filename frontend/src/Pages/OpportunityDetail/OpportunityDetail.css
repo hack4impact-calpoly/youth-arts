@@ -525,6 +525,10 @@
     font-weight: 30px;
     font-family: 'Avant Garde';
 }
+.donateModalFooter
+{
+    justify-content: space-around !important;
+}
 
 #guestCheckout{
     background: transparent;
@@ -671,6 +675,26 @@
       padding-top: 10px;
       padding-bottom: 10px;
   }
+  #donateModalButton
+  {
+    background-color: #39B54A;
+    border-color: #39B54A;
+    padding-right: 20px;
+    display: inline;
+    min-width: 200px;
+    text-align: center;
+    font-family: 'Avant Garde';
+    font-size: 20px;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
+  #donateModalButton:hover{
+    background: #39B54A;
+    color: white;
+    text-decoration: none;
+}
 
   #modalButton:hover{
       background: #1b75bc;

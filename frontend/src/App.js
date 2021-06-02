@@ -21,6 +21,7 @@ import FAQPage from "./Pages/FAQPage/FAQPage";
 import ContactPage from "./Pages/DirectoryPage/ContactPage";
 import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const SetAuthToken = () => {
   const { token } = useParams();
@@ -44,6 +45,8 @@ const App = () => {
   const [profile, updateProfile] = useState(null);
   const [cart, setCart] = useState([]);
   const [newUser, setnewUser] = useState(0);
+  const [volunteers, setVolunteers] = useState(0);
+  const [opportunities, setOpportunities] = useState(0);
 
   const updateCart = (task) => {
     cart.push(task);
@@ -59,7 +62,32 @@ const App = () => {
     cart.splice(index,1);
     setCart(cart);
   }
-  
+
+  async function fetchAllOpportunities() {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/opportunities`);
+        if(response && response.data) {
+          setOpportunities(response.data);
+      }
+        return response.data;
+    }
+    catch(error) {
+        console.log(error);
+        return false;
+    }
+  }
+  async function fetchAllVolunteers() {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/volunteers`);
+        if(response && response.data)
+              setVolunteers(response.data);
+        return response.data;
+    }
+    catch(error) {
+        console.log(error);
+        return false;
+    }
+  }
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`,
@@ -78,6 +106,8 @@ const App = () => {
           updateProfile(account);
         };
       });
+      fetchAllOpportunities();
+      fetchAllVolunteers();
   }, []);
   
   return (
@@ -85,7 +115,16 @@ const App = () => {
       <Switch>
         <Route path='/logHours'>
           <Header user={profile} />
-          <BMLogHoursPage user={profile} updateUser={updateProfile}  />
+          <BMLogHoursPage 
+            user={profile} 
+            updateUser={updateProfile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}
+            fetchAllOpportunities={fetchAllOpportunities}
+            fetchAllVolunteers={fetchAllVolunteers}
+            />
           <Footer />
         </Route>
       <Route path='/opportunityDetail'>
@@ -94,13 +133,24 @@ const App = () => {
             updateCart={updateCart}
             user={profile}
             updateUser={updateProfile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}
+            fetchAllOpportunities={fetchAllOpportunities}
+            fetchAllVolunteers={fetchAllVolunteers}
             cart={cart} />
           <Footer />
         </Route>
       <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path='/directory'>
           <Header user={profile} />
-          <DirectoryPage {...profile} />
+          <DirectoryPage {...profile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}
+           />
           <Footer />
         </Route>
         <Route exact path="/volunteer">
@@ -116,7 +166,11 @@ const App = () => {
         <Route exact path='/'>
           {profile ? 
               ((newUser <= 0) ? 
-              <AuthenticatedUserDashboard user={profile} />
+              <AuthenticatedUserDashboard user={profile}
+              volunteers={volunteers}
+              opportunities={opportunities}
+              setVolunteers={setVolunteers}
+              setOpportunities={setOpportunities} />
                 :
                 <RegistrationPage user={profile} />
               ) 
@@ -130,7 +184,11 @@ const App = () => {
         </Route>
         {profile ? (
           <Route path='/authDashboard'>
-            <AuthenticatedUserDashboard user={profile} />
+            <AuthenticatedUserDashboard user={profile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities} />
           </Route>
         ) :
           <Route path='/anonDashboard'>
@@ -161,19 +219,31 @@ const App = () => {
         </Route>
 
         <Route path='/Reports'>
-            <ReportsPage user={profile}/>
+            <ReportsPage user={profile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}/>
           </Route>       
 
         <Route path='/opportunities'>
           <OpportunitiesPage
             user={profile}
             updateUser={updateProfile} 
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}
             />
         </Route>
 
         {(profile?.admin === true) ? (
           <Route path='/addOpportunity'>
             <AddOpportunityForm user={profile} 
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities}
             state={ { opportunity: { 
                               id: "",
                               title: "",
@@ -195,7 +265,11 @@ const App = () => {
         ) :
           <OpportunitiesPage
             user={profile}
-            updateUser={updateProfile} />
+            updateUser={updateProfile}
+            volunteers={volunteers}
+            opportunities={opportunities}
+            setVolunteers={setVolunteers}
+            setOpportunities={setOpportunities} />
         }
         <Route path='/opportunityCheckout'>
         <Header user={profile}/>
