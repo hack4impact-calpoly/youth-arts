@@ -56,7 +56,7 @@ class OpportunityDetail extends React.Component{
     updateCartWithOpportunity(task){
         task["oppId"] = this.state._id
         task["volId"] = this.state.user._id
-        task["donated"] = this.state.donatedItems
+        //task["donated"] = this.state.donatedItems
         
         this.state.updateCart(task)
     }
@@ -81,10 +81,28 @@ class OpportunityDetail extends React.Component{
         });  
     }
 
-    postDonations(){
-        this.state.cart.map(task => {
-            task["donated"] = this.state.donatedItems
-        })
+    postDonations = async () => {
+        const newOpp = {
+            task: "Donated",
+            start: [],
+            end: [],
+            donated: this.state.donatedItems,
+            oppId: this.state._id,
+            volId: this.state.user._id
+        }
+
+        const url = `${process.env.REACT_APP_SERVER_URL}/api/donations/`;
+
+        fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newOpp)
+        });
+
+
     }
 
     changeDonateModal = () => {
@@ -484,10 +502,6 @@ class OpportunityDetail extends React.Component{
                                                                                                     value={time}
                                                                                                     onChange={date => this.postStartTime(date, volId, taskIndex, i)}
                                                                                                 />
-                                                                                            {/* <KeyboardDateTimePicker id="startInput"
-                                                                                                utils={DateMomentUtils}
-                                                                                                value={time}
-                                                                                                onChange={date => this.postStartTime(date, volId, taskIndex, i)}/> */}
                                                                                         </MuiPickersUtilsProvider>
                                                                                    
                                                                                     </div>
@@ -503,7 +517,7 @@ class OpportunityDetail extends React.Component{
                                                                     return (
                                                                         
                                                                         <td className="detailTD">{
-                                                                            // (i < (key_set.length - 1)) && 
+                                                                             
                                                                             <div>
                                                                                 {(volData[1]).map( (time) => 
                                                                                 {
@@ -522,9 +536,7 @@ class OpportunityDetail extends React.Component{
                                                                                                     value={time}
                                                                                                     onChange={date => this.postEndTime(date, volId, taskIndex, i)}
                                                                                                 />
-                                                                                                {/* <KeyboardDateTimePicker utils={DateMomentUtils}
-                                                                                                value={time}
-                                                                                                onChange={date => this.postEndTime(date, volId, taskIndex, i)}/> */}
+                                                                                               
                                                                                             </MuiPickersUtilsProvider>
                                                                                         </div>
                                                                                     )})}
