@@ -511,6 +511,81 @@ app.post("/api/VolunteerTask", async (req, res) => {
    }
 })
 
+app.post("/api/donations", async (req, res) => {
+   const task = req.body.task
+   const start = req.body.start
+   const end = req.body.end 
+   const donated = req.body.donated
+   const oppId = req.body.oppId
+   const volId = req.body.volId
+
+   try{
+      await postDonationTask(task, start, end, donated, oppId, volId);
+      console.log("testing")
+      res.status(200);
+
+   }
+   catch (error)
+   {
+      res.status(401).send(error)
+   }
+})
+
+const postDonationTask = async (task, start, end, donated, oppId, volId) => {
+
+   taskObj = {
+      task: task,
+      start: start,
+      end: end,
+      donated: donated
+   }
+
+   let opportunity = await Opportunity.findById(oppId);
+
+   try {
+      let volList = opportunity.volunteers.get(volId);
+      let temp = volList
+      volList.map(item => {
+         if(item.task == "Donated"){
+            console.log(item.task)
+            temp = volList.filter(function(el){
+               return el.task !== item.task;
+            })
+         }
+      })
+      console.log("TEMP")
+      console.log(temp)
+      volList = temp 
+      volList.push(taskObj);
+      opportunity.volunteers.set(volId, volList);
+   }
+   catch{
+      if (opportunity.volunteers === undefined)
+      {
+         opportunity.volunteers = {};
+      }
+      opportunity.volunteers.set(volId, taskObj);
+   }
+   await Opportunity.findByIdAndUpdate(oppId, {volunteers: opportunity.volunteers});
+
+   let volunteer = await Volunteer.findById(volId);
+
+   try {
+      let oppList = volunteer.opportunities.get(oppId)
+      oppList.push(taskObj);
+      volunteer.opportunities.set(oppId, oppList);
+   }
+   catch{
+      if (volunteer.opportunities === undefined)
+      {
+         volunteer.opportunities = {};
+      }
+      volunteer.opportunities.set(oppId, taskObj);
+   }
+   await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
+
+}
+
 
 const postNewVolunteerTask = async (task, description, start, end, donated, oppId, volId, business) => {
 
