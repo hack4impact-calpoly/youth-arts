@@ -38,10 +38,16 @@ class OpportunityCheckout extends React.Component{
             volId: volId,
             business: business
         }
-        if (start !== null && start !== undefined && start.length)
+        if (newOpp.task === "General Committee Member")
         {
-            console.log(start);
-            console.log(start.length);
+            newOpp.start = [new Date()];
+            newOpp.end = [new Date()];
+        }
+
+        if (newOpp.start !== null && newOpp.start !== undefined && newOpp.start.length)
+        {
+            console.log(newOpp.start);
+            console.log(newOpp.start.length);
             const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
             console.log(url);
             console.log(JSON.stringify(newOpp));
@@ -59,9 +65,8 @@ class OpportunityCheckout extends React.Component{
         else
         {
             console.log("no start");
-            console.log(start);
-            console.log(end);
-
+            console.log(newOpp.start);
+            console.log(newOpp.end);
         }
     }
 
@@ -69,6 +74,8 @@ class OpportunityCheckout extends React.Component{
         let value = e.target.value;
         this.setState( {business: value} );
         console.log(this.state.business);
+        console.log(new Date());
+
       }
 
     handleDateCheckBox(e, task, endTime, index) {
@@ -162,8 +169,8 @@ class OpportunityCheckout extends React.Component{
                                           return(
                                              
                                               <ul id="TimeList">
-                                                <li>{dateFormat(start, " mmmm dS, yyyy ", true)} @
-                                                    {dateFormat(start, " hh:MM TT", true)}
+                                                <li>{dateFormat(start, " mmmm dS, yyyy ")} @
+                                                    {dateFormat(start, " hh:MM TT")}
                                                     --
                                                     {dateFormat(task.end[i], "hh:MM TT")}
                                                     {console.log(task.end[i])}

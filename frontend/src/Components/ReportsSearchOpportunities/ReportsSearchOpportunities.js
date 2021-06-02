@@ -200,7 +200,7 @@ function ReportsSearchOpportunities(props) {
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ", true) + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
             }
             else
             {
@@ -222,7 +222,7 @@ function ReportsSearchOpportunities(props) {
         valueGetter: ({ value }) => {
             if (Array.isArray(value))
             {
-                return value.map(item => dateFormat(item, " mmmm dS, yyyy ", true) + "at " + dateFormat(item, "hh:MM TT", true)).join(', \n') 
+                return value.map(item => dateFormat(item, " mmmm dS, yyyy ") + "at " + dateFormat(item, "hh:MM TT")).join(', \n') 
             }
             else
             {
@@ -257,7 +257,14 @@ function ReportsSearchOpportunities(props) {
                             var begin = task.start[i];
                             var end = task.end[i];
                             let diff = moment.duration(moment(end).diff(moment(begin))).asHours();
-                            hours += diff;
+                            if (diff !== null)
+                            {
+                                hours += diff;
+                            }
+                            if (value.task === "General Committee Member") {
+                                hours = 0;
+                            }
+                            
                         }
                     })
                 })

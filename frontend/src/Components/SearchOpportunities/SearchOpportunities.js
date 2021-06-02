@@ -10,7 +10,6 @@ import { useHistory } from "react-router-dom";
 import moment from 'moment'
 
 function SearchOpportunities(props) {
-    //need to connect backend here and set to opportunities
     const {user} = props;
     const history = useHistory();
     const navigateTo = () => history.push('/addOpportunity');
@@ -38,7 +37,7 @@ function SearchOpportunities(props) {
                     }
                     return diff >= 0
                 });
-                setOpportunities(result);
+                setOpportunities(result.sort((a, b) => a.start_event < b.start_event ? -1 : 1));
             }
         })
     }, [])

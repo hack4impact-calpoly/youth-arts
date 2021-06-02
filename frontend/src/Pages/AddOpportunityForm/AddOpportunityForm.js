@@ -18,8 +18,10 @@ import performance from '../../Images/performance.png'
 import moment from "moment";
 import tz from "moment-timezone";
 import { useHistory } from "react-router-dom";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { KeyboardDatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
+import { parseISO } from 'date-fns'; 
+import dateFormat from 'dateformat';
 
 function AddOpportunityForm(props) {
 
@@ -137,17 +139,17 @@ const handleDeleteInputWish = index  => {
 }
 
 const handleEndChangeDate = (e, index) => {
-  (opportunity.end_event)[index] = e.target.value;
+  (opportunity.end_event)[index] = e;
   setRerender(!rerender);
 }
 const handleStartChangeDate = (e, index) => {
-  (opportunity.start_event)[index] = e.target.value;
+  (opportunity.start_event)[index] = e;
   setRerender(!rerender);
 }
 const handleAddInputDate = (e) => {
   const date = new Date();
-  (opportunity.end_event).push(date.toISOString());
-  (opportunity.start_event).push(date.toISOString());
+  (opportunity.end_event).push(date);
+  (opportunity.start_event).push(date);
   setRerender(!rerender);
 }
 const handleDeleteInputDate = index  => {
@@ -157,17 +159,17 @@ const handleDeleteInputDate = index  => {
 }
 
 const handleEndChangeDateTask = (e, i, di) => {
-  (opportunity.tasks)[i].end[di] = e.target.value;
+  (opportunity.tasks)[i].end[di] = e;
   setRerender(!rerender);
 }
 const handleStartChangeDateTask = (e, i, di) => {
-  (opportunity.tasks)[i].start[di] = e.target.value;
+  (opportunity.tasks)[i].start[di] = e;
   setRerender(!rerender);
 }
 const handleAddInputDateTask = (i) => {
   const date = new Date();
-  (((opportunity.tasks)[i]).end).push(date.toISOString());
-  (((opportunity.tasks)[i]).start).push(date.toISOString());
+  (((opportunity.tasks)[i]).end).push(date);
+  (((opportunity.tasks)[i]).start).push(date);
   setRerender(!rerender);
 
 }
@@ -275,13 +277,15 @@ const getFileNames = (files) => {
                           <DateTimePicker
                             className="FormDate"
                             label="Start Date/Time"
-                            value={date? date.substring(0,16) : localDate}
+                            // value={date? date.substring(0,16) : localDate}
+                            value={date? date : localDate}
                             onChange={e => handleStartChangeDate(e, i)}
                           />
                           <DateTimePicker
                             className="FormDate"
                             label="End Date/Time"
-                            value={end? end.substring(0,16) : localDate}
+                            value={end? end : localDate}
+                            // value={end? end.substring(0,16) : localDate}
                             onChange={e => handleEndChangeDate(e, i)}
                           />
                         </MuiPickersUtilsProvider>
@@ -320,8 +324,40 @@ const getFileNames = (files) => {
               <label htmlFor="OpportunityLocation">Opportunity Location</label>
                 <input onChange={e => handleChangeLocation(e)} type="text" value={(opportunity && opportunity.location) ? opportunity.location : ""} name="OpportunityLocation" placeholder="Enter Opportunity Location Here"/>
 
+                <div className="textStyle">
+                  <label htmlFor="OpportunityDescription">Opportunity Description<span className="red">*</span></label>
+                  <textarea onChange={e => handleChangeDescription(e)} value={opportunity.description} placeholder="Enter description of opportunity"/>
+                  <br/>
+                </div>
           </div> 
-          <div className="inputStyles">
+
+
+          <div className="OppinputStyles">
+                <label htmlFor="wishlist">Wish List Items</label>
+             </div>
+               {wishList.map((wish, w) => {
+                  return(
+                    <div key={w}>
+                        <div className="inputButtons" >
+                            <input id="taskInput" type="text" name="wishItem" placeholder="Enter Wish List Item"
+                            value = {wish}
+                            onChange={e => handleChangeWishList(e, w)}/>
+                            {wishList.length !== 1 &&
+                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputWish(w)}/>
+
+                            }
+                        </div>
+                        {wishList.length -1 === w && 
+                           <input id="addItem" type="button" value="Add Item" onClick={e => handleAddInputWish(e)}/>
+                        }
+                    </div>
+                  )
+              })}
+
+
+
+
+          <div className="OppinputStyles">
             <label htmlFor="tasks">Volunteer Tasks <span className="red">*</span></label>
           </div>
             {taskList.map((task, t) => {
@@ -339,7 +375,7 @@ const getFileNames = (files) => {
                                   onChange={e => handleChangeTaskTitle(e, t)}/>
                               {taskList.length !== 1 &&
                                 <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputTask(t)}/>}
-                            <div className="taskLabel">
+                            <div >
                             <br className="headerBreak" />
                               <label htmlFor="OpportunityTitle">Task Description</label>
                             </div>
@@ -348,7 +384,7 @@ const getFileNames = (files) => {
                               value = {task.description}
                               onChange={e => handleChangeTaskDesc(e, t)}/>
 
-                            <div className="taskLabel">
+                            <div >
                             <br className="headerBreak" />
                               <label htmlFor="OpportunityTitle">Task Date</label>
                             </div>
@@ -366,13 +402,15 @@ const getFileNames = (files) => {
                                         <DateTimePicker
                                           className="FormDate"
                                           label="Start Date/Time"
-                                          value={taskdate? taskdate.substring(0,16) : moment().utc().local()}
+                                          value={taskdate? taskdate : moment().utc().local()}
+                                          // value={taskdate? taskdate.substring(0,16) : moment().utc().local()}
                                           onChange={e => handleStartChangeDateTask(e, t, di)}
                                         />
                                         <DateTimePicker
                                           className="FormDate"
                                           label="End Date/Time"
-                                          value={end? end.substring(0,16) : moment().utc().local()}
+                                          value={end? end : moment().utc().local()}
+                                          // value={end? end.substring(0,16) : moment().utc().local()}
                                           onChange={e => handleEndChangeDateTask(e, t, di)}
                                         />
                                       </MuiPickersUtilsProvider>
@@ -409,7 +447,7 @@ const getFileNames = (files) => {
                                   </div>
                                 )
                             })}
-                            <div className="taskLabel">
+                            <div >
                             <br className="headerBreak" />
                               <label htmlFor="wishlist">Additional Requirements</label>
                               </div>
@@ -440,32 +478,10 @@ const getFileNames = (files) => {
                     </div>
                   )
               })}
-              <div className="inputStyles">
-                <label htmlFor="wishlist">Wish List Items</label>
-             </div>
-               {wishList.map((wish, w) => {
-                  return(
-                    <div key={w}>
-                        <div className="inputButtons" >
-                            <input id="taskInput" type="text" name="wishItem" placeholder="Enter Wish List Item"
-                            value = {wish}
-                            onChange={e => handleChangeWishList(e, w)}/>
-                            {wishList.length !== 1 &&
-                                <input id="deleteItem" type="button" value="X" onClick={() => handleDeleteInputWish(w)}/>
-
-                            }
-                        </div>
-                        {wishList.length -1 === w && 
-                           <input id="addItem" type="button" value="Add Item" onClick={e => handleAddInputWish(e)}/>
-                        }
-                    </div>
-                  )
-              })}
+              
               
           <div className="textStyle">
-                <label htmlFor="OpportunityDescription">Opportunity Description<span className="red">*</span></label>
-                <textarea onChange={e => handleChangeDescription(e)} value={opportunity.description} placeholder="Enter description of opportunity"/>
-                <br/>
+                
                 <label htmlFor="Skill/Interests">Skills/Interests <span className="red">*</span></label>
                 <div className="IconSelect">
                   {AOIOptions.map(option => {

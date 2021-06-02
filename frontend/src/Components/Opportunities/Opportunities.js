@@ -5,6 +5,7 @@ import {Row, Col} from "react-bootstrap";
 import {useState, useEffect} from "react";
 import axios from "axios"
 import { useHistory } from "react-router-dom";
+import moment from 'moment'
 
 const Opportunities = (props) => {
 
@@ -22,7 +23,7 @@ const Opportunities = (props) => {
     useEffect(() => {
         fetchAll().then(result => {
             if(result)
-                setOpportunities(result);
+                setOpportunities(result.sort((a, b) => a.start_event < b.start_event ? -1 : 1));
         })
     }, [])
 
@@ -31,8 +32,15 @@ const Opportunities = (props) => {
             return opportunities;
         }
         var results = [];
-        for(var i = 0; i < 3; i++) {
-            results.push(opportunities[i]);
+        for(var i = 0; i < opportunities.length; i++) {
+            if (moment.duration(moment(opportunities[i].end_event[opportunities[i].end_event.length - 1]).diff(moment().startOf('day'))).asHours() > 0)
+            {
+                results.push(opportunities[i]);
+            }
+            if (results.length === 3)
+            {
+                break;
+            }
         }
         return results;
     }

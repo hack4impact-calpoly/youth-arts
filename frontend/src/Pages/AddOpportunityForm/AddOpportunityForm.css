@@ -53,9 +53,9 @@
 /* .taskDates {
     margin-left: 10px;
 } */
-/* .taskLabel {
-    margin-left: 10px !important;
-} */
+.taskLabel {
+    font-size: 20px;
+}
 
 .taskDates input{
     display: block;
@@ -93,7 +93,7 @@
 }
 
 .OppinputStyles label{
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .OppinputStyles input::placeholder {
@@ -122,10 +122,13 @@
     resize:both;
     font-family: 'Avant Garde';
 }
+.textStyle input {
+    margin-left: 100px;
+}
 
 .textStyle label{
-    font-size: 18px;
-    margin-top: 50px;
+    font-size: 20px;
+    /* margin-top: 50px; */
 }
 
 .textStyle textarea::placeholder {
@@ -326,7 +329,7 @@
 }
 
 #taskInput{
-    width: 240px;
+    width: 450px;
     background-color: #F5F5F5;
     height: 8px;
     border-radius: 5px;
@@ -366,7 +369,7 @@
 }
 
 .addImages{
-    font-size: 18px;
+    font-size: 20px;
 }
 
 
@@ -399,7 +402,7 @@
 
 
 #addReq {
-    margin-left: 10px;
+    margin-left: -5px;
 }
 
 #addItemReq{
