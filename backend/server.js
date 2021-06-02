@@ -572,7 +572,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       "<br></br> You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
       " on " + dateFormat(task.start, "fullDate") + " at " + dateFormat(task.start, "h:MM TT Z") + 
       ".</p><p>The event will currently be held at " + opportunity.location + 
-      ".</p><p>The business you chose to donate to or register with was " + business + ".<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.",
+      ".</p><p>The business you chose to donate to or register with was " + business + ".<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "../frontend/src/Images/YouthArtsLogo.png",
@@ -697,7 +697,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       html: "<img src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br>You have successfully signed up for a volunteer session for " + opportunity.title + 
       " on " + dateFormat(opportunity.start_event, "fullDate") + " at " + dateFormat(opportunity.start_event, "h:MM TT Z") + 
       ".</p><p>The event will currently be held at " + opportunity.location + 
-      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click here or call this number (805-238-5825) to cancel your registration.</p>",
+      ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "../frontend/src/Images/YouthArtsLogo.png",

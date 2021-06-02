@@ -10,7 +10,6 @@ import { useHistory } from "react-router-dom";
 import moment from 'moment'
 
 function SearchOpportunities(props) {
-    //need to connect backend here and set to opportunities
     const {user} = props;
     const history = useHistory();
     const navigateTo = () => history.push('/addOpportunity');

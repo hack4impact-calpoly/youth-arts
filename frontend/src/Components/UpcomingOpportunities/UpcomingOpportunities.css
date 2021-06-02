@@ -64,6 +64,6 @@
 /*laptop and tablet*/
 @media screen and (min-width: 1024px) and (max-width: 1600px) {
     #upOpps {
-        width: 500px;
+        width: 550px;
     }
 }

@@ -15,10 +15,7 @@
    font-family: 'Avant Garde';
 
 }
-.reportsTextWrapper {
-   margin-top: 30px;
-   margin-bottom: -30px;
-}
+
 
 .MuiDataGrid-root
 {
@@ -31,18 +28,47 @@
 .MuiFormLabel-root{
     font-family: "Avant Garde" !important;
 }
-
-.reportsText {
+.reportsTextWrapper {
+   margin-top: 30px;
+   margin-bottom: -30px;
+   
+}
+.reportsTextOptions
+{
    display: flex;
    flex-direction: row;
    vertical-align: center;
    justify-content: center;
-   margin-left: 150px;
-   align-items: flex-end;
+   margin-top: 15px;
+}
+
+.reportsText {
+   margin-left: 50px;
    height: auto;
    padding: 0px 20px;
    font-family: 'Avant Garde';
+   font-size: 20px;
 }
+.reportsTextOp
+{
+   margin-left: 50px;
+   height: auto;
+   padding: 0px 20px;
+   font-family: 'Avant Garde';
+   font-size: 15px;
+}
+.reportsTextBullet
+{
+   margin-left: 50px;
+   height: auto;
+   padding: 0px 20px;
+   font-family: 'Avant Garde';
+   font-size: 12px;
+}
+
+
+
+
 .MuiDataGrid-viewport {
    max-height: fit-content!important;
    font-family: 'Avant Garde';
