@@ -22,6 +22,13 @@
 .MuiFormLabel-root{
     font-family: "Avant Garde" !important;
 }
+.helperText
+{
+    margin-top: -55px !important;
+    font-size: 12px;
+    width: 100% !important;
+    margin-bottom: 20px;
+}
 
 .formWrapper{
     display: flex;

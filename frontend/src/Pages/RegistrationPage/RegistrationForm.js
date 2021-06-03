@@ -295,6 +295,7 @@ class RegistrationPage extends React.Component {
                 <input type="text" name="Last Name" placeholder="Enter Last Name Here" value={this.state.lastName} onChange={this.handleLast}/>
                 <label htmlFor="Email">Email<span className="red">*</span></label>
                 <input type="email" name="Email" placeholder="Example@mail.com" value={this.state.email} onChange={this.handleEmail}/>
+                <label className="helperText" >*If your email did not autofill, please refresh and try again until it does</label>
                 <label htmlFor="Phone">Phone<span className="red">*</span></label>
                 <input type="text" name="Phone" placeholder="(XXX) XXX-XXX" value={this.state.phoneNum} onChange={this.handlePhone}/>
                 <label htmlFor="Address">Address<span className="red">*</span></label>
