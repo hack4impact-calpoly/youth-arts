@@ -82,6 +82,8 @@ class OpportunityCheckout extends React.Component{
         let startTimeSelections = task.selectedStart;
         let endTimeSelections = task.selectedEnd;
         console.log("selectedTimes", selectedTimes);
+        console.log("cart", this.state.cart);
+        console.log("task", task);
         
 
         selectedTimes.forEach(item => 
@@ -131,12 +133,12 @@ class OpportunityCheckout extends React.Component{
             <body>
                 {this.state.cart ? this.state.cart.map((task) =>
                 {
-                    task["selectedStart"] = []
-                    task["selectedEnd"] = []
-                    {console.log(task)}
-                }) : this.state}
-
-
+                    if (!task["selectedStart"]){
+                        task["selectedStart"] = []
+                        task["selectedEnd"] = []
+                        console.log(task)
+                    }
+                }) : null}
                 <div id="calHeader">
                     <h1 className="calTitle">MY CART</h1>
                 </div>
