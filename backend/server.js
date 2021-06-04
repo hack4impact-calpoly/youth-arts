@@ -402,7 +402,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       });
 
 app.post("/api/postVolunteer", async(req, res) => {
-   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body)
+   const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 
    //Email to new volunteer + admin
    const volunteerMessage = {
@@ -436,15 +436,15 @@ app.post("/api/postVolunteer", async(req, res) => {
       } else {
          console.log(info)
       }
-   })
+   });
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
       } else {
          console.log(info)
       }
-   })   
-   res.json(newVolunteer)
+   });   
+   res.json(newVolunteer);
 })
 
 app.post("/api/opportunityStartTime/", async (req, res) => { 
