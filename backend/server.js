@@ -387,13 +387,10 @@ app.post("/api/cancelOpportunity", async(req, res) => {
          console.log(err)
       } else {
          console.log(info)
+         res.send(info)
       }
    })
-
-
-
-
-
+   res.send(newVolunteer);
 
    });
 
