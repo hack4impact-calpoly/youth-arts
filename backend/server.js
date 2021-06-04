@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const cors = require('cors')
+var cors = require('cors')
 const jsonwebtoken = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const passport = require("passport")
@@ -19,7 +19,6 @@ const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
-const { default: intlFormat } = require('date-fns/fp/intlFormat');
 
 let transport = nodemailer.createTransport({
   service: "gmail",
@@ -409,7 +408,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       to: req.body.email,
       subject: "Account signup successful",
       text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
-      html: "<img width='500' src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br> You have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org. Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to volunteer or donate.</p>",
+      html: "<img width='500' src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org. Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to volunteer or donate.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
@@ -432,20 +431,15 @@ app.post("/api/postVolunteer", async(req, res) => {
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
-         res.send(err)
       } else {
          console.log(info)
-         res.send(info)
       }
    });
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
-         res.send(err)
       } else {
          console.log(info)
-         res.send(info)
-         
       }
    });   
    res.send(newVolunteer);
