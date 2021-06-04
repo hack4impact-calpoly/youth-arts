@@ -80,7 +80,7 @@ class OpportunityDetail extends React.Component{
             this.setState({volunteerList : vols});
         });  
     }
-    async componentDidUpdate()
+    async updateComponent()
     {
         let id = window.location.pathname;
         id = id.replace("/opportunityDetail/", "");
@@ -121,7 +121,7 @@ class OpportunityDetail extends React.Component{
             },
             body: JSON.stringify(newOpp)
         });
-        this.componentDidUpdate();
+        this.updateComponent();
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
@@ -202,7 +202,7 @@ class OpportunityDetail extends React.Component{
             body: JSON.stringify(startTimeBody)
         });
         this.setState({updateTime: !this.state.updateTime})
-        this.componentDidUpdate();
+        this.updateComponent();
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
@@ -230,7 +230,7 @@ class OpportunityDetail extends React.Component{
             body: JSON.stringify(endTimeBody)
         });
         this.setState({updateTime: !this.state.updateTime})
-        this.componentDidUpdate()
+        this.updateComponent()
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
