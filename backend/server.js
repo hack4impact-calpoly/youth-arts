@@ -443,6 +443,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       }
    });   
    res.json(newVolunteer);
+   res.send(newVolunteer);
 })
 
 app.post("/api/opportunityStartTime/", async (req, res) => { 

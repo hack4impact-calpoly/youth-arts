@@ -216,14 +216,16 @@ class RegistrationPage extends React.Component {
       },
         body: JSON.stringify(userdata)
       }).then(response => {
-        response.json().then(data => {
-          console.log("Successful" + data);
-          this.props.updateProfile(data);
-          this.setState({ redirect: true });
+          response.json().then(data => 
+            {
+              console.log("Successful" + data);
+              this.props.updateProfile(data);
+              this.setState({ redirect: true });
         });
       });
     }
   }
+
 
   handleClearForm(e) {
     e.preventDefault();
