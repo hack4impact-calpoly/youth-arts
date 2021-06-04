@@ -401,6 +401,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body);
+   res.send(newVolunteer);
 
    //Email to new volunteer + admin
    const volunteerMessage = {
