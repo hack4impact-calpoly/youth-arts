@@ -167,7 +167,6 @@ const AuthenticatedUserDashboard = (props) => {
 
         fetch(`${process.env.REACT_APP_SERVER_URL}/api/cancelOpportunity`, {
             method: "POST",
-            mode: 'no-cors',
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
