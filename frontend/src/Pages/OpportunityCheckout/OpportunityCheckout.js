@@ -74,8 +74,6 @@ class OpportunityCheckout extends React.Component{
         let value = e.target.value;
         this.setState( {business: value} );
         console.log(this.state.business);
-        console.log(new Date());
-
       }
 
     handleDateCheckBox(e, task, endTime, index) {
@@ -83,13 +81,15 @@ class OpportunityCheckout extends React.Component{
         let selectedTimes = document.getElementsByName(`selectedTimes${task.roleName}`)
         let startTimeSelections = task["selectedStart"] 
         let endTimeSelections = task["selectedEnd"] 
+        console.log("selectedTimes", selectedTimes);
         
 
         selectedTimes.forEach(item => 
             
             {
 
-                let includedStart = startTimeSelections.includes(item.value)
+                let includedStart = startTimeSelections.includes(item.value);
+                console.log("includedStart", includedStart);
 
                 if(item.checked){
                     if(!includedStart)
@@ -118,6 +118,8 @@ class OpportunityCheckout extends React.Component{
         
         task["selectedStart"] = startTimeSelections;
         task["selectedEnd"] = endTimeSelections;
+        console.log("startTimeSelections", startTimeSelections);
+        console.log("endTimeSelections", endTimeSelections);
  
       }
 
