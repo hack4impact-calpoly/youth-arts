@@ -194,8 +194,6 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
         fetch(url, {
             method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -222,8 +220,6 @@ class OpportunityDetail extends React.Component{
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
         fetch(url, {
             method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
