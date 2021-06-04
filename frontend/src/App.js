@@ -172,7 +172,7 @@ const App = () => {
               setVolunteers={setVolunteers}
               setOpportunities={setOpportunities} />
                 :
-                <RegistrationPage user={profile} />
+                <RegistrationPage user={profile} updateProfile={updateProfile} />
               ) 
             :
             <div>
