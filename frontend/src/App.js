@@ -237,6 +237,25 @@ const App = () => {
             />
         </Route>
 
+        <Route path='/opportunityCheckout'>
+        <Header user={profile}/>
+          <OpportunityCheckout 
+            cart = {cart}
+            updateCart={updateCart}
+            emptyCart={emptyCart}
+            user={profile}
+            deleteFromCart = {deleteFromCart}/>
+        </Route>
+        <Route path='/OpportunityCheckout'>
+        <Header user={profile}/>
+          <OpportunityCheckout 
+            cart = {cart}
+            updateCart={updateCart}
+            emptyCart={emptyCart}
+            user={profile}
+            deleteFromCart = {deleteFromCart}/>
+        </Route>
+
         {(profile?.admin === true) ? (
           <Route path='/addOpportunity'>
             <AddOpportunityForm user={profile} 
@@ -271,15 +290,6 @@ const App = () => {
             setVolunteers={setVolunteers}
             setOpportunities={setOpportunities} />
         }
-        <Route path='/opportunityCheckout'>
-        <Header user={profile}/>
-          <OpportunityCheckout 
-            cart = {cart}
-            updateCart={updateCart}
-            emptyCart={emptyCart}
-            user={profile}
-            deleteFromCart = {deleteFromCart}/>
-        </Route>
 
         {/* <Route path='/FAQ'>
             <FAQPage user={profile}/>

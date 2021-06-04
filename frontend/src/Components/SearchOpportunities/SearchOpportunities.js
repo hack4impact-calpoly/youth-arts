@@ -141,7 +141,7 @@ function SearchOpportunities(props) {
                         <option value="Performance">Performance</option>
                     </select>
                 </Col>
-                {user && <Col id="button">
+                {user && user.admin && <Col id="button">
                     <SubmitButton onClick={navigateTo} buttonText="ADD OPPORTUNITY"/>
                 </Col>}
             </Row>

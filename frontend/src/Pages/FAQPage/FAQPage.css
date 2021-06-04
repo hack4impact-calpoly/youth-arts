@@ -16,7 +16,7 @@
 
 
 .panel-title:after {
-    content: "▼";
+    content: '&#x25BC;';
     float: right;
     color: #1F4C82;
     
