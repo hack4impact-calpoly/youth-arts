@@ -358,7 +358,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -371,7 +371,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       "<br></br><br></br> Their contact email is: " + newVolunteer.email + "</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -411,7 +411,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       html: "<img width='500' src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you so much for your support! If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -424,7 +424,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       html: "<img width='500' src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering. Their contact email is: " +  req.body.email + "</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -592,7 +592,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
       " and the items are: " + taskObj.donated.join(", ") + ".<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to volunteer or donate again.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -605,7 +605,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
       "</br> Their contact email is: " + volunteer.email + " </p><br></br>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -695,7 +695,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       ".</p><p>The business you chose to donate to or register with was " + business + ".<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -708,7 +708,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       ".</p><p>The business that they chose to donate to or register with was " + business + ".</p><br></br>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -820,7 +820,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       ".</p><p>The business you chose to donate to or register with was blank.<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -833,7 +833,7 @@ const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
       ".</p><p>The business that they chose to donate to or register with was blank.</p><br></br>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -885,7 +885,7 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       ".</p><br></br>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
@@ -899,7 +899,7 @@ const volunteerUnregister = async (vol_id, opp_id) => {
       ". Their contact email is: " + volunteer.email + "</p><br></br>",
       attachments: [{
          filename: "YouthArtsLogo.png",
-         path: "../frontend/src/Images/YouthArtsLogo.png",
+         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
          cid: "YouthArtsLogo"
       }]
    }
