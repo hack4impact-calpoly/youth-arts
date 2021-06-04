@@ -393,8 +393,6 @@ app.post("/api/cancelOpportunity", async(req, res) => {
          res.send(info)
       }
    })
-   res.send(newVolunteer);
-
    });
 
    app.post("/api/updateBoardOpportunity", async(req, res) => {
