@@ -16,7 +16,7 @@
 
 
 .panel-title:after {
-    content: '&#x25BC;';
+    content: 'v';
     float: right;
     color: #1F4C82;
     
