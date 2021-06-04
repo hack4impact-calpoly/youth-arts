@@ -11,7 +11,6 @@ const Header = (props) =>{
     // use our custom hook to get the the window size
     const { user } = props;
     const [width, height] = useWindowWidthAndHeight();
-    console.log(width)
     return(
         <header className="navheader">
             <div className="header-inner">
