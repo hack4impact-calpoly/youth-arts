@@ -78,9 +78,9 @@ class OpportunityCheckout extends React.Component{
 
     handleDateCheckBox(e, task, endTime, index) {
 
-        let selectedTimes = document.getElementsByName(`selectedTimes${task.roleName}`)
-        let startTimeSelections = task["selectedStart"] 
-        let endTimeSelections = task["selectedEnd"] 
+        let selectedTimes = document.getElementsByName(`selectedTimes${task._id}`)
+        let startTimeSelections = task.selectedStart;
+        let endTimeSelections = task.selectedEnd;
         console.log("selectedTimes", selectedTimes);
         
 
@@ -116,8 +116,8 @@ class OpportunityCheckout extends React.Component{
                 }
             })
         
-        task["selectedStart"] = startTimeSelections;
-        task["selectedEnd"] = endTimeSelections;
+        task.selectedStart = startTimeSelections;
+        task.selectedEnd = endTimeSelections;
         console.log("startTimeSelections", startTimeSelections);
         console.log("endTimeSelections", endTimeSelections);
  
@@ -181,7 +181,7 @@ class OpportunityCheckout extends React.Component{
                                                             onChange={(e) => this.handleDateCheckBox(e, task, task.end[i], index)}
                                                             value={start}
                                                             type="checkbox"
-                                                            name={`selectedTimes${task.roleName}`}/>
+                                                            name={`selectedTimes${task._id}`}/>
                                                 </li>
                                                 <br/>
                                               </ul>
