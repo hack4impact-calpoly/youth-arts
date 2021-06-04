@@ -19,6 +19,7 @@ const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
 const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
+const { default: intlFormat } = require('date-fns/fp/intlFormat');
 
 let transport = nodemailer.createTransport({
   service: "gmail",
@@ -401,7 +402,6 @@ app.post("/api/cancelOpportunity", async(req, res) => {
 
 app.post("/api/postVolunteer", async(req, res) => {
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body);
-   res.send(newVolunteer);
 
    //Email to new volunteer + admin
    const volunteerMessage = {
@@ -432,18 +432,22 @@ app.post("/api/postVolunteer", async(req, res) => {
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err)
       } else {
          console.log(info)
+         res.send(info)
       }
    });
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err)
       } else {
          console.log(info)
+         res.send(info)
+         
       }
    });   
-   res.json(newVolunteer);
    res.send(newVolunteer);
 })
 
