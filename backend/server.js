@@ -499,7 +499,7 @@ app.post("/api/VolunteerTask", async (req, res) => {
 
    try{
       await postNewVolunteerTask(task, description, start, end, donated, oppId, volId, business);
-      res.status(200);
+      res.status(200).send(task);
 
    }
    catch (error)
@@ -716,8 +716,10 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err)
       } else {
          console.log(info)
+         res.send(info)
       }
    })
    
@@ -725,8 +727,10 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err)
       } else {
          console.log(info)
+         res.send(info)
       }
    })
 
