@@ -210,7 +210,7 @@ class RegistrationPage extends React.Component {
     {
       fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer/`, {
         method: "POST",
-        mode: 'no-cors',
+        // mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
       },
