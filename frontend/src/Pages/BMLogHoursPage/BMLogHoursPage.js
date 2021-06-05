@@ -25,7 +25,10 @@ function BMLogHoursPage(props) {
     else if (props.user !== null && props.user.boardMember && props.user.opportunities !== null && props.user.opportunities !== undefined) {
         opportunities = props.user.opportunities;
         Object.keys(opportunities).map((item) => {
-            key = item;
+            if (item._id === '6099c78c001ee300081c1dab')
+            {
+                key = item;
+            }
             return null;
         })
         opportunities = opportunities[key];
