@@ -225,6 +225,7 @@ class RegistrationPage extends React.Component {
         else
         {
           this.props.updateProfile(userdata);
+          this.props.setnewUser(0);
           this.setState({ redirect: true });
         }
           

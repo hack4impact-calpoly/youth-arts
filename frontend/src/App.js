@@ -172,7 +172,7 @@ const App = () => {
               setVolunteers={setVolunteers}
               setOpportunities={setOpportunities} />
                 :
-                <RegistrationPage user={profile} updateProfile={updateProfile} />
+                <RegistrationPage user={profile} updateProfile={updateProfile} setnewUser={setnewUser}/>
               ) 
             :
             <div>
@@ -207,7 +207,7 @@ const App = () => {
         </Route>
 
         <Route path='/registration'>
-          <RegistrationPage user={profile} />
+          <RegistrationPage user={profile} updateProfile={updateProfile} setnewUser={setnewUser}/>
         </Route>
 
         <Route path='/registrationConfirmation'>
