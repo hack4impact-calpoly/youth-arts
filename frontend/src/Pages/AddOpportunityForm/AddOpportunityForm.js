@@ -24,20 +24,41 @@ function AddOpportunityForm(props) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const opp = {
-       _id: opportunity.id, 
-       title: opportunity.title,
-        description: opportunity.description,
-        pictures: opportunity.pictures,
-        start_event: opportunity.start_event,
-        end_event: opportunity.end_event,
-        skills: opportunity.skills,
-        wishlist: opportunity.wishlist,
-        location: opportunity.location,
-        requirements: opportunity.requirements,
-        tasks: opportunity.tasks,
-        additionalInfo: opportunity.additionalInfo,
-        volunteers: opportunity.volunteers }
+    if (opportunity.id == "")
+    {
+      const opp = {
+        title: opportunity.title,
+         description: opportunity.description,
+         pictures: opportunity.pictures,
+         start_event: opportunity.start_event,
+         end_event: opportunity.end_event,
+         skills: opportunity.skills,
+         wishlist: opportunity.wishlist,
+         location: opportunity.location,
+         requirements: opportunity.requirements,
+         tasks: opportunity.tasks,
+         additionalInfo: opportunity.additionalInfo,
+         volunteers: opportunity.volunteers }
+
+    }
+    else{
+      const opp = {
+        _id: opportunity.id, 
+        title: opportunity.title,
+         description: opportunity.description,
+         pictures: opportunity.pictures,
+         start_event: opportunity.start_event,
+         end_event: opportunity.end_event,
+         skills: opportunity.skills,
+         wishlist: opportunity.wishlist,
+         location: opportunity.location,
+         requirements: opportunity.requirements,
+         tasks: opportunity.tasks,
+         additionalInfo: opportunity.additionalInfo,
+         volunteers: opportunity.volunteers }
+
+    }
+
 
     if (opp.title === "" ||
         opp.description === "" ||
@@ -88,6 +109,7 @@ function AddOpportunityForm(props) {
        requirements: [""],
        additionalInfo: [""],
        volunteers: {},
+       id: "",
        tasks: [{start: [new Date()], end: [new Date()], additionalInfo: [""], roleName: "", description: ""}], 
       }
   }
