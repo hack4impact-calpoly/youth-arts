@@ -26,13 +26,6 @@ let transport = nodemailer.createTransport({
      user: `${process.env.EMAIL_USER}`,
      pass: `${process.env.EMAIL_PASSWORD}`
   },
-   // name: 'youtharts-volunteer.h4i-cp.org',
-   // host: "smtp.mailtrap.io",
-   // port: 2525,
-   // auth: {
-   //    user: "333d5d35efddbb",
-   //    pass: "619530fcb4f9a9"
-   // },
    logger: true
 })
 

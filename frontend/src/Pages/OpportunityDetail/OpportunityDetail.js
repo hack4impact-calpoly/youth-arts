@@ -1,25 +1,15 @@
 import React, {useState} from 'react';
-import Footer from '../../Components/Footer/Footer';
 import './OpportunityDetail.css'
-import ActionButton from "../../Components/ActionButton/ActionButton";
 import ImageCarousel from './ImageCarousel/ImageCarousel'
-// import { CarouselData } from './ImageCarousel/CarouselData'
 import dateFormat from 'dateformat';
-import {MdClose} from 'react-icons/md'
 import SignInWithGoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton'
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateMomentUtils from '@date-io/moment'
 import DateFnsUtils from '@date-io/date-fns'
-import {KeyboardDateTimePicker} from '@material-ui/pickers';
 import {Link} from 'react-router-dom';
-//import DateMomentUtils from '@date-io/moment'; 
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 import {Modal, Button} from "react-bootstrap";
-import Moment from "moment";
-import tz from "moment-timezone";
-
-
 
 class OpportunityDetail extends React.Component{
 
@@ -56,8 +46,6 @@ class OpportunityDetail extends React.Component{
     updateCartWithOpportunity(task){
         task["oppId"] = this.state._id
         task["volId"] = this.state.user._id
-        //task["donated"] = this.state.donatedItems
-        
         this.state.updateCart(task)
     }
     
@@ -65,7 +53,6 @@ class OpportunityDetail extends React.Component{
     async componentDidMount() {
         let id = window.location.pathname;
         id = id.replace("/opportunityDetail/", "");
-        //console.log(id);
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
         await fetch(url)
         .then(res => res.json())
@@ -84,7 +71,6 @@ class OpportunityDetail extends React.Component{
     {
         let id = window.location.pathname;
         id = id.replace("/opportunityDetail/", "");
-        //console.log(id);
         const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
         await fetch(url)
         .then(res => res.json())

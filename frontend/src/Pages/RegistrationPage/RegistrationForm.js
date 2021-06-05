@@ -1,9 +1,7 @@
 
 import './RegistrationForm.css';
-import NavBar from '../../Components/NavBar/NavBar'
 import Header from "../../Components/Header/Header";
 import React from 'react';
-import headerImage from './headerImage.png';
 import SubmitButton from '../../Components/SubmitButton/SubmitButton'
 import classroom from '../../Images/classroom.png'
 import event from '../../Images/event.png'
@@ -114,10 +112,6 @@ class RegistrationPage extends React.Component {
     let value = e.target.value;
     this.setState( {phoneNum: value} );
   }
-  // handleAddress(e) {
-  //   let value = e.target.value;
-  //   this.setState( {address: value} );
-  // }
   handleExperience(e) {
     let value = e.target.value;
     this.setState( {experience: value} );
@@ -195,7 +189,6 @@ class RegistrationPage extends React.Component {
       boardMember: this.state.boardMember,
       opportunities: this.state.opportunities}
     console.log(JSON.stringify(userdata));
-    console.log(userdata.email);
 
     if (userdata.firstName === "" ||
         userdata.lastName === "" ||
@@ -211,7 +204,6 @@ class RegistrationPage extends React.Component {
     {
       fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer`, {
         method: "POST",
-        // mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
       },
@@ -288,9 +280,7 @@ class RegistrationPage extends React.Component {
       <div >
         <Header user={this.state.user}/>
         <body>
-            {/* <div id="headerImage"> */}
               <div>
-              {/* <img src={headerImage} width= "auto" height="100" alt=""></img> */}
               <h2 className="PRYAheaderTitle">Paso Robles Youth Arts</h2>
             </div>
         </body>

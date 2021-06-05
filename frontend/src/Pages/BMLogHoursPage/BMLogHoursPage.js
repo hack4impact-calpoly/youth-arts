@@ -1,13 +1,9 @@
 import "./BMLogHoursPage.css";
 import { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
-import ObjectID from "bson-objectid";
-import Opportunities from "../../Components/Opportunities/Opportunities";
 import {Link} from 'react-router-dom';
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
-// import { update } from "../../../../backend/models/volunteer";
 
 function BMLogHoursPage(props) {
     //stores inputs from form
@@ -68,7 +64,7 @@ function BMLogHoursPage(props) {
             return false;
         }
         else if (startDT > endDT) {
-            alert("Start and end dates are invalid. Please enter dates again.");
+            alert("Start date is after end date. Please correct and try again.");
             return false;
         }
         return true;
@@ -239,10 +235,6 @@ function BMLogHoursPage(props) {
                     />
                 </MuiPickersUtilsProvider>
                 <br></br>
-                {/* <label for="startDateTime">Start Date and Time:</label><br />
-                <TextField name="startDateTime" type="datetime-local" onChange={e => setStartDT(e.target.value)} /><br /><br />
-                <label for="endDateTime">End Date and Time:</label><br />
-                <TextField name="endDateTime" type="datetime-local" onChange={e => setEndDT(e.target.value)} /><br /><br /> */}
                 <Form.Group>
                     <br></br>
                     <Form.Label>Task (i.e. "Board meeting")</Form.Label>

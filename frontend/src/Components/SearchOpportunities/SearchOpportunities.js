@@ -28,10 +28,8 @@ function SearchOpportunities(props) {
         fetchAll().then(result => {
             if(result) {
                 result = result.filter(opp => opp.title != "Board Member");
-                console.log()
                 result = result.filter(opp => {
                     let diff = moment.duration(moment(opp.end_event[opp.end_event.length - 1]).diff(moment().startOf('day'))).asHours();
-                    console.log(diff);
                     if (!moment.duration(moment(opp.end_event[opp.end_event.length - 1]).diff(moment().startOf('day'))).asHours()) {
                         diff = 0;
                     }

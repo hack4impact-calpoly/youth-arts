@@ -7,10 +7,4 @@ export const CarouselData = [
     {
         image: logo
     },
-    // {
-    //     image: image1
-    // },
-    // {
-    //     image: image2
-    // },
 ]

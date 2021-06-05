@@ -2,8 +2,6 @@ import "./OpportunityCheckout.css"
 import React from "react";
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
-import Moment from "moment";
-import tz from "moment-timezone";
 
 class OpportunityCheckout extends React.Component{
 

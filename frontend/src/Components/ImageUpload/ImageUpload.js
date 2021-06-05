@@ -49,7 +49,6 @@ class ImageUpload extends Component {
               status: 'Uploading..',
             }
                 let progressPercentage = Math.round(evt.loaded / evt.total * 100);
-                console.log(progressPercentage);
                 progressBar.style.width = progressPercentage + "%";
                 if (progressPercentage < 100) {
                   fileUpload.progressStatus = progressPercentage;

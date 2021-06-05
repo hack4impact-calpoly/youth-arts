@@ -1,4 +1,3 @@
-import NavBar from '../../Components/NavBar/NavBar'
 import Header from "../../Components/Header/Header";
 import React from 'react';
 import GoogleButton from '../../Components/SignInWithGoogleButton/GoogleButton';

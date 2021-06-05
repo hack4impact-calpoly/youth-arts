@@ -95,21 +95,17 @@ function ReportsSearchOpportunities(props) {
                     fileName + ".csv"
                 );
                 let rowOpportunity = opportunities.filter(o => o.title == thisRow.title && o.location == thisRow.location);
-                console.log(rowOpportunity);
                 let rowVols = []
-                console.log(Object.keys(rowOpportunity[0].volunteers));
                 if (rowOpportunity.length && rowOpportunity[0].volunteers !== undefined) {
                     rowVols = Object.keys(rowOpportunity[0].volunteers);
                     rowVols.forEach(function(part, index, theArray) {
                         let curVol = volunteers.filter(v => v._id == part);
-                        console.log(curVol);
                         if (curVol.length && curVol[0] !== undefined) {
                             let hours = 0;
                             let donated = [];
                             let taskList = [];
                             Object.keys(curVol[0].opportunities).map(function(key, index) {
                                 let tasks = curVol[0].opportunities[key];
-                                console.log(tasks);
                                 let times = tasks.map(task => {
                                     taskList.push(task.task);
                                     for (var i = 0; i < task.start.length; i++)
@@ -147,7 +143,6 @@ function ReportsSearchOpportunities(props) {
                         }
                       });
                 }
-                console.log(rowVols);
                 builder
                     .setColumns( ['First Name', 'Last Name', 'Email', 'Phone Number', 'Address', "Tasks", "Hours Volunteered", "Items Donated"])
                     .addRows(rowVols)
@@ -157,7 +152,6 @@ function ReportsSearchOpportunities(props) {
           },
           {
             field: "Contact Volunteers",
-            // headerName: "Export Volunteers",
             sortable: false,
             export: false,
             width: 130,
@@ -181,12 +175,10 @@ function ReportsSearchOpportunities(props) {
                     fileName + ".csv"
                 );
                 let rowOpportunity = opportunities.filter(o => o.title == thisRow.title && o.location == thisRow.location);
-                console.log(rowOpportunity);
                 let rowVols = []
                 if (rowOpportunity.length && rowOpportunity[0].volunteers !== undefined) {
                     rowVols = Object.keys(rowOpportunity[0].volunteers);
                     rowVols.forEach(function(part, index, theArray) {
-                        console.log(part);
                         let curVol = volunteers.filter(v => v._id == part);
                         if (curVol.length && curVol[0] !== undefined) {
                             theArray[index] = [curVol[0].firstName, curVol[0].lastName, curVol[0].phoneNum];

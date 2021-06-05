@@ -1,6 +1,5 @@
 import './App.css';
 import React, { useState, useEffect} from "react";
-import NavBar from "./Components/NavBar/NavBar.js"
 import Header from "./Components/Header/Header";
 import Footer from "./Components/Footer/Footer.js"
 import LoginPage from './Pages/LoginPage/LoginPage'
@@ -14,7 +13,6 @@ import OpportunitiesPage from './Pages/OpportunitiesPage/OpportunitiesPage';
 import AuthenticatedUserDashboard from "./Pages/AuthenticatedUserDashboard/AuthenticatedUserDashboard";
 import DirectoryPage from "./Pages/DirectoryPage/Directory"
 import ReportsPage from "./Pages/ReportsPage/ReportsPage.js";
-// import FAQPage from "./Pages/FAQPage/FAQPage.js";
 import CalendarPage from "./Pages/CalendarPage/CalendarPage.js";
 import OpportunityCheckout from "./Pages/OpportunityCheckout/OpportunityCheckout.js";
 import FAQPage from "./Pages/FAQPage/FAQPage";
@@ -290,10 +288,6 @@ const App = () => {
             setVolunteers={setVolunteers}
             setOpportunities={setOpportunities} />
         }
-
-        {/* <Route path='/FAQ'>
-            <FAQPage user={profile}/>
-          </Route> */}
 
       </Switch>
     </BrowserRouter>

@@ -1,4 +1,3 @@
-//import styles from './NavBar.module.css';
 import './NavBar.css';
 import logo from '../../Images/YouthArtsLogoReversed.png';
 import {Link} from 'react-router-dom'
