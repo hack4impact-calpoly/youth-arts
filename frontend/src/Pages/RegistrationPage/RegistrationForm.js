@@ -39,7 +39,7 @@ class RegistrationPage extends React.Component {
         boardMember: false,
         signature: false,
         userID: "",
-        picture: [],
+        picture: "",
         signatureValue: "",
         icons: [classroom, event, fundraiser, maintenance, officeAdmin, performance],
         roleOptions: ["Parent", "Community Member", "Student"],
@@ -195,6 +195,7 @@ class RegistrationPage extends React.Component {
       boardMember: this.state.boardMember,
       opportunities: this.state.opportunities}
     console.log(JSON.stringify(userdata));
+    console.log(userdata.email);
 
     if (userdata.firstName === "" ||
         userdata.lastName === "" ||
@@ -210,18 +211,23 @@ class RegistrationPage extends React.Component {
     {
       fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer`, {
         method: "POST",
-        mode: 'no-cors',
+        // mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
       },
         body: JSON.stringify(userdata)
       }).then(response => {
-          response.json().then(data => 
-            {
-              console.log("Successful" + data);
-              this.props.updateProfile(userdata);
-              this.setState({ redirect: true });
-        });
+        console.log(response);
+        if(!response.ok)
+        {
+          response.text().then(result => Promise.reject(new Error(result)));
+        }
+        else
+        {
+          this.props.updateProfile(userdata);
+          this.setState({ redirect: true });
+        }
+          
       });
     }
   }

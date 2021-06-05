@@ -400,6 +400,9 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       });
 
 app.post("/api/postVolunteer", async(req, res) => {
+   console.log(req.body.email);
+   console.log(req.body);
+   console.log(process.env.EMAIL_USER);
    const newVolunteer = await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 
    //Email to new volunteer + admin
@@ -408,7 +411,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       to: req.body.email,
       subject: "Account signup successful",
       text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
-      html: "<img width='500' src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org. Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to volunteer or donate.</p>",
+      html: "<img width='500' src = cid:YouthArtsLogo /><br></br> <p>Congratulations " + req.body.firstName + ",<br></br>You have successfully made an account with Paso Robles Youth Arts Volunteering! </br> Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org. </br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to login and register to volunteer and donate.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
@@ -421,7 +424,7 @@ app.post("/api/postVolunteer", async(req, res) => {
       to: `${process.env.EMAIL_USER}`,
       subject: "New Volunteer Registration",
       text: req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
-      html: "<img width='500' src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering. Their contact email is: " +  req.body.email + ".</p>",
+      html: "<img width='500' src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + " " + req.body.lastName + " created an account with <a href='https://youtharts-volunteer.h4i-cp.org/'>Paso Robles Youth Arts Volunteering<a>. Their contact email is: " +  req.body.email + ".</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
          path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
@@ -431,19 +434,15 @@ app.post("/api/postVolunteer", async(req, res) => {
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
-         res.send(err);
       } else {
          console.log(info)
-         res.send(info);
       }
    });
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
-         res.send(err);
       } else {
          console.log(info)
-         res.send(info);
       }
    });   
    res.send(newVolunteer);
