@@ -431,15 +431,19 @@ app.post("/api/postVolunteer", async(req, res) => {
    transport.sendMail(volunteerMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err);
       } else {
          console.log(info)
+         res.send(info);
       }
    });
    transport.sendMail(adminMessage, function(err, info) {
       if (err) {
          console.log(err)
+         res.send(err);
       } else {
          console.log(info)
+         res.send(info);
       }
    });   
    res.send(newVolunteer);

@@ -11,8 +11,8 @@ import DateFnsUtils from '@date-io/date-fns';
 
 function BMLogHoursPage(props) {
     //stores inputs from form
-    const [startDT, setStartDT] = useState("");
-    const [endDT, setEndDT] = useState("");
+    const [startDT, setStartDT] = useState(new Date());
+    const [endDT, setEndDT] = useState(new Date());
     const [tasks, setTasks] = useState("");
     const [showLoggedModal, setshowLoggedModal] = useState(false);
     const [boardOpportunity, setboardOpportunity] = useState({});

@@ -219,7 +219,7 @@ class RegistrationPage extends React.Component {
           response.json().then(data => 
             {
               console.log("Successful" + data);
-              this.props.updateProfile(data);
+              this.props.updateProfile(userdata);
               this.setState({ redirect: true });
         });
       });
