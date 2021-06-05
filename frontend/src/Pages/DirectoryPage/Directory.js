@@ -30,7 +30,7 @@ function Directory(props) {
                     }
                     else
                     {
-                        return -1;
+                        return 1;
                     }
                  });
                 setDirectory(result);

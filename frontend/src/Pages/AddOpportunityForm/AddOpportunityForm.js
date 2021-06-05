@@ -24,6 +24,7 @@ function AddOpportunityForm(props) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const opp = {}
     if (opportunity.id == "")
     {
       const opp = {
