@@ -24,9 +24,13 @@ function Directory(props) {
             if(result) {
                 console.log(result);
                 result.sort(function(a, b) {
-                    if (a['lastName'] && b['lastName'])
+                    if (a['lastName'] && a['lastName'].length && b['lastName'] && b['lastName'].length)
                     {
                         return a.lastName.localeCompare(b.lastName);
+                    }
+                    else
+                    {
+                        return -1;
                     }
                  });
                 setDirectory(result);
