@@ -87,7 +87,8 @@ function AddOpportunityForm(props) {
        location: "",
        requirements: [],
        additionalInfo: [],
-       volunteers: {} 
+       volunteers: {},
+       tasks: [{start: [new Date()], end: [new Date()], additionalInfo: [], roleName: "", description: ""}], 
       }
   }
   const[opportunity] = useState(props.state.opportunity);
