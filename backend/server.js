@@ -347,7 +347,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
       "<br></br> You have successfully cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
-      " on " + dateFormat(req.body.cancelOpp.start, "fullDate") + " at " + dateFormat(req.body.cancelOpp.start, "hh:MM TT") + 
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate") + " at " + dateFormat(req.body.cancelOpp.start, "hh:MM TT p") + 
       "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
@@ -360,7 +360,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       to: `${process.env.EMAIL_USER}`,
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p> " + newVolunteer.firstName + " " + newVolunteer.lastName + " has cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
-      " on " + dateFormat(req.body.cancelOpp.start, "fullDate") + " at " + dateFormat(req.body.cancelOpp.start, "hh:MM TT") + 
+      " on " + dateFormat(req.body.cancelOpp.start, "fullDate") + " at " + dateFormat(req.body.cancelOpp.start, "hh:MM TT o") + 
       "<br></br><br></br> Their contact email is: " + newVolunteer.email + "</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
