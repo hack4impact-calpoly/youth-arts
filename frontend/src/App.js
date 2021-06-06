@@ -153,7 +153,7 @@ const App = () => {
         </Route>
         <Route exact path="/volunteer">
           <Header user={profile} />
-          <ContactPage />
+          <ContactPage allOpportunities={opportunities}/>
           <Footer />
         </Route>
         <Route path="/FAQ">

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import AWS from 'aws-sdk'
 
-function ContactPage() {
+function ContactPage(props) {
     const anonPic = "https://nlgmass.org/wp-content/uploads/eb4d0533e292cf95bff821da17289e80.png"
     //get id and find volunteer object on backend
     const id = window.location.hash.substring(1);
@@ -37,6 +37,7 @@ function ContactPage() {
         if(contact === null || contact.opportunities === undefined || contact.opportunities === null) {
             return false;
         }
+        console.log(contact.opportunities);
         return true;
     }
     function handleChangeDescription(e) 
@@ -115,11 +116,16 @@ function ContactPage() {
                         </div>
                         <div id="outreach">
                             <h3 className="contactTitle">Events</h3>
-                            {getEvents() ? Object.values(contact.opportunities).map((opps, index) => (
-                                opps.map((singleOpp, i) => (
-                                    <ContactOpportunityCard key={i} {...singleOpp} />
-                                ))
-                            )) : null}
+                            {getEvents() ? Object.keys(contact.opportunities).map((oppId, index) => (
+                                contact.opportunities[oppId].map((singleOpp, i) => {
+                                    var theOp = props.allOpportunities.filter(function (o) {
+                                        return o._id == oppId;
+                                      });
+                                    return (
+                                        <ContactOpportunityCard key={i} title={theOp[0].title} {...singleOpp} />
+                                    )
+                                }
+                            ))) : null}
                         </div>
                     </Col>
                 </Row>
