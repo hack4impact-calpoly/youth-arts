@@ -21,74 +21,6 @@ function AddOpportunityForm(props) {
 
   const[notValid, setnotValid] = useState(false);
   const history = useHistory();
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const opp = {}
-    if (opportunity.id == "")
-    {
-      const opp = {
-        title: opportunity.title,
-         description: opportunity.description,
-         pictures: opportunity.pictures,
-         start_event: opportunity.start_event,
-         end_event: opportunity.end_event,
-         skills: opportunity.skills,
-         wishlist: opportunity.wishlist,
-         location: opportunity.location,
-         requirements: opportunity.requirements,
-         tasks: opportunity.tasks,
-         additionalInfo: opportunity.additionalInfo,
-         volunteers: opportunity.volunteers }
-
-    }
-    else{
-      const opp = {
-        _id: opportunity.id, 
-        title: opportunity.title,
-         description: opportunity.description,
-         pictures: opportunity.pictures,
-         start_event: opportunity.start_event,
-         end_event: opportunity.end_event,
-         skills: opportunity.skills,
-         wishlist: opportunity.wishlist,
-         location: opportunity.location,
-         requirements: opportunity.requirements,
-         tasks: opportunity.tasks,
-         additionalInfo: opportunity.additionalInfo,
-         volunteers: opportunity.volunteers }
-
-    }
-
-
-    if (opp.title === "" ||
-        opp.description === "" ||
-        opp.start_event === [""] ||
-        opp.end_event === [""] ||
-        opp.skills === [""]
-        )
-    {
-      console.log("notvalid")
-      setnotValid(true)
-    }
-    else
-    {
-      fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-      },
-        body: JSON.stringify(opp)
-      }).then(response => {
-          response.json().then(data => {
-          console.log("Successful" + data);
-        });
-      });
-    }
-    refresh()
-
-  }
-
   const icons = [classroom, event, fundraiser, maintenance, officeAdmin, performance];
   const AOIOptions = ["Classroom", "Event", "Fundraiser", "Maintenance", "Office/Admin", "Performance"];
 
@@ -120,6 +52,81 @@ function AddOpportunityForm(props) {
 
   const [wishList, setWishList] = useState(opportunity.wishlist);
   const [rerender, setRerender] = useState(false);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    let opp = opportunity
+    console.log(opportunity);
+    if (opportunity.id == "")
+    {
+      opp = 
+      {
+      title: opportunity.title,
+        description: opportunity.description,
+        pictures: opportunity.pictures,
+        start_event: opportunity.start_event,
+        end_event: opportunity.end_event,
+        skills: opportunity.skills,
+        wishlist: opportunity.wishlist,
+        location: opportunity.location,
+        requirements: opportunity.requirements,
+        tasks: opportunity.tasks,
+        additionalInfo: opportunity.additionalInfo,
+        volunteers: opportunity.volunteers 
+      }
+
+    }
+    else{
+      opp = {
+        _id: opportunity.id, 
+        title: opportunity.title,
+         description: opportunity.description,
+         pictures: opportunity.pictures,
+         start_event: opportunity.start_event,
+         end_event: opportunity.end_event,
+         skills: opportunity.skills,
+         wishlist: opportunity.wishlist,
+         location: opportunity.location,
+         requirements: opportunity.requirements,
+         tasks: opportunity.tasks,
+         additionalInfo: opportunity.additionalInfo,
+         volunteers: opportunity.volunteers 
+        }
+    }
+
+
+    if (opp.title === "" ||
+        opp.description === "" ||
+        opp.start_event === [""] ||
+        opp.end_event === [""] ||
+        opp.skills === [""]
+        )
+    {
+      console.log("notvalid")
+      setnotValid(true)
+    }
+    else
+    {
+      console.log(opp);
+      console.log(JSON.stringify(opp))
+
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(opp)
+      }).then(response => {
+          response.json().then(data => {
+          console.log("Successful" + data);
+        });
+      });
+    }
+    refresh()
+
+  }
+
+  
 
   const handleAOICheckBox = (e) => {
     const newSelection = e.target.value;
