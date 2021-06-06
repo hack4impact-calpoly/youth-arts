@@ -348,7 +348,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
       "<br></br> You have successfully cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
-      " on " + moment(req.body.cancelOpp.start).utcOffset(req.body.cancelOpp.start).format("MMMM Do, YYYY") + " from " + moment(req.body.cancelOpp.start).utcOffset(req.body.cancelOpp.start).format("hh:mm A") + " to " + moment(req.body.cancelOpp.end).utcOffset(req.body.cancelOpp.start,true).format("hh:mm A") + moment(req.body.cancelOpp.end, true).utcOffset(req.body.cancelOpp.start,true).format("hh:mm A") +
+      " on " + moment(req.body.cancelOpp.start).utcOffset(req.body.cancelOpp.start).format("MMMM Do, YYYY") + " from " + moment(req.body.cancelOpp.start).utcOffset(req.body.cancelOpp.start).format("hh:mm A") + " to " + moment(req.body.cancelOpp.end).utcOffset(req.body.cancelOpp.start,true).format("hh:mm A") + moment(req.body.cancelOpp.end, true).subtract({h:7}).format("hh:mm A") +
       "<br></br><br></br>Go to https://youtharts-volunteer.h4i-cp.org/ to register for a new opportunity.</p>",
       attachments: [{
          filename: "YouthArtsLogo.png",
@@ -692,7 +692,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       subject: opportunity.title + " sign up successful",
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about the volunteer opportunity you selected. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
       "<br></br> You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
-      " on " + moment(start[0]).format("MMMM Do, YYYY") + " from " + moment(start[0]).format("hh:mm A") + " to " + moment(end[0]).format("hh:mm A") +
+      " on " + moment(start[0]).format("MMMM Do, YYYY") + " from " + moment(start[0]).format("hh:mm A") + " to " + moment(end[0]).format("hh:mm A") + moment(end[0]).subtract({h:7}).format("hh:mm A")
       ".</p><p>The event will be held at " + opportunity.location + 
       ".</p><p>Your business is: " + business + ".<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.",
       attachments: [{
@@ -765,43 +765,43 @@ const getVolunteerByName = async (first, last) => {
    return await Volunteer.findOne({firstName: first, lastName: last})
 }
 
-const getVolunteerPersonalInfo = async (opp_id) => {
-   volunteer_info = []
-   volunteer_ids = await Opportunity.findById(opp_id).volunteers.keys()
-   for (id in volunteer_ids) {
-      volunteer = await Volunteer.findById(id)
-      info = []
-      info.push(volunteer.firstName)
-      info.push(volunteer.lastName)
-      info.push(volunteer.phoneNumber)
-      volunteer_info.push(info)
-   }
-   return volunteer_info
-}
+// const getVolunteerPersonalInfo = async (opp_id) => {
+//    volunteer_info = []
+//    volunteer_ids = await Opportunity.findById(opp_id).volunteers.keys()
+//    for (id in volunteer_ids) {
+//       volunteer = await Volunteer.findById(id)
+//       info = []
+//       info.push(volunteer.firstName)
+//       info.push(volunteer.lastName)
+//       info.push(volunteer.phoneNumber)
+//       volunteer_info.push(info)
+//    }
+//    return volunteer_info
+// }
 
-const getVolunteerInfo = async (opp_id) => {
-   volunteer_info = []
-   hours = 0
-   volunteers = await Opportunity.findById(opp_id).volunteers
-   for (id in volunteers.keys()) {
-      volunteer = await Volunteer.findById(id)
-      volunteer_opp_info = volunteers.get(id)
-      info = []
-      info.push(volunteer.firstName + " " + volunteer.lastName)
-      info.push(volunteer.phoneNumber)
-      for (i = 0; i < volunteer_opp_info.start.length; i++) {
-         if (volunteer_opp_info.end[i].getTime() <= Date.now().getTime()) {
-            hours += (volunteer_opp_info.end[i].getTime() - volunteer_opp_info.start[i].getTime())
-         } 
-      }
-      info.push(hours)
-      info.push(volunteer_opp_info.donated)
-      info.push(volunteer.email)
-      info.push(volunteer_opp_info.tasks)
-      volunteer_info.push(info)
-   }
-   return volunteer_info
-}
+// const getVolunteerInfo = async (opp_id) => {
+//    volunteer_info = []
+//    hours = 0
+//    volunteers = await Opportunity.findById(opp_id).volunteers
+//    for (id in volunteers.keys()) {
+//       volunteer = await Volunteer.findById(id)
+//       volunteer_opp_info = volunteers.get(id)
+//       info = []
+//       info.push(volunteer.firstName + " " + volunteer.lastName)
+//       info.push(volunteer.phoneNumber)
+//       for (i = 0; i < volunteer_opp_info.start.length; i++) {
+//          if (volunteer_opp_info.end[i].getTime() <= Date.now().getTime()) {
+//             hours += (volunteer_opp_info.end[i].getTime() - volunteer_opp_info.start[i].getTime())
+//          } 
+//       }
+//       info.push(hours)
+//       info.push(volunteer_opp_info.donated)
+//       info.push(volunteer.email)
+//       info.push(volunteer_opp_info.tasks)
+//       volunteer_info.push(info)
+//    }
+//    return volunteer_info
+// }
 
 // const volunteerSignUp = async (vol_id, opp_id, tasks, startTime, endTime) => {
    
@@ -864,106 +864,106 @@ const getVolunteerInfo = async (opp_id) => {
 // }
 
 
-const volunteerUnregister = async (vol_id, opp_id) => {
+// const volunteerUnregister = async (vol_id, opp_id) => {
    
-   volunteer = await Volunteer.findById(vol_id)
-   opportunity = await Opportunity.findById(opp_id)
-   for(i = 0; i < opportunity.volunteers.length; i++){
-      if(opportunity.volunteers[i].vol_id == vol_id){
-         opportunity.volunteers.splice(i, 1)
-      }
-   }
-   for(i = 0; i < volunteer.opportunities.length; i++){
-      if(volunteer.opportunities[i].opp_id == opp_id){
-         volunteer.opportunities.splice(i, 1)
-      }
-   }
-   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
-   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+//    volunteer = await Volunteer.findById(vol_id)
+//    opportunity = await Opportunity.findById(opp_id)
+//    for(i = 0; i < opportunity.volunteers.length; i++){
+//       if(opportunity.volunteers[i].vol_id == vol_id){
+//          opportunity.volunteers.splice(i, 1)
+//       }
+//    }
+//    for(i = 0; i < volunteer.opportunities.length; i++){
+//       if(volunteer.opportunities[i].opp_id == opp_id){
+//          volunteer.opportunities.splice(i, 1)
+//       }
+//    }
+//    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+//    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
    
-   //Emails to confirm signup
-   const volunteerMessage = {
-      from: `${process.env.EMAIL_USER}`,
-      to: volunteer.email,
-      subject: opportunity.title + " sign up successful",
-      html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
-      " on " + moment(opportunity.start_event).format("MMMM Do, YYYY") + " from " + moment(opportunity.start_event).format("hh:mm a") + " to " + moment(opportunity.end_event).format("hh:mm a") +
-      ".</p><br></br>",
-      attachments: [{
-         filename: "YouthArtsLogo.png",
-         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
-         cid: "YouthArtsLogo"
-      }]
-   }
+//    //Emails to confirm signup
+//    const volunteerMessage = {
+//       from: `${process.env.EMAIL_USER}`,
+//       to: volunteer.email,
+//       subject: opportunity.title + " sign up successful",
+//       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br>You have successfully unregistered for your volunteer session for " + opportunity.title + 
+//       " on " + moment(opportunity.start_event).format("MMMM Do, YYYY") + " from " + moment(opportunity.start_event).format("hh:mm a") + " to " + moment(opportunity.end_event).format("hh:mm a") +
+//       ".</p><br></br>",
+//       attachments: [{
+//          filename: "YouthArtsLogo.png",
+//          path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
+//          cid: "YouthArtsLogo"
+//       }]
+//    }
 
-   const adminMessage = {
-      from: `${process.env.EMAIL_USER}`,
-      to: `${process.env.EMAIL_USER}`,
-      subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
-      html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
-      " on " + moment(opportunity.start_event).format("MMMM Do, YYYY") + " from " + moment(opportunity.start_event).format("hh:mm a") + " to " + moment(opportunity.end_event).format("hh:mm a") +
-      ". Their contact email is: " + volunteer.email + "</p><br></br>",
-      attachments: [{
-         filename: "YouthArtsLogo.png",
-         path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
-         cid: "YouthArtsLogo"
-      }]
-   }
+//    const adminMessage = {
+//       from: `${process.env.EMAIL_USER}`,
+//       to: `${process.env.EMAIL_USER}`,
+//       subject: opportunity.title + " unregistration successful - " + volunteer.firstName + " " + volunteer.lastName,
+//       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>" + volunteer.firstName + " " + volunteer.lastName + " has unregistered for a volunteer session for " + opportunity.title + 
+//       " on " + moment(opportunity.start_event).format("MMMM Do, YYYY") + " from " + moment(opportunity.start_event).format("hh:mm a") + " to " + moment(opportunity.end_event).format("hh:mm a") +
+//       ". Their contact email is: " + volunteer.email + "</p><br></br>",
+//       attachments: [{
+//          filename: "YouthArtsLogo.png",
+//          path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
+//          cid: "YouthArtsLogo"
+//       }]
+//    }
 
-   transport.sendMail(volunteerMessage, function(err, info) {
-      if (err) {
-         console.log(err)
-      } else {
-         console.log(info)
-      }
-   })
-   transport.sendMail(adminMessage, function(err, info) {
-      if (err) {
-         console.log(err)
-      } else {
-         console.log(info)
-      }
-   })
-}
+//    transport.sendMail(volunteerMessage, function(err, info) {
+//       if (err) {
+//          console.log(err)
+//       } else {
+//          console.log(info)
+//       }
+//    })
+//    transport.sendMail(adminMessage, function(err, info) {
+//       if (err) {
+//          console.log(err)
+//       } else {
+//          console.log(info)
+//       }
+//    })
+// }
 
-const updateStartTime = async (vol_id, opp_id, start) => {
-   volunteer = await Volunteer.findById(vol_id)
-   opportunity = await Opportunity.findById(opp_id)
-   vol = opportunity.volunteers.get(vol_id)
-   opp = volunteer.opportunities.get(opp_id)
-   vol.start = start
-   opp.start = start
-   opportunity.volunteers.set(vol_id, vol)
-   volunteer.opportunities.set(opp_id, opp)
-   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
-   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
-}
+// const updateStartTime = async (vol_id, opp_id, start) => {
+//    volunteer = await Volunteer.findById(vol_id)
+//    opportunity = await Opportunity.findById(opp_id)
+//    vol = opportunity.volunteers.get(vol_id)
+//    opp = volunteer.opportunities.get(opp_id)
+//    vol.start = start
+//    opp.start = start
+//    opportunity.volunteers.set(vol_id, vol)
+//    volunteer.opportunities.set(opp_id, opp)
+//    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+//    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+// }
 
-const updateEndTime = async (vol_id, opp_id, end) => {
-   volunteer = await Volunteer.findById(vol_id)
-   opportunity = await Opportunity.findById(opp_id)
-   vol = opportunity.volunteers.get(vol_id)
-   opp = volunteer.opportunities.get(opp_id)
-   vol.end = end
-   opp.end = end
-   opportunity.volunteers.set(vol_id, vol)
-   volunteer.opportunities.set(opp_id, opp)
-   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
-   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
-}
+// const updateEndTime = async (vol_id, opp_id, end) => {
+//    volunteer = await Volunteer.findById(vol_id)
+//    opportunity = await Opportunity.findById(opp_id)
+//    vol = opportunity.volunteers.get(vol_id)
+//    opp = volunteer.opportunities.get(opp_id)
+//    vol.end = end
+//    opp.end = end
+//    opportunity.volunteers.set(vol_id, vol)
+//    volunteer.opportunities.set(opp_id, opp)
+//    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+//    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers})
+// }
 
-const updateItemsDonated = async (vol_id, opp_id, items) => {
-   volunteer = await Volunteer.findById(vol_id)
-   opportunity = await Opportunity.findById(opp_id)
-   vol = opportunity.volunteers.get(vol_id)
-   opp = volunteer.opportunities.get(opp_id)
-   vol.donated = items
-   opp.donated = items
-   opportunity.volunteers.set(vol_id, vol)
-   volunteer.opportunities.set(opp_id, opp)
-   await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
-   await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
-}
+// const updateItemsDonated = async (vol_id, opp_id, items) => {
+//    volunteer = await Volunteer.findById(vol_id)
+//    opportunity = await Opportunity.findById(opp_id)
+//    vol = opportunity.volunteers.get(vol_id)
+//    opp = volunteer.opportunities.get(opp_id)
+//    vol.donated = items
+//    opp.donated = items
+//    opportunity.volunteers.set(vol_id, vol)
+//    volunteer.opportunities.set(opp_id, opp)
+//    await Volunteer.findByIdAndUpdate(vol_id, {opportunities: volunteer.opportunities})
+//    await Opportunity.findByIdAndUpdate(opp_id, {volunteers: opportunity.volunteers}) 
+// }
 
 const postNewOpportunity = async (title, description, pictures, start_event, end_event, skills, 
    wishlist, location, requirements, tasks, additionalInfo, volunteers) => {
@@ -1006,16 +1006,16 @@ const getAllOpportunitiesByDates = async (start, end) => {
    return within_range
 }
 
-const getAllOpportunitiesWithSkill = async (start, end, skill) => {
-   including_skill = []
-   opportunities = await getAllOpportunitiesByDates(start, end)
-   for (i = 0; i < opportunities.length; i++) {
-      if (opportunities[i][3].includes(skill)) {
-         including_skill.push(opportunities[i])
-      }
-   }
-   return including_skill
-}
+// const getAllOpportunitiesWithSkill = async (start, end, skill) => {
+//    including_skill = []
+//    opportunities = await getAllOpportunitiesByDates(start, end)
+//    for (i = 0; i < opportunities.length; i++) {
+//       if (opportunities[i][3].includes(skill)) {
+//          including_skill.push(opportunities[i])
+//       }
+//    }
+//    return including_skill
+// }
 
 if (process.argv.includes('dev')) {
    const PORT = process.env.PORT || 4000;
