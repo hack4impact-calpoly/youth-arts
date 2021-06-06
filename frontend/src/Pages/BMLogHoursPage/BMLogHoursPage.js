@@ -17,6 +17,8 @@ function BMLogHoursPage(props) {
     var opportunities;
     var key;
     var firstTime = false;
+    var firstBoard = false;
+    var firstTimeBoard = false;
     var updateBoard = false;
 
     if(props.user !== null && !props.user.boardMember && (props.user.opportunities === null || props.user.opportunities === undefined)) {
@@ -25,16 +27,23 @@ function BMLogHoursPage(props) {
     else if (props.user !== null && props.user.boardMember && props.user.opportunities !== null && props.user.opportunities !== undefined) {
         opportunities = props.user.opportunities;
         Object.keys(opportunities).map((item) => {
-            if (item._id === '6099c78c001ee300081c1dab')
+            console.log(item);
+            if (item === '6099c78c001ee300081c1dab')
             {
+                console.log(true);
                 key = item;
             }
             return null;
         })
-        opportunities = opportunities[key];
+        console.log(props.user.opportunities);
         if(key === null || key === undefined) {
             firstTime = true;
             opportunities = [];
+        }
+        else
+        {
+            opportunities = props.user.opportunities[key];
+            console.log(opportunities);
         }
     }
     else {
@@ -76,6 +85,7 @@ function BMLogHoursPage(props) {
     //push form as element in opportunity array in volunteer schema
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(opportunities);
         // make sure opportunties is defined
         if (opportunities === "false") return;
         //check if form is valid
@@ -109,8 +119,10 @@ function BMLogHoursPage(props) {
             newOpportunites[key] = opportunities;
         }
         else {
-            newOpportunites = {};
-            newOpportunites = {'6099c78c001ee300081c1dab' : opportunities};
+            newOpportunites = props.user.opportunities;
+            newOpportunites['6099c78c001ee300081c1dab'] = opportunities;
+            // newOpportunites = {};
+            // newOpportunites = {'6099c78c001ee300081c1dab' : opportunities};
         }
 
         const updateVolunteer = {

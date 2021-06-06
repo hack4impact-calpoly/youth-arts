@@ -76,35 +76,72 @@ const AuthenticatedUserDashboard = (props) => {
             setOpps(opportunities);
         }
         let updated = opps;
-        for(var i = 0; i < updated.length; i++) {
-            if(updated[i].task === cancelOpp.task) {
-                if (updated[i].start.length === 0)
-                {
-                    updated.splice(i, 1);
-                    break;
-                }
-                for(var j = 0; j < updated[i].start.length; j++) {
-                    if(cancelOpp.start === updated[i].start[j] && cancelOpp.end === updated[i].end[j]) {
-                        updated[i].start.splice(j, 1);
-                        updated[i].end.splice(j, 1);
-                        if (updated[i].start.length === 0)
+        console.log(cancelOpp);
+        console.log(updated);
+        let newOpps = user.opportunities
+
+        Object.keys(user.opportunities).map((item, o) => {
+            console.log(item);
+            if(item === cancelOpp.id) {
+                key = item;
+                console.log(key);
+                console.log(user.opportunities[key]);
+                for(var i = 0; i < user.opportunities[key].length; i++) {
+                    if(user.opportunities[key][i]._id === cancelOpp._id) {
+                        if (user.opportunities[key][i].start.length <= 1)
                         {
-                            updated.splice(i, 1);
+                            user.opportunities[key].splice(i, 1);
+                            break;
+                        }
+                        for(var j = 0; j < user.opportunities[key][i].start.length; j++) {
+                            if(cancelOpp.start === user.opportunities[key][i].start[j] && cancelOpp.end === user.opportunities[key][i].end[j]) {
+                                user.opportunities[key][i].start.splice(j, 1);
+                                user.opportunities[key][i].end.splice(j, 1);
+                                if (user.opportunities[key][i].start.length === 0)
+                                {
+                                    user.opportunities[key][i].splice(i, 1);
+                                }
+                                break;
+                            }
                         }
                         break;
                     }
                 }
-                break;
             }
-        }
-        setOpps(updated);
+        })
+        console.log(user.opportunities);
+
+    
+        // for(var i = 0; i < updated.length; i++) {
+        //     if(updated[i]._id === cancelOpp._id) {
+        //         if (updated[i].start.length === 0)
+        //         {
+        //             updated.splice(i, 1);
+        //             break;
+        //         }
+        //         for(var j = 0; j < updated[i].start.length; j++) {
+        //             if(cancelOpp.start === updated[i].start[j] && cancelOpp.end === updated[i].end[j]) {
+        //                 updated[i].start.splice(j, 1);
+        //                 updated[i].end.splice(j, 1);
+        //                 if (updated[i].start.length === 0)
+        //                 {
+        //                     updated.splice(i, 1);
+        //                 }
+        //                 break;
+        //             }
+        //         }
+        //         break;
+        //     }
+        // }
+        // console.log(updated);
+        // setOpps(updated);
         var oppToUpdate = {}
         for(var i = 0; i < allOpportunities.length; i++) {
             if(allOpportunities[i]._id === cancelOpp.id) {
                 oppToUpdate = allOpportunities[i];
                 var opVols = oppToUpdate.volunteers[props.user._id];
                 for(var j = 0; j < opVols.length; j++) {
-                    if(opVols[j].task === cancelOpp.task) {
+                    if(opVols[j]._id === cancelOpp._id) {
                         for(var k = 0; k < opVols[j].start.length; k++) {
                             if(Moment(cancelOpp.start).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].start[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') && Moment(cancelOpp.end).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a') === Moment(opVols[j].end[k]).tz('America/Los_Angeles').format('MMMM Do YYYY, h:mm:ss a')) {
                                 oppToUpdate.volunteers[props.user._id][j].start.splice(k, 1);
@@ -115,7 +152,6 @@ const AuthenticatedUserDashboard = (props) => {
                                 }
                                 break;
                             }
-                        
                         }
                         break;
                     }
@@ -140,8 +176,10 @@ const AuthenticatedUserDashboard = (props) => {
         
 
 
-        var newOpportunites = user.opportunities;
-        newOpportunites[key] = opps;
+        // var newOpportunites = user.opportunities;
+        // newOpportunites[key] = opps;
+        // console.log(newOpportunites);
+        // console.log(key);
 
         const updateVolunteer = {
             _id: props.user._id,
@@ -161,7 +199,7 @@ const AuthenticatedUserDashboard = (props) => {
             username: props.user.username,
             workHistory: props.user.workHistory,
             _v: props.user._v,
-            opportunities: newOpportunites,
+            opportunities: user.opportunities,
             cancelOpp: cancelOpp
         }
 
@@ -211,7 +249,8 @@ const AuthenticatedUserDashboard = (props) => {
                 start: oppsArray[i].start[j],
                 end: oppsArray[i].end[j],
                 id: oppsArray[i].oppId,
-                donated: oppsArray[i].donated
+                donated: oppsArray[i].donated,
+                _id: oppsArray[i]._id
             }
             if(singleOpp !== undefined) {
                 if(new Date(singleOpp.start) > currentDate) {

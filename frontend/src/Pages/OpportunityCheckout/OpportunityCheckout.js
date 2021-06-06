@@ -2,6 +2,7 @@ import "./OpportunityCheckout.css"
 import React from "react";
 import dateFormat from 'dateformat';
 import {Link} from 'react-router-dom';
+import { withRouter } from "react-router";
 
 class OpportunityCheckout extends React.Component{
 
@@ -19,6 +20,12 @@ class OpportunityCheckout extends React.Component{
         };
         this.handleBusiness = this.handleBusiness.bind(this);
         this.handleDateCheckBox = this.handleDateCheckBox.bind(this);
+    }
+    navigateTo = () => {
+        let url = "/registrationConfirmation";
+        this.props.history.push({
+            pathname: url
+        })
     }
     
 
@@ -227,16 +234,21 @@ class OpportunityCheckout extends React.Component{
                     </div>
                 <div className="confirmCheckout" id="buttonContainer">
                 
-                <Link to="/registrationConfirmation" id="buttonStyles" 
-                onClick={ () => {this.state.cart.map( (task, i) =>
+                {/* <Link to="/registrationConfirmation" id="buttonStyles"  */}
+                <button id="buttonStyles" 
+                onClick={ () => {
+                    console.log(this.state.cart);
+                    this.state.cart.map( (task, i) =>
                     {
-                        return(
-                            <div>
-                                {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
-                            </div>
-                        )
-                    }
-                    )}}>Confirm Checkout</Link>
+                        this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)
+                        // return(
+                        //     <div>
+                        //         {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
+                        //     </div>
+                        // )
+                    })
+                    this.navigateTo();
+                    }}>Confirm Checkout</button>
                 </div>
             </div>
             : <div id="taskCard">
@@ -246,4 +258,4 @@ class OpportunityCheckout extends React.Component{
     }
 }
 
-export default OpportunityCheckout;
+export default withRouter(OpportunityCheckout);
