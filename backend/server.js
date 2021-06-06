@@ -692,7 +692,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       subject: opportunity.title + " sign up successful",
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about the volunteer opportunity you selected. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
       "<br></br> You have successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
-      " on " + moment(start[0]).format("MMMM Do, YYYY") + " from " + moment(start[0]).format("hh:mm A") + " to " + moment(end[0]).format("hh:mm A") + moment(end[0]).subtract({h:7}).format("hh:mm A")
+      " on " + moment(start[0]).format("MMMM Do, YYYY") + " from " + moment(start[0]).format("hh:mm A") + " to " + moment(end[0]).format("hh:mm A") + moment(end[0]).subtract({h:7}).format("hh:mm A") +
       ".</p><p>The event will be held at " + opportunity.location + 
       ".</p><p>Your business is: " + business + ".<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> or call this number (805-238-5825) to cancel your registration.",
       attachments: [{
