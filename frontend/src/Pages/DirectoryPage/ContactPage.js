@@ -67,7 +67,9 @@ function ContactPage(props) {
   
     return(
         <div id="contactPage">
-            <h1 id="contactName">{contact.firstName + " " + contact.lastName}</h1>
+            {contact.firstName ? <h1 id="contactName">{contact.firstName + " " + contact.lastName}</h1> 
+                                :
+                                <h2 id="contactName">{"User did not finish registering. "}</h2> }
             <Container fluid>
                 <Row>
                     <Col md="auto">{(contact && contact.picture !== undefined && contact.picture !== null) ? 

@@ -15,7 +15,6 @@ class OpportunityDetail extends React.Component{
 
     constructor(props) {
         super(props);
-        // const { user } = props;
         this.state = {
             user: props.user,
             cart: props.cart,
@@ -35,13 +34,19 @@ class OpportunityDetail extends React.Component{
             signedIn: true,
             admin: true,
             volunteerList: [],
-            updateTime: false
+            updateTime: false, 
+            allStartTimes: [],
+            allEndTimes: []
         };
 
         this.handleDonateCheckBox = this.handleDonateCheckBox.bind(this);
+        this.postStartTime = this.postStartTime.bind(this);
+        this.postEndTime = this.postEndTime.bind(this);
+        this.updateCartWithOpportunity = this.updateCartWithOpportunity.bind(this);
+        this.updateComponent = this.updateComponent.bind(this);
+        this.postDonations = this.postDonations.bind(this);
     }
 
-    
 
     updateCartWithOpportunity(task){
         task["oppId"] = this.state._id
@@ -84,6 +89,7 @@ class OpportunityDetail extends React.Component{
         .then(vols => {
             this.setState({volunteerList : vols});
         }); 
+        console.log(this.state.volunteerList);
 
     }
 
@@ -185,8 +191,6 @@ class OpportunityDetail extends React.Component{
             },
             body: JSON.stringify(startTimeBody)
         });
-        this.setState({updateTime: !this.state.updateTime})
-        this.updateComponent();
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
@@ -211,8 +215,6 @@ class OpportunityDetail extends React.Component{
             },
             body: JSON.stringify(endTimeBody)
         });
-        this.setState({updateTime: !this.state.updateTime})
-        this.updateComponent()
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
@@ -471,13 +473,13 @@ class OpportunityDetail extends React.Component{
                                                                 
                                                                     
                                                                     <div>
-                                                                        {console.log(vol)}
                                                                         {vol.firstName}
                                                                         <br/>
                                                                         {vol.lastName}  
                                                                     </div>
                                                                     }
                                                                 </td>}
+                                                                
                                                                 {key_value.map((volData, v) =>
                                                                 {
                                                                 if (volData[0] ==="task") {
@@ -499,7 +501,7 @@ class OpportunityDetail extends React.Component{
                                                                         <td className="detailTD">{
                                                                             
                                                                             <div>
-                                                                                {(volData[1]).map( (time, i) => 
+                                                                                {(volData[1]).map( (time, timeindex) => 
                                                                                 {
                                                                                     return(
                                                                                         <div>
@@ -517,7 +519,14 @@ class OpportunityDetail extends React.Component{
                                                                                                     id="startInput"
                                                                                                     utils={DateMomentUtils}
                                                                                                     value={time}
-                                                                                                    onChange={date => this.postStartTime(date, volId, taskIndex, i)}
+                                                                                                    onChange={date => {this.postStartTime(date, volId, taskIndex, i)
+                                                                                                                        time=date
+                                                                                                                        volData[1].time=date
+                                                                                                                        volData[1][timeindex] = date;
+                                                                                                                        volData[1].time=date;
+                                                                                                                        volData=volData;
+                                                                                                                        this.setState({updateTime: !this.state.updateTime})
+                                                                                                                        }}
                                                                                                 />
                                                                                         </MuiPickersUtilsProvider>
                                                                                    
@@ -536,7 +545,7 @@ class OpportunityDetail extends React.Component{
                                                                         <td className="detailTD">{
                                                                              
                                                                             <div>
-                                                                                {(volData[1]).map( (time) => 
+                                                                                {(volData[1]).map( (time, timeindex) => 
                                                                                 {
                                                                                     return(
                                                                                         <div>
@@ -554,7 +563,11 @@ class OpportunityDetail extends React.Component{
                                                                                                     onChange={date => {this.postEndTime(date, volId, taskIndex, i)
                                                                                                                         time=date
                                                                                                                         volData[1].time=date
-                                                                                                                        this.setState({updateTime: !this.state.updateTime})}}
+                                                                                                                        volData[1][timeindex] = date;
+                                                                                                                        volData[1].time=date;
+                                                                                                                        volData=volData;
+                                                                                                                        this.setState({updateTime: !this.state.updateTime})
+                                                                                                                    }}
                                                                                                 />
                                                                                                
                                                                                             </MuiPickersUtilsProvider>
@@ -576,7 +589,9 @@ class OpportunityDetail extends React.Component{
                                                                             })
                                                                         }
                                                                         </td>
-                                                                )}})}
+                                                                )}
+                                                                
+                                                                })}
                                                         </tr>)})}
                                                         </div>
                                                     )}) : "No Volunteers Found"}

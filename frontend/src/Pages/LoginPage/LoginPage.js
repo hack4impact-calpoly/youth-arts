@@ -15,9 +15,6 @@ class LoginPage extends React.Component {
   return (
       <body >
         <Header/>            
-        <div id="headerImage"> 
-            <img src={headerImage} width= "auto" height="100" alt=""></img>
-        </div>
         <h1 className="signIn">Sign in</h1>
         <p className="welcome">Welcome! Sign in below to get started.</p>
         <div id="googleButton">

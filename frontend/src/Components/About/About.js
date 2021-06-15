@@ -2,6 +2,7 @@ import "./About.css";
 import ActionButton from "./../ActionButton/ActionButton";
 import { Row, Col } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import youthArtsSign from "../../Images/youthArtsSign.jpg";
 
 function About() {
     const history = useHistory();
@@ -14,11 +15,11 @@ function About() {
         <div className="aboutSection">
             <Row>
                 <Col md={6}>
-                    <img className="aboutPic" src={picUrl} alt="about-img" />   
+                    <img className="aboutPic" src={youthArtsSign} alt="about-img" />   
                 </Col>
                 <Col md={6}>
                     <h4 className="aboutTitle">WHAT WE'RE ABOUT</h4>
-                    <p className="aboutDesc">Paso Robles Youth Arts Center is a public non-profit organization founded in 1998 by Donna Berg. We provide nearly 400 students ages 5–18 with over fifty weekly classes and serve over 700 students annually. As we grow, our waiting list gets longer and our financial needs grow as well. We need the community to see how important the Youth Arts has become and how necessary it is to help it continue being the unique facility it is. We rely on donations as well as private and public funding and are so grateful for your gifts of any size! </p>
+                    <p className="aboutDesc">The Paso Robles Youth Arts Center is a public non-profit organization founded in 1998 by Donna Berg. We provide nearly 400 students ages 5–18 with over 50 weekly classes in the visual and performing arts for FREE! To date, we've impacted over 15,000 students! We encourage the community to see how important the Youth Arts has become and how necessary it is to support this life-changing organization. Your involvement of any kind allows us to continue to fulfill our mission and support this community! </p>
                 </Col>
             </Row>
                         

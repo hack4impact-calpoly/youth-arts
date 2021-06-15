@@ -3,8 +3,8 @@ import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
 
 const fadeImages = [
-  "https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/6/2017/11/04133712/waterfall.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Shaqi_jrvej.jpg/1200px-Shaqi_jrvej.jpg",
+  "https://pryac.s3.us-west-1.amazonaws.com/performanceHeader.JPG",
+  "https://pryac.s3.us-west-1.amazonaws.com/volunteerHeader.jpg",
 ];
 
 const Slideshow = () => {
@@ -19,7 +19,7 @@ const Slideshow = () => {
       <Fade {...fadeProperties}>
         {fadeImages.map((each, index) => (
           <div key={index} style={{maxHeight: "600px", width: "100%"}}>
-            <img style={{objectFit: "cover", width: "100%"}} src={each} />
+            <img style={{objectFit: "cover", width: "100%", height:"650px"}} src={each} />
           </div>
         ))}
       </Fade>

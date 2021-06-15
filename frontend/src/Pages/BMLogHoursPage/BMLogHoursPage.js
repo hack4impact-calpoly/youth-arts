@@ -4,6 +4,7 @@ import { Form, Button, Modal } from "react-bootstrap";
 import {Link} from 'react-router-dom';
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
+import dateFormat from 'dateformat';
 
 function BMLogHoursPage(props) {
     //stores inputs from form
@@ -98,6 +99,10 @@ function BMLogHoursPage(props) {
                 item.start.push(startDT);
                 item.end.push(endDT);
                 contains = true;
+                console.log(item.start);
+                console.log(item.end);
+                console.log(item)
+                console.log(typeof item.start[0]);
             }
         })
         //else add the opportunity
@@ -110,7 +115,10 @@ function BMLogHoursPage(props) {
                 donated: []
             }
             opportunities.push(newOpp)
+            console.log(newOpp);
+            console.log(typeof newOpp.start[0]);
         }
+        
 
         // push new opportunities to database
         var newOpportunites;
@@ -235,8 +243,9 @@ function BMLogHoursPage(props) {
                     <DateTimePicker
                     name="startDateTime"
                     label="Start Date/Time"
-                    value={startDT? startDT : (new Date())}
+                    value={startDT? startDT : dateFormat((new Date()), " mmmm dS, yyyy ") }
                     onChange={e => {setStartDT(e);
+                                    console.log(e);
                                     setRerender(!rerender);}}
                     />
                     <br></br>

@@ -568,7 +568,19 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
    let volunteer = await Volunteer.findById(volId);
 
    try {
-      let oppList = volunteer.opportunities.get(oppId)
+      let oppList = volunteer.opportunities.get(oppId);
+      let temp = oppList
+      oppList.map(item => {
+         if(item.task == "Donated"){
+            console.log(item.task)
+            temp = oppList.filter(function(el){
+               return el.task !== item.task;
+            })
+         }
+      })
+      console.log("TEMP")
+      console.log(temp)
+      oppList = temp 
       oppList.push(taskObj);
       volunteer.opportunities.set(oppId, oppList);
    }
@@ -744,9 +756,10 @@ const postStartTime = async (id, date, volId, taskIndex, timeIndex) => {
       opportunity.volunteers.get(volId)[taskIndex]["start"].splice(timeIndex, 1, date);
       await Opportunity.findByIdAndUpdate(id, {volunteers: opportunity.volunteers});
 
-      // let volunteer = await Volunteer.findById(volId);
-      // volunteer.opportunity.get(id)[taskIndex]["start"].splice(timeIndex, 1, date);
-      // await Volunteer.findByIdAndUpdate(volId, {volunteers: opportunity.volunteers});
+      let volunteer = await Volunteer.findById(volId);
+      volunteer.opportunities.get(id)[taskIndex]["start"].splice(timeIndex, 1, date);
+      await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
+      console.log(volunteer.opportunities.get(id)[taskIndex]["start"]);
         
 }
 
@@ -754,10 +767,10 @@ const postEndTime = async (id, date, volId, taskIndex, timeIndex) => {
    let opportunity = await Opportunity.findById(id);
    opportunity.volunteers.get(volId)[taskIndex]["end"].splice(timeIndex, 1, date);
    await Opportunity.findByIdAndUpdate(id, {volunteers: opportunity.volunteers});
-
-   // let volunteer = await Volunteer.findById(volId);
-   // volunteer.opportunity.get(id)[taskIndex]["end"].splice(timeIndex, 1, date);
-   // await Volunteer.findByIdAndUpdate(volId, {volunteers: opportunity.volunteers});
+   
+   let volunteer = await Volunteer.findById(volId);
+   volunteer.opportunities.get(id)[taskIndex]["end"].splice(timeIndex, 1, date);
+   await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
    
 }
 

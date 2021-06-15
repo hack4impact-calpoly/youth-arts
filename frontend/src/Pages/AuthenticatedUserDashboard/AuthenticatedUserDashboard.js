@@ -241,6 +241,7 @@ const AuthenticatedUserDashboard = (props) => {
     var donated = 0;
     var totalHours = 0;
     console.log(oppsArray);
+    console.log(user.opportunities);
     for(var i = 0; i < oppsArray.length; i++) {
         donated += getDonated(oppsArray[i]);
         for(var j = 0; j < oppsArray[i].start.length; j++) {

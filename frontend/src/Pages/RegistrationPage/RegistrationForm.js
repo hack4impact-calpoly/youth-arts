@@ -10,8 +10,6 @@ import maintenance from '../../Images/maintenance.png'
 import officeAdmin from '../../Images/office-admin.png'
 import performance from '../../Images/performance.png'
 import { Redirect } from 'react-router-dom'
-import volunteerWaiver from './VolunteerWaiver.pdf'
-import jsPDF from 'jspdf'
 import ImageUploadMulti from '../../Components/ImageUpload/ImageUploadMulti'
 
 class RegistrationPage extends React.Component {
@@ -58,7 +56,6 @@ class RegistrationPage extends React.Component {
     this.handleEmployment = this.handleEmployment.bind(this);
     this.handleHearAboutUs = this.handleHearAboutUs.bind(this);
     this.handleSignatureValue = this.handleSignatureValue.bind(this);
-    this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
@@ -239,17 +236,6 @@ class RegistrationPage extends React.Component {
     });
   }
 
-  onDocumentLoadSuccess({ numPages }) {
-    console.log(numPages);
-  }
-
-  pdfGenerate=()=>{
-    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
-    doc.addImage(volunteerWaiver, 'PNG', 65, 20, 500, 400)
-    doc.addPage()
-    doc.save('volunteerWaiver.pdf')
-  }
-
   handleStreetAddress = (e) => {
     e.preventDefault(); 
     const {name, value} = e.target; 
@@ -370,8 +356,8 @@ class RegistrationPage extends React.Component {
                 <br/>
                 <label className="finalCheckbox">
                     <input type="checkbox" value={ this.state.signature } checked= { this.state.signature } onChange={this.handleWaiverCheckBox}/>
-                       <label> I agree to the
-                    <a id="waiverLink" href={volunteerWaiver} download> digital volunteer waiver</a><span className="red">*</span>
+                       <label> I agree to the { }
+                    <a id="waiverLink" target="_blank" href="https://drive.google.com/file/d/1j4sJyMCm9koe506kViPl6IWQ8YU3_bkQ/view?usp=sharing">digital volunteer waiver</a><span className="red">*</span>
                     </label>
                 </label>
 
