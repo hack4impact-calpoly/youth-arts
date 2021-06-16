@@ -111,30 +111,6 @@ const AuthenticatedUserDashboard = (props) => {
         })
         console.log(user.opportunities);
 
-    
-        // for(var i = 0; i < updated.length; i++) {
-        //     if(updated[i]._id === cancelOpp._id) {
-        //         if (updated[i].start.length === 0)
-        //         {
-        //             updated.splice(i, 1);
-        //             break;
-        //         }
-        //         for(var j = 0; j < updated[i].start.length; j++) {
-        //             if(cancelOpp.start === updated[i].start[j] && cancelOpp.end === updated[i].end[j]) {
-        //                 updated[i].start.splice(j, 1);
-        //                 updated[i].end.splice(j, 1);
-        //                 if (updated[i].start.length === 0)
-        //                 {
-        //                     updated.splice(i, 1);
-        //                 }
-        //                 break;
-        //             }
-        //         }
-        //         break;
-        //     }
-        // }
-        // console.log(updated);
-        // setOpps(updated);
         var oppToUpdate = {}
         for(var i = 0; i < allOpportunities.length; i++) {
             if(allOpportunities[i]._id === cancelOpp.id) {
@@ -174,13 +150,6 @@ const AuthenticatedUserDashboard = (props) => {
             });
         });    
         
-
-
-        // var newOpportunites = user.opportunities;
-        // newOpportunites[key] = opps;
-        // console.log(newOpportunites);
-        // console.log(key);
-
         const updateVolunteer = {
             _id: props.user._id,
             AOI: props.user.AOI,

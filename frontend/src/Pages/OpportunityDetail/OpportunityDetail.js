@@ -117,8 +117,6 @@ class OpportunityDetail extends React.Component{
         this.props.fetchAllVolunteers();
         this.props.fetchAllOpportunities();
 
-
-
     }
 
     changeDonateModal = () => {

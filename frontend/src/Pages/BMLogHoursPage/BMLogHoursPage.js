@@ -129,8 +129,6 @@ function BMLogHoursPage(props) {
         else {
             newOpportunites = props.user.opportunities;
             newOpportunites['6099c78c001ee300081c1dab'] = opportunities;
-            // newOpportunites = {};
-            // newOpportunites = {'6099c78c001ee300081c1dab' : opportunities};
         }
 
         const updateVolunteer = {
