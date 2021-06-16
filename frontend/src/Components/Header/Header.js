@@ -14,7 +14,7 @@ const Header = (props) =>{
     return(
         <header className="navheader">
             <div className="header-inner">
-                <Link className="header-logo" to="anonDashboard" smooth={true} >
+                <Link className="header-logo" to="home" smooth={true} >
                     <img src={logo} width= "auto" height="45" alt=""></img>
                 </Link>
                 

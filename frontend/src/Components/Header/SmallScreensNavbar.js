@@ -11,7 +11,7 @@ const SmallScreensNavbar = (props) =>{
     let [translate, setTranslate ] = useState(true);
     return(
         <div class="smallham"> 
-        <Link className="logo" to="/anonDashboard">
+        <Link className="logo" to="/home">
           <img src={logo} width= "auto" height="45" alt=""></img>
         </Link>
              <button className="hamburger-btn"

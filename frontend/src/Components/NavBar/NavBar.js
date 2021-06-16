@@ -16,7 +16,7 @@ const NavBar = (props) => {
 
   return (
       <header className="navbar">
-        <Link className="logo" to="/anonDashboard">
+        <Link className="logo" to="/home">
           <img src={logo} width= "auto" height="45" alt=""></img>
         </Link>
         <nav class="navbar-expand">

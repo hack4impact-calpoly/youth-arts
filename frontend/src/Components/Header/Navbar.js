@@ -44,7 +44,7 @@ export const NavComponent = ({onClick, navClass, linkClassName, user})=>(
         </nav>
           :
           <div>
-            <Link className="header-logo" to="anonDashboard" smooth={true} >
+            <Link className="header-logo" to="home" smooth={true} >
           <img src={logo} width= "auto" height="45" alt=""></img>
         </Link>
         <br></br>

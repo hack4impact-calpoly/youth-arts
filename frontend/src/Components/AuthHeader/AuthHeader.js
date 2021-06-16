@@ -9,7 +9,7 @@ const AuthHeader = (props) => {
 
     if (props.user === {}) {
         console.log(user);
-        return <Redirect to='/anonDashboard'/>;
+        return <Redirect to='/home'/>;
     }
     else {
         return (

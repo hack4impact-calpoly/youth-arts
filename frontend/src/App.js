@@ -189,7 +189,7 @@ const App = () => {
             setOpportunities={setOpportunities} />
           </Route>
         ) :
-          <Route path='/anonDashboard'>
+          <Route path='/home'>
             <Header user={profile} />
             <AnonymousDashboard user={profile} />
             <Footer />
@@ -198,7 +198,7 @@ const App = () => {
         <Route path='/Login'>
           <LoginPage user={profile} />
         </Route>
-        <Route path='/anonDashboard'>
+        <Route path='/home'>
             <Header user={profile} />
             <AnonymousDashboard user={profile} />
             <Footer />
