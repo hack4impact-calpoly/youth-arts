@@ -1,5 +1,5 @@
 .volunteer {
-    width: 70%;
+    width: 80%;
     height: 205px;
     background: #FDE9D3;
     border: 16px solid #F7941D;
@@ -18,7 +18,7 @@
 }
 
 .visit {
-    width: 70%;
+    width: 80%;
     height: 205px;
     background: #CDEDEB;
     border: 16px solid #00A79D;
@@ -36,7 +36,7 @@
 }
 
 .donate {
-    width: 70%;
+    width: 80%;
     height: 205px;
     background: #D8F0DB;
     border: 16px solid #39B54A;

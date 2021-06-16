@@ -7,8 +7,12 @@ import youthArtsSign from "../../Images/youthArtsSign.jpg";
 function About() {
     const history = useHistory();
     const navigateToOpps = () => history.push('/opportunities');
-    const navigateToYA = () => window.location.href = 'https://pryoutharts.org/';
-    const navigateToDonate = () => window.location.href = 'https://donorbox.org/youth-arts-donate';
+    const navigateToYA = () => { 
+        window.open('https://pryoutharts.org/', "_blank") || window.location.replace('https://pryoutharts.org/');
+    }
+    const navigateToDonate = () => {
+        window.open('https://donorbox.org/youth-arts-donate', "_blank") || window.location.replace('https://donorbox.org/youth-arts-donate');
+    }
 
     const picUrl = "https://pasoroblesdailynews.com/wp-content/uploads/2017/04/Paso-youth-arts-2.jpg";
     return (
