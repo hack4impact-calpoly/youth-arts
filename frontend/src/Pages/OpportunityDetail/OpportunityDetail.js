@@ -517,7 +517,7 @@ class OpportunityDetail extends React.Component{
                                                                                                     id="startInput"
                                                                                                     utils={DateMomentUtils}
                                                                                                     value={time}
-                                                                                                    onChange={date => {this.postStartTime(date, volId, taskIndex, i)
+                                                                                                    onChange={date => {this.postStartTime(date, volId, taskIndex, timeindex)
                                                                                                                         time=date
                                                                                                                         volData[1].time=date
                                                                                                                         volData[1][timeindex] = date;
@@ -558,7 +558,7 @@ class OpportunityDetail extends React.Component{
                                                                                                     id="startInput"
                                                                                                     utils={DateMomentUtils}
                                                                                                     value={time}
-                                                                                                    onChange={date => {this.postEndTime(date, volId, taskIndex, i)
+                                                                                                    onChange={date => {this.postEndTime(date, volId, taskIndex, timeindex)
                                                                                                                         time=date
                                                                                                                         volData[1].time=date
                                                                                                                         volData[1][timeindex] = date;
