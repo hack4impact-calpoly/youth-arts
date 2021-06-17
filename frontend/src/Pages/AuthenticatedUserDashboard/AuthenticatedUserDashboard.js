@@ -227,11 +227,6 @@ const AuthenticatedUserDashboard = (props) => {
                     upcomingOpportunities.push(singleOpp);
                 } 
                 else {
-                    console.log(oppsArray[i].task);
-                    console.log("ELSE");
-                    console.log(oppsArray[i].donated);
-                    console.log(getHours(oppsArray[i].start[j], oppsArray[i].end[j]));
-                    console.log(getHours(oppsArray[i].start[j]));
                     totalHours += getHours(oppsArray[i].start[j], oppsArray[i].end[j]);
                     pastOpportunities.push(singleOpp);
                 }
