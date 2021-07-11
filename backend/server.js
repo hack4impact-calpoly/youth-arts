@@ -355,7 +355,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
    }
    const adminMessage = {
       from: `${process.env.PASO_EMAIL}`,
-      to: `${process.env.EMAIL_USER}`,
+      to: `${process.env.PASO_EMAIL}`,
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p> " + newVolunteer.firstName + " " + newVolunteer.lastName + " has cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
       " on " + moment(req.body.cancelOpp.start).subtract({h:7}).format("MMMM Do, YYYY") + " from " + moment(req.body.cancelOpp.start).subtract({h:7}).format("hh:mm A") + " to " + moment(req.body.cancelOpp.end).subtract({h:7}).format("hh:mm A") +
@@ -411,7 +411,7 @@ app.post("/api/postVolunteer", async(req, res) => {
 
    const adminMessage = {
       from: `${process.env.PASO_EMAIL}`,
-      to: `${process.env.EMAIL_USER}`,
+      to: `${process.env.PASO_EMAIL}`,
       subject: "New Volunteer Registration",
       text: req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
       html: "<img width='500' src = cid:YouthArtsLogo /><br></br><p>" + req.body.firstName + " " + req.body.lastName + " created an account with <a href='https://youtharts-volunteer.h4i-cp.org/'>Paso Robles Youth Arts Volunteering<a>. <br></br>Their contact email is: " +  req.body.email + ".</p>",
@@ -608,7 +608,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
    // admin email
    const adminMessage = {
       from: `${process.env.PASO_EMAIL}`,
-      to: `${process.env.EMAIL_USER}`,
+      to: `${process.env.PASO_EMAIL}`,
       subject: opportunity.title + " donation successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>" + volunteer.firstName + " " + volunteer.lastName + " has signed up to donate " + taskObj.donated.join(", ") + " to the event " + opportunity.title + ". " +
       "</br>\n Their contact email is: " + volunteer.email + " </p><br></br>",
@@ -710,8 +710,8 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
       }]
    }
    const adminMessage = {
-      from: `${process.env.EMAIL_USER}`,
-      to: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
+      to: `${process.env.PASO_EMAIL}`,
       subject: opportunity.title + " sign up successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>" + volunteer.firstName + " " + volunteer.lastName + " has successfully signed up for a volunteer session for " + opportunity.title + " for the task " + taskObj.task +
       " on " + moment(start[0]).subtract({h:7}).format("MMMM Do, YYYY") + " from " + moment(start[0]).subtract({h:7}).format("hh:mm A") + " to " + moment(end[0]).subtract({h:7}).format("hh:mm A") +
