@@ -35,6 +35,7 @@ jobs:
         SERVER_URL: ${{ secrets.SERVER_URL }}
         EMAIL_USER: ${{ secrets.EMAIL_USER }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
         
         
 
