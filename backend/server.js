@@ -10,15 +10,12 @@ const { auth, JWT_secret } = require('./auth');
 const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require("passport-local-mongoose")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
-const findOrCreate = require("mongoose-findorcreate")
 const nodemailer = require("nodemailer")
-const dateFormat = require("dateformat")
 const moment = require('moment');
 
 const app = express()
 const Opportunity = require('./models/opportunity')
 const Volunteer = require('./models/volunteer')
-const { replaceOne } = require('./models/volunteer')
 const cookieSession = require('cookie-session');
 
 let transport = nodemailer.createTransport({
@@ -696,7 +693,6 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
    const newVolunteer = await Volunteer.findByIdAndUpdate(volId, {opportunities: volunteer.opportunities});
    console.log("taskobj", taskObj);
    
-
    //Emails to confirm signup
    const volunteerMessage = {
       from: `${process.env.PASO_EMAIL}`,
@@ -747,8 +743,6 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
          res.send(info)
       }
    })
-
-
 }
 
 const postStartTime = async (id, date, volId, taskIndex, timeIndex) => {
