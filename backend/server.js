@@ -343,7 +343,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
 
    //Emails to cancel signup
    const volunteerMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: newVolunteer.email,
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + newVolunteer.firstName + ",<br></br>" +
@@ -357,7 +357,7 @@ app.post("/api/cancelOpportunity", async(req, res) => {
       }]
    }
    const adminMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: `${process.env.EMAIL_USER}`,
       subject: "Cancellation: " + req.body.cancelOpp.task + " for " + opportunity.title,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p> " + newVolunteer.firstName + " " + newVolunteer.lastName + " has cancelled a volunteer session for " + opportunity.title + " for the task " + req.body.cancelOpp.task +
@@ -400,7 +400,7 @@ app.post("/api/postVolunteer", async(req, res) => {
 
    //Email to new volunteer + admin
    const volunteerMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: req.body.email,
       subject: "Account signup successful",
       text: "Congratulations " + req.body.firstName + ",\n\nYou have successfully made an account with Paso Robles Youth Arts Volunteering! Thank you for your support. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org",
@@ -413,7 +413,7 @@ app.post("/api/postVolunteer", async(req, res) => {
    }
 
    const adminMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: `${process.env.EMAIL_USER}`,
       subject: "New Volunteer Registration",
       text: req.body.firstName + " " + req.body.lastName + " has successfully made an account with Paso Robles Youth Arts Volunteering! Their contact email is: " +  req.body.email,
@@ -596,7 +596,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
 
    //Emails to confirm signup
    const volunteerMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: volunteer.email,
       subject: opportunity.title + " donation successful",
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about your donation. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
@@ -610,7 +610,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
    }
    // admin email
    const adminMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: `${process.env.EMAIL_USER}`,
       subject: opportunity.title + " donation successful - " + volunteer.firstName + " " + volunteer.lastName,
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>" + volunteer.firstName + " " + volunteer.lastName + " has signed up to donate " + taskObj.donated.join(", ") + " to the event " + opportunity.title + ". " +
@@ -699,7 +699,7 @@ const postNewVolunteerTask = async (task, description, start, end, donated, oppI
 
    //Emails to confirm signup
    const volunteerMessage = {
-      from: `${process.env.EMAIL_USER}`,
+      from: `${process.env.PASO_EMAIL}`,
       to: volunteer.email,
       subject: opportunity.title + " sign up successful",
       html: "<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello " + volunteer.firstName + ",<br></br> Thank you so much for your support! We'll be in touch with more information about the volunteer opportunity you selected. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org"  +
