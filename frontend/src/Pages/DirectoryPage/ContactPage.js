@@ -11,6 +11,8 @@ function ContactPage(props) {
     const id = window.location.hash.substring(1);
     const [contact, setContact] = useState("");
     const [notes, setNotes] = useState(contact.notes);
+    const [admin, setAdmin] = useState(contact.admin);
+    const [refresh, setRefresh] = useState(0);
     
 
     async function fetchAll() {
@@ -64,6 +66,24 @@ function ContactPage(props) {
         });
 
     }
+    function uploadAdmin() {
+        let c = contact;
+        c.admin = !c.admin;
+        setContact(c);
+        console.log(c);
+        fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(contact)
+        }).then(response => {
+            response.json().then(data => {
+                console.log("Successful" + data);
+            });
+        });
+        setRefresh(refresh+1);
+    }
   
     return(
         <div id="contactPage">
@@ -79,6 +99,9 @@ function ContactPage(props) {
                         <Row> 
                             <div> 
                                 <Row>
+                                <button className="notesButton" type="submit" onClick={uploadAdmin}>{contact.admin ? "Remove Admin" : "Make Admin"}</button>
+                                </Row>
+                                <Row>
                                 <h3 id="notesText" className="contactTitle">Notes</h3>
                                 </Row>
                                 <Row>
@@ -87,6 +110,7 @@ function ContactPage(props) {
                                 <Row>
                                 <button className="notesButton" type="submit" onClick={uploadNotes}>Post Note</button>
                                 </Row>
+                                
                             </div>
                         </Row>
                     </Col>
