@@ -31,7 +31,8 @@ const Opportunities = (props) => {
         for(var i = 0; i < opportunities.length; i++) {
             if (opportunities[i]._id === '6099c78c001ee300081c1dab' || opportunities[i].title === 'Board Member')
             {
-                results.slice(i, 1);
+                results.splice(i, 1);
+                console.log(results);
                 break;
             }
         }
