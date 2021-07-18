@@ -28,6 +28,13 @@ const Opportunities = (props) => {
     }, [])
 
     function getFirstThree() {
+        for(var i = 0; i < opportunities.length; i++) {
+            if (opportunities[i]._id === '6099c78c001ee300081c1dab' || opportunities[i].title === 'Board Member')
+            {
+                results.slice(i, 1);
+                break;
+            }
+        }
         if(opportunities.length < 3) {
             return opportunities;
         }
