@@ -8,7 +8,7 @@ function DashboardHeader() {
             <Slideshow />
             <DashboardHeaderContext />
         </div>
-    )
+    );
 }
 
 export default DashboardHeader;

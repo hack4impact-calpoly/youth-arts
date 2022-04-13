@@ -1,6 +1,5 @@
-
-  .navbar{
-    box-sizing:border-box;
+.navbar {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
     background-color: #1b75bc;
@@ -9,62 +8,61 @@
     align-items: baseline;
     height: 60px;
     width: 100%;
-  }
-  .smallham {
+}
+.smallham {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 4000px;
-  }
+}
 
-  .logo {
+.logo {
     cursor: pointer;
-    padding: 10px 50px ;
+    padding: 10px 50px;
     margin-right: auto;
-  }
+}
 
-  nav{
+nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     color: white;
-  }
-  /* nav .navbar-expand {
+}
+/* nav .navbar-expand {
     
   } */
 
-  .navlinks {
+.navlinks {
     list-style: none;
-  }
+}
 
-  .navlinks li{ 
+.navlinks li {
     padding: 0px 20px;
     display: inline-block;
     text-decoration: none;
     color: white;
     border-right: 1px solid;
-  }
-  
-  .navlinks li, a{
+}
+
+.navlinks li,
+a {
     text-decoration: none;
     color: white;
     font-weight: 500;
     font-size: 17px;
-    font-family: 'Avant Garde';
-    transition: all .3s ease 0s;
-  }
+    font-family: "Avant Garde";
+    transition: all 0.3s ease 0s;
+}
 
-  .navlinks li a:hover {
-    color:black;
-  }
+.navlinks li a:hover {
+    color: black;
+}
 
-  .navlinks li:last-child 
-  { 
-    border-right: none; 
-  }
+.navlinks li:last-child {
+    border-right: none;
+}
 
-  /* @font-face {
+/* @font-face {
     font-family: 'Avant Garde';
     src: url(./fonts/ITCAvantGardePro-Bk.otf);
   } */
-

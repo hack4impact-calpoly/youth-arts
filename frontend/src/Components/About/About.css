@@ -4,7 +4,7 @@
 
 .about {
     margin: auto;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 .aboutPic {
@@ -13,18 +13,18 @@
 }
 
 .aboutTitle {
-    color: #1F4C82;
+    color: #1f4c82;
     text-align: center;
     text-emphasis: bold;
     font-size: 24px;
     padding: 2%;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 .aboutDesc {
     margin-left: 60px;
     text-align: left;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 #actionTitle {
@@ -33,7 +33,7 @@
     padding: 2% 0 3% 0;
     margin: 20px 0 0 0;
     text-align: center;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 @media screen and (max-width: 480px) {

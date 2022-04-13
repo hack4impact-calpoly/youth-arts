@@ -4,7 +4,6 @@ import About from "./../../Components/About/About";
 import Opportuntites from "./../../Components/Opportunities/Opportunities";
 
 function AnonymousDashboard(props) {
-    
     return (
         <section>
             <DashboardHeader />
@@ -12,7 +11,6 @@ function AnonymousDashboard(props) {
             <Opportuntites />
         </section>
     );
-    
 }
 
 export default AnonymousDashboard;

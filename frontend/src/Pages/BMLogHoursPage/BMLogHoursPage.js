@@ -1,10 +1,10 @@
 import "./BMLogHoursPage.css";
 import { useState, useEffect } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from '@date-io/date-fns';
-import dateFormat from 'dateformat';
+import DateFnsUtils from "@date-io/date-fns";
+import dateFormat from "dateformat";
 
 function BMLogHoursPage(props) {
     //stores inputs from form
@@ -18,54 +18,57 @@ function BMLogHoursPage(props) {
     var opportunities;
     var key;
     var firstTime = false;
-    var firstBoard = false;
-    var firstTimeBoard = false;
     var updateBoard = false;
 
-    if(props.user !== null && !props.user.boardMember && (props.user.opportunities === null || props.user.opportunities === undefined)) {
+    if (
+        props.user !== null &&
+        !props.user.boardMember &&
+        (props.user.opportunities === null ||
+            props.user.opportunities === undefined)
+    ) {
         opportunities = "false";
-    }
-    else if (props.user !== null && props.user.boardMember && props.user.opportunities !== null && props.user.opportunities !== undefined) {
+    } else if (
+        props.user !== null &&
+        props.user.boardMember &&
+        props.user.opportunities !== null &&
+        props.user.opportunities !== undefined
+    ) {
         opportunities = props.user.opportunities;
         Object.keys(opportunities).map((item) => {
             console.log(item);
-            if (item === '6099c78c001ee300081c1dab')
-            {
+            if (item === "6099c78c001ee300081c1dab") {
                 console.log(true);
                 key = item;
             }
             return null;
-        })
+        });
         console.log(props.user.opportunities);
-        if(key === null || key === undefined) {
+        if (key === null || key === undefined) {
             firstTime = true;
             opportunities = [];
-        }
-        else
-        {
+        } else {
             opportunities = props.user.opportunities[key];
             console.log(opportunities);
         }
-    }
-    else {
+    } else {
         opportunities = [];
         firstTime = true;
     }
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`)
-        .then(response => {
-            response.json()
-            .then(data => {
+        fetch(
+            `${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`
+        ).then((response) => {
+            response.json().then((data) => {
                 setboardOpportunity(data);
             });
         });
     }, []);
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`)
-        .then(response => {
-            response.json()
-            .then(data => {
+        fetch(
+            `${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`
+        ).then((response) => {
+            response.json().then((data) => {
                 setboardOpportunity(data);
             });
         });
@@ -75,9 +78,10 @@ function BMLogHoursPage(props) {
         if (startDT === "" || endDT === "" || tasks === "") {
             alert("Incomplete form. Please try again.");
             return false;
-        }
-        else if (startDT > endDT) {
-            alert("Start date is after end date. Please correct and try again.");
+        } else if (startDT > endDT) {
+            alert(
+                "Start date is after end date. Please correct and try again."
+            );
             return false;
         }
         return true;
@@ -91,44 +95,45 @@ function BMLogHoursPage(props) {
         if (opportunities === "false") return;
         //check if form is valid
         if (!isValidForm()) return;
-        
+
         //if opportunities alreayd has the task, append start and end d/t to existing array
         var contains = false;
-        opportunities.forEach(function(item) {
-            if(item.task.toLowerCase() !== "" && item.task.toLowerCase() === tasks.toLowerCase()) {
+        opportunities.forEach(function (item) {
+            if (
+                item.task.toLowerCase() !== "" &&
+                item.task.toLowerCase() === tasks.toLowerCase()
+            ) {
                 item.start.push(startDT);
                 item.end.push(endDT);
                 contains = true;
                 console.log(item.start);
                 console.log(item.end);
-                console.log(item)
+                console.log(item);
                 console.log(typeof item.start[0]);
             }
-        })
+        });
         //else add the opportunity
-        if(!contains) {
+        if (!contains) {
             var newOpp = {
                 task: tasks,
                 start: [startDT],
                 end: [endDT],
                 description: "",
-                donated: []
-            }
-            opportunities.push(newOpp)
+                donated: [],
+            };
+            opportunities.push(newOpp);
             console.log(newOpp);
             console.log(typeof newOpp.start[0]);
         }
-        
 
         // push new opportunities to database
         var newOpportunites;
-        if(!firstTime) {
+        if (!firstTime) {
             newOpportunites = props.user.opportunities;
             newOpportunites[key] = opportunities;
-        }
-        else {
+        } else {
             newOpportunites = props.user.opportunities;
-            newOpportunites['6099c78c001ee300081c1dab'] = opportunities;
+            newOpportunites["6099c78c001ee300081c1dab"] = opportunities;
         }
 
         const updateVolunteer = {
@@ -149,17 +154,17 @@ function BMLogHoursPage(props) {
             username: props.user.username,
             workHistory: props.user.workHistory,
             _v: props.user._v,
-            opportunities: newOpportunites
-        }
+            opportunities: newOpportunites,
+        };
 
         fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(updateVolunteer)
-        }).then(response => {
-            response.json().then(data => {
+            body: JSON.stringify(updateVolunteer),
+        }).then((response) => {
+            response.json().then((data) => {
                 console.log("Successful" + data);
             });
         });
@@ -168,61 +173,65 @@ function BMLogHoursPage(props) {
         Object.keys(volunteers).map((item) => {
             key = item;
             return null;
-        })
+        });
         volunteers = volunteers[key];
-        if(key === null || key === undefined) {
+        if (key === null || key === undefined) {
             firstTime = true;
             volunteers = [];
         }
 
-        if ((volunteers == [] || volunteers.length <= 0 || volunteers == undefined || volunteers == null) && volunteers[props.user._id] == null) {
+        if (
+            (volunteers === [] ||
+                volunteers.length <= 0 ||
+                volunteers === undefined ||
+                volunteers === null) &&
+            volunteers[props.user._id] === null
+        ) {
             contains = false;
-            volunteers = []
-        }
-        else 
-        {
+            volunteers = [];
+        } else {
             volunteers = boardOpportunity.volunteers[props.user._id];
             contains = false;
-            volunteers.forEach(function(item) {
-                if(item.task.toLowerCase() !== "" && item.task.toLowerCase() === tasks.toLowerCase()) {
+            volunteers.forEach(function (item) {
+                if (
+                    item.task.toLowerCase() !== "" &&
+                    item.task.toLowerCase() === tasks.toLowerCase()
+                ) {
                     item.start.push(startDT);
                     item.end.push(endDT);
                     contains = true;
                 }
-            })
-            
+            });
         }
-        if(!contains) {
+        if (!contains) {
             var newVol = {
                 task: tasks,
                 start: [startDT],
                 end: [endDT],
                 description: "",
-                donated: []
-            }
+                donated: [],
+            };
             volunteers.push(newVol);
         }
         // push new opportunities to database
-        
+
         var newVolunteers;
-        let id = props.user._id
-        if(!firstTime) {
+        if (!firstTime) {
             newVolunteers = boardOpportunity.volunteers;
             newVolunteers[props.user._id] = volunteers;
-        }
-        else {
+        } else {
             newVolunteers = {};
             newVolunteers[props.user._id] = volunteers;
         }
-        boardOpportunity['volunteers'] = newVolunteers;
+        boardOpportunity["volunteers"] = newVolunteers;
         fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(boardOpportunity)
-        }).then(response => {
-            response.json().then(data => {
+            body: JSON.stringify(boardOpportunity),
+        }).then((response) => {
+            response.json().then((data) => {
                 console.log("Successful" + data);
                 updateBoard = !updateBoard;
             });
@@ -233,59 +242,92 @@ function BMLogHoursPage(props) {
     return (
         <body>
             <div id="calHeader">
-                    <h1 className="calTitle">BOARD MEMBER LOG HOURS</h1>
+                <h1 className="calTitle">BOARD MEMBER LOG HOURS</h1>
             </div>
-            <div id="logHoursPage"> 
-            <Form >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DateTimePicker
-                    name="startDateTime"
-                    label="Start Date/Time"
-                    value={startDT? startDT : dateFormat((new Date()), " mmmm dS, yyyy ") }
-                    onChange={e => {setStartDT(e);
-                                    console.log(e);
-                                    setRerender(!rerender);}}
-                    />
+            <div id="logHoursPage">
+                <Form>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <DateTimePicker
+                            name="startDateTime"
+                            label="Start Date/Time"
+                            value={
+                                startDT
+                                    ? startDT
+                                    : dateFormat(new Date(), " mmmm dS, yyyy ")
+                            }
+                            onChange={(e) => {
+                                setStartDT(e);
+                                console.log(e);
+                                setRerender(!rerender);
+                            }}
+                        />
+                        <br></br>
+                        <br></br>
+                        <DateTimePicker
+                            name="endDateTime"
+                            label="End Date/Time"
+                            value={endDT ? endDT : new Date()}
+                            onChange={(e) => {
+                                setEndDT(e);
+                                setRerender(!rerender);
+                            }}
+                        />
+                    </MuiPickersUtilsProvider>
                     <br></br>
-                    <br></br>
-                    <DateTimePicker
-                    name="endDateTime"
-                    label="End Date/Time"
-                    value={endDT? endDT : (new Date())}
-                    onChange={e => {setEndDT(e);
-                                    setRerender(!rerender);}}
-                    />
-                </MuiPickersUtilsProvider>
-                <br></br>
-                <Form.Group>
-                    <br></br>
-                    <Form.Label>Task (i.e. "Board meeting")</Form.Label>
-                    <Form.Control as="textarea" rows={1} onChange={e => setTasks(e.target.value)} />
-                </Form.Group>
-                <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
-            </Form>
+                    <Form.Group>
+                        <br></br>
+                        <Form.Label>Task (i.e. "Board meeting")</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={1}
+                            onChange={(e) => setTasks(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        onClick={handleSubmit}
+                    >
+                        Submit
+                    </Button>
+                </Form>
 
-            {showLoggedModal ? <Modal className="ModalText"
-                show={showLoggedModal}
-                onHide={() => setshowLoggedModal(!showLoggedModal)}
-                backdrop="static"
-                keyboard={false}>
-                <Modal.Header closeButton>
-                <Modal.Title>Success! You logged Board Member hours.</Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="modalButtons">
-                <Link to="/" id="modalButton" className="linkPadding">Go to Dashboard</Link>
-                <Button id="modalButton" variant="primary"
-                        onClick={() => setshowLoggedModal(!showLoggedModal)}>Log more hours</Button>
-                </Modal.Body>
-            </Modal> : null}
+                {showLoggedModal ? (
+                    <Modal
+                        className="ModalText"
+                        show={showLoggedModal}
+                        onHide={() => setshowLoggedModal(!showLoggedModal)}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>
+                                Success! You logged Board Member hours.
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="modalButtons">
+                            <Link
+                                to="/"
+                                id="modalButton"
+                                className="linkPadding"
+                            >
+                                Go to Dashboard
+                            </Link>
+                            <Button
+                                id="modalButton"
+                                variant="primary"
+                                onClick={() =>
+                                    setshowLoggedModal(!showLoggedModal)
+                                }
+                            >
+                                Log more hours
+                            </Button>
+                        </Modal.Body>
+                    </Modal>
+                ) : null}
             </div>
         </body>
-
-        
-
     );
 }
 
 export default BMLogHoursPage;
-

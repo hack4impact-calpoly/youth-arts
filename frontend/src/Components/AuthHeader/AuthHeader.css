@@ -1,4 +1,4 @@
-#authHeader{
+#authHeader {
     background-image: url("https://pryac.s3.us-west-1.amazonaws.com/performanceHeader.JPG");
     background-size: cover;
     background-position: 50% 10%;
@@ -8,7 +8,7 @@
     text-align: center;
     padding: 2% 0;
     font-weight: bold;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 #authLogo {
@@ -17,7 +17,7 @@
 
 #welcomeBack {
     padding: 0.25%;
-    color: #1F4C82;
+    color: #1f4c82;
     background: rgba(255, 255, 255, 0.74);
     font-size: 40px;
     margin: 20px 0;
@@ -31,8 +31,8 @@
     /* margin: 10px;
     font-size: 40px; */
     width: 100%;
-    font-family: 'Avant Garde';
-    background: rgba(0, 0, 0, 0.50);
+    font-family: "Avant Garde";
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* mobile */
@@ -41,7 +41,7 @@
         width: 70px;
     }
 
-    #welcomeBack{
+    #welcomeBack {
         font-size: 28px;
         margin: 10px 0;
     }

@@ -1,31 +1,30 @@
 #contactCardDate {
     margin-bottom: 0px !important;
-    margin-left: 2%
+    margin-left: 2%;
 }
 #contactCardTitle {
     font-weight: bold;
     /* margin-bottom: 0px !important; */
 }
 
-#contactCardRoleName, #contactCardDonated, #contactCardDesc {
-    margin-left: 2%
+#contactCardRoleName,
+#contactCardDonated,
+#contactCardDesc {
+    margin-left: 2%;
 }
 
-.datep
-{
-    display:flex;
-    padding:0;
-    margin:0;
+.datep {
+    display: flex;
+    padding: 0;
+    margin: 0;
 }
-.dateul
-{
+.dateul {
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 15px !important;
     padding-right: 0px !important;
     margin-right: -200px;
 }
-.datediv
-{
+.datediv {
     /* padding:0; */
 }

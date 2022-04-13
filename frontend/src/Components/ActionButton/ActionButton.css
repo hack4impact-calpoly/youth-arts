@@ -1,60 +1,62 @@
 .volunteer {
     width: 80%;
     height: 205px;
-    background: #FDE9D3;
-    border: 16px solid #F7941D;
+    background: #fde9d3;
+    border: 16px solid #f7941d;
     border-radius: 24px;
-    color: #F7941D;
+    color: #f7941d;
     font-size: 2.5rem;
     padding-top: 0;
     margin: 2.5% 2%;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 .volunteer:hover {
-    background-color: #FDE9D3;
-    color: #F7941D;
-    font-family: 'Avant Garde';
+    background-color: #fde9d3;
+    color: #f7941d;
+    font-family: "Avant Garde";
 }
 
 .visit {
     width: 80%;
     height: 205px;
-    background: #CDEDEB;
-    border: 16px solid #00A79D;
+    background: #cdedeb;
+    border: 16px solid #00a79d;
     border-radius: 24px;
-    color: #00A79D;
+    color: #00a79d;
     font-size: 40px;
     margin: 2.5% 2%;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 .visit:hover {
-    background-color: #CDEDEB;
-    color: #00A79D;
-    font-family: 'Avant Garde';
+    background-color: #cdedeb;
+    color: #00a79d;
+    font-family: "Avant Garde";
 }
 
 .donate {
     width: 80%;
     height: 205px;
-    background: #D8F0DB;
-    border: 16px solid #39B54A;
+    background: #d8f0db;
+    border: 16px solid #39b54a;
     border-radius: 24px;
-    color: #39B54A;
+    color: #39b54a;
     font-size: 40px;
     margin: 2.5% 2%;
-    font-family: 'Avant Garde';
+    font-family: "Avant Garde";
 }
 
 .donate:hover {
-    background-color: #D8F0DB;
-    color: #39B54A;
-    font-family: 'Avant Garde';
+    background-color: #d8f0db;
+    color: #39b54a;
+    font-family: "Avant Garde";
 }
 
 @media screen and (max-width: 480px) {
-    .donate, .visit, .volunteer {
+    .donate,
+    .visit,
+    .volunteer {
         height: 160px;
         width: 90%;
         font-size: 32px;
@@ -62,7 +64,9 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1034px) {
-    .donate, .visit, .volunteer {
+    .donate,
+    .visit,
+    .volunteer {
         height: 160px;
         width: 105%;
         font-size: 32px;

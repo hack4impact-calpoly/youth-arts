@@ -1,5 +1,5 @@
 import "./DirectoryRow.css";
-import {Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 function DirectoryRow(props) {
     return (
