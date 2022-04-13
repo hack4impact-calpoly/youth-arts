@@ -11,9 +11,9 @@ const SmallScreensNavbar = (props) => {
     let [translate, setTranslate] = useState(true);
     return (
         <div class="smallham">
-            <Link className="logo" to="/home">
+            {/* <Link className="logo" to="/home">
                 <img src={logo} width="auto" height="45" alt=""></img>
-            </Link>
+            </Link> */}
             <button
                 className="hamburger-btn"
                 onClick={() => setTranslate(!translate)}
@@ -30,7 +30,7 @@ const SmallScreensNavbar = (props) => {
             >
                 <NavComponent
                     navClass="nav-small"
-                    linkClassName="nav-small-link"
+                    linkClassName="navsmalllink"
                     onClick={() => setTranslate(true)}
                     user={user} //set translate to true to hide the sidebar list
                 />

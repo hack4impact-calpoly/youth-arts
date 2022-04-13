@@ -13,27 +13,27 @@ const Header = (props) => {
     const [width, height] = useWindowWidthAndHeight();
     return (
         <header className="navheader">
-            <div className="header-inner">
-                <Link className="header-logo" to="home" smooth={true}>
-                    <img src={logo} width="auto" height="45" alt=""></img>
-                </Link>
+            {/* <div className="header-inner"> */}
+            <Link className="header-logo" to="home" smooth={true}>
+                <img src={logo} width="auto" height="45" alt=""></img>
+            </Link>
 
-                {width > 1220 ? (
-                    <Navbar
-                        navClass="nav-big"
-                        linkClassName="nav-big-link"
-                        user={user}
-                        updateProfile={props.updateProfile}
-                    />
-                ) : (
-                    <SmallScreensNavbar
-                        navClass="nav-small"
-                        linkClassName="nav-small-link"
-                        user={user}
-                        updateProfile={props.updateProfile}
-                    />
-                )}
-            </div>
+            {width > 1220 ? (
+                <Navbar
+                    navClass="nav-big"
+                    linkClassName="nav-big-link"
+                    user={user}
+                    updateProfile={props.updateProfile}
+                />
+            ) : (
+                <SmallScreensNavbar
+                    navClass="nav-small"
+                    linkClassName="nav-small-link"
+                    user={user}
+                    updateProfile={props.updateProfile}
+                />
+            )}
+            {/* </div> */}
         </header>
     );
 };

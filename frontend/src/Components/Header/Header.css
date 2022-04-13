@@ -1,50 +1,59 @@
-.navheader{
+.navheader {
     padding: 0px;
-    margin:  0px;
+    margin: 0px;
     padding: 0;
     border: none;
     outline: none;
     text-decoration: none;
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     height: 60px;
     padding: 0;
     background-color: #1b75bc;
     width: 100%;
     display: flex;
-    align-items:center;
-    /* justify-content: space-between; */
-    /* box-shadow: 1px 1px 1px 1px rgba(116, 110, 110, 0.199); */
+    align-items: center;
+    font-family: "Avant Garde";
 }
-.navbar-expand{
-    width: 100% !important;
-    flex: 0.5;
-    display: flex;
-    padding-bottom: 5px;
-    justify-content: space-between;
-    
+::marker {
+    display: none;
+    color: #1b75bc;
 }
 
-.header-inner{
+.navbar-expand {
+    width: 100% !important;
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.header-inner {
     width: 100% !important;
     display: flex;
     justify-content: space-between;
-    
 }
 .navlinks {
-    display:contents;
+    display: contents;
     max-height: 30px;
-    justify-content: center;
+    justify-content: right;
     white-space: nowrap;
+    color: white;
 }
-.header-logo{
+.header-logo {
     cursor: pointer;
-    padding:  50px 50px;
+    padding: 50px 50px;
     align-items: flex-end;
 }
 
-.hamburger-btn{
+.navlink {
+    color: white !important;
+}
+a {
+    color: white;
+}
+
+.hamburger-btn {
     font-size: 1.3rem;
     top: 0 !important;
     position: absolute;
@@ -53,13 +62,13 @@
     height: 60px;
     right: 0px;
     outline: none;
-    background-color: #F2CD19 !important;
-    color: #F2CD19;
+    background-color: #f2cd19 !important;
+    color: #f2cd19;
     color: whitesmoke;
     box-shadow: none;
     border: 0;
 }
-.hamburger-btn:hover{
+.hamburger-btn:hover {
     font-size: 1.3rem;
     top: 0 !important;
     position: absolute;
@@ -73,18 +82,16 @@
     border: 0;
 }
 
-
-
-.addTransiton{
+.addTransiton {
     transform: translateX(200px);
     transition: transform 0.5s ease-in-out;
 }
-.removeTransition{
+.removeTransition {
     transform: translateX(20px);
     transition: transform 0.5s ease-in-out;
 }
 
-#sidebar-list{
+#sidebar-list {
     background-color: #1b75bc;
     /* height: 95vh; */
     width: 200px;
@@ -95,22 +102,23 @@
     margin-top: 60px;
 }
 
-
-.nav-big{
+.nav-big {
     list-style: none;
     display: flex;
     justify-content: space-around;
     width: 100%;
     font-weight: bold;
+    margin: 1000;
+    color: white;
 }
 
-.nav-big-link{
-   cursor: pointer;
-   color: white;
-   text-decoration: none !important;
+.nav-big-link {
+    cursor: pointer;
+    color: white;
+    text-decoration: none !important;
 }
 
-.nav-small{
+.nav-small {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -119,9 +127,13 @@
     margin-top: 50px;
     width: 80%;
 }
-.nav-small-link{
+.navsmalllink {
     cursor: pointer;
-    color: whitesmoke;
+    color: white;
     padding-bottom: 5px;
 }
-
+.navsmalllink:visited {
+    cursor: pointer;
+    color: white;
+    padding-bottom: 5px;
+}
