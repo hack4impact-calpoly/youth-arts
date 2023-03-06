@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js dev",
-    "prepare": "cd ../ && husky install ./backend/.husky",
     "lint-check": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
     "lint-write-all": "eslint --ext .js,.ts --ignore-path .gitignore . --fix && prettier --write .",
     "lint-write": "npx lint-staged"
