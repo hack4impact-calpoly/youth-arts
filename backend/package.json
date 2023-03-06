@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js dev"
+    "dev": "nodemon server.js dev",
+    "prepare": "cd ../ && husky install ./backend/.husky",
+    "lint-check": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
+    "lint-write-all": "eslint --ext .js,.ts --ignore-path .gitignore . --fix && prettier --write .",
+    "lint-write": "npx lint-staged"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +38,14 @@
     "passport-local-mongoose": "^6.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "eslint": "^8.34.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.8.4"
   }
 }
