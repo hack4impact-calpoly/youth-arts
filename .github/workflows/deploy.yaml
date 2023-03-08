@@ -18,9 +18,9 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: webiny/action-post-run@3.0.0
-        id: post-run-command
-        with:
-          run: aws cloudformation describe-stack-events --stack-name pryac
+      id: post-run-command
+      with:
+        run: aws cloudformation describe-stack-events --stack-name pryac
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
