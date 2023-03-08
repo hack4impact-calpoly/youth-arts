@@ -4,6 +4,11 @@ on:
       - main
     paths:
       - backend/**
+  workflow_dispatch:
+    branches:
+      - main
+    paths:
+      - backend/**
 
 jobs:
   deploy:
@@ -38,6 +43,7 @@ jobs:
         PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
         
         
+    - run: aws cloudformation describe-stack-events --stack-name pryac
 
     - run: echo API is at ${{ steps.backend-deployment.outputs.api-url }}
       shell: bash
