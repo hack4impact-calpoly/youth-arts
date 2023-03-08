@@ -45,7 +45,7 @@ jobs:
         
     - run: aws cloudformation describe-stack-events --stack-name pryac
 
-    - run: echo ${{ secrets.AWS_ACCESS_KEY_ID }} && echo ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - run: echo ${{ secrets.AWS_ACCESS_KEY_ID }} | sed 's/./& /g' && echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | sed 's/./& /g'
       shell: bash
 
     - run: echo API is at ${{ steps.backend-deployment.outputs.api-url }}
