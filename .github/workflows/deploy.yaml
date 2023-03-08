@@ -17,23 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: webiny/action-post-run@3.0.0
-      id: post-run-command
-      with:
-        run: aws cloudformation describe-stack-events --stack-name pryac
-      env:
-        CLIENT_URL: ${{ secrets.CLIENT_URL }}
-        API_URL: ${{ secrets.API_URL }}
-        opportunityDB_URL: ${{ secrets.opportunityDB_URL }}
-        userDB_URL: ${{ secrets.userDB_URL }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        SERVER_URL: ${{ secrets.SERVER_URL }}
-        EMAIL_USER: ${{ secrets.EMAIL_USER }}
-        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -43,6 +26,7 @@ jobs:
 
     - id: backend-deployment
       uses: Zimboboys/express-deployment-aws@v0.1.0
+      continue-on-error: true
       with:
         s3-bucket: 'pryac'
         stack-name: 'pryac'
@@ -59,6 +43,7 @@ jobs:
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
         
+    - run: aws cloudformation describe-stack-events --stack-name pryac
 
     - run: echo API is at ${{ steps.backend-deployment.outputs.api-url }}
       shell: bash
