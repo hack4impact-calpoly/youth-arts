@@ -21,8 +21,6 @@ jobs:
       id: post-run-command
       with:
         run: aws cloudformation describe-stack-events --stack-name pryac
-        s3-bucket: 'pryac'
-        stack-name: 'pryac'
       env:
         CLIENT_URL: ${{ secrets.CLIENT_URL }}
         API_URL: ${{ secrets.API_URL }}
