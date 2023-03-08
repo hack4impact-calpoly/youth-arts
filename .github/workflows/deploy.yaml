@@ -21,6 +21,20 @@ jobs:
       id: post-run-command
       with:
         run: aws cloudformation describe-stack-events --stack-name pryac
+        s3-bucket: 'pryac'
+        stack-name: 'pryac'
+      env:
+        CLIENT_URL: ${{ secrets.CLIENT_URL }}
+        API_URL: ${{ secrets.API_URL }}
+        opportunityDB_URL: ${{ secrets.opportunityDB_URL }}
+        userDB_URL: ${{ secrets.userDB_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        SERVER_URL: ${{ secrets.SERVER_URL }}
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
