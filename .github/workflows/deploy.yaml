@@ -27,8 +27,8 @@ jobs:
     - id: backend-deployment
       uses: Zimboboys/express-deployment-aws@v0.1.0
       with:
-        s3-bucket: 'pryac'
-        stack-name: 'pryac'
+        s3-bucket: 'pryac-api'
+        stack-name: 'pryac-api'
       env:
         CLIENT_URL: ${{ secrets.CLIENT_URL }}
         API_URL: ${{ secrets.API_URL }}
@@ -42,7 +42,7 @@ jobs:
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         PASO_EMAIL: ${{ secrets.PASO_EMAIL }}
         
-    - run: aws cloudformation describe-stack-events --stack-name pryac
+    - run: aws cloudformation describe-stack-events --stack-name pryac-api
 
     - run: echo API is at ${{ steps.backend-deployment.outputs.api-url }}
       shell: bash
