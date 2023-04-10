@@ -27,8 +27,8 @@ jobs:
     - id: backend-deployment
       uses: Zimboboys/express-deployment-aws@v0.1.0
       with:
-        s3-bucket: 'pryac-api'
-        stack-name: 'pryac-api'
+        s3-bucket: 'pryac'
+        stack-name: 'pryac'
       env:
         CLIENT_URL: ${{ secrets.CLIENT_URL }}
         API_URL: ${{ secrets.API_URL }}
