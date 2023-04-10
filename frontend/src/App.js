@@ -101,7 +101,7 @@ const App = () => {
             });
         fetchAllOpportunities();
         fetchAllVolunteers();
-    }, [newUser]);
+    }, []);
     console.log(profile);
     return (
         <BrowserRouter>
@@ -159,8 +159,8 @@ const App = () => {
                     <Footer />
                 </Route>
                 <Route exact path="/">
-                    {profile && profile.signature ? (
-                        newUser <= 0 ? (
+                    {profile ? (
+                        newUser <= 0 && profile.signature ? (
                             <AuthenticatedUserDashboard
                                 user={profile}
                                 volunteers={volunteers}
