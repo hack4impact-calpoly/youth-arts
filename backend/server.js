@@ -31,7 +31,6 @@ app.use(bodyParser.json())
 app.use((req, res, next) => {
    res.header("Referrer-Policy", "same-origin");
    res.header('Access-Control-Allow-Origin', `${process.env.CLIENT_URL}`);
-   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
    res.header('Access-Control-Allow-Methods', 'POST,PUT,GET,DELETE');
    res.header('Access-Control-Allow-Credentials', true);
    res.header('Access-Control-Allow-Headers',
