@@ -1,15 +1,15 @@
-const mongoose = require("mongoose")
-const {volunteerDB, opportunityDB} = require('../connections')
-const passportLocalMongoose = require("passport-local-mongoose")
-const findOrCreate = require("mongoose-findorcreate")
+const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
+const findOrCreate = require("mongoose-findorcreate");
+const { volunteerDB, opportunityDB } = require("../connections");
 
-const volunteerSchema = new mongoose.Schema({
-
+const volunteerSchema = new mongoose.Schema(
+  {
     firstName: String,
     lastName: String,
     email: {
-        type: String,
-        match: [/\S+@\S+.\S+/, 'is invalid']
+      type: String,
+      match: [/\S+@\S+.\S+/, "is invalid"],
     },
     phoneNum: String,
     address: String,
@@ -27,11 +27,24 @@ const volunteerSchema = new mongoose.Schema({
     notes: String,
     boardMember: Boolean,
     admin: Boolean,
-    opportunities: {type: Map, of: [{task: String, description: String, start: [Date], end: [Date], donated: [String]}]}
-}, {collection : "userDB"})
+    opportunities: {
+      type: Map,
+      of: [
+        {
+          task: String,
+          description: String,
+          start: [Date],
+          end: [Date],
+          donated: [String],
+        },
+      ],
+    },
+  },
+  { collection: "userDB" }
+);
 
-volunteerSchema.plugin(passportLocalMongoose)
-volunteerSchema.plugin(findOrCreate)
+volunteerSchema.plugin(passportLocalMongoose);
+volunteerSchema.plugin(findOrCreate);
 
-const Volunteer  = volunteerDB.model('volunteerDB', volunteerSchema)
-module.exports = Volunteer
+const Volunteer = volunteerDB.model("volunteerDB", volunteerSchema);
+module.exports = Volunteer;

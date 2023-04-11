@@ -1,18 +1,18 @@
 import "./SubmitButton.css";
 
 function SubmitButton(props) {
-    return (
-        <button
-            id={props.buttonId}
-            className="submitButton"
-            onClick={props.onClick}
-        >
-            {props.buttonText}
-        </button>
-    );
+  return (
+    <button
+      id={props.buttonId}
+      className="submitButton"
+      onClick={props.onClick}
+    >
+      {props.buttonText}
+    </button>
+  );
 }
 SubmitButton.defaultProps = {
-    id: "signUp",
+  id: "signUp",
 };
 
 export default SubmitButton;
