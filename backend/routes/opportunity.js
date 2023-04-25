@@ -82,7 +82,7 @@ app.get("/api/opportunities", async (req, res) => {
 
 app.post("/api/updateOpportunity", async (req, res) => {
   try {
-    if (typeof req.body._id === "undefined" || req.body._id === "") {
+    if (req.body._id === undefined || req.body._id === "") {
       const newOpportunity = await postNewOpportunity(
         req.body.title,
         req.body.description,
