@@ -256,7 +256,7 @@ function AuthenticatedUserDashboard(props) {
       <div>
         <Header user={user} />
         <AuthHeader user={user} />
-        <Row className="justify-content-md-center middleSection">
+        <Row className="justify-content-md-center middleSection mx-0">
           <Col md="auto">
             <UpcomingOpportunities
               opps={upcomingOpportunities}
