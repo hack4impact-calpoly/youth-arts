@@ -1,9 +1,82 @@
 const express = require("express");
 const passport = require("passport");
 const jsonwebtoken = require("jsonwebtoken");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const Volunteer = require("../models/volunteer");
 
 const app = express();
 const { auth, jwtSecret } = require("../auth");
+
+passport.use(Volunteer.createStrategy());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+    },
+    (accessToken, refreshToken, profile, cb) => {
+      // check user table
+      Volunteer.findOne(
+        {
+          googleId: profile.id,
+        },
+        (err, user) => {
+          // No user was found... so create a new user
+          if (!user) {
+            user = new Volunteer({
+              googleId: profile.id,
+              username: profile.id,
+              email: profile.emails[0].value,
+              firstName: null,
+              admin: false,
+              boardMember: false,
+              opportunities: {},
+            });
+            user.save((err) => {
+              if (err) console.log(err);
+              return cb(err, user);
+            });
+          } else {
+            // found user. Return
+            if (!user.firstName) {
+              return cb(err, user);
+            }
+            return cb(err, user);
+          }
+        }
+      );
+    }
+  )
+);
+
+app.get(
+  "/profile",
+  passport.authorize("google", {
+    failureRedirect: `${process.env.CLIENT_URL}/registration`,
+  }),
+  (req, res) => {
+    const { user } = req;
+    const { account } = req;
+  }
+);
+
+app.get(
+  "/current-user",
+  passport.authenticate("google", {
+    scope: [["https://www.googleapis.com/auth/plus.login"]],
+  }),
+  (req, res, newuser) => {
+    res.status(302).json(req.user);
+  }
+);
+
+app.get(
+  "/login",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 app.post("/auth/token", (req, res) => {
   const { token } = req.body;
