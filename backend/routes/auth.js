@@ -23,10 +23,10 @@ passport.use(
         {
           googleId: profile.id,
         },
-        (err, user) => {
+        (err, foundUser) => {
           // No user was found... so create a new user
-          if (!user) {
-            user = new Volunteer({
+          if (!foundUser) {
+            const user = new Volunteer({
               googleId: profile.id,
               username: profile.id,
               email: profile.emails[0].value,
@@ -35,43 +35,44 @@ passport.use(
               boardMember: false,
               opportunities: {},
             });
-            user.save((err) => {
-              if (err) console.log(err);
-              return cb(err, user);
+            user.save((saveErr) => {
+              if (saveErr) console.log(err);
+              return cb(saveErr, user);
             });
           } else {
             // found user. Return
-            if (!user.firstName) {
-              return cb(err, user);
+            if (!foundUser.firstName) {
+              return cb(null, foundUser);
             }
-            return cb(err, user);
+            return cb(null, foundUser);
           }
+          return null;
         }
       );
     }
   )
 );
 
-app.get(
-  "/profile",
-  passport.authorize("google", {
-    failureRedirect: `${process.env.CLIENT_URL}/registration`,
-  }),
-  (req, res) => {
-    const { user } = req;
-    const { account } = req;
-  }
-);
+// app.get(
+//   "/profile",
+//   passport.authorize("google", {
+//     failureRedirect: `${process.env.CLIENT_URL}/registration`,
+//   }),
+//   (req, res) => {
+//     const { user } = req;
+//     const { account } = req;
+//   }
+// );
 
-app.get(
-  "/current-user",
-  passport.authenticate("google", {
-    scope: [["https://www.googleapis.com/auth/plus.login"]],
-  }),
-  (req, res, newuser) => {
-    res.status(302).json(req.user);
-  }
-);
+// app.get(
+//   "/current-user",
+//   passport.authenticate("google", {
+//     scope: [["https://www.googleapis.com/auth/plus.login"]],
+//   }),
+//   (req, res, newuser) => {
+//     res.status(302).json(req.user);
+//   }
+// );
 
 app.get(
   "/login",
