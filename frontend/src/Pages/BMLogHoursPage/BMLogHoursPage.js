@@ -180,11 +180,11 @@ function BMLogHoursPage(props) {
     }
 
     if (
-      (volunteers === [] ||
-        volunteers.length <= 0 ||
-        volunteers === undefined ||
-        volunteers === null) &&
-      volunteers[props.user._id] === null
+      volunteers === [] ||
+      volunteers.length <= 0 ||
+      volunteers === undefined ||
+      (volunteers === null && volunteers[props.user._id] === null) ||
+      boardOpportunity.volunteers[props.user._id] === undefined
     ) {
       contains = false;
       volunteers = [];
