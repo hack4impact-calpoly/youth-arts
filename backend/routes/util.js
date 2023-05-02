@@ -28,7 +28,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
   try {
     let volList = opportunity.volunteers.get(volId);
     let temp = volList;
-    volList.foreach((item) => {
+    volList.forEach((item) => {
       if (item.task === "Donated") {
         console.log(item.task);
         temp = volList.filter((el) => el.task !== item.task);
@@ -54,7 +54,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
   try {
     let oppList = volunteer.opportunities.get(oppId);
     let temp = oppList;
-    oppList.foreach((item) => {
+    oppList.forEach((item) => {
       if (item.task === "Donated") {
         console.log(item.task);
         temp = oppList.filter((el) => el.task !== item.task);
