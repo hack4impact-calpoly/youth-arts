@@ -81,6 +81,24 @@ function ContactPage(props) {
     });
     setRefresh(refresh + 1);
   }
+  function uploadBoardMember() {
+    const c = contact;
+    c.boardMember = !c.boardMember;
+    setContact(c);
+    console.log(c);
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    }).then((response) => {
+      response.json().then((data) => {
+        console.log(`Successful${data}`);
+      });
+    });
+    setRefresh(refresh + 1);
+  }
 
   return (
     <div id="contactPage">
@@ -109,6 +127,17 @@ function ContactPage(props) {
                     onClick={uploadAdmin}
                   >
                     {contact.admin ? "Remove Admin" : "Make Admin"}
+                  </button>
+                </Row>
+                <Row>
+                  <button
+                    className="notesButton"
+                    type="submit"
+                    onClick={uploadBoardMember}
+                  >
+                    {contact.boardMember
+                      ? "Remove Board Member"
+                      : "Make Board Member"}
                   </button>
                 </Row>
                 <Row>
@@ -175,7 +204,7 @@ function ContactPage(props) {
             <div id="outreach">
               <h3 className="contactTitle">Events</h3>
               {getEvents()
-                ? Object.keys(contact.opportunities).map((oppId, index) =>
+                ? Object.keys(contact.opportunities).map((oppId) =>
                     contact.opportunities[oppId].map((singleOpp, i) => {
                       const theOp = props.allOpportunities.filter(
                         (o) => o._id === oppId

@@ -16,7 +16,7 @@ const app = express();
 const cookieSession = require("cookie-session");
 const Opportunity = require("./models/opportunity");
 const Volunteer = require("./models/volunteer");
-const { auth, JWT_secret } = require("./auth");
+const { auth, jwtSecret } = require("./auth");
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -246,7 +246,7 @@ app.get(
   }),
   (req, res) => {
     // Succesful authentication, redirect secrets.
-    const token = jsonwebtoken.sign({ id: req.user._id }, JWT_secret);
+    const token = jsonwebtoken.sign({ id: req.user._id }, jwtSecret);
     res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
   }
 );
