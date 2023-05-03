@@ -95,7 +95,7 @@ export function NavComponent({ onClick, navClass, linkClassName, user }) {
     </nav>
   ) : (
     <div>
-      <Link className="header-logo" to="home" smooth>
+      <Link className="header-logo-small" to="home" smooth>
         <img src={logo} width="auto" height="45" alt="" />
       </Link>
       <br />

@@ -1,139 +1,147 @@
 .navheader {
-    padding: 0px;
-    margin: 0px;
-    padding: 0;
-    border: none;
-    outline: none;
-    text-decoration: none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 60px;
-    padding: 0;
-    background-color: #1b75bc;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-family: "Avant Garde";
+  padding: 0px;
+  margin: 0px;
+  padding: 0;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 60px;
+  padding: 0;
+  background-color: #1b75bc;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-family: "Avant Garde";
 }
 ::marker {
-    display: none;
-    color: #1b75bc;
+  display: none;
+  color: #1b75bc;
 }
 
 .navbar-expand {
-    width: 100% !important;
-    flex: 1;
-    display: flex;
-    justify-content: space-evenly;
+  width: 100% !important;
+  flex: 1;
+  display: flex;
+  /*justify-content: space-evenly;*/
 }
 
 .header-inner {
-    width: 100% !important;
-    display: flex;
-    justify-content: space-between;
+  width: 100% !important;
+  display: flex;
+  justify-content: space-between;
 }
 .navlinks {
-    display: contents;
-    max-height: 30px;
-    justify-content: right;
-    white-space: nowrap;
-    color: white;
+  display: contents;
+  max-height: 30px;
+  justify-content: right;
+  white-space: nowrap;
+  color: white;
 }
 .header-logo {
-    cursor: pointer;
-    padding: 50px 50px;
-    align-items: flex-end;
+  cursor: pointer;
+  padding: 50px 50px;
+  align-items: flex-end;
+}
+
+.header-logo-small {
+  cursor: pointer;
+  padding: 5px 10px;
+  align-items: flex-end;
 }
 
 .navlink {
-    color: white !important;
+  color: white !important;
 }
 a {
-    color: white;
+  color: white;
 }
 
 .hamburger-btn {
-    font-size: 1.3rem;
-    top: 0 !important;
-    position: absolute;
-    bottom: 0;
-    width: 60px;
-    height: 60px;
-    right: 0px;
-    outline: none;
-    background-color: #f2cd19 !important;
-    color: #f2cd19;
-    color: whitesmoke;
-    box-shadow: none;
-    border: 0;
+  font-size: 1.3rem;
+  top: 0 !important;
+  position: absolute;
+  bottom: 0;
+  width: 60px;
+  height: 60px;
+  right: 0px;
+  outline: none;
+  background-color: #f2cd19 !important;
+  color: #f2cd19;
+  color: whitesmoke;
+  box-shadow: none;
+  border: 0;
 }
 .hamburger-btn:hover {
-    font-size: 1.3rem;
-    top: 0 !important;
-    position: absolute;
-    bottom: 0;
-    width: 60px;
-    height: 60px;
-    right: 0px;
-    outline: none;
-    color: whitesmoke;
-    box-shadow: none;
-    border: 0;
+  font-size: 1.3rem;
+  top: 0 !important;
+  position: absolute;
+  bottom: 0;
+  width: 60px;
+  height: 60px;
+  right: 0px;
+  outline: none;
+  color: whitesmoke;
+  box-shadow: none;
+  border: 0;
 }
 
 .addTransiton {
-    transform: translateX(200px);
-    transition: transform 0.5s ease-in-out;
+  display: none;
+  transform: translateX(200px);
+  transition: transform 0.5s ease-in-out;
+  width: 0;
 }
 .removeTransition {
-    transform: translateX(20px);
-    transition: transform 0.5s ease-in-out;
+  /* transform: translateX(20px); */
+  transition: transform 0.5s ease-in-out;
 }
 
 #sidebar-list {
-    background-color: #1b75bc;
-    /* height: 95vh; */
-    width: 200px;
-    position: absolute;
-    z-index: 2000;
-    right: 0;
-    top: 0;
-    margin-top: 60px;
+  background-color: #1b75bc;
+  /* height: 95vh; */
+  width: 200px;
+  position: absolute;
+  z-index: 2000;
+  right: 0;
+  top: 0;
+  margin-top: 60px;
 }
 
 .nav-big {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    font-weight: bold;
-    margin: 1000;
-    color: white;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-weight: bold;
+  margin: 1000;
+  color: white;
 }
 
 .nav-big-link {
-    cursor: pointer;
-    color: white;
-    text-decoration: none !important;
+  cursor: pointer;
+  color: white;
+  text-decoration: none !important;
 }
 
 .nav-small {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: space-around;
-    margin: auto;
-    margin-top: 50px;
-    width: 80%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-around;
+  margin: auto;
+  margin-top: 50px;
+  width: 80%;
 }
 .navsmalllink {
-    cursor: pointer;
-    color: white;
-    padding-bottom: 5px;
+  cursor: pointer;
+  color: white;
+  padding-bottom: 5px;
 }
 .navsmalllink:visited {
-    cursor: pointer;
-    color: white;
-    padding-bottom: 5px;
+  cursor: pointer;
+  color: white;
+  padding-bottom: 5px;
 }
