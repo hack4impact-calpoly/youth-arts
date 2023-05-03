@@ -8,15 +8,7 @@ const moment = require("moment");
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const Opportunity = require("../models/opportunity");
-
-const transport = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: `${process.env.EMAIL_USER}`,
-    pass: `${process.env.EMAIL_PASSWORD}`,
-  },
-  logger: true,
-});
+const { transport } = require("../server");
 
 router.get("/api/volunteer/:id", async (req, res) => {
   const userid = mongoose.Types.ObjectId(req.params.id);
