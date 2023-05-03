@@ -14,9 +14,15 @@ function Header(props) {
   return (
     <header className="navheader">
       {/* <div className="header-inner"> */}
-      <Link className="header-logo" to="home" smooth>
-        <img src={logo} width="auto" height="45" alt="" />
-      </Link>
+      {user && user.signature ? (
+        <Link className="header-logo" to="dashboard" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      ) : (
+        <Link className="header-logo" to="home" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      )}
 
       {width > 1220 ? (
         <Navbar

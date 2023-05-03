@@ -25,7 +25,7 @@
   width: 100% !important;
   flex: 1;
   display: flex;
-  /*justify-content: space-evenly;*/
+  justify-content: space-evenly;
 }
 
 .header-inner {
@@ -92,7 +92,6 @@ a {
   display: none;
   transform: translateX(200px);
   transition: transform 0.5s ease-in-out;
-  width: 0;
 }
 .removeTransition {
   /* transform: translateX(20px); */
