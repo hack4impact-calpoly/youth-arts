@@ -6,22 +6,14 @@ router.use(express.json());
 
 const moment = require("moment");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 const Opportunity = require("../models/opportunity");
-
-const transport = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: `${process.env.EMAIL_USER}`,
-    pass: `${process.env.EMAIL_PASSWORD}`,
-  },
-  logger: true,
-});
+const { transport } = require("../server");
 
 router.get("/api/volunteer/:id", async (req, res) => {
   const userid = mongoose.Types.ObjectId(req.params.id);
   try {
-    if (typeof userid === undefined || userid.length === 0) {
+    if (userid === undefined || userid.length === 0) {
       res.redirect(`${process.env.CLIENT_URL}`);
     }
     const user = await Volunteer.findById(userid);
@@ -121,7 +113,8 @@ const postNewVolunteerTask = async (
   donated,
   oppId,
   volId,
-  business
+  business,
+  res
 ) => {
   const taskObj = {
     task,
@@ -265,7 +258,8 @@ router.post("/api/VolunteerTask", async (req, res) => {
       donated,
       oppId,
       volId,
-      business
+      business,
+      res
     );
     res.status(200).send(task);
   } catch (error) {
