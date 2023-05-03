@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 const moment = require("moment");
 
 const app = express();
