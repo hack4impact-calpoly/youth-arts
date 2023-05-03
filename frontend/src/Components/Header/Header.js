@@ -10,13 +10,19 @@ import logo from "../../Images/YouthArtsLogoReversed.png";
 function Header(props) {
   // use our custom hook to get the the window size
   const { user } = props;
-  const [width, height] = useWindowWidthAndHeight();
+  const [width] = useWindowWidthAndHeight();
   return (
     <header className="navheader">
       {/* <div className="header-inner"> */}
-      <Link className="header-logo" to="home" smooth>
-        <img src={logo} width="auto" height="45" alt="" />
-      </Link>
+      {user && user.signature ? (
+        <Link className="header-logo" to="/" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      ) : (
+        <Link className="header-logo" to="home" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      )}
 
       {width > 1220 ? (
         <Navbar

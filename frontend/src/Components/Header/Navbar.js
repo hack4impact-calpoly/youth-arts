@@ -25,7 +25,7 @@ function Navbar({ navClass, linkClassName, user }) {
   );
 }
 
-export function NavComponent({ onClick, navClass, linkClassName, user }) {
+export function NavComponent({ onClick, navClass, user }) {
   return navClass === "nav-big" ? (
     <nav className="navbar-expand">
       <ul className="navlinks">
@@ -95,9 +95,15 @@ export function NavComponent({ onClick, navClass, linkClassName, user }) {
     </nav>
   ) : (
     <div>
-      <Link className="header-logo" to="home" smooth>
-        <img src={logo} width="auto" height="45" alt="" />
-      </Link>
+      {user && user.signature ? (
+        <Link className="header-logo-small" to="/" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      ) : (
+        <Link className="header-logo-small" to="home" smooth>
+          <img src={logo} width="auto" height="45" alt="" />
+        </Link>
+      )}
       <br />
       <nav className="navbar-expand">
         <ul className="navlinksDown">

@@ -123,7 +123,7 @@ function SearchOpportunities(props) {
 
   return (
     <div>
-      <Row id="search">
+      <Row className="mx-0" id="search">
         <Col>
           <h4>Search Opportunities</h4>
           <hr />
