@@ -108,16 +108,7 @@ function App() {
       <Switch>
         <Route path="/logHours">
           <Header user={profile} updateProfile={updateProfile} />
-          <BMLogHoursPage
-            user={profile}
-            updateUser={updateProfile}
-            volunteers={volunteers}
-            opportunities={opportunities}
-            setVolunteers={setVolunteers}
-            setOpportunities={setOpportunities}
-            fetchAllOpportunities={fetchAllOpportunities}
-            fetchAllVolunteers={fetchAllVolunteers}
-          />
+          <BMLogHoursPage user={profile} />
           <Footer />
         </Route>
         <Route path="/opportunityDetail">
