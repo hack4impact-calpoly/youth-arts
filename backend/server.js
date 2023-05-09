@@ -21,9 +21,6 @@ const { auth, jwtSecret } = require("./auth");
 const volunteerEndpoints = require("./routes/volunteer");
 const opportunityEndpoints = require("./routes/opportunity");
 
-app.use(volunteerEndpoints);
-app.use(opportunityEndpoints);
-
 const transport = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -48,6 +45,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(volunteerEndpoints);
+app.use(opportunityEndpoints);
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
