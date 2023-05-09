@@ -18,11 +18,11 @@ const Opportunity = require("./models/opportunity");
 const Volunteer = require("./models/volunteer");
 const { auth, jwtSecret } = require("./auth");
 
-const volunteerEndpoints = "./routes/volunteer";
-const opportunityEndpoints = "./routes/opportunity";
+const volunteerEndpoints = require("./routes/volunteer");
+const opportunityEndpoints = require("./routes/opportunity");
 
-app.use("/volunteer", volunteerEndpoints);
-app.use("/opportunity", opportunityEndpoints);
+app.use(volunteerEndpoints);
+app.use(opportunityEndpoints);
 
 const transport = nodemailer.createTransport({
   service: "gmail",

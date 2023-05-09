@@ -1,11 +1,11 @@
-import express from "express";
-import Volunteer from "../models/volunteer";
+const express = require("express");
 
 const router = express.Router();
 router.use(express.json());
 
 const moment = require("moment");
 const mongoose = require("mongoose");
+const Volunteer = require("../models/volunteer");
 // const nodemailer = require("nodemailer");
 const Opportunity = require("../models/opportunity");
 const { transport } = require("../server");
@@ -267,4 +267,4 @@ router.post("/api/VolunteerTask", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
