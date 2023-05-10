@@ -58,7 +58,7 @@ class OpportunityDetail extends React.Component {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
     const url =
-      `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/detail/` + id;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
@@ -75,7 +75,7 @@ class OpportunityDetail extends React.Component {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
     const url =
-      `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/detail/` + id;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
@@ -179,7 +179,7 @@ class OpportunityDetail extends React.Component {
       timeIndex: i
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/startTime/`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -200,7 +200,7 @@ class OpportunityDetail extends React.Component {
       timeIndex: i
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/endTime`;
     fetch(url, {
       method: "POST",
       headers: {
