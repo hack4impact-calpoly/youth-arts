@@ -147,19 +147,6 @@ app.get(
 );
 
 app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: `${process.env.CLIENT_URL}`,
-  }),
-  (req, res) => {
-    // Succesful authentication, redirect secrets.
-    const token = jsonwebtoken.sign({ id: req.user._id }, jwtSecret);
-    res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
-  }
-);
-
-app.get(
   "/current-user",
   passport.authenticate("google", {
     scope: [["https://www.googleapis.com/auth/plus.login"]],
