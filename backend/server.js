@@ -20,6 +20,7 @@ const { auth, jwtSecret } = require("./auth");
 
 const volunteerEndpoints = require("./routes/volunteer");
 const opportunityEndpoints = require("./routes/opportunity");
+const donationEndpoints = require("./routes/donation");
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -48,6 +49,7 @@ app.use(cookieParser());
 
 app.use(volunteerEndpoints);
 app.use(opportunityEndpoints);
+app.use(donationEndpoints);
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
@@ -205,23 +207,6 @@ app.get(
   "/login",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-
-app.post("/api/donations", async (req, res) => {
-  const { task } = req.body;
-  const { start } = req.body;
-  const { end } = req.body;
-  const { donated } = req.body;
-  const { oppId } = req.body;
-  const { volId } = req.body;
-
-  try {
-    await postDonationTask(task, start, end, donated, oppId, volId);
-    console.log("testing");
-    res.status(200);
-  } catch (error) {
-    res.status(401).send(error);
-  }
-});
 
 const postDonationTask = async (task, start, end, donated, oppId, volId) => {
   const taskObj = {
