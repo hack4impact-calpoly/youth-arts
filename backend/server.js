@@ -117,17 +117,6 @@ passport.use(
   )
 );
 
-app.post("/auth/token", (req, res) => {
-  const { token } = req.body;
-  const options = {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-  };
-  res.cookie("auth_token", token, options);
-  res.sendStatus(200);
-});
-
 app.post("/auth/logout", (req, res) => {
   const options = {
     secure: true,
