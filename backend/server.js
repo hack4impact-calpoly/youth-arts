@@ -117,22 +117,6 @@ passport.use(
   )
 );
 
-app.post("/auth/logout", (req, res) => {
-  const options = {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-  };
-
-  res.clearCookie("auth_token", options);
-  res.sendStatus(200);
-});
-
-app.get("/auth/account", auth, (req, res) => {
-  const account = req.user;
-  res.json(account || {});
-});
-
 // Server endpoint that returns user info
 
 app.get("/user", accessProtectionMiddleware, (req, res) => {
@@ -145,11 +129,6 @@ app.get("/user", accessProtectionMiddleware, (req, res) => {
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
 
 // Protected Route.
 app.get("/protected", checkUserLoggedIn, (req, res) => {
