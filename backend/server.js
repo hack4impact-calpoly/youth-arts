@@ -21,6 +21,7 @@ const { auth, jwtSecret } = require("./auth");
 const volunteerEndpoints = require("./routes/volunteer");
 const opportunityEndpoints = require("./routes/opportunity");
 const donationEndpoints = require("./routes/donation");
+const authEndpoints = require("./routes/auth");
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -50,6 +51,7 @@ app.use(cookieParser());
 app.use(volunteerEndpoints);
 app.use(opportunityEndpoints);
 app.use(donationEndpoints);
+app.use(authEndpoints);
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
@@ -202,11 +204,6 @@ app.get(
 app.get("/", (req, res) => {
   res.render("home", { user: req.user });
 });
-
-app.get(
-  "/login",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
 
 if (process.argv.includes("dev")) {
   const PORT = process.env.PORT || 4000;
