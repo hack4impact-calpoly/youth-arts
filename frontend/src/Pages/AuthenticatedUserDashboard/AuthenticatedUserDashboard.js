@@ -146,7 +146,7 @@ function AuthenticatedUserDashboard(props) {
         break;
       }
     }
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/opportunity/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -180,7 +180,7 @@ function AuthenticatedUserDashboard(props) {
       cancelOpp,
     };
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/cancelOpportunity`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/opportunity/cancel`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

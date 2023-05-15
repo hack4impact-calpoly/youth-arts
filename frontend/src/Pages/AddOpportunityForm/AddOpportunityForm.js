@@ -120,7 +120,7 @@ function AddOpportunityForm(props) {
       console.log(opp);
       console.log(JSON.stringify(opp));
 
-      fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity/`, {
+      fetch(`${process.env.REACT_APP_SERVER_URL}/api/opportunity/update/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
