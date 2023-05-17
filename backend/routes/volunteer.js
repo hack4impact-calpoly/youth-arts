@@ -10,6 +10,22 @@ const Volunteer = require("../models/volunteer");
 const Opportunity = require("../models/opportunity");
 const { transport } = require("../server");
 
+router.delete("/api/volunteer/task", async (req, res) => {
+  try {
+    const { oppId, taskId } = req.body;
+    const opportunity = await Opportunity.findById(oppId);
+    let { tasks } = opportunity;
+
+    tasks = tasks.filter((task) => task.id !== taskId);
+    await Opportunity.findByIdAndUpdate(oppId, { tasks });
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
 router.get("/api/volunteer/:id", async (req, res) => {
   const userid = mongoose.Types.ObjectId(req.params.id);
   try {
