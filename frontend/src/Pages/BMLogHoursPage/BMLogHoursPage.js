@@ -156,7 +156,7 @@ function BMLogHoursPage(props) {
       opportunities: newOpportunites,
     };
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

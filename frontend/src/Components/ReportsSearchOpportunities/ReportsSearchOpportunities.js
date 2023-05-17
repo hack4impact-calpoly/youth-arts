@@ -42,7 +42,7 @@ function ReportsSearchOpportunities(props) {
   async function fetchAllvolunteers() {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/volunteers`
+        `${process.env.REACT_APP_SERVER_URL}/api/volunteer`
       );
       return response.data;
     } catch (error) {

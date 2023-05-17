@@ -51,7 +51,7 @@ function ContactPage(props) {
     c.notes = notes;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function ContactPage(props) {
     c.admin = !c.admin;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function ContactPage(props) {
     c.boardMember = !c.boardMember;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
