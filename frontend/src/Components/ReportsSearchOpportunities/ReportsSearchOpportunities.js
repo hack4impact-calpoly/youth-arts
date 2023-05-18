@@ -23,9 +23,6 @@ function ExportButton() {
 
 function ReportsSearchOpportunities(props) {
   const history = useHistory();
-  function navigateToOp(p, e) {
-    history.push(`/opportunityDetail/${p.id}`);
-  }
   const [opportunities, setOpportunities] = useState("");
   const [volunteers, setVolunteers] = useState("");
   async function fetchAll() {
