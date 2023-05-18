@@ -12,16 +12,28 @@ const { transport } = require("../server");
 
 router.delete("/api/volunteer/task", async (req, res) => {
   try {
-    const { oppId, taskId } = req.body;
+    const { oppId, volId, taskId } = req.body;
+
     const opportunity = await Opportunity.findById(oppId);
-    let { tasks } = opportunity;
+    let volList = opportunity.volunteers.get(volId);
+    volList = volList.filter((task) => task.id !== taskId);
+    opportunity.volunteers.set(volId, volList);
 
-    tasks = tasks.filter((task) => task.id !== taskId);
-    await Opportunity.findByIdAndUpdate(oppId, { tasks });
+    await Opportunity.findByIdAndUpdate(oppId, {
+      volunteers: opportunity.volunteers,
+    });
 
-    res.status(200).json(tasks);
+    const volunteer = await Volunteer.findById(volId);
+    let oppList = volunteer.opportunities.get(oppId);
+    oppList = oppList.filter((task) => task.id !== taskId);
+    volunteer.opportunities.set(oppId, oppList);
+
+    await Volunteer.findByIdAndUpdate(volId, {
+      opportunities: volunteer.opportunities,
+    });
+
+    res.status(200).json(volunteer);
   } catch (error) {
-    console.log(error);
     res.status(400).send(error);
   }
 });
