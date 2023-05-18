@@ -48,6 +48,10 @@ class OpportunityDetail extends React.Component {
     this.postDonations = this.postDonations.bind(this);
   }
 
+  deleteVolunteer(volunteerId) {
+    //Delete volunteer from opportunity
+  }
+
   updateCartWithOpportunity(task) {
     task["oppId"] = this.state._id;
     task["volId"] = this.state.user._id;
@@ -512,6 +516,15 @@ class OpportunityDetail extends React.Component {
                                             {vol.firstName}
                                             <br />
                                             {vol.lastName}
+                                            <br />
+                                            <a
+                                              className="deleteBtn"
+                                              onClick={() =>
+                                                this.deleteVolunteer(vol._id)
+                                              }
+                                            >
+                                              Delete
+                                            </a>
                                           </div>
                                         }
                                       </td>
