@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/hack4impact-calpoly/pryac#readme",
   "dependencies": {
-    "bson-objectid": "^2.0.1"
+    "bson-objectid": "^2.0.1",
+    "react-router": "^6.11.2"
   }
 }

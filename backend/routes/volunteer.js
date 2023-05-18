@@ -129,6 +129,7 @@ const postNewVolunteerTask = async (
 
   try {
     const volList = opportunity.volunteers.get(volId);
+
     volList.push(taskObj);
     opportunity.volunteers.set(volId, volList);
   } catch {
@@ -137,6 +138,7 @@ const postNewVolunteerTask = async (
     }
     opportunity.volunteers.set(volId, taskObj);
   }
+  
   console.log(opportunity.volunteers);
 
   const newOpportunity = await Opportunity.findByIdAndUpdate(oppId, {

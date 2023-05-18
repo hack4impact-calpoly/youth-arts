@@ -1,23 +1,27 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable no-param-reassign */
+
 import React from "react";
-import { useState } from "react";
 import "./OpportunityDetail.css";
-import ImageCarousel from "./ImageCarousel/ImageCarousel";
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
-import SignInWithGoogleButton from "../../Components/SignInWithGoogleButton/GoogleButton";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateMomentUtils from "@date-io/moment";
 import DateFnsUtils from "@date-io/date-fns";
-import { Link } from "react-router-dom";
-import SubmitButton from "../../Components/SubmitButton/SubmitButton";
-import { withRouter } from "react-router";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { Modal, Button } from "react-bootstrap";
+import ImageCarousel from "./ImageCarousel/ImageCarousel";
+import SubmitButton from "../../Components/SubmitButton/SubmitButton";
+import SignInWithGoogleButton from "../../Components/SignInWithGoogleButton/GoogleButton";
 
 class OpportunityDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: props.user,
-      cart: props.cart,
       updateCart: props.updateCart,
       start_event: [],
       end_event: [],
@@ -31,13 +35,9 @@ class OpportunityDetail extends React.Component {
       showUserDonateModal: false,
       showSignInModal: false,
       showCartModal: false,
-      signedIn: true,
-      admin: true,
       volunteerList: [],
       updateTime: false,
-      allStartTimes: [],
-      allEndTimes: [],
-      showDonateItemButton: true
+      newVolunteer: "",
     };
 
     this.handleDonateCheckBox = this.handleDonateCheckBox.bind(this);
@@ -48,17 +48,10 @@ class OpportunityDetail extends React.Component {
     this.postDonations = this.postDonations.bind(this);
   }
 
-  updateCartWithOpportunity(task) {
-    task["oppId"] = this.state._id;
-    task["volId"] = this.state.user._id;
-    this.state.updateCart(task);
-  }
-
   async componentDidMount() {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
-    const url =
-      `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/${id}`;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
@@ -71,11 +64,30 @@ class OpportunityDetail extends React.Component {
         this.setState({ volunteerList: vols });
       });
   }
+
+  handleDonateCheckBox() {
+    const items = document.getElementsByName("donatedItems");
+    let newSelectionArray = this.state.donatedItems;
+
+    items.forEach((item) => {
+      const included = newSelectionArray.includes(item.value);
+
+      if (item.checked) {
+        if (!included) {
+          newSelectionArray.push(item.value);
+        }
+      } else if (included) {
+        newSelectionArray = newSelectionArray.filter((el) => el !== item.value);
+      }
+    });
+
+    this.setState({ donatedItems: newSelectionArray });
+  }
+
   async updateComponent() {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
-    const url =
-      `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/` + id;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/${id}`;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
@@ -90,14 +102,14 @@ class OpportunityDetail extends React.Component {
     console.log(this.state.volunteerList);
   }
 
-  postDonations = async () => {
+  async postDonations() {
     const newOpp = {
       task: "Donated",
       start: [],
       end: [],
       donated: this.state.donatedItems,
       oppId: this.state._id,
-      volId: this.state.user._id
+      volId: this.state.user._id,
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/donations/`;
@@ -106,33 +118,80 @@ class OpportunityDetail extends React.Component {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(newOpp)
+      body: JSON.stringify(newOpp),
     });
     this.updateComponent();
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
-  };
+  }
 
-  changeDonateModal = () => {
+  async postTask(
+    roleName,
+    description,
+    start,
+    end,
+    oppId,
+    volId,
+    donated,
+    business
+  ) {
+    const newOpp = {
+      task: roleName,
+      start,
+      end,
+      description,
+      donated,
+      oppId,
+      volId,
+      business,
+    };
+    if (newOpp.task === "General Committee Member") {
+      newOpp.start = [new Date()];
+      newOpp.end = [new Date()];
+    }
+
+    if (
+      newOpp.start !== null &&
+      newOpp.start !== undefined &&
+      newOpp.start.length
+    ) {
+      const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+      fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newOpp),
+      });
+    } else {
+      console.log("no start");
+      console.log(newOpp.start);
+      console.log(newOpp.end);
+    }
+    this.updateComponent();
+  }
+
+  changeDonateModal() {
     this.setState({ showDonateModal: !this.state.showDonateModal });
-  };
+  }
 
-  changeUserDonateModal = () => {
+  changeUserDonateModal() {
     this.setState({ showUserDonateModal: !this.state.showUserDonateModal });
-  };
+  }
 
-  changeSignInModal = () => {
+  changeSignInModal() {
     this.setState({ showSignInModal: !this.state.showSignInModal });
-  };
+  }
 
-  changeCartModal = (task) => {
+  changeCartModal() {
     this.setState({ showCartModal: !this.state.showCartModal });
-  };
+  }
 
-  navigateTo = () => {
-    let url = "/addOpportunity/" + this.state._id;
+  navigateTo() {
+    const url = `/addOpportunity/${this.state._id}`;
 
     this.props.history.push({
       pathname: url,
@@ -151,19 +210,14 @@ class OpportunityDetail extends React.Component {
           requirements: this.state.requirements,
           tasks: this.state.tasks,
           additionalInfo: this.state.additionalInfo,
-          volunteers: this.state.volunteers
-        }
-      }
+          volunteers: this.state.volunteers,
+        },
+      },
     });
-  };
-  navigateToDonate = () => {
-    let url = "https://donorbox.org/youth-arts-donate";
-
-    this.props.history.push({ url: url });
-  };
+  }
 
   sortTaskArray(a, b) {
-    if (a[0] > b[0]) return -1;
+    if (this.changeSignInModala[0] > b[0]) return -1;
     if (a[0] < b[0]) return 1;
     return 0;
   }
@@ -173,19 +227,19 @@ class OpportunityDetail extends React.Component {
 
     const startTimeBody = {
       id: this.state._id,
-      date: date,
-      volId: volId,
-      taskIndex: taskIndex,
-      timeIndex: i
+      date,
+      volId,
+      taskIndex,
+      timeIndex: i,
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(startTimeBody)
+      body: JSON.stringify(startTimeBody),
     });
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
@@ -194,53 +248,36 @@ class OpportunityDetail extends React.Component {
   postEndTime(date, volId, taskIndex, i) {
     const endTimeBody = {
       id: this.state._id,
-      date: date,
-      volId: volId,
-      taskIndex: taskIndex,
-      timeIndex: i
+      date,
+      volId,
+      taskIndex,
+      timeIndex: i,
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(endTimeBody)
+      body: JSON.stringify(endTimeBody),
     });
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
   }
 
-  handleDonateCheckBox(e) {
-    let items = document.getElementsByName("donatedItems");
-    let newSelectionArray = this.state.donatedItems;
-
-    items.forEach((item) => {
-      let included = newSelectionArray.includes(item.value);
-
-      if (item.checked) {
-        if (!included) {
-          newSelectionArray.push(item.value);
-        }
-      } else {
-        if (included) {
-          newSelectionArray = newSelectionArray.filter(function (el) {
-            return el !== item.value;
-          });
-        }
-      }
-    });
-
-    this.setState({ donatedItems: newSelectionArray });
+  updateCartWithOpportunity(task) {
+    task.oppId = this.state._id;
+    task.volId = this.state.user._id;
+    this.state.updateCart(task);
   }
 
   render() {
     return (
       <div
         className={
-          this.state.showDonateModal |
-          this.state.showSignInModal |
+          this.state.showDonateModal ||
+          this.state.showSignInModal ||
           this.state.showUserDonateModal
             ? "darkBackground"
             : ""
@@ -271,26 +308,22 @@ class OpportunityDetail extends React.Component {
             <p id="dateAndTime">
               WHEN:
               <p className="dateText">
-                {this.state.start_event.map((start) => {
-                  return (
-                    <div>
-                      {dateFormat(start, " mmmm dS, yyyy ")} @
-                      {dateFormat(start, "h:MM TT")}
-                    </div>
-                  );
-                })}
+                {this.state.start_event.map((start) => (
+                  <div>
+                    {dateFormat(start, " mmmm dS, yyyy ")} @
+                    {dateFormat(start, "h:MM TT")}
+                  </div>
+                ))}
                 <br />
                 To:
                 <br />
                 <br />
-                {this.state.end_event.map((end) => {
-                  return (
-                    <div>
-                      {dateFormat(end, " mmmm dS, yyyy ")} @
-                      {dateFormat(end, " h:MM TT")}
-                    </div>
-                  );
-                })}
+                {this.state.end_event.map((end) => (
+                  <div>
+                    {dateFormat(end, " mmmm dS, yyyy ")} @
+                    {dateFormat(end, " h:MM TT")}
+                  </div>
+                ))}
               </p>
             </p>
             <p id="location">
@@ -312,83 +345,78 @@ class OpportunityDetail extends React.Component {
           <div className="bodyContainer">
             <div
               id={
-                this.state.showDonateModal |
-                this.state.showSignInModal |
+                this.state.showDonateModal ||
+                this.state.showSignInModal ||
                 this.state.showUserDonateModal
                   ? "darkTaskBody"
                   : "taskBody"
               }
             >
               <div>
-                {this.state.tasks.map((task) => {
-                  return (
-                    <div
-                      id={
-                        this.state.showDonateModal |
-                        this.state.showSignInModal |
-                        this.state.showUserDonateModal
-                          ? "darkTaskCard"
-                          : "taskCard"
-                      }
-                    >
-                      <div className="roleNameAndTime">
-                        <p id="roleHeader">Role:</p>
-                        <div id="roleName">{task.roleName}</div>
+                {this.state.tasks.map((task) => (
+                  <div
+                    id={
+                      this.state.showDonateModal ||
+                      this.state.showSignInModal ||
+                      this.state.showUserDonateModal
+                        ? "darkTaskCard"
+                        : "taskCard"
+                    }
+                  >
+                    <div className="roleNameAndTime">
+                      <p id="roleHeader">Role:</p>
+                      <div id="roleName">{task.roleName}</div>
+                    </div>
+                    <div className="roleNameAndTime">
+                      <p id="roleHeader">Start:</p>
+                      <div id="times">
+                        {task.start.map((start) => (
+                          <ul id="TimeList">
+                            <li>
+                              {dateFormat(start, " mmmm dS, yyyy ")} @
+                              {dateFormat(start, " hh:MM TT")}
+                            </li>
+                          </ul>
+                        ))}
                       </div>
-                      <div className="roleNameAndTime">
-                        <p id="roleHeader">Start:</p>
-                        <div id="times">
-                          {task.start.map((start) => {
-                            return (
-                              <ul id="TimeList">
-                                <li>
-                                  {dateFormat(start, " mmmm dS, yyyy ")} @
-                                  {dateFormat(start, " hh:MM TT")}
-                                </li>
-                              </ul>
-                            );
-                          })}
-                        </div>
-                        <p id="roleHeader">End:</p>
-                        <div id="times">
-                          {task.end.map((end) => {
-                            return (
-                              <ul id="TimeList">
-                                <li>
-                                  {dateFormat(end, " mmmm dS, yyyy ")} @
-                                  {dateFormat(end, " hh:MM TT")}
-                                </li>
-                              </ul>
-                            );
-                          })}
-                        </div>
-                      </div>
-                      <br />
-                      <div id="roleDesc">Description:</div>
-                      <div id="roleDescText">{task.description}</div>
-                      <div id="additionalReq">Additional Requirements:</div>
-                      <div id="additionalReqText">
-                        {task.additionalInfo.map((item) => {
-                          return <div>{item}</div>;
-                        })}
-                        {console.log(task)}
-                        <button
-                          id="cartButtonStyle"
-                          onClick={
-                            this.state.user
-                              ? () => {
-                                  this.updateCartWithOpportunity(task);
-                                  this.changeCartModal(task);
-                                }
-                              : this.changeSignInModal
-                          }
-                        >
-                          Add to Cart
-                        </button>
+                      <p id="roleHeader">End:</p>
+                      <div id="times">
+                        {task.end.map((end) => (
+                          <ul id="TimeList">
+                            <li>
+                              {dateFormat(end, " mmmm dS, yyyy ")} @
+                              {dateFormat(end, " hh:MM TT")}
+                            </li>
+                          </ul>
+                        ))}
                       </div>
                     </div>
-                  );
-                })}
+                    <br />
+                    <div id="roleDesc">Description:</div>
+                    <div id="roleDescText">{task.description}</div>
+                    <div id="additionalReq">Additional Requirements:</div>
+                    <div id="additionalReqText">
+                      {task.additionalInfo.map((item) => (
+                        <div>{item}</div>
+                      ))}
+                      {console.log(task)}
+                      <button
+                        type="button"
+                        id="cartButtonStyle"
+                        onClick={
+                          this.state.user
+                            ? () => {
+                                this.updateCartWithOpportunity(task);
+                                this.changeCartModal(task);
+                              }
+                            : this.changeSignInModal
+                        }
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="reqAndItems">
@@ -432,6 +460,7 @@ class OpportunityDetail extends React.Component {
                   })}
                   <div id="buttonContainer">
                     <button
+                      type="button"
                       id="buttonStyles"
                       onClick={
                         !this.state.user
@@ -486,182 +515,165 @@ class OpportunityDetail extends React.Component {
               <tbody>
                 {this.state.volunteers
                   ? Object.keys(this.state.volunteers).map((volunteers) => {
-                      var vol = this.state.volunteerList.find(
+                      const vol = this.state.volunteerList.find(
                         (x) => x._id === volunteers
                       );
                       return (
                         <div>
                           {vol &&
                             Object.keys(this.state.volunteers[volunteers]).map(
-                              (volunteer, i) => {
+                              (volunteer) => {
                                 const start = "start";
                                 const end = "end";
-                                const key_value = Object.entries(
+                                const keyValue = Object.entries(
                                   this.state.volunteers[volunteers][volunteer]
                                 );
                                 const volId = volunteers;
                                 const taskIndex = volunteer;
 
-                                key_value.sort(this.sortTaskArray);
+                                keyValue.sort(this.sortTaskArray);
                                 return (
                                   <tr>
                                     {vol && (
                                       <td className="detailTD">
-                                        {
-                                          <div>
-                                            {vol.firstName}
-                                            <br />
-                                            {vol.lastName}
-                                          </div>
-                                        }
+                                        <div>
+                                          {vol.firstName}
+                                          <br />
+                                          {vol.lastName}
+                                        </div>
                                       </td>
                                     )}
 
-                                    {key_value.map((volData, v) => {
+                                    {keyValue.map((volData) => {
                                       if (volData[0] === "task") {
                                         return (
                                           <td className="detailTD">
-                                            {<td>{volData[1]}</td>}
+                                            <td>{volData[1]}</td>
                                           </td>
                                         );
-                                      } else if (volData[0] === start) {
+                                      }
+                                      if (volData[0] === start) {
                                         return (
                                           <td className="detailTD">
-                                            {
-                                              <div>
-                                                {volData[1].map(
-                                                  (time, timeindex) => {
-                                                    return (
-                                                      <div>
-                                                        <br />
-                                                        {dateFormat(
-                                                          time,
-                                                          " mmmm dS, yyyy "
-                                                        )}{" "}
-                                                        @
-                                                        {dateFormat(
-                                                          time,
-                                                          " hh:MM TT"
-                                                        )}
-                                                        <MuiPickersUtilsProvider
-                                                          utils={DateFnsUtils}
-                                                        >
-                                                          <br />
-                                                          <label id="checkIn">
-                                                            Check In:
-                                                          </label>
-                                                          <DateTimePicker
-                                                            id="startInput"
-                                                            utils={
-                                                              DateMomentUtils
-                                                            }
-                                                            value={time}
-                                                            onChange={(
-                                                              date
-                                                            ) => {
-                                                              this.postStartTime(
-                                                                date,
-                                                                volId,
-                                                                taskIndex,
-                                                                timeindex
-                                                              );
-                                                              time = date;
-                                                              volData[1].time =
-                                                                date;
-                                                              volData[1][
-                                                                timeindex
-                                                              ] = date;
-                                                              volData[1].time =
-                                                                date;
-                                                              volData = volData;
-                                                              this.setState({
-                                                                updateTime:
-                                                                  !this.state
-                                                                    .updateTime
-                                                              });
-                                                            }}
-                                                          />
-                                                        </MuiPickersUtilsProvider>
-                                                      </div>
-                                                    );
-                                                  }
-                                                )}
-                                              </div>
-                                            }
+                                            <div>
+                                              {volData[1].map(
+                                                (time, timeindex) => (
+                                                  <div>
+                                                    <br />
+                                                    {dateFormat(
+                                                      time,
+                                                      " mmmm dS, yyyy "
+                                                    )}{" "}
+                                                    @
+                                                    {dateFormat(
+                                                      time,
+                                                      " hh:MM TT"
+                                                    )}
+                                                    <MuiPickersUtilsProvider
+                                                      utils={DateFnsUtils}
+                                                    >
+                                                      <br />
+                                                      <label id="checkIn">
+                                                        Check In:
+                                                      </label>
+                                                      <DateTimePicker
+                                                        id="startInput"
+                                                        utils={DateMomentUtils}
+                                                        value={time}
+                                                        onChange={(date) => {
+                                                          this.postStartTime(
+                                                            date,
+                                                            volId,
+                                                            taskIndex,
+                                                            timeindex
+                                                          );
+                                                          time = date;
+                                                          volData[1].time =
+                                                            date;
+                                                          volData[1][
+                                                            timeindex
+                                                          ] = date;
+                                                          volData[1].time =
+                                                            date;
+                                                          this.setState({
+                                                            updateTime:
+                                                              !this.state
+                                                                .updateTime,
+                                                          });
+                                                        }}
+                                                      />
+                                                    </MuiPickersUtilsProvider>
+                                                  </div>
+                                                )
+                                              )}
+                                            </div>
                                           </td>
                                         );
-                                      } else if (volData[0] === end) {
+                                      }
+                                      if (volData[0] === end) {
                                         return (
                                           <td className="detailTD">
-                                            {
-                                              <div>
-                                                {volData[1].map(
-                                                  (time, timeindex) => {
-                                                    return (
-                                                      <div>
-                                                        <br />
-                                                        {dateFormat(
-                                                          time,
-                                                          " mmmm dS, yyyy "
-                                                        )}{" "}
-                                                        @
-                                                        {dateFormat(
-                                                          time,
-                                                          " hh:MM TT"
-                                                        )}
-                                                        <MuiPickersUtilsProvider
-                                                          utils={DateFnsUtils}
-                                                        >
-                                                          <br />
-                                                          <label id="checkIn">
-                                                            Check Out:
-                                                          </label>
-                                                          <DateTimePicker
-                                                            id="startInput"
-                                                            utils={
-                                                              DateMomentUtils
-                                                            }
-                                                            value={time}
-                                                            onChange={(
-                                                              date
-                                                            ) => {
-                                                              this.postEndTime(
-                                                                date,
-                                                                volId,
-                                                                taskIndex,
-                                                                timeindex
-                                                              );
-                                                              time = date;
-                                                              volData[1].time =
-                                                                date;
-                                                              volData[1][
-                                                                timeindex
-                                                              ] = date;
-                                                              volData[1].time =
-                                                                date;
-                                                              volData = volData;
-                                                              this.setState({
-                                                                updateTime:
-                                                                  !this.state
-                                                                    .updateTime
-                                                              });
-                                                            }}
-                                                          />
-                                                        </MuiPickersUtilsProvider>
-                                                      </div>
-                                                    );
-                                                  }
-                                                )}
-                                              </div>
-                                            }
+                                            <div>
+                                              {volData[1].map(
+                                                (time, timeindex) => (
+                                                  <div>
+                                                    <br />
+                                                    {dateFormat(
+                                                      time,
+                                                      " mmmm dS, yyyy "
+                                                    )}{" "}
+                                                    @
+                                                    {dateFormat(
+                                                      time,
+                                                      " hh:MM TT"
+                                                    )}
+                                                    <MuiPickersUtilsProvider
+                                                      utils={DateFnsUtils}
+                                                    >
+                                                      <br />
+                                                      <label id="checkIn">
+                                                        Check Out:
+                                                      </label>
+                                                      <DateTimePicker
+                                                        id="startInput"
+                                                        utils={DateMomentUtils}
+                                                        value={time}
+                                                        onChange={(date) => {
+                                                          this.postEndTime(
+                                                            date,
+                                                            volId,
+                                                            taskIndex,
+                                                            timeindex
+                                                          );
+                                                          time = date;
+                                                          volData[1].time =
+                                                            date;
+                                                          volData[1][
+                                                            timeindex
+                                                          ] = date;
+                                                          volData[1].time =
+                                                            date;
+                                                          this.setState({
+                                                            updateTime:
+                                                              !this.state
+                                                                .updateTime,
+                                                          });
+                                                        }}
+                                                      />
+                                                    </MuiPickersUtilsProvider>
+                                                  </div>
+                                                )
+                                              )}
+                                            </div>
                                           </td>
                                         );
-                                      } else if (volData[0] === "donated") {
+                                      }
+                                      if (volData[0] === "donated") {
                                         return (
                                           <td className="detailTD">
-                                            {volData[1].map((item) => {
-                                              return <li>{item}</li>;
-                                            })}
+                                            {volData[1].map((item) => (
+                                              <li>{item}</li>
+                                            ))}
                                           </td>
                                         );
                                       }
@@ -676,13 +688,64 @@ class OpportunityDetail extends React.Component {
                   : "No Volunteers Found"}
               </tbody>
             </table>
+
+            <br />
+
+            <div className="volunteerGrid">
+              <div id="dropdown">
+                <label htmlFor="volunteers">Available Volunteers:</label>
+                <select
+                  name="volunteers"
+                  onChange={(e) => {
+                    this.setState({ newVolunteer: e.target.value });
+                    console.log("NEW VOLUNTEER", this.state.newVolunteer);
+                  }}
+                >
+                  <option value="">Select Option</option>
+                  {this.state.volunteerList
+                    .filter(
+                      (volunteer) =>
+                        !Object.keys(this.state.volunteers).includes(
+                          volunteer._id
+                        )
+                    )
+                    .map((volunteer) => (
+                      <option value={volunteer._id}>
+                        {`${volunteer.firstName} ${volunteer.lastName}`}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              <div id="volunteerButtonContainer">
+                <button
+                  type="button"
+                  id="buttonStyles"
+                  onClick={() => {
+                    console.log("NEW TASK", this.state.tasks[0].oppId);
+                    this.postTask(
+                      this.state.tasks[0].roleName,
+                      this.state.tasks[0].description,
+                      [new Date()],
+                      [new Date()],
+                      this.state._id,
+                      this.state.newVolunteer,
+                      this.state.tasks[0].donatedItems,
+                      this.state.tasks[0].business
+                    );
+                  }}
+                >
+                  Add Volunteer
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+            <br />
+            <br />
+            <br />
+            <br />
           </div>
         )}
 
@@ -766,7 +829,7 @@ class OpportunityDetail extends React.Component {
                   />
                   &emsp;
                   {item}
-                  <br></br>
+                  <br />
                   <br />
                 </div>
               );
