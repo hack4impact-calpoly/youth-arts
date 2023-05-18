@@ -79,6 +79,7 @@ function ReportsSearchOpportunities(props) {
       disableClickEventBubbling: true,
       renderCell: (params) => (
         <button
+          type="button"
           className="exportButton"
           onClick={(e) => {
             const { api } = params;
@@ -87,9 +88,8 @@ function ReportsSearchOpportunities(props) {
               .map((c) => c.field)
               .filter((c) => c !== "__check__" && !!c);
             const thisRow = {};
-
             fields.forEach((f) => {
-              thisRow[f] = params.getValue(f);
+              thisRow[f] = params.row[f];
             });
             const fileName = `${thisRow.title}Data`;
             const builder = new CsvBuilder(`${fileName}.csv`);
@@ -148,11 +148,10 @@ function ReportsSearchOpportunities(props) {
                     hours.toFixed(2),
                     donated,
                   ];
-                } else {
-                  rowVols.splice(index, 1);
                 }
               });
             }
+            rowVols = rowVols.filter((element) => Array.isArray(element));
             builder
               .setColumns([
                 "First Name",
@@ -180,6 +179,7 @@ function ReportsSearchOpportunities(props) {
       disableClickEventBubbling: true,
       renderCell: (params) => (
         <button
+          type="button"
           className="exportButton"
           onClick={(e) => {
             const { api } = params;
@@ -188,9 +188,8 @@ function ReportsSearchOpportunities(props) {
               .map((c) => c.field)
               .filter((c) => c !== "__check__" && !!c);
             const thisRow = {};
-
             fields.forEach((f) => {
-              thisRow[f] = params.getValue(f);
+              thisRow[f] = params.row[f];
             });
 
             const fileName = `${thisRow.title}VolunteerData`;
@@ -213,11 +212,12 @@ function ReportsSearchOpportunities(props) {
                     curVol[0].lastName,
                     curVol[0].phoneNum,
                   ];
-                } else {
-                  rowVols.splice(index, 1);
                 }
               });
             }
+            console.log(rowVols);
+            rowVols = rowVols.filter((element) => Array.isArray(element));
+            console.log(rowVols);
             builder
               .setColumns(["First Name", "Last Name", "Phone Number"])
               .addRows(rowVols)
@@ -374,9 +374,6 @@ function ReportsSearchOpportunities(props) {
             columns={columnsOpps}
             getRowId={(row) => row._id}
             pageSize={5}
-            onRowClick={(p, e) => {
-              navigateToOp(p, e);
-            }}
             checkboxSelection
             components={{
               Toolbar: ExportButton,
