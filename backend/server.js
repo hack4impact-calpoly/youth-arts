@@ -20,6 +20,8 @@ const { auth, jwtSecret } = require("./auth");
 
 const volunteerEndpoints = require("./routes/volunteer");
 const opportunityEndpoints = require("./routes/opportunity");
+const donationEndpoints = require("./routes/donation");
+const authEndpoints = require("./routes/auth");
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -48,6 +50,8 @@ app.use(cookieParser());
 
 app.use(volunteerEndpoints);
 app.use(opportunityEndpoints);
+app.use(donationEndpoints);
+app.use(authEndpoints);
 
 // Middleware - Check user is Logged in
 const checkUserLoggedIn = (req, res, next) => {
@@ -113,33 +117,6 @@ passport.use(
   )
 );
 
-app.post("/auth/token", (req, res) => {
-  const { token } = req.body;
-  const options = {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-  };
-  res.cookie("auth_token", token, options);
-  res.sendStatus(200);
-});
-
-app.post("/auth/logout", (req, res) => {
-  const options = {
-    secure: true,
-    httpOnly: true,
-    sameSite: "none",
-  };
-
-  res.clearCookie("auth_token", options);
-  res.sendStatus(200);
-});
-
-app.get("/auth/account", auth, (req, res) => {
-  const account = req.user;
-  res.json(account || {});
-});
-
 // Server endpoint that returns user info
 
 app.get("/user", accessProtectionMiddleware, (req, res) => {
@@ -152,11 +129,6 @@ app.get("/user", accessProtectionMiddleware, (req, res) => {
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
 
 // Protected Route.
 app.get("/protected", checkUserLoggedIn, (req, res) => {
@@ -175,19 +147,6 @@ app.get(
 );
 
 app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    session: false,
-    failureRedirect: `${process.env.CLIENT_URL}`,
-  }),
-  (req, res) => {
-    // Succesful authentication, redirect secrets.
-    const token = jsonwebtoken.sign({ id: req.user._id }, jwtSecret);
-    res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
-  }
-);
-
-app.get(
   "/current-user",
   passport.authenticate("google", {
     scope: [["https://www.googleapis.com/auth/plus.login"]],
@@ -200,148 +159,6 @@ app.get(
 app.get("/", (req, res) => {
   res.render("home", { user: req.user });
 });
-
-app.get(
-  "/login",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.post("/api/donations", async (req, res) => {
-  const { task } = req.body;
-  const { start } = req.body;
-  const { end } = req.body;
-  const { donated } = req.body;
-  const { oppId } = req.body;
-  const { volId } = req.body;
-
-  try {
-    await postDonationTask(task, start, end, donated, oppId, volId);
-    console.log("testing");
-    res.status(200);
-  } catch (error) {
-    res.status(401).send(error);
-  }
-});
-
-const postDonationTask = async (task, start, end, donated, oppId, volId) => {
-  const taskObj = {
-    task,
-    start,
-    end,
-    donated,
-  };
-
-  const opportunity = await Opportunity.findById(oppId);
-
-  try {
-    let volList = opportunity.volunteers.get(volId);
-    let temp = volList;
-    volList.map((item) => {
-      if (item.task === "Donated") {
-        console.log(item.task);
-        temp = volList.filter((el) => el.task !== item.task);
-      }
-    });
-    console.log("TEMP");
-    console.log(temp);
-    volList = temp;
-    volList.push(taskObj);
-    opportunity.volunteers.set(volId, volList);
-  } catch {
-    if (opportunity.volunteers === undefined) {
-      opportunity.volunteers = {};
-    }
-    opportunity.volunteers.set(volId, taskObj);
-  }
-  await Opportunity.findByIdAndUpdate(oppId, {
-    volunteers: opportunity.volunteers,
-  });
-
-  const volunteer = await Volunteer.findById(volId);
-
-  try {
-    let oppList = volunteer.opportunities.get(oppId);
-    let temp = oppList;
-    oppList.map((item) => {
-      if (item.task == "Donated") {
-        console.log(item.task);
-        temp = oppList.filter((el) => el.task !== item.task);
-      }
-    });
-    console.log("TEMP");
-    console.log(temp);
-    oppList = temp;
-    oppList.push(taskObj);
-    volunteer.opportunities.set(oppId, oppList);
-  } catch {
-    if (volunteer.opportunities === undefined) {
-      volunteer.opportunities = {};
-    }
-    volunteer.opportunities.set(oppId, taskObj);
-  }
-  await Volunteer.findByIdAndUpdate(volId, {
-    opportunities: volunteer.opportunities,
-  });
-  console.log(taskObj.donated);
-
-  // Emails to confirm signup
-  const volunteerMessage = {
-    from: `${process.env.PASO_EMAIL}`,
-    to: volunteer.email,
-    subject: `${opportunity.title} donation successful`,
-    html:
-      `<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>Hello ${volunteer.firstName},<br></br> Thank you so much for your support! We'll be in touch with more information about your donation. If you have any questions, please feel free to contact Paso Robles Youth Arts Foundation at 805-238-5825 or volunteer@pryoutharts.org` +
-      `<br></br> The volunteer opportunity you donated to is: ${
-        opportunity.title
-      } and the items are: ${taskObj.donated.join(
-        ", "
-      )}.<br></br><br></br>Click <a href='https://youtharts-volunteer.h4i-cp.org/'>here<a> to volunteer or donate again.</p>`,
-    attachments: [
-      {
-        filename: "YouthArtsLogo.png",
-        path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
-        cid: "YouthArtsLogo",
-      },
-    ],
-  };
-  // admin email
-  const adminMessage = {
-    from: `${process.env.PASO_EMAIL}`,
-    to: `${process.env.PASO_EMAIL}`,
-    subject: `${opportunity.title} donation successful - ${volunteer.firstName} ${volunteer.lastName}`,
-    html:
-      `<img width='500' src = cid:YouthArtsLogo /> <br></br> <p>${
-        volunteer.firstName
-      } ${volunteer.lastName} has signed up to donate ${taskObj.donated.join(
-        ", "
-      )} to the event ${opportunity.title}. ` +
-      `</br>\n Their contact email is: ${volunteer.email} </p><br></br>`,
-    attachments: [
-      {
-        filename: "YouthArtsLogo.png",
-        path: "https://pryac.s3-us-west-1.amazonaws.com/YouthArtsLogo.png",
-        cid: "YouthArtsLogo",
-      },
-    ],
-  };
-  console.log(adminMessage);
-
-  transport.sendMail(volunteerMessage, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(info);
-    }
-  });
-
-  transport.sendMail(adminMessage, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(info);
-    }
-  });
-};
 
 if (process.argv.includes("dev")) {
   const PORT = process.env.PORT || 4000;

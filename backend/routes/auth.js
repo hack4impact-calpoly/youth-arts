@@ -4,7 +4,9 @@ const jsonwebtoken = require("jsonwebtoken");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const Volunteer = require("../models/volunteer");
 
-const app = express();
+const router = express.Router();
+router.use(express.json());
+
 const { auth, jwtSecret } = require("../auth");
 
 passport.use(Volunteer.createStrategy());
@@ -74,12 +76,12 @@ passport.use(
 //   }
 // );
 
-app.get(
+router.get(
   "/login",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-app.post("/auth/token", (req, res) => {
+router.post("/auth/token", (req, res) => {
   const { token } = req.body;
   const options = {
     secure: true,
@@ -90,7 +92,7 @@ app.post("/auth/token", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/auth/logout", (req, res) => {
+router.post("/auth/logout", (req, res) => {
   const options = {
     secure: true,
     httpOnly: true,
@@ -101,7 +103,7 @@ app.post("/auth/logout", (req, res) => {
   res.sendStatus(200);
 });
 
-app.get(
+router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     session: false,
@@ -114,14 +116,14 @@ app.get(
   }
 );
 
-app.get("/auth/account", auth, (req, res) => {
+router.get("/auth/account", auth, (req, res) => {
   const account = req.user;
   res.json(account || {});
 });
 
-app.get(
+router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-module.exports = app;
+module.exports = router;
