@@ -215,9 +215,7 @@ function ReportsSearchOpportunities(props) {
                 }
               });
             }
-            console.log(rowVols);
             rowVols = rowVols.filter((element) => Array.isArray(element));
-            console.log(rowVols);
             builder
               .setColumns(["First Name", "Last Name", "Phone Number"])
               .addRows(rowVols)
