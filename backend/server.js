@@ -1,22 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const jsonwebtoken = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const passportJwt = require("passport-jwt");
-const LocalStrategy = require("passport-local").Strategy;
-const passportLocalMongoose = require("passport-local-mongoose");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const nodemailer = require("nodemailer");
-const moment = require("moment");
 
 const app = express();
-const cookieSession = require("cookie-session");
-const Opportunity = require("./models/opportunity");
-const Volunteer = require("./models/volunteer");
-const { auth, jwtSecret } = require("./auth");
 
 const volunteerEndpoints = require("./routes/volunteer");
 const opportunityEndpoints = require("./routes/opportunity");
@@ -62,8 +49,6 @@ const checkUserLoggedIn = (req, res, next) => {
   }
 };
 
-passport.use(Volunteer.createStrategy());
-
 const accessProtectionMiddleware = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -73,49 +58,6 @@ const accessProtectionMiddleware = (req, res, next) => {
     });
   }
 };
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
-      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-    },
-    (accessToken, refreshToken, profile, cb) => {
-      // check user table
-      Volunteer.findOne(
-        {
-          googleId: profile.id,
-        },
-        (err, user) => {
-          // No user was found... so create a new user
-          if (!user) {
-            user = new Volunteer({
-              googleId: profile.id,
-              username: profile.id,
-              email: profile.emails[0].value,
-              firstName: null,
-              admin: false,
-              boardMember: false,
-              opportunities: {},
-            });
-            user.save((err) => {
-              if (err) console.log(err);
-              return cb(err, user);
-            });
-          } else {
-            // found user. Return
-            if (!user.firstName) {
-              return cb(err, user);
-            }
-            return cb(err, user);
-          }
-        }
-      );
-    }
-  )
-);
 
 // Server endpoint that returns user info
 
@@ -134,27 +76,6 @@ app.get("/", (req, res) => {
 app.get("/protected", checkUserLoggedIn, (req, res) => {
   res.send(`<h1>${req.user.displayName}'s Profile Page</h1>`);
 });
-
-app.get(
-  "/profile",
-  passport.authorize("google", {
-    failureRedirect: `${process.env.CLIENT_URL}/registration`,
-  }),
-  (req, res) => {
-    const { user } = req;
-    const { account } = req;
-  }
-);
-
-app.get(
-  "/current-user",
-  passport.authenticate("google", {
-    scope: [["https://www.googleapis.com/auth/plus.login"]],
-  }),
-  (req, res, newuser) => {
-    res.status(302).json(req.user);
-  }
-);
 
 app.get("/", (req, res) => {
   res.render("home", { user: req.user });

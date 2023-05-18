@@ -8,7 +8,8 @@
     "dev": "nodemon server.js dev",
     "lint-check": "eslint --ext .js,.ts --ignore-path .gitignore . && prettier --check .",
     "lint-write-all": "eslint --ext .js,.ts --ignore-path .gitignore . --fix && prettier --write .",
-    "lint-write": "npx lint-staged"
+    "lint-write": "npx lint-staged",
+    "prepare": "cd ../ && husky install ./backend/.husky"
   },
   "keywords": [],
   "author": "",
