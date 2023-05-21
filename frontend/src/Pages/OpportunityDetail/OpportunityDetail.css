@@ -381,6 +381,26 @@
   font-family: "Avant Garde";
 }
 
+#additionalNotes{
+    color: #1b75bc;
+    font-size: 19px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 900;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-top: -30px;
+    margin-bottom: -20px;
+    font-family: 'Avant Garde';
+}
+
+.additionalNotesBox{
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 7px;
+    height: 75px;
+}
+
 #additionalReq {
   color: #1b75bc;
   font-size: 19px;
