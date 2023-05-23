@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
@@ -38,6 +39,7 @@ class OpportunityDetail extends React.Component {
       volunteerList: [],
       updateTime: false,
       newVolunteer: "",
+      selectedTask: "",
     };
 
     this.handleDonateCheckBox = this.handleDonateCheckBox.bind(this);
@@ -217,7 +219,7 @@ class OpportunityDetail extends React.Component {
   }
 
   sortTaskArray(a, b) {
-    if (this.changeSignInModala[0] > b[0]) return -1;
+    if (a[0] > b[0]) return -1;
     if (a[0] < b[0]) return 1;
     return 0;
   }
@@ -717,21 +719,41 @@ class OpportunityDetail extends React.Component {
                 </select>
               </div>
 
+              <div id="dropdown">
+                <label htmlFor="selectTask">Available Tasks:</label>
+                <select
+                  name="selectTask"
+                  onChange={(e) => {
+                    this.setState({ selectedTask: e.target.value });
+                    console.log("SELECTED TASK", this.state.selectedTask);
+                  }}
+                >
+                  <option value="">Select Option</option>
+                  {this.state.tasks.map((task) => (
+                    <option value={task.roleName}>{`${task.roleName}`}</option>
+                  ))}
+                </select>
+              </div>
+
               <div id="volunteerButtonContainer">
                 <button
                   type="button"
                   id="buttonStyles"
                   onClick={() => {
-                    console.log("NEW TASK", this.state.tasks[0].oppId);
+                    console.log("bruh", this.state.selectedTask);
+                    const result = this.state.tasks.filter(
+                      (task) => task.roleName === this.state.selectedTask
+                    );
+                    console.log("RESULT", result);
                     this.postTask(
-                      this.state.tasks[0].roleName,
-                      this.state.tasks[0].description,
+                      result[0].roleName,
+                      result[0].description,
                       [new Date()],
                       [new Date()],
                       this.state._id,
                       this.state.newVolunteer,
-                      this.state.tasks[0].donatedItems,
-                      this.state.tasks[0].business
+                      this.state.donatedItems,
+                      result[0].business
                     );
                   }}
                 >
