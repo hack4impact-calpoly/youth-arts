@@ -126,6 +126,12 @@ class OpportunityCheckout extends React.Component {
         console.log("endTimeSelections", endTimeSelections);
     }
 
+    handleAdditionalNotesChange(e, task) {
+        const updatedTask = { ...task, additionalNotes: e.target.value };
+        const updatedCart = this.state.cart.map((t) => (t === task ? updatedTask : t));
+        this.setState({ cart: updatedCart });
+    }
+
     render() {
         return (
             <body>
@@ -181,9 +187,6 @@ class OpportunityCheckout extends React.Component {
                                                                   task.end[i],
                                                                   "hh:MM TT"
                                                               )}
-                                                              {console.log(
-                                                                  task.end[i]
-                                                              )}
                                                               <input
                                                                   className="form-checkbox"
                                                                   onChange={(
@@ -215,6 +218,16 @@ class OpportunityCheckout extends React.Component {
                                       <div id="roleDescText">
                                           {task.description}
                                       </div>
+                                      <div id="additionalNotes">
+                                        <div id="additionalNotesHeader">Additional Notes:</div>
+                                        <textarea
+                                            className="additionalNotesBox"
+                                            onChange={(e) =>
+                                                this.handleAdditionalNotesChange(e, task)
+                                            }
+                                            value={task.additionalNotes || ""}
+                                        />
+                                        </div>
                                       <div id="additionalReq">
                                           Additional Requirements:
                                       </div>
