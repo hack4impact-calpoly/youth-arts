@@ -16,6 +16,10 @@ router.delete("/api/volunteer/task", async (req, res) => {
 
     const opportunity = await Opportunity.findById(oppId);
     let volList = opportunity.volunteers.get(volId);
+    const taskObj = volList.find((task) => task.id === taskId);
+    const startTime = taskObj.start[0].toString();
+    const endTime = taskObj.end[0].toString();
+
     volList = volList.filter((task) => task.id !== taskId);
     opportunity.volunteers.set(volId, volList);
 
@@ -25,14 +29,20 @@ router.delete("/api/volunteer/task", async (req, res) => {
 
     const volunteer = await Volunteer.findById(volId);
     let oppList = volunteer.opportunities.get(oppId);
-    oppList = oppList.filter((task) => task.id !== taskId);
+    oppList = oppList.filter(
+      (task) =>
+        !(
+          task.start[0].toString() === startTime &&
+          task.end[0].toString() === endTime
+        )
+    );
     volunteer.opportunities.set(oppId, oppList);
 
     await Volunteer.findByIdAndUpdate(volId, {
       opportunities: volunteer.opportunities,
     });
 
-    res.status(200).json(volunteer);
+    res.status(200).json(opportunity);
   } catch (error) {
     res.status(400).send(error);
   }
