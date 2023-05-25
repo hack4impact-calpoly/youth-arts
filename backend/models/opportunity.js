@@ -24,7 +24,15 @@ const opportunitySchema = new mongoose.Schema(
     ],
     volunteers: {
       type: Map,
-      of: [{ task: String, start: [Date], end: [Date], donated: [String] }],
+      of: [
+        {
+          task: String,
+          start: [Date],
+          end: [Date],
+          donated: [String],
+          notes: String,
+        },
+      ],
     },
   },
   { collection: "opportunityDB" }
