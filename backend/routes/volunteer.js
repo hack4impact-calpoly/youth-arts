@@ -237,7 +237,7 @@ const postNewVolunteerTask = async (
   });
 };
 
-router.post("/api/VolunteerTask", async (req, res) => {
+router.post("/api/volunteer/VolunteerTask", async (req, res) => {
   console.log(req.body);
 
   const { task } = req.body;
