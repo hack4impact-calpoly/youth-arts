@@ -127,7 +127,7 @@ function App() {
           />
           <Footer />
         </Route>
-        <Route path="/auth/login/:token" component={SetAuthToken} />
+        <Route path="/api/auth/login/:token" component={SetAuthToken} />
         <Route path="/directory">
           <Header user={profile} updateProfile={updateProfile} />
           <DirectoryPage

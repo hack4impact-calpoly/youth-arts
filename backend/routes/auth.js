@@ -77,7 +77,7 @@ passport.use(
 // );
 
 router.get(
-  "/login",
+  "/api/auth/login",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -112,7 +112,7 @@ router.get(
   (req, res) => {
     // Succesful authentication, redirect secrets.
     const token = jsonwebtoken.sign({ id: req.user._id }, jwtSecret);
-    res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/api/auth/login/${token}`);
   }
 );
 
