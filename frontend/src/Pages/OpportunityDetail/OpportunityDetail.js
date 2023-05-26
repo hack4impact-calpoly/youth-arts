@@ -104,7 +104,7 @@ class OpportunityDetail extends React.Component {
       volId: this.state.user._id
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/donations/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/donation/`;
 
     fetch(url, {
       method: "POST",
