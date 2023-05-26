@@ -82,9 +82,9 @@ function App() {
       return false;
     }
   }
-
+  
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/account`, {
       credentials: "include",
     })
       .then((res) => res.json())

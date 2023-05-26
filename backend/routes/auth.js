@@ -116,7 +116,7 @@ router.get(
   }
 );
 
-router.get("/auth/account", auth, (req, res) => {
+router.get("/api/auth/account", auth, (req, res) => {
   const account = req.user;
   res.json(account || {});
 });
