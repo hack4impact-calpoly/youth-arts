@@ -24,7 +24,7 @@ router.get("/api/volunteer/:id", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const users = await Volunteer.find({});
     res.status(200).json(users);
@@ -34,7 +34,7 @@ router.get("/api/volunteers", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const opp = await Volunteer.find({});
     res.status(200).json(opp);

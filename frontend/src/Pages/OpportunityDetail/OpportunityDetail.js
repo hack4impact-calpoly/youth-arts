@@ -69,7 +69,7 @@ class OpportunityDetail extends React.Component {
         this.setState({ ...opportunity });
       });
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/`)
       .then((res) => res.json())
       .then((vols) => {
         this.setState({ volunteerList: vols });
@@ -86,7 +86,7 @@ class OpportunityDetail extends React.Component {
         this.setState({ ...opportunity });
       });
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/`)
       .then((res) => res.json())
       .then((vols) => {
         this.setState({ volunteerList: vols });
