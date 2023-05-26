@@ -16,7 +16,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
+      callbackURL: `${process.env.SERVER_URL}/api/auth/google/callback`,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     (accessToken, refreshToken, profile, cb) => {
@@ -104,7 +104,7 @@ router.post("/api/auth/logout", (req, res) => {
 });
 
 router.get(
-  "/auth/google/callback",
+  "/api/auth/google/callback",
   passport.authenticate("google", {
     session: false,
     failureRedirect: `${process.env.CLIENT_URL}`,
