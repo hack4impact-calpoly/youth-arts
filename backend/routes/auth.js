@@ -122,7 +122,7 @@ router.get("/api/auth/account", auth, (req, res) => {
 });
 
 router.get(
-  "/auth/google",
+  "/api/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
