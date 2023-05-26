@@ -23,7 +23,7 @@ import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 function SetAuthToken() {
   const { token } = useParams();
 
-  fetch(`${process.env.REACT_APP_SERVER_URL}/auth/token`, {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/token`, {
     method: "POST",
     mode: "cors",
     credentials: "include",

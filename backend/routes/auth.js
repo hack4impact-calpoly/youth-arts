@@ -81,7 +81,7 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-router.post("/auth/token", (req, res) => {
+router.post("/api/auth/token", (req, res) => {
   const { token } = req.body;
   const options = {
     secure: true,
