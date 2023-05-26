@@ -6,7 +6,7 @@ function NavBar(props) {
   const { user } = props;
 
   const logout = async () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/logout`, {
       method: "POST",
       mode: "cors",
       credentials: "include",

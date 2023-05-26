@@ -92,7 +92,7 @@ router.post("/api/auth/token", (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/auth/logout", (req, res) => {
+router.post("/api/auth/logout", (req, res) => {
   const options = {
     secure: true,
     httpOnly: true,
