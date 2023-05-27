@@ -10,6 +10,44 @@ const Volunteer = require("../models/volunteer");
 const Opportunity = require("../models/opportunity");
 const { transport } = require("../server");
 
+router.delete("/api/volunteer/task", async (req, res) => {
+  try {
+    const { oppId, volId, taskId } = req.body;
+
+    const opportunity = await Opportunity.findById(oppId);
+    let volList = opportunity.volunteers.get(volId);
+    const taskObj = volList.find((task) => task.id === taskId);
+    const startTime = taskObj.start[0].toString();
+    const endTime = taskObj.end[0].toString();
+
+    volList = volList.filter((task) => task.id !== taskId);
+    opportunity.volunteers.set(volId, volList);
+
+    await Opportunity.findByIdAndUpdate(oppId, {
+      volunteers: opportunity.volunteers,
+    });
+
+    const volunteer = await Volunteer.findById(volId);
+    let oppList = volunteer.opportunities.get(oppId);
+    oppList = oppList.filter(
+      (task) =>
+        !(
+          task.start[0].toString() === startTime &&
+          task.end[0].toString() === endTime
+        )
+    );
+    volunteer.opportunities.set(oppId, oppList);
+
+    await Volunteer.findByIdAndUpdate(volId, {
+      opportunities: volunteer.opportunities,
+    });
+
+    res.status(200).json(opportunity);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.get("/api/volunteer/:id", async (req, res) => {
   const userid = mongoose.Types.ObjectId(req.params.id);
   try {
