@@ -5,7 +5,7 @@ import "./Header.css";
 import logo from "../../Images/YouthArtsLogoReversed.png";
 
 const logout = async (props) => {
-  fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/logout`, {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
     method: "POST",
     mode: "cors",
     credentials: "include",

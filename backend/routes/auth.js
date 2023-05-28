@@ -16,7 +16,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL}/api/auth/google/callback`,
+      callbackURL: `${process.env.SERVER_URL}/auth/google/callback`,
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     (accessToken, refreshToken, profile, cb) => {
@@ -77,11 +77,11 @@ passport.use(
 // );
 
 router.get(
-  "/api/auth/login",
+  "/auth/login",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-router.post("/api/auth/token", (req, res) => {
+router.post("/auth/token", (req, res) => {
   const { token } = req.body;
   const options = {
     secure: true,
@@ -92,19 +92,18 @@ router.post("/api/auth/token", (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/api/auth/logout", (req, res) => {
+router.post("/auth/logout", (req, res) => {
   const options = {
     secure: true,
     httpOnly: true,
     sameSite: "none",
   };
-
   res.clearCookie("auth_token", options);
   res.sendStatus(200);
 });
 
 router.get(
-  "/api/auth/google/callback",
+  "/auth/google/callback",
   passport.authenticate("google", {
     session: false,
     failureRedirect: `${process.env.CLIENT_URL}`,
@@ -112,17 +111,17 @@ router.get(
   (req, res) => {
     // Succesful authentication, redirect secrets.
     const token = jsonwebtoken.sign({ id: req.user._id }, jwtSecret);
-    res.redirect(`${process.env.CLIENT_URL}/api/auth/login/${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/auth/login/${token}`);
   }
 );
 
-router.get("/api/auth/account", auth, (req, res) => {
+router.get("/auth/account", auth, (req, res) => {
   const account = req.user;
   res.json(account || {});
 });
 
 router.get(
-  "/api/auth/google",
+  "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 

@@ -2,7 +2,7 @@ import "./GoogleButton.css";
 
 function GoogleButton() {
   return (
-    <form action={`${process.env.REACT_APP_SERVER_URL}/api/auth/google`}>
+    <form action={`${process.env.REACT_APP_SERVER_URL}/auth/google`}>
       <button type="submit" className="google-button">
         <span className="google-button__icon">
           <svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">

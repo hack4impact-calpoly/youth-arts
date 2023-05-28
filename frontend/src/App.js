@@ -23,7 +23,7 @@ import BMLogHoursPage from "./Pages/BMLogHoursPage/BMLogHoursPage";
 function SetAuthToken() {
   const { token } = useParams();
 
-  fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/token`, {
+  fetch(`${process.env.REACT_APP_SERVER_URL}/auth/token`, {
     method: "POST",
     mode: "cors",
     credentials: "include",
@@ -82,9 +82,9 @@ function App() {
       return false;
     }
   }
-  
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/auth/account`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/auth/account`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -127,7 +127,7 @@ function App() {
           />
           <Footer />
         </Route>
-        <Route path="/api/auth/login/:token" component={SetAuthToken} />
+        <Route path="/auth/login/:token" component={SetAuthToken} />
         <Route path="/directory">
           <Header user={profile} updateProfile={updateProfile} />
           <DirectoryPage

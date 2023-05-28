@@ -219,7 +219,7 @@ class RegistrationPage extends React.Component {
         ) {
             this.setState({ notValid: true });
         } else {
-            fetch(`${process.env.REACT_APP_SERVER_URL}/api/postVolunteer`, {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/postVolunteer`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

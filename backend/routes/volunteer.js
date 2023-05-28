@@ -48,7 +48,7 @@ router.post("/api/updateVolunteer", async (req) => {
   await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 });
 
-router.post("/api/postVolunteer", async (req, res) => {
+router.post("/api/volunteer/postVolunteer", async (req, res) => {
   console.log(req.body.email);
   console.log(req.body);
   console.log(process.env.EMAIL_USER);
