@@ -44,7 +44,7 @@ router.get("/api/volunteer", async (req, res) => {
   }
 });
 
-router.post("/api/updateVolunteer", async (req) => {
+router.post("/api/volunteer/updateVolunteer", async (req) => {
   await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 });
 
