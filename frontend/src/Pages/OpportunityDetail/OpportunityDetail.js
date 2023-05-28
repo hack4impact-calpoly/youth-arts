@@ -375,7 +375,7 @@ class OpportunityDetail extends React.Component {
                         {task.additionalInfo.map((item) => {
                           return <div>{item}</div>;
                         })}
-                        {console.log(task)}
+                        {/* {console.log(task)} */}
                         <button
                           id="cartButtonStyle"
                           onClick={
@@ -474,6 +474,7 @@ class OpportunityDetail extends React.Component {
             </div>
           </div>
         </div>
+        {console.log("state: ", this.state)}
         {this.state.user && this.state.user.admin ? (
           <div className="tableContainer">
             <div id="volunteerHeader">VOLUNTEERS</div>
