@@ -152,6 +152,7 @@ const postNewVolunteerTask = async (
   oppId,
   volId,
   business,
+  notes,
   res
 ) => {
   const taskObj = {
@@ -160,6 +161,7 @@ const postNewVolunteerTask = async (
     end,
     description,
     donated,
+    notes,
   };
   console.log(start);
 
@@ -286,6 +288,7 @@ router.post("/api/volunteer/VolunteerTask", async (req, res) => {
   const { oppId } = req.body;
   const { volId } = req.body;
   const { business } = req.body;
+  const { notes } = req.body;
 
   try {
     await postNewVolunteerTask(
@@ -297,6 +300,7 @@ router.post("/api/volunteer/VolunteerTask", async (req, res) => {
       oppId,
       volId,
       business,
+      notes,
       res
     );
     res.status(200).send(task);

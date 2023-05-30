@@ -474,7 +474,6 @@ class OpportunityDetail extends React.Component {
             </div>
           </div>
         </div>
-        {console.log("state: ", this.state)}
         {this.state.user && this.state.user.admin ? (
           <div className="tableContainer">
             <div id="volunteerHeader">VOLUNTEERS</div>
@@ -486,6 +485,7 @@ class OpportunityDetail extends React.Component {
                   <th>Start Times</th>
                   <th>End Times</th>
                   <th>Donated Items</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
@@ -530,7 +530,6 @@ class OpportunityDetail extends React.Component {
                                         }
                                       </td>
                                     )}
-
                                     {key_value.map((volData, v) => {
                                       if (volData[0] === "task") {
                                         return (
@@ -680,6 +679,9 @@ class OpportunityDetail extends React.Component {
                                         );
                                       }
                                     })}
+                                    <td className="detailTD">
+                                      {key_value.find((data) => data[0] === "notes")?.[1] || ""}
+                                    </td>
                                   </tr>
                                 );
                               }
@@ -693,6 +695,7 @@ class OpportunityDetail extends React.Component {
           </div>
         ) : (
           <div>
+            <br></br>
             <br></br>
             <br></br>
             <br></br>
