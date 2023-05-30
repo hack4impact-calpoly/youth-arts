@@ -104,7 +104,7 @@ class OpportunityDetail extends React.Component {
     console.log(this.state.volunteerList);
   }
 
-  async postDonations() {
+  postDonations = async () => {
     const newOpp = {
       task: "Donated",
       start: [],
@@ -160,7 +160,7 @@ class OpportunityDetail extends React.Component {
       newOpp.start.length
     ) {
       const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
-      fetch(url, {
+      await fetch(url, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -176,23 +176,23 @@ class OpportunityDetail extends React.Component {
     this.updateComponent();
   }
 
-  changeDonateModal() {
+  changeDonateModal = () => {
     this.setState({ showDonateModal: !this.state.showDonateModal });
   }
 
-  changeUserDonateModal() {
+  changeUserDonateModal = () => {
     this.setState({ showUserDonateModal: !this.state.showUserDonateModal });
   }
 
-  changeSignInModal() {
+  changeSignInModal = () => {
     this.setState({ showSignInModal: !this.state.showSignInModal });
   }
 
-  changeCartModal() {
+  changeCartModal = () => {
     this.setState({ showCartModal: !this.state.showCartModal });
   }
 
-  navigateTo() {
+  navigateTo = () => {
     const url = `/addOpportunity/${this.state._id}`;
 
     this.props.history.push({
@@ -698,16 +698,15 @@ class OpportunityDetail extends React.Component {
                 <label htmlFor="volunteers">Available Volunteers:</label>
                 <select
                   name="volunteers"
-                  onChange={(e) => {
-                    this.setState({ newVolunteer: e.target.value });
-                    console.log("NEW VOLUNTEER", this.state.newVolunteer);
-                  }}
+                  onChange={(e) => 
+                    this.setState({ newVolunteer: e.target.value })
+                  }
                 >
                   <option value="">Select Option</option>
                   {this.state.volunteerList
                     .filter(
                       (volunteer) =>
-                        !Object.keys(this.state.volunteers).includes(
+                        Object.keys(this.state.volunteers).includes(
                           volunteer._id
                         )
                     )
@@ -723,10 +722,9 @@ class OpportunityDetail extends React.Component {
                 <label htmlFor="selectTask">Available Tasks:</label>
                 <select
                   name="selectTask"
-                  onChange={(e) => {
-                    this.setState({ selectedTask: e.target.value });
-                    console.log("SELECTED TASK", this.state.selectedTask);
-                  }}
+                  onChange={(e) => 
+                    this.setState({ selectedTask: e.target.value })
+                  }
                 >
                   <option value="">Select Option</option>
                   {this.state.tasks.map((task) => (
@@ -740,11 +738,9 @@ class OpportunityDetail extends React.Component {
                   type="button"
                   id="buttonStyles"
                   onClick={() => {
-                    console.log("bruh", this.state.selectedTask);
                     const result = this.state.tasks.filter(
                       (task) => task.roleName === this.state.selectedTask
                     );
-                    console.log("RESULT", result);
                     this.postTask(
                       result[0].roleName,
                       result[0].description,
