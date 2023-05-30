@@ -33,7 +33,8 @@ class OpportunityCheckout extends React.Component {
         oppId,
         volId,
         donated,
-        business
+        business,
+        notes
     ) => {
         console.log(start);
         console.log(end);
@@ -47,6 +48,7 @@ class OpportunityCheckout extends React.Component {
             oppId: oppId,
             volId: volId,
             business: business,
+            notes: notes,
         };
         if (newOpp.task === "General Committee Member") {
             newOpp.start = [new Date()];
@@ -58,11 +60,7 @@ class OpportunityCheckout extends React.Component {
             newOpp.start !== undefined &&
             newOpp.start.length
         ) {
-            console.log(newOpp.start);
-            console.log(newOpp.start.length);
-            const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
-            console.log(url);
-            console.log(JSON.stringify(newOpp));
+            const url = `${process.env.REACT_APP_SERVER_URL}/api/volunteer/VolunteerTask/`;
             fetch(url, {
                 method: "POST",
                 // mode: 'cors',
@@ -126,6 +124,12 @@ class OpportunityCheckout extends React.Component {
         console.log("endTimeSelections", endTimeSelections);
     }
 
+    handleNotesChange(e, task) {
+        const updatedTask = { ...task, notes: e.target.value };
+        const updatedCart = this.state.cart.map((t) => (t === task ? updatedTask : t));
+        this.setState({ cart: updatedCart });
+    }
+
     render() {
         return (
             <body>
@@ -181,9 +185,6 @@ class OpportunityCheckout extends React.Component {
                                                                   task.end[i],
                                                                   "hh:MM TT"
                                                               )}
-                                                              {console.log(
-                                                                  task.end[i]
-                                                              )}
                                                               <input
                                                                   className="form-checkbox"
                                                                   onChange={(
@@ -215,6 +216,16 @@ class OpportunityCheckout extends React.Component {
                                       <div id="roleDescText">
                                           {task.description}
                                       </div>
+                                      <div id="additionalNotes">
+                                        <div id="additionalNotesHeader">Additional Notes:</div>
+                                        <textarea
+                                            className="additionalNotesBox"
+                                            onChange={(e) =>
+                                                this.handleNotesChange(e, task)
+                                            }
+                                            value={task.notes || ""}
+                                        />
+                                        </div>
                                       <div id="additionalReq">
                                           Additional Requirements:
                                       </div>
@@ -273,13 +284,9 @@ class OpportunityCheckout extends React.Component {
                                             task.oppId,
                                             task.volId,
                                             task.donated,
-                                            this.state.business
+                                            this.state.business,
+                                            task.notes
                                         );
-                                        // return(
-                                        //     <div>
-                                        //         {this.postTask(task.roleName, task.description, task.selectedStart, task.selectedEnd, task.oppId, task.volId, task.donated, this.state.business)}
-                                        //     </div>
-                                        // )
                                     });
                                     this.navigateTo();
                                 }}

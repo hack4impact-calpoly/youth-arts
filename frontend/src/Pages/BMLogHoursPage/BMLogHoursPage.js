@@ -57,7 +57,7 @@ function BMLogHoursPage(props) {
 
   useEffect(() => {
     fetch(
-      `${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/6099c78c001ee300081c1dab`
     ).then((response) => {
       response.json().then((data) => {
         setboardOpportunity(data);
@@ -66,7 +66,7 @@ function BMLogHoursPage(props) {
   }, []);
   useEffect(() => {
     fetch(
-      `${process.env.REACT_APP_SERVER_URL}/api/getOpportunity/6099c78c001ee300081c1dab`
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/6099c78c001ee300081c1dab`
     ).then((response) => {
       response.json().then((data) => {
         setboardOpportunity(data);
@@ -156,7 +156,7 @@ function BMLogHoursPage(props) {
       opportunities: newOpportunites,
     };
 
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -223,7 +223,7 @@ function BMLogHoursPage(props) {
       newVolunteers[props.user._id] = volunteers;
     }
     boardOpportunity.volunteers = newVolunteers;
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateOpportunity`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/opportunity/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

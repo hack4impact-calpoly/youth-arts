@@ -37,7 +37,7 @@ const postNewOpportunity = async (
     volunteers,
   }).save();
 
-app.get("/api/getOpportunity/:id", async (req, res) => {
+app.get("/api/opportunity/:id", async (req, res) => {
   const oppid = mongoose.Types.ObjectId(req.params.id);
   try {
     const opp = await Opportunity.findById(oppid);
@@ -49,7 +49,7 @@ app.get("/api/getOpportunity/:id", async (req, res) => {
   }
 });
 
-app.get("/api/opportunityDetail/:name", async (req, res) => {
+app.get("/api/opportunity/detail/:name", async (req, res) => {
   const name = mongoose.Types.ObjectId(req.params.name);
   try {
     const opp = await Opportunity.findById(name);
@@ -72,7 +72,7 @@ app.get("/api/opportunities", async (req, res) => {
 
 // const getAllOpportunities = async () => Opportunity.find({});
 
-app.post("/api/updateOpportunity", async (req, res) => {
+app.post("/api/opportunity/update", async (req, res) => {
   try {
     if (req.body._id === undefined || req.body._id === "") {
       const newOpportunity = await postNewOpportunity(
@@ -107,7 +107,7 @@ app.post("/api/updateOpportunity", async (req, res) => {
   }
 });
 
-app.post("/api/opportunity", async (req, res) => {
+app.post("/api/opportunity/create", async (req, res) => {
   const { title } = req.body;
   const desc = req.body.desccription;
   const pic = req.body.pictures;
@@ -125,7 +125,7 @@ app.post("/api/opportunity", async (req, res) => {
   res.json(newOpportunity);
 });
 
-app.post("/api/cancelOpportunity", async (req, res) => {
+app.post("/api/opportunity/cancel", async (req, res) => {
   const opportunity = await Opportunity.findById(req.body.cancelOpp.id);
   const newVolunteer = await Volunteer.findByIdAndUpdate(
     req.body._id,
@@ -235,7 +235,7 @@ const postEndTime = async (id, date, volId, taskIndex, timeIndex) => {
   });
 };
 
-app.post("/api/updateBoardOpportunity", async (req, res) => {
+app.post("/api/opportunity/board/update", async (req, res) => {
   try {
     await Opportunity.findByIdAndUpdate(req.body._id, req.body);
     res.status(200);
@@ -245,7 +245,7 @@ app.post("/api/updateBoardOpportunity", async (req, res) => {
   }
 });
 
-app.post("/api/opportunityStartTime/", async (req, res) => {
+app.post("/api/opportunity/startTime", async (req, res) => {
   const { id } = req.body;
   const { volId } = req.body;
   const { date } = req.body;
@@ -261,7 +261,7 @@ app.post("/api/opportunityStartTime/", async (req, res) => {
   }
 });
 
-app.post("/api/opportunityEndTime/", async (req, res) => {
+app.post("/api/opportunity/endTime/", async (req, res) => {
   const { id } = req.body;
   const { volId } = req.body;
   const { date } = req.body;

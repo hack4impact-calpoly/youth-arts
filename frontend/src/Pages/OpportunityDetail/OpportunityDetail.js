@@ -50,17 +50,28 @@ class OpportunityDetail extends React.Component {
     this.postDonations = this.postDonations.bind(this);
   }
 
+  deleteVolunteer(volunteerId) {
+    //Delete volunteer from opportunity
+  }
+
+  updateCartWithOpportunity(task) {
+    task["oppId"] = this.state._id;
+    task["volId"] = this.state.user._id;
+    this.state.updateCart(task);
+  }
+
   async componentDidMount() {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/${id}`;
+    const url =
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/detail/` + id;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
         this.setState({ ...opportunity });
       });
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/`)
       .then((res) => res.json())
       .then((vols) => {
         this.setState({ volunteerList: vols });
@@ -89,14 +100,15 @@ class OpportunityDetail extends React.Component {
   async updateComponent() {
     let id = window.location.pathname;
     id = id.replace("/opportunityDetail/", "");
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityDetail/${id}`;
+    const url =
+      `${process.env.REACT_APP_SERVER_URL}/api/opportunity/detail/` + id;
     await fetch(url)
       .then((res) => res.json())
       .then((opportunity) => {
         this.setState({ ...opportunity });
       });
 
-    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteers/`)
+    await fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/`)
       .then((res) => res.json())
       .then((vols) => {
         this.setState({ volunteerList: vols });
@@ -114,7 +126,7 @@ class OpportunityDetail extends React.Component {
       volId: this.state.user._id,
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/donations/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/donation/`;
 
     fetch(url, {
       method: "POST",
@@ -235,7 +247,7 @@ class OpportunityDetail extends React.Component {
       timeIndex: i,
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityStartTime/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/startTime/`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -256,7 +268,7 @@ class OpportunityDetail extends React.Component {
       timeIndex: i,
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunityEndTime/`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/endTime`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -512,6 +524,7 @@ class OpportunityDetail extends React.Component {
                   <th>Start Times</th>
                   <th>End Times</th>
                   <th>Donated Items</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
@@ -538,15 +551,25 @@ class OpportunityDetail extends React.Component {
                                   <tr>
                                     {vol && (
                                       <td className="detailTD">
-                                        <div>
-                                          {vol.firstName}
-                                          <br />
-                                          {vol.lastName}
-                                        </div>
+                                        {
+                                          <div>
+                                            {vol.firstName}
+                                            <br />
+                                            {vol.lastName}
+                                            <br />
+                                            <a
+                                              className="deleteBtn"
+                                              onClick={() =>
+                                                this.deleteVolunteer(vol._id)
+                                              }
+                                            >
+                                              Delete
+                                            </a>
+                                          </div>
+                                        }
                                       </td>
                                     )}
-
-                                    {keyValue.map((volData) => {
+                                    {key_value.map((volData, v) => {
                                       if (volData[0] === "task") {
                                         return (
                                           <td className="detailTD">
@@ -680,6 +703,9 @@ class OpportunityDetail extends React.Component {
                                         );
                                       }
                                     })}
+                                    <td className="detailTD">
+                                      {key_value.find((data) => data[0] === "notes")?.[1] || ""}
+                                    </td>
                                   </tr>
                                 );
                               }
@@ -760,10 +786,11 @@ class OpportunityDetail extends React.Component {
           </div>
         ) : (
           <div>
-            <br />
-            <br />
-            <br />
-            <br />
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
           </div>
         )}
 

@@ -1,283 +1,282 @@
-.opportunityTitle{
-    font-weight: 580;
-    font-size: 45px;
-    font-family: 'Avant Garde';
-    padding-top: 80px;
-    padding-bottom: 0px;
-    color: black;
-    text-align: center;
+.opportunityTitle {
+  font-weight: 580;
+  font-size: 45px;
+  font-family: "Avant Garde";
+  padding-top: 80px;
+  padding-bottom: 0px;
+  color: black;
+  text-align: center;
 }
 
-.TitleImageContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Avant Garde';
+.TitleImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Avant Garde";
 }
 
-.imageCarousel{
-    padding-top: 70px;
-    font-size: 40px;
-    font-weight: 40px;
-    font-family: 'Avant Garde';
-    margin-bottom: 30px;
+.imageCarousel {
+  padding-top: 70px;
+  font-size: 40px;
+  font-weight: 40px;
+  font-family: "Avant Garde";
+  margin-bottom: 30px;
 }
 
-.slider{
-    position: relative;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center ;
+.slider {
+  position: relative;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.right-arrow{
-    position: absolute;
-    top: 50%;
-    right: -50px; 
-    z-index: 10;
-    font-size: 5;
-    cursor: pointer;
-    user-select: none;
-    color: #1b75bc;
+.right-arrow {
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  z-index: 10;
+  font-size: 5;
+  cursor: pointer;
+  user-select: none;
+  color: #1b75bc;
 }
 
-.left-arrow{
-    position: absolute;
-    top: 50%;
-    left: -50px;
-    z-index: 10;
-    cursor: pointer;
-    user-select: none;  
-    color: #1b75bc;
+.left-arrow {
+  position: absolute;
+  top: 50%;
+  left: -50px;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+  color: #1b75bc;
 }
 
-#opportunityDate{
-    margin-top: 15px;
-    font-style: italic;
-    text-align: left;
-    font-size: 20px;
-    font-family: 'Avant Garde';
+#opportunityDate {
+  margin-top: 15px;
+  font-style: italic;
+  text-align: left;
+  font-size: 20px;
+  font-family: "Avant Garde";
 }
 
-.outerContainer{
-    display:grid;
-    justify-content: center;
-    align-content: center;
-    gap: 4px;
-    padding-left: 400px;
+.outerContainer {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 4px;
+  padding-left: 400px;
 }
 
-#descriptionHeader{
-    padding-top: 50px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    font-family: 'Avant Garde';
+#descriptionHeader {
+  padding-top: 50px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  font-family: "Avant Garde";
 }
 
-.DescriptionAndDateContainer{
-    display: flex;
-    justify-content: space-between;
+.DescriptionAndDateContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
-#location{
-    padding-top: 0px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    margin-left: -100px;
-    margin-right: 400px;
-    margin-top: -35px;
-    font-family: 'Avant Garde';
+#location {
+  padding-top: 0px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  margin-left: -100px;
+  margin-right: 400px;
+  margin-top: -35px;
+  font-family: "Avant Garde";
 }
 
-.descriptionText{
-    display: block;
-    font-family: 'Avant Garde';
-    box-sizing: border-box;
-    resize: none;
-    color: black;
-    width: 550px;
-    background-color:none;
-    min-height: 30px;
-    border-radius: 5px;
-    margin-bottom: 0px;
-    padding-bottom: 30px;
+.descriptionText {
+  display: block;
+  font-family: "Avant Garde";
+  box-sizing: border-box;
+  resize: none;
+  color: black;
+  width: 550px;
+  background-color: none;
+  min-height: 30px;
+  border-radius: 5px;
+  margin-bottom: 0px;
+  padding-bottom: 30px;
 }
 
-#dateAndTime{
-    padding-top: 0px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    margin-left: 110px;
-    margin-right: 150px;
-    margin-top: -35px;
-    font-family: 'Avant Garde';
+#dateAndTime {
+  padding-top: 0px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  margin-left: 110px;
+  margin-right: 150px;
+  margin-top: -35px;
+  font-family: "Avant Garde";
 }
 .ModalText {
-    font-family: 'Avant Garde';
+  font-family: "Avant Garde";
 }
 
-.dateText{
-    display: block;
-    font-family: 'Avant Garde';
-    font-size: 15px;
-    font-weight: 500;
-    color: black;
-    background-color:none;
-    min-height: 100px;
-    padding-bottom: 30px;
-    margin-top: 15px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-    margin-bottom: 0px;
-    min-width: 200px;
+.dateText {
+  display: block;
+  font-family: "Avant Garde";
+  font-size: 15px;
+  font-weight: 500;
+  color: black;
+  background-color: none;
+  min-height: 100px;
+  padding-bottom: 30px;
+  margin-top: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
+  margin-bottom: 0px;
+  min-width: 200px;
 }
 
-.row2OuterContainer{
-    display: grid;
-    grid-template-columns: auto auto auto;
+.row2OuterContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
-#row2InnerContainer{
-    display:flex;
-    justify-content: space-between;
+#row2InnerContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
-#taskHeader{
-    padding-top: 0px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    font-family: 'Avant Garde';
+#taskHeader {
+  padding-top: 0px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  font-family: "Avant Garde";
 }
 
-.bodyContainer{
-    display: flex; 
+.bodyContainer {
+  display: flex;
 }
 
-#itemsHeader{
-    padding-top: 0px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    border-bottom: 2px solid;
-    border-color: #C8C8C8;
-    margin-bottom: 340px;
-    margin-right: -200px;
-    margin-left: 80px;
-    padding-right: 120px;
-    font-family: 'Avant Garde';
+#itemsHeader {
+  padding-top: 0px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  border-bottom: 2px solid;
+  border-color: #c8c8c8;
+  margin-bottom: 340px;
+  margin-right: -200px;
+  margin-left: 80px;
+  padding-right: 120px;
+  font-family: "Avant Garde";
 }
 
-#requirementsHeader{
-    font-size: 20px;
-    font-weight: 600px;
-    font-weight: bolder;
-    color: #1b75bc;
-    border-bottom: 2px solid;
-    border-color: #C8C8C8;
-    padding-right: 30px;
-    margin-bottom: 340px;
-    margin-right: 0px;
-    margin-left: 520px;
-    font-family: 'Avant Garde';
+#requirementsHeader {
+  font-size: 20px;
+  font-weight: 600px;
+  font-weight: bolder;
+  color: #1b75bc;
+  border-bottom: 2px solid;
+  border-color: #c8c8c8;
+  padding-right: 30px;
+  margin-bottom: 340px;
+  margin-right: 0px;
+  margin-left: 520px;
+  font-family: "Avant Garde";
 }
 
-#taskBody{
-    border-radius: 5px;
-    box-shadow:0px 0px 3px 0px;
-    display: flex;
-    font-family: 'Avant Garde';
-    color: black;
-    width: 550px;
-    background-color:#F5F5F5;
-    min-height: 50px;
-    box-sizing: border-box;
-    resize: none;
-    margin-right: 10px;
-    margin-top: -310px;
+#taskBody {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 0px;
+  display: flex;
+  font-family: "Avant Garde";
+  color: black;
+  width: 550px;
+  background-color: #f5f5f5;
+  min-height: 50px;
+  box-sizing: border-box;
+  resize: none;
+  margin-right: 10px;
+  margin-top: -310px;
 }
 
-#darkTaskBody{
-    border-radius: 5px;
-    box-shadow:0px 0px 3px 0px;
-    display: flex;
-    font-family: 'Avant Garde';
-    color: black;
-    width: 550px;
-    background-color:lightgray;
-    min-height: 50px;
-    box-sizing: border-box;
-    resize: none;
-    margin-right: 10px;
-    margin-top: -310px;
+#darkTaskBody {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 0px;
+  display: flex;
+  font-family: "Avant Garde";
+  color: black;
+  width: 550px;
+  background-color: lightgray;
+  min-height: 50px;
+  box-sizing: border-box;
+  resize: none;
+  margin-right: 10px;
+  margin-top: -310px;
 }
 
-
-#reqBody{
-    border-radius: 5px;
-    display: flex;
-    font-family: 'Avant Garde';
-    color: black;
-    width: 300px;
-    background-color:none;
-    min-height: 50px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-    margin-top: -330px;
-    margin-left: 50px;
+#reqBody {
+  border-radius: 5px;
+  display: flex;
+  font-family: "Avant Garde";
+  color: black;
+  width: 300px;
+  background-color: none;
+  min-height: 50px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
+  margin-top: -330px;
+  margin-left: 50px;
 }
 
-#itemsBody{
-    border-radius: 5px;
-    width: 300px;
-    display: flex;
-    font-family: 'Avant Garde';
-    color: black;
-    background-color:none;
-    min-height: 50px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-    margin-top: -330px;
-    margin-right: 100px;
-    margin-left: 0px;
+#itemsBody {
+  border-radius: 5px;
+  width: 300px;
+  display: flex;
+  font-family: "Avant Garde";
+  color: black;
+  background-color: none;
+  min-height: 50px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
+  margin-top: -330px;
+  margin-right: 100px;
+  margin-left: 0px;
 }
 
-#addInfoHeader{
-    padding-top: 0px;
-    margin-top: 0px;
-    margin-bottom: 200px;
-    margin-left: -670px;
-    font-size: 20px;
-    font-weight: 600px;
-    color: #1b75bc;
-    font-weight: bolder;
-    font-family: 'Avant Garde';
+#addInfoHeader {
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 200px;
+  margin-left: -670px;
+  font-size: 20px;
+  font-weight: 600px;
+  color: #1b75bc;
+  font-weight: bolder;
+  font-family: "Avant Garde";
 }
 
-.addInfoText{
-    font-family: 'Avant Garde';
-    color: black;
-    width: 500px;
-    background-color:none;
-    min-height: 100px;
-    padding-bottom: -100px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none;
-    margin-left: -690px;
-    margin-top: -180px;
+.addInfoText {
+  font-family: "Avant Garde";
+  color: black;
+  width: 500px;
+  background-color: none;
+  min-height: 100px;
+  padding-bottom: -100px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
+  margin-left: -690px;
+  margin-top: -180px;
 }
 
 
@@ -302,431 +301,457 @@
 }
 
 .linkPadding {
-    padding-left: 15px;
+  padding-left: 15px;
 }
 
-.fullContainer2{
-    display: grid;
-    grid-template-columns: auto auto ;
+.fullContainer2 {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
-.row2Container2{
-    display: grid;
-    grid-template-columns: auto auto auto;
+.row2Container2 {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
-.row3Container{
-    display: grid;
-    grid-template-columns: auto auto auto;
+.row3Container {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
 
-#buttonContainer{
-    margin-top: 10px;
-    margin-left: -75px;
-    margin-bottom: 30px;
+#buttonContainer {
+  margin-top: 10px;
+  margin-left: -75px;
+  margin-bottom: 30px;
 }
 
-#buttonStyles{
-    background: transparent;
-    border: 3px solid #F7941D;
-    color: #F7941D;
-    border-radius: 14px;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
-    padding: 8px;
-    min-width: 10vw;
-    margin: 10px 50px;
-    font-family: 'Avant Garde';
+#buttonStyles {
+  background: transparent;
+  border: 3px solid #f7941d;
+  color: #f7941d;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 8px;
+  min-width: 10vw;
+  margin: 10px 50px;
+  font-family: "Avant Garde";
 }
 
 #buttonStyles:hover {
-    background: #F7941D;
-    color: white;
-    cursor: pointer;
+  background: #f7941d;
+  color: white;
+  cursor: pointer;
 }
 
-.listStyle{
-    margin-top: 20px;
+.listStyle {
+  margin-top: 20px;
 }
 
-#roleHeader{
+#roleHeader {
+  color: #1b75bc;
+  font-size: 19px;
+  padding-left: 20px;
+  font-weight: 900;
+  padding-top: 30px;
+  padding-right: 6px;
+  font-family: "Avant Garde";
+}
+
+#times {
+  color: black;
+  font-size: 17px;
+  padding-left: 0px;
+  padding-top: 30px;
+  padding-right: 20px;
+  font-family: "Avant Garde";
+}
+
+#roleName {
+  color: black;
+  font-size: 17px;
+  padding-left: 20px;
+  padding-left: 5px;
+  padding-top: 30px;
+  font-family: "Avant Garde";
+}
+
+#roleDesc {
+  color: #1b75bc;
+  font-size: 19px;
+  padding-left: 20px;
+  font-weight: 900;
+  padding-top: 20px;
+  margin-top: -30px;
+  margin-bottom: -20px;
+  font-family: "Avant Garde";
+}
+
+.roleNameAndTime {
+  display: flex;
+}
+
+#roleDescText {
+  color: black;
+  font-size: 17px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  padding-right: 5px;
+  font-family: "Avant Garde";
+}
+
+#additionalNotes{
     color: #1b75bc;
     font-size: 19px;
     padding-left: 20px;
-    font-weight: 900;
-    padding-top: 30px;
-    padding-right:6px;
-    font-family: 'Avant Garde';
-}
-
-#times{
-    color: black;
-    font-size: 17px;
-    padding-left: 0px;
-    padding-top: 30px;
     padding-right: 20px;
-    font-family: 'Avant Garde';
-}
-
-#roleName{
-    color: black;
-    font-size: 17px;
-    padding-left: 20px;
-    padding-left: 5px;
-    padding-top: 30px;
-    font-family: 'Avant Garde';
-}
-
-#roleDesc{
-    color: #1b75bc;
-    font-size: 19px;
-    padding-left: 20px;
     font-weight: 900;
     padding-top: 20px;
+    padding-bottom: 40px;
     margin-top: -30px;
     margin-bottom: -20px;
     font-family: 'Avant Garde';
 }
 
-.roleNameAndTime{
-    display: flex;
-}
-
-#roleDescText{
-    color: black;
-    font-size: 17px;
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 30px;
-    padding-right: 5px;
-    font-family: 'Avant Garde';
-}
-
-#additionalReq{
-    color: #1b75bc;
-    font-size: 19px;
-    padding-left: 20px;
-    font-weight: 900;
-    padding-top: 20px;
-    margin-top: -40px;
-    margin-bottom: -20px;
-    font-family: 'Avant Garde';
-}
-
-#additionalReqText{
-    color: black;
-    font-size: 17px;
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Avant Garde';
-}
-
-.addInfoContainer{
-    position: relative;
-}
-
-#cartButtonStyle{
-    background-color: #1b75bc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-right: 40px;
-}
-
-.reqAndItems{
-    display: grid;
-    grid-template-columns: auto auto;
-}
-
-#taskCard{
-    box-sizing: border-box;
-    border-color: white;
-    border-radius: 1px;
-    background-color: white;
-    border-color: black;
-    box-shadow:0px 0px 3px 0px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-top: -50px;
-}
-
-#darkTaskCard{
-    box-sizing: border-box;
-    border-color: lightgray;
-    border-radius: 1px;
-    background-color: lightgray;
-    border-color: black;
-    box-shadow:0px 0px 3px 0px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-top: -50px;
-}
-
-.popUpBackground{
-    margin-top: -500px;
-    margin-right: 1000px;
-}
-
-.overlay{
-    margin-right: 700px;
-    position: absolute;
-    top: 0;
-    left: 0;
+.additionalNotesBox{
     width: 100%;
-    height: 100%;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    margin-top: 1100px;
+    margin-top: 10px;
+    border-radius: 7px;
+    height: 75px;
 }
 
-.ModalWrapper{
-    width: 800px;
-    height: 500px;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-    background: #fff;
-    color: #000;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    z-index: 10;
-    border-radius: 10px;
-    font-family: 'Avant Garde';
+#additionalReq {
+  color: #1b75bc;
+  font-size: 19px;
+  padding-left: 20px;
+  font-weight: 900;
+  padding-top: 20px;
+  margin-top: -40px;
+  margin-bottom: -20px;
+  font-family: "Avant Garde";
 }
 
-.ModalContent{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    line-height: 1.8;
-    color: #141414;
-    font-family: 'Avant Garde';
+#additionalReqText {
+  color: black;
+  font-size: 17px;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Avant Garde";
 }
 
-.closeModal{
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    z-index: 10; 
-    font-family: 'Avant Garde';
+.addInfoContainer {
+  position: relative;
 }
 
-#exitIcon{
-    font-size: 30px;
-    font-weight: 30px;
-    color: #1b75bc;
-    font-family: 'Avant Garde';
+#cartButtonStyle {
+  background-color: #1b75bc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 40px;
 }
 
-#signIn{
-    display: flex;
-    justify-content: center;
-    margin-top:40px;
-    margin-bottom: 40px;
+.reqAndItems {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
-#or{
-    margin-top: 50px;
-    margin-left: 70px;
-    color: #1b75bc;
-    font-size: 20px;
-    font-weight: 30px;
-    font-family: 'Avant Garde';
-}
-.donateModalFooter
-{
-    justify-content: space-around !important;
-}
-
-#guestCheckout{
-    background: transparent;
-    border: 3px solid #F7941D;
-    color: #F7941D;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 20px;
-    font-family: 'Avant Garde';
-    line-height: 19px;
-    padding: 15px;
-    min-width: 15vw;
-    margin: 10px -30px;
-    box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.1);
-    font-family: 'Avant Garde';
+#taskCard {
+  box-sizing: border-box;
+  border-color: white;
+  border-radius: 1px;
+  background-color: white;
+  border-color: black;
+  box-shadow: 0px 0px 3px 0px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: -50px;
 }
 
-#guestCheckout:hover{
-    background: #F7941D;
-    color: white;
-    cursor: pointer;
+#darkTaskCard {
+  box-sizing: border-box;
+  border-color: lightgray;
+  border-radius: 1px;
+  background-color: lightgray;
+  border-color: black;
+  box-shadow: 0px 0px 3px 0px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: -50px;
 }
 
-.darkBackground{
-    background-color: lightgray;
+.popUpBackground {
+  margin-top: -500px;
+  margin-right: 1000px;
 }
 
-#signInMessage{
-    margin-top: -100px;
-    margin-bottom: 60px;
-    font-size: 20px;
-    font-family: 'Avant Garde';
-    color: #1b75bc;
-    margin-right: -30px;
-    margin-left: -15px;
+.overlay {
+  margin-right: 700px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  margin-top: 1100px;
 }
 
-.adminEdit{
-    color: #1b75bc;
-    text-align: right;
-    padding-right: 100px;
-    font-weight: 500;
-    font-size: 40px;
-    font-family: 'Avant Garde';
-    padding-top: 30px;
-    /* text-decoration: underline; */
+.ModalWrapper {
+  width: 800px;
+  height: 500px;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  color: #000;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  z-index: 10;
+  border-radius: 10px;
+  font-family: "Avant Garde";
 }
 
-.adminEdit a{ 
-    color: #1b75bc;
-    font-size: 25px;
-    font-family: 'Avant Garde';
+.ModalContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.8;
+  color: #141414;
+  font-family: "Avant Garde";
 }
 
-#volunteerHeader{
-    padding-top: 40px;
-    margin-bottom: 20px;
-    color: #1b75bc;
-    font-size: 20px;
-    font-weight: 600px;
-    font-weight: bolder;
-    font-family: 'Avant Garde';
+.closeModal {
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  z-index: 10;
+  font-family: "Avant Garde";
+}
+
+#exitIcon {
+  font-size: 30px;
+  font-weight: 30px;
+  color: #1b75bc;
+  font-family: "Avant Garde";
+}
+
+#signIn {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+#or {
+  margin-top: 50px;
+  margin-left: 70px;
+  color: #1b75bc;
+  font-size: 20px;
+  font-weight: 30px;
+  font-family: "Avant Garde";
+}
+.donateModalFooter {
+  justify-content: space-around !important;
+}
+
+#guestCheckout {
+  background: transparent;
+  border: 3px solid #f7941d;
+  color: #f7941d;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: "Avant Garde";
+  line-height: 19px;
+  padding: 15px;
+  min-width: 15vw;
+  margin: 10px -30px;
+  box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
+  font-family: "Avant Garde";
+}
+
+#guestCheckout:hover {
+  background: #f7941d;
+  color: white;
+  cursor: pointer;
+}
+
+.darkBackground {
+  background-color: lightgray;
+}
+
+#signInMessage {
+  margin-top: -100px;
+  margin-bottom: 60px;
+  font-size: 20px;
+  font-family: "Avant Garde";
+  color: #1b75bc;
+  margin-right: -30px;
+  margin-left: -15px;
+}
+
+.adminEdit {
+  color: #1b75bc;
+  text-align: right;
+  padding-right: 100px;
+  font-weight: 500;
+  font-size: 40px;
+  font-family: "Avant Garde";
+  padding-top: 30px;
+  /* text-decoration: underline; */
+}
+
+.adminEdit a {
+  color: #1b75bc;
+  font-size: 25px;
+  font-family: "Avant Garde";
+}
+
+#volunteerHeader {
+  padding-top: 40px;
+  margin-bottom: 20px;
+  color: #1b75bc;
+  font-size: 20px;
+  font-weight: 600px;
+  font-weight: bolder;
+  font-family: "Avant Garde";
 }
 
 .detailTD {
-    text-align: left;
-    border: 3px solid #1b75bc;
-    min-width: 200px;
-    padding: 10px;
-  }
-
-  .detailTD li {
-    margin-left:15px;
-  }
-
-.detailTable{
-    table-layout: fixed;
-    width: 1000px;
-    font-family: 'Avant Garde';
-  }
-
-  #TimeList{
-    color:black;
-  }
-
-  #TimeList li::before{
-      color: #1b75bc;
-  }
-
-  #donateButton{
-      margin-right: 300;
-  }
-
-  #checkIn{
-    color: #1b75bc;
-    font-weight: bolder;
-    padding-top:10px;
-    font-family: 'Avant Garde';
-  }
-
-  #timeButton{
-    background-color: #1b75bc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-left: 10px;
-  }
-
-  .tableContainer{
-    margin-left: 210px;
-    margin-bottom: 40px;
-  }
-
-  #donateItemsHeader{
-    color: #1b75bc;
-    font-weight: bolder;
-    font-size: 25px;
-    padding-top:10px;
-    margin-left: 100px;
-    margin-right: -300px;
-    margin-bottom: 100px;
-    margin-top: 20px;
-  }
-
-  #donateItems{
-    font-size: 25px;
-    padding-top:0px;
-    margin-left: 20px;
-    margin-right: -300px;
-    margin-bottom: 100px;
-    margin-top: -40px;
-  }
-
-  #modalButton{
-      background-color: #1b75bc;
-      border-color: #1b75bc;
-      padding-right: 20px;
-      display: inline;
-      min-width: 200px;
-      text-align: center;
-      font-family: 'Avant Garde';
-      font-size: 20px;
-      border-radius: 5px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-  }
-  #donateModalButton
-  {
-    background-color: #39B54A;
-    border-color: #39B54A;
-    padding-right: 20px;
-    display: inline;
-    min-width: 200px;
-    text-align: center;
-    font-family: 'Avant Garde';
-    font-size: 20px;
-    border-radius: 5px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-  }
-  #donateModalButton:hover{
-    background: #39B54A;
-    color: white;
-    text-decoration: none;
+  text-align: left;
+  border: 3px solid #1b75bc;
+  min-width: 200px;
+  padding: 10px;
 }
 
-  #modalButton:hover{
-      background: #1b75bc;
-      color: white;
-      text-decoration: none;
-  }
+.detailTD li {
+  margin-left: 15px;
+}
 
-  #modalButtons{
-      display: flex;
-      justify-content: space-evenly;
-      margin-top:40px;
-      margin-bottom:40px;
-  }
+.detailTable {
+  table-layout: fixed;
+  width: 1200px;
+  font-family: "Avant Garde";
+}
 
+#TimeList {
+  color: black;
+}
+
+#TimeList li::before {
+  color: #1b75bc;
+}
+
+#donateButton {
+  margin-right: 300;
+}
+
+#checkIn {
+  color: #1b75bc;
+  font-weight: bolder;
+  padding-top: 10px;
+  font-family: "Avant Garde";
+}
+
+#timeButton {
+  background-color: #1b75bc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.tableContainer {
+  margin-left: 210px;
+  margin-bottom: 40px;
+}
+
+#donateItemsHeader {
+  color: #1b75bc;
+  font-weight: bolder;
+  font-size: 25px;
+  padding-top: 10px;
+  margin-left: 100px;
+  margin-right: -300px;
+  margin-bottom: 100px;
+  margin-top: 20px;
+}
+
+#donateItems {
+  font-size: 25px;
+  padding-top: 0px;
+  margin-left: 20px;
+  margin-right: -300px;
+  margin-bottom: 100px;
+  margin-top: -40px;
+}
+
+#modalButton {
+  background-color: #1b75bc;
+  border-color: #1b75bc;
+  padding-right: 20px;
+  display: inline;
+  min-width: 200px;
+  text-align: center;
+  font-family: "Avant Garde";
+  font-size: 20px;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#donateModalButton {
+  background-color: #39b54a;
+  border-color: #39b54a;
+  padding-right: 20px;
+  display: inline;
+  min-width: 200px;
+  text-align: center;
+  font-family: "Avant Garde";
+  font-size: 20px;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#donateModalButton:hover {
+  background: #39b54a;
+  color: white;
+  text-decoration: none;
+}
+
+#modalButton:hover {
+  background: #1b75bc;
+  color: white;
+  text-decoration: none;
+}
+
+#modalButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.deleteBtn {
+  color: blue !important;
+  text-decoration: underline !important ;
+}
+
+.deleteBtn:hover {
+  color: red !important;
+  text-decoration: underline !important ;
+}

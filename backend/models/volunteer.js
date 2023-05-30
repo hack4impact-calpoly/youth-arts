@@ -36,6 +36,7 @@ const volunteerSchema = new mongoose.Schema(
           start: [Date],
           end: [Date],
           donated: [String],
+          notes: String,
         },
       ],
     },

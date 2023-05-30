@@ -10,6 +10,44 @@ const Volunteer = require("../models/volunteer");
 const Opportunity = require("../models/opportunity");
 const { transport } = require("../server");
 
+router.delete("/api/volunteer/task", async (req, res) => {
+  try {
+    const { oppId, volId, taskId } = req.body;
+
+    const opportunity = await Opportunity.findById(oppId);
+    let volList = opportunity.volunteers.get(volId);
+    const taskObj = volList.find((task) => task.id === taskId);
+    const startTime = taskObj.start[0].toString();
+    const endTime = taskObj.end[0].toString();
+
+    volList = volList.filter((task) => task.id !== taskId);
+    opportunity.volunteers.set(volId, volList);
+
+    await Opportunity.findByIdAndUpdate(oppId, {
+      volunteers: opportunity.volunteers,
+    });
+
+    const volunteer = await Volunteer.findById(volId);
+    let oppList = volunteer.opportunities.get(oppId);
+    oppList = oppList.filter(
+      (task) =>
+        !(
+          task.start[0].toString() === startTime &&
+          task.end[0].toString() === endTime
+        )
+    );
+    volunteer.opportunities.set(oppId, oppList);
+
+    await Volunteer.findByIdAndUpdate(volId, {
+      opportunities: volunteer.opportunities,
+    });
+
+    res.status(200).json(opportunity);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 router.get("/api/volunteer/:id", async (req, res) => {
   const userid = mongoose.Types.ObjectId(req.params.id);
   try {
@@ -24,7 +62,7 @@ router.get("/api/volunteer/:id", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const users = await Volunteer.find({});
     res.status(200).json(users);
@@ -34,7 +72,7 @@ router.get("/api/volunteers", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const opp = await Volunteer.find({});
     res.status(200).json(opp);
@@ -44,11 +82,11 @@ router.get("/api/volunteers", async (req, res) => {
   }
 });
 
-router.post("/api/updateVolunteer", async (req) => {
+router.post("/api/volunteer/updateVolunteer", async (req) => {
   await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 });
 
-router.post("/api/postVolunteer", async (req, res) => {
+router.post("/api/volunteer/postVolunteer", async (req, res) => {
   console.log(req.body.email);
   console.log(req.body);
   console.log(process.env.EMAIL_USER);
@@ -114,6 +152,7 @@ const postNewVolunteerTask = async (
   oppId,
   volId,
   business,
+  notes,
   res
 ) => {
   const taskObj = {
@@ -122,6 +161,7 @@ const postNewVolunteerTask = async (
     end,
     description,
     donated,
+    notes,
   };
   console.log(start);
 
@@ -239,7 +279,7 @@ const postNewVolunteerTask = async (
   });
 };
 
-router.post("/api/VolunteerTask", async (req, res) => {
+router.post("/api/volunteer/VolunteerTask", async (req, res) => {
   console.log(req.body);
 
   const { task } = req.body;
@@ -250,6 +290,7 @@ router.post("/api/VolunteerTask", async (req, res) => {
   const { oppId } = req.body;
   const { volId } = req.body;
   const { business } = req.body;
+  const { notes } = req.body;
 
   try {
     await postNewVolunteerTask(
@@ -261,6 +302,7 @@ router.post("/api/VolunteerTask", async (req, res) => {
       oppId,
       volId,
       business,
+      notes,
       res
     );
     res.status(200).send(task);

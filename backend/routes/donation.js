@@ -1,10 +1,11 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 
+const router = express.Router();
+router.use(express.json());
+
 const Opportunity = require("../models/opportunity");
 const Volunteer = require("../models/volunteer");
-
-const app = express();
 
 const transport = nodemailer.createTransport({
   service: "gmail",
@@ -135,7 +136,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
   });
 };
 
-app.post("/api/donations", async (req, res) => {
+router.post("/api/donation", async (req, res) => {
   const { task } = req.body;
   const { start } = req.body;
   const { end } = req.body;
@@ -151,3 +152,5 @@ app.post("/api/donations", async (req, res) => {
     res.status(401).send(error);
   }
 });
+
+module.exports = router;

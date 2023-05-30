@@ -51,7 +51,7 @@ function ContactPage(props) {
     c.notes = notes;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function ContactPage(props) {
     c.admin = !c.admin;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function ContactPage(props) {
     c.boardMember = !c.boardMember;
     setContact(c);
     console.log(c);
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/updateVolunteer`, {
+    fetch(`${process.env.REACT_APP_SERVER_URL}/api/volunteer/updateVolunteer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -203,19 +203,20 @@ function ContactPage(props) {
             </div>
             <div id="outreach">
               <h3 className="contactTitle">Events</h3>
-              {getEvents()
+              {getEvents() && !!props.allOpportunities
                 ? Object.keys(contact.opportunities).map((oppId) =>
                     contact.opportunities[oppId].map((singleOpp, i) => {
+                      console.log(props.allOpportunities);
                       const theOp = props.allOpportunities.filter(
                         (o) => o._id === oppId
                       );
-                      return (
+                      return theOp[0] ? (
                         <ContactOpportunityCard
                           key={i}
                           title={theOp[0].title}
                           {...singleOpp}
                         />
-                      );
+                      ) : null;
                     })
                   )
                 : null}

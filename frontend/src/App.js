@@ -39,6 +39,7 @@ function SetAuthToken() {
 
 function App() {
   const [profile, updateProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [cart, setCart] = useState([]);
   const [newUser, setnewUser] = useState(0);
   const [volunteers, setVolunteers] = useState(0);
@@ -73,7 +74,7 @@ function App() {
   async function fetchAllVolunteers() {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/volunteers`
+        `${process.env.REACT_APP_SERVER_URL}/api/volunteer`
       );
       if (response && response.data) setVolunteers(response.data);
       return response.data;
@@ -89,7 +90,7 @@ function App() {
     })
       .then((res) => res.json())
       .then((account) => {
-        console.log(account);
+        console.log("account: ", account);
         if (Object.keys(account).length > 0) {
           if (Object.keys(account).length < 15) {
             setnewUser(newUser + 1);
@@ -98,6 +99,7 @@ function App() {
           }
           updateProfile(account);
         }
+        setIsLoading(false); // Set loading state to false when API call is completed
       });
     fetchAllOpportunities();
     fetchAllVolunteers();
@@ -113,18 +115,22 @@ function App() {
         </Route>
         <Route path="/opportunityDetail">
           <Header user={profile} updateProfile={updateProfile} />
-          <OpportunityDetail
-            updateCart={updateCart}
-            user={profile}
-            updateUser={updateProfile}
-            volunteers={volunteers}
-            opportunities={opportunities}
-            setVolunteers={setVolunteers}
-            setOpportunities={setOpportunities}
-            fetchAllOpportunities={fetchAllOpportunities}
-            fetchAllVolunteers={fetchAllVolunteers}
-            cart={cart}
-          />
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <OpportunityDetail
+              updateCart={updateCart}
+              user={profile}
+              updateUser={updateProfile}
+              volunteers={volunteers}
+              opportunities={opportunities}
+              setVolunteers={setVolunteers}
+              setOpportunities={setOpportunities}
+              fetchAllOpportunities={fetchAllOpportunities}
+              fetchAllVolunteers={fetchAllVolunteers}
+              cart={cart}
+            />
+          )}
           <Footer />
         </Route>
         <Route path="/auth/login/:token" component={SetAuthToken} />
