@@ -279,6 +279,27 @@
   margin-top: -180px;
 }
 
+
+#dropdown{
+    font-family: 'Avant Garde';
+    color: black;
+    width: 200px;
+    background-color:none;
+    min-height: 50px;
+    border-radius: 5px;
+}
+
+#volunteerButtonContainer{
+    margin-top: 10px;
+    margin-left: -50px;
+    margin-bottom: 30px;
+}
+
+.volunteerGrid{
+    display: grid;
+    grid-template-columns: 200px 200px;
+}
+
 .linkPadding {
   padding-left: 15px;
 }
