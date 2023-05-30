@@ -60,11 +60,7 @@ class OpportunityCheckout extends React.Component {
             newOpp.start !== undefined &&
             newOpp.start.length
         ) {
-            // console.log(newOpp.start);
-            // console.log(newOpp.start.length);
             const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
-            console.log(url);
-            console.log("newOp: ", JSON.stringify(newOpp));
             fetch(url, {
                 method: "POST",
                 // mode: 'cors',

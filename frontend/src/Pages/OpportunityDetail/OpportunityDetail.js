@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import SubmitButton from "../../Components/SubmitButton/SubmitButton";
 import { withRouter } from "react-router";
 import { Modal, Button } from "react-bootstrap";
-import { gridColumnLookupSelector } from "@material-ui/data-grid";
 
 class OpportunityDetail extends React.Component {
   constructor(props) {
