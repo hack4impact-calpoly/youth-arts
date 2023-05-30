@@ -171,7 +171,7 @@ class OpportunityDetail extends React.Component {
       newOpp.start !== undefined &&
       newOpp.start.length
     ) {
-      const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
+      const url = `${process.env.REACT_APP_SERVER_URL}/api/volunteer/VolunteerTask/`;
       await fetch(url, {
         method: "POST",
         credentials: "include",
