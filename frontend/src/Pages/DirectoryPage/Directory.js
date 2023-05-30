@@ -12,7 +12,7 @@ function Directory(props) {
   async function fetchAll() {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/volunteers`,
+        `${process.env.REACT_APP_SERVER_URL}/api/volunteer`,
         { credentials: "include" }
       );
       return response.data;

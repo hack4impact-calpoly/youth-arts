@@ -136,7 +136,7 @@ const postDonationTask = async (task, start, end, donated, oppId, volId) => {
   });
 };
 
-router.post("/api/donations", async (req, res) => {
+router.post("/api/donation", async (req, res) => {
   const { task } = req.body;
   const { start } = req.body;
   const { end } = req.body;
