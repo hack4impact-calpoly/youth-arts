@@ -569,7 +569,7 @@ class OpportunityDetail extends React.Component {
                                         }
                                       </td>
                                     )}
-                                    {key_value.map((volData, v) => {
+                                    {keyValue.map((volData, v) => {
                                       if (volData[0] === "task") {
                                         return (
                                           <td className="detailTD">
@@ -704,7 +704,7 @@ class OpportunityDetail extends React.Component {
                                       }
                                     })}
                                     <td className="detailTD">
-                                      {key_value.find((data) => data[0] === "notes")?.[1] || ""}
+                                      {keyValue.find((data) => data[0] === "notes")?.[1] || ""}
                                     </td>
                                   </tr>
                                 );
