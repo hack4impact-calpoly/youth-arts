@@ -39,7 +39,7 @@ class OpportunityDetail extends React.Component {
       volunteerList: [],
       updateTime: false,
       newVolunteer: "",
-      selectedTask: "",
+      selectedTask: ""
     };
 
     this.handleDonateCheckBox = this.handleDonateCheckBox.bind(this);
@@ -50,8 +50,29 @@ class OpportunityDetail extends React.Component {
     this.postDonations = this.postDonations.bind(this);
   }
 
-  deleteVolunteer(volunteerId) {
-    //Delete volunteer from opportunity
+  async deleteVolunteerTask(oppId, volId, taskId) {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/volunteer/task`;
+    if (confirmed) {
+      // Delete task from volunteer
+      await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ oppId, volId, taskId })
+      })
+        .then((res) => res.json())
+        .then((opportunity) => {
+          console.log("Volunteer deleted successfully");
+          this.setState({ volunteers: opportunity.volunteers });
+        })
+        .catch((error) => {
+          console.error("Error deleting volunteer:", error);
+        });
+    }
   }
 
   updateCartWithOpportunity(task) {
@@ -123,7 +144,7 @@ class OpportunityDetail extends React.Component {
       end: [],
       donated: this.state.donatedItems,
       oppId: this.state._id,
-      volId: this.state.user._id,
+      volId: this.state.user._id
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/donation/`;
@@ -132,14 +153,14 @@ class OpportunityDetail extends React.Component {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(newOpp),
+      body: JSON.stringify(newOpp)
     });
     this.updateComponent();
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
-  }
+  };
 
   async postTask(
     roleName,
@@ -159,7 +180,7 @@ class OpportunityDetail extends React.Component {
       donated,
       oppId,
       volId,
-      business,
+      business
     };
     if (newOpp.task === "General Committee Member") {
       newOpp.start = [new Date()];
@@ -176,9 +197,9 @@ class OpportunityDetail extends React.Component {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(newOpp),
+        body: JSON.stringify(newOpp)
       });
     } else {
       console.log("no start");
@@ -190,19 +211,19 @@ class OpportunityDetail extends React.Component {
 
   changeDonateModal = () => {
     this.setState({ showDonateModal: !this.state.showDonateModal });
-  }
+  };
 
   changeUserDonateModal = () => {
     this.setState({ showUserDonateModal: !this.state.showUserDonateModal });
-  }
+  };
 
   changeSignInModal = () => {
     this.setState({ showSignInModal: !this.state.showSignInModal });
-  }
+  };
 
   changeCartModal = () => {
     this.setState({ showCartModal: !this.state.showCartModal });
-  }
+  };
 
   navigateTo = () => {
     const url = `/addOpportunity/${this.state._id}`;
@@ -224,11 +245,11 @@ class OpportunityDetail extends React.Component {
           requirements: this.state.requirements,
           tasks: this.state.tasks,
           additionalInfo: this.state.additionalInfo,
-          volunteers: this.state.volunteers,
-        },
-      },
+          volunteers: this.state.volunteers
+        }
+      }
     });
-  }
+  };
 
   sortTaskArray(a, b) {
     if (a[0] > b[0]) return -1;
@@ -244,16 +265,16 @@ class OpportunityDetail extends React.Component {
       date,
       volId,
       taskIndex,
-      timeIndex: i,
+      timeIndex: i
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/startTime/`;
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(startTimeBody),
+      body: JSON.stringify(startTimeBody)
     });
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
@@ -265,16 +286,16 @@ class OpportunityDetail extends React.Component {
       date,
       volId,
       taskIndex,
-      timeIndex: i,
+      timeIndex: i
     };
 
     const url = `${process.env.REACT_APP_SERVER_URL}/api/opportunity/endTime`;
     fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(endTimeBody),
+      body: JSON.stringify(endTimeBody)
     });
     this.props.fetchAllVolunteers();
     this.props.fetchAllOpportunities();
@@ -560,7 +581,13 @@ class OpportunityDetail extends React.Component {
                                             <a
                                               className="deleteBtn"
                                               onClick={() =>
-                                                this.deleteVolunteer(vol._id)
+                                                this.deleteVolunteerTask(
+                                                  this.state._id,
+                                                  vol._id,
+                                                  this.state.volunteers[volId][
+                                                    taskIndex
+                                                  ]._id
+                                                )
                                               }
                                             >
                                               Delete
@@ -623,7 +650,7 @@ class OpportunityDetail extends React.Component {
                                                           this.setState({
                                                             updateTime:
                                                               !this.state
-                                                                .updateTime,
+                                                                .updateTime
                                                           });
                                                         }}
                                                       />
@@ -681,7 +708,7 @@ class OpportunityDetail extends React.Component {
                                                           this.setState({
                                                             updateTime:
                                                               !this.state
-                                                                .updateTime,
+                                                                .updateTime
                                                           });
                                                         }}
                                                       />
@@ -704,7 +731,9 @@ class OpportunityDetail extends React.Component {
                                       }
                                     })}
                                     <td className="detailTD">
-                                      {keyValue.find((data) => data[0] === "notes")?.[1] || ""}
+                                      {keyValue.find(
+                                        (data) => data[0] === "notes"
+                                      )?.[1] || ""}
                                     </td>
                                   </tr>
                                 );
@@ -724,17 +753,14 @@ class OpportunityDetail extends React.Component {
                 <label htmlFor="volunteers">Available Volunteers:</label>
                 <select
                   name="volunteers"
-                  onChange={(e) => 
+                  onChange={(e) =>
                     this.setState({ newVolunteer: e.target.value })
                   }
                 >
                   <option value="">Select Option</option>
                   {this.state.volunteerList
-                    .filter(
-                      (volunteer) =>
-                        Object.keys(this.state.volunteers).includes(
-                          volunteer._id
-                        )
+                    .filter((volunteer) =>
+                      Object.keys(this.state.volunteers).includes(volunteer._id)
                     )
                     .map((volunteer) => (
                       <option value={volunteer._id}>
@@ -748,7 +774,7 @@ class OpportunityDetail extends React.Component {
                 <label htmlFor="selectTask">Available Tasks:</label>
                 <select
                   name="selectTask"
-                  onChange={(e) => 
+                  onChange={(e) =>
                     this.setState({ selectedTask: e.target.value })
                   }
                 >
