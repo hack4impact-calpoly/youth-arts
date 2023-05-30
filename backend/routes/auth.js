@@ -77,7 +77,7 @@ passport.use(
 // );
 
 router.get(
-  "/login",
+  "/auth/login",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -98,7 +98,6 @@ router.post("/auth/logout", (req, res) => {
     httpOnly: true,
     sameSite: "none",
   };
-
   res.clearCookie("auth_token", options);
   res.sendStatus(200);
 });

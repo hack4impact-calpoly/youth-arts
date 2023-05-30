@@ -74,7 +74,7 @@ function App() {
   async function fetchAllVolunteers() {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/volunteers`
+        `${process.env.REACT_APP_SERVER_URL}/api/volunteer`
       );
       if (response && response.data) setVolunteers(response.data);
       return response.data;

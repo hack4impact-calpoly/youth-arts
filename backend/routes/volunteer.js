@@ -62,7 +62,7 @@ router.get("/api/volunteer/:id", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const users = await Volunteer.find({});
     res.status(200).json(users);
@@ -72,7 +72,7 @@ router.get("/api/volunteers", async (req, res) => {
   }
 });
 
-router.get("/api/volunteers", async (req, res) => {
+router.get("/api/volunteer", async (req, res) => {
   try {
     const opp = await Volunteer.find({});
     res.status(200).json(opp);
@@ -82,11 +82,11 @@ router.get("/api/volunteers", async (req, res) => {
   }
 });
 
-router.post("/api/updateVolunteer", async (req) => {
+router.post("/api/volunteer/updateVolunteer", async (req) => {
   await Volunteer.findByIdAndUpdate(req.body._id, req.body);
 });
 
-router.post("/api/postVolunteer", async (req, res) => {
+router.post("/api/volunteer/postVolunteer", async (req, res) => {
   console.log(req.body.email);
   console.log(req.body);
   console.log(process.env.EMAIL_USER);
@@ -275,7 +275,7 @@ const postNewVolunteerTask = async (
   });
 };
 
-router.post("/api/VolunteerTask", async (req, res) => {
+router.post("/api/volunteer/VolunteerTask", async (req, res) => {
   console.log(req.body);
 
   const { task } = req.body;
