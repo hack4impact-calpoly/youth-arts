@@ -104,7 +104,7 @@ class OpportunityDetail extends React.Component {
     console.log(this.state.volunteerList);
   }
 
-  async postDonations() {
+  postDonations = async () => {
     const newOpp = {
       task: "Donated",
       start: [],
@@ -160,7 +160,7 @@ class OpportunityDetail extends React.Component {
       newOpp.start.length
     ) {
       const url = `${process.env.REACT_APP_SERVER_URL}/api/VolunteerTask/`;
-      fetch(url, {
+      await fetch(url, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -176,23 +176,23 @@ class OpportunityDetail extends React.Component {
     this.updateComponent();
   }
 
-  changeDonateModal() {
+  changeDonateModal = () => {
     this.setState({ showDonateModal: !this.state.showDonateModal });
   }
 
-  changeUserDonateModal() {
+  changeUserDonateModal = () => {
     this.setState({ showUserDonateModal: !this.state.showUserDonateModal });
   }
 
-  changeSignInModal() {
+  changeSignInModal = () => {
     this.setState({ showSignInModal: !this.state.showSignInModal });
   }
 
-  changeCartModal() {
+  changeCartModal = () => {
     this.setState({ showCartModal: !this.state.showCartModal });
   }
 
-  navigateTo() {
+  navigateTo = () => {
     const url = `/addOpportunity/${this.state._id}`;
 
     this.props.history.push({
@@ -707,7 +707,7 @@ class OpportunityDetail extends React.Component {
                   {this.state.volunteerList
                     .filter(
                       (volunteer) =>
-                        !Object.keys(this.state.volunteers).includes(
+                        Object.keys(this.state.volunteers).includes(
                           volunteer._id
                         )
                     )
