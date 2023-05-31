@@ -1,12 +1,12 @@
-const ejwt = require('express-jwt');
-const Volunteer = require('./models/volunteer');
+const ejwt = require("express-jwt");
+const Volunteer = require("./models/volunteer");
 
-const JWT_secret = process.env.JWT_SECRET || 'secretkey';
+const jwtSecret = process.env.JWT_SECRET || "secretkey";
 
-const jwt_options = {
-  secret: JWT_secret,
-  algorithms: ['sha1', 'RS256', 'HS256'],
-  getToken: (req) => (req.cookies.auth_token),
+const jwtOptions = {
+  secret: jwtSecret,
+  algorithms: ["sha1", "RS256", "HS256"],
+  getToken: (req) => req.cookies.auth_token,
 };
 
 const getUser = async (req, res, next) => {
@@ -14,7 +14,7 @@ const getUser = async (req, res, next) => {
 
   if (user) {
     const { id } = req.user;
-    await Volunteer.findById(id, function(err, user) {
+    await Volunteer.findById(id, (err, user) => {
       req.user = user;
     });
   }
@@ -22,6 +22,6 @@ const getUser = async (req, res, next) => {
 };
 
 // middleware array to authenticate, then populate `req.user`
-const auth = [ejwt(jwt_options), getUser];
+const auth = [ejwt(jwtOptions), getUser];
 
-module.exports = { auth, JWT_secret };
+module.exports = { auth, jwtSecret };

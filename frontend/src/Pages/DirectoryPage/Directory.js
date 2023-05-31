@@ -1,116 +1,112 @@
 import "./Directory.css";
 import axios from "axios";
-import Pagination from "./../../Components/SearchOpportunities/Pagination";
-import DirectoryRow from "./../../Components/DirectoryRow/DirectoryRow";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DirectoryRow from "../../Components/DirectoryRow/DirectoryRow";
+import Pagination from "../../Components/SearchOpportunities/Pagination";
 
 function Directory(props) {
-    //get all volunteers and store in directory
-    const [directory, setDirectory] = useState("");
-    async function fetchAll() {
-        try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/api/volunteers`,
-                { credentials: "include" }
-            );
-            return response.data;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
+  // get all volunteers and store in directory
+  const [directory, setDirectory] = useState("");
+  async function fetchAll() {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/volunteer`,
+        { credentials: "include" }
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return false;
     }
-    useEffect(() => {
-        fetchAll().then((result) => {
-            if (result) {
-                console.log(result);
-                result.sort(function (a, b) {
-                    if (
-                        a["lastName"] &&
-                        a["lastName"].length &&
-                        b["lastName"] &&
-                        b["lastName"].length
-                    ) {
-                        return a.lastName.localeCompare(b.lastName);
-                    } else {
-                        return 1;
-                    }
-                });
-                setDirectory(result);
-            }
+  }
+  useEffect(() => {
+    fetchAll().then((result) => {
+      if (result) {
+        console.log(result);
+        result.sort((a, b) => {
+          if (
+            a.lastName &&
+            a.lastName.length &&
+            b.lastName &&
+            b.lastName.length
+          ) {
+            return a.lastName.localeCompare(b.lastName);
+          }
+          return 1;
         });
-    }, []);
-
-    //stores what to be searched
-    const [search, setSearch] = useState("");
-
-    //stores pagination current page and how many contacts per page
-    const [currentPage, setCurrentPage] = useState(1);
-    const [contactsPerPage] = useState(10);
-
-    //search logic
-    var filteredSearch = Object.values(directory).filter((person) => {
-        if (person.firstName === null || person.lastName === null) return true;
-        return (
-            person.firstName.toLowerCase().includes(search.toLowerCase()) ||
-            person.lastName.toLowerCase().includes(search.toLowerCase())
-        );
+        setDirectory(result);
+      }
     });
+  }, []);
 
-    //pagination logic
-    const indexOfLastPerson = currentPage * contactsPerPage;
-    const indexOfFirstPerson = indexOfLastPerson - contactsPerPage;
-    const currentContacts = filteredSearch.slice(
-        indexOfFirstPerson,
-        indexOfLastPerson
-    );
+  // stores what to be searched
+  const [search, setSearch] = useState("");
 
-    function paginate(pageNumber) {
-        setCurrentPage(pageNumber);
-    }
+  // stores pagination current page and how many contacts per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [contactsPerPage] = useState(10);
 
+  // search logic
+  const filteredSearch = Object.values(directory).filter((person) => {
+    if (person.firstName === null || person.lastName === null) return true;
     return (
-        <body>
-            <div id="calHeader">
-                <h1 className="calTitle">DIRECTORY</h1>
-            </div>
-            <div id="directoryPage">
-                <h4>Search Directory</h4>
-                <hr />
-
-                <input
-                    type="text"
-                    placeholder="Enter Name Here"
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-
-                <Container id="directoryTable" fluid>
-                    <Row id="directoryHeader">
-                        <Col>First Name</Col>
-                        <Col>Last Name</Col>
-                        <Col>Phone Number</Col>
-                        <Col>Email</Col>
-                        <Col>Address</Col>
-                    </Row>
-                    {currentContacts.map((person, index) => (
-                        <Link
-                            id="directoryLink"
-                            to={"/volunteer/#" + person._id}
-                        >
-                            <DirectoryRow key={index} {...person} />
-                        </Link>
-                    ))}
-                </Container>
-
-                <Pagination
-                    postsPerPage={contactsPerPage}
-                    totalPosts={filteredSearch.length}
-                    paginate={paginate}
-                />
-            </div>
-        </body>
+      person.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      person.lastName.toLowerCase().includes(search.toLowerCase())
     );
+  });
+
+  // pagination logic
+  const indexOfLastPerson = currentPage * contactsPerPage;
+  const indexOfFirstPerson = indexOfLastPerson - contactsPerPage;
+  const currentContacts = filteredSearch.slice(
+    indexOfFirstPerson,
+    indexOfLastPerson
+  );
+
+  function paginate(pageNumber) {
+    setCurrentPage(pageNumber);
+  }
+
+  return (
+    <body>
+      <div id="calHeader">
+        <h1 className="calTitle">DIRECTORY</h1>
+      </div>
+      <div id="directoryPage">
+        <h4>Search Directory</h4>
+        <hr />
+
+        <input
+          type="text"
+          placeholder="Enter Name Here"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <Container id="directoryTable" fluid>
+          <Row id="directoryHeader">
+            <Col>First Name</Col>
+            <Col>Last Name</Col>
+            <Col>Phone Number</Col>
+            <Col>Email</Col>
+            <Col>Address</Col>
+          </Row>
+          {currentContacts.map((person, index) => (
+            <Link id="directoryLink" to={`/volunteer/#${person._id}`}>
+              <DirectoryRow key={index} {...person} />
+            </Link>
+          ))}
+        </Container>
+
+        <Pagination
+          postsPerPage={contactsPerPage}
+          totalPosts={filteredSearch.length}
+          paginate={paginate}
+        />
+      </div>
+    </body>
+  );
 }
 
 export default Directory;
